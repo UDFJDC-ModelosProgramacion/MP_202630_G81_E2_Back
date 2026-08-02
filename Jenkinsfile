@@ -1,7 +1,7 @@
 pipeline { 
    agent any 
    environment {
-      GIT_REPO = 'MP_202630_G81_E1_Back'
+      GIT_REPO = 'MP_202630_G81_E2_Back'
       GIT_CREDENTIAL_ID = 'c0e8826e-5e2c-4c1c-a484-6c17d53ac539'
       SONARQUBE_URL = 'http://10.20.84.26:8082/sonar'
       SONAR_TOKEN = credentials('sonar-login')
