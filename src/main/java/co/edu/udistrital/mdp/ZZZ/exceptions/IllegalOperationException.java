@@ -1,4 +1,4 @@
-package co.edu.udistrital.mdp.pets.exceptions;
+package co.edu.udistrital.mdp.ZZZ.exceptions;
 
 /*
  * Excepción que se lanza cuando se realiza una operación ilegal

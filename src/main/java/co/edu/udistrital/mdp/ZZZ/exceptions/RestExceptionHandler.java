@@ -1,4 +1,4 @@
-package co.edu.udistrital.mdp.pets.exceptions;
+package co.edu.udistrital.mdp.ZZZ.exceptions;
 
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 import static org.springframework.http.HttpStatus.PRECONDITION_FAILED;
