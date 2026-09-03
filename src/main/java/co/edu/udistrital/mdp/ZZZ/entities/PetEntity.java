@@ -1,6 +1,12 @@
 package co.edu.udistrital.mdp.ZZZ.entities;
 
 import java.util.Date;
+import java.util.ArrayList;
+import java.util.List;
+
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
+import uk.co.jemos.podam.common.PodamExclude;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Temporal;
@@ -31,5 +37,13 @@ public class PetEntity extends BaseEntity {
 	private Boolean compatibilityOtherPets;
 	private String activityLevel;
 	private String requiredSpace;
+	
+	@PodamExclude
+	@OneToMany(mappedBy = "pet")
+	private List<PhotoEntity> photos = new ArrayList<>();
+
+	@PodamExclude
+	@OneToOne(mappedBy = "pet")
+	private VaccineRecordEntity vaccinationRecord;
 
 }

@@ -6,6 +6,9 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 
+import jakarta.persistence.ManyToOne;
+import uk.co.jemos.podam.common.PodamExclude;
+
 import lombok.Data;
 
 @Data
@@ -22,5 +25,9 @@ public class VaccineEntity extends BaseEntity {
 	private Date nextAdministration;
 
 	private Boolean status;
+	
+	@PodamExclude
+	@ManyToOne
+	private VaccineRecordEntity vaccinationRecord;
 
 }
