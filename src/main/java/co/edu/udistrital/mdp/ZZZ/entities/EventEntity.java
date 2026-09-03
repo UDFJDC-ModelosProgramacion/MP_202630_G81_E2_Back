@@ -1,26 +1,27 @@
-package co.edu.udistrital.mdp.pets.entities;
 
-import java.util.Date;
+=======
+import lombok.EqualsAndHashCode;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Temporal;
-import jakarta.persistence.TemporalType;
-
-import lombok.Data;
-
+// Event organized by a shelter
 @Data
+@EqualsAndHashCode(callSuper = true)
 @Entity
 public class EventEntity extends BaseEntity {
 
-    private String name;
-    private String type;
+	// Internal event identifier
+	private Integer eventId;
 
-    @Temporal(TemporalType.DATE)
-    private Date date;
+	// Name of the event
+	private String name;
 
-    private String time;
-    private String description;
-    private String location;
+	// Date the event takes place
+	@Temporal(TemporalType.DATE)
+	private Date date;
 
-    // TODO: verificar si pertenece a un Shelter (@ManyToOne)
+	// Time the event starts
+	private String time;
+
+	// Where the event is held
+	private String location;
+
 }
