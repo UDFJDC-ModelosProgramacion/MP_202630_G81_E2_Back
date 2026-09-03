@@ -21,12 +21,12 @@ public class ReturnEntity extends BaseEntity {
 
 	private String reason;
 
-	// Devolución ocurrida durante la convivencia de prueba (0..1: mutuamente excluyente con "adoption").
+	
 	@PodamExclude
 	@OneToOne
 	private TrialCohabitationEntity trialCohabitation;
 
-	// Devolución ocurrida después de una adopción ya formalizada (0..1: mutuamente excluyente con "trialCohabitation").
+	
 	@PodamExclude
 	@OneToOne
 	private AdoptionEntity adoption;

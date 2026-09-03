@@ -45,7 +45,7 @@ public class AdoptionEntity extends BaseEntity {
 	@OneToOne
 	private TrialCohabitationEntity trialCohabitation;
 
-	// Devolución posterior a la adopción ya formalizada (0..1). Dueña: ReturnEntity.
+	
 	@PodamExclude
 	@OneToOne(mappedBy = "adoption", cascade = CascadeType.PERSIST, orphanRemoval = true)
 	private ReturnEntity returnAfterAdoption;

@@ -36,17 +36,17 @@ public class TrialCohabitationEntity extends BaseEntity {
 	@ManyToOne
 	private ShelterEntity shelter;
 
-	// Dueña: TrialCohabitationRequestEntity (mappedBy allá). Aquí solo el lado inverso.
+	
 	@PodamExclude
 	@OneToOne
 	private TrialCohabitationRequestEntity trialCohabitationRequest;
 
-	// Puede terminar en una devolución durante el periodo de prueba (0..1). Dueña: ReturnEntity.
+	
 	@PodamExclude
 	@OneToOne(mappedBy = "trialCohabitation", cascade = CascadeType.PERSIST, orphanRemoval = true)
 	private ReturnEntity returnDuringTrial;
 
-	// Puede derivar en una adopción exitosa (0..1). Dueña: AdoptionEntity.
+	
 	@PodamExclude
 	@OneToOne(mappedBy = "trialCohabitation")
 	private AdoptionEntity adoption;

@@ -26,7 +26,7 @@ public class AdoptionRequestEntity extends RequestEntity {
 	@ManyToOne
 	private AdopterEntity adopter;
 
-	// Si la solicitud es aprobada, genera UNA adopción (0..1).
+	
 	@PodamExclude
 	@OneToOne(mappedBy = "adoptionRequest", cascade = CascadeType.PERSIST, orphanRemoval = true)
 	private AdoptionEntity adoption;
