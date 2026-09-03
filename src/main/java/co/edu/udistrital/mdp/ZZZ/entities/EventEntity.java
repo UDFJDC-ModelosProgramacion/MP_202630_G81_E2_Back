@@ -1,12 +1,5 @@
-package co.edu.udistrital.mdp.ZZZ.entities;
 
-import java.util.Date;
-
-import jakarta.persistence.Entity;
-import jakarta.persistence.Temporal;
-import jakarta.persistence.TemporalType;
-
-import lombok.Data;
+=======
 import lombok.EqualsAndHashCode;
 
 // Event organized by a shelter
@@ -30,4 +23,5 @@ public class EventEntity extends BaseEntity {
 
 	// Where the event is held
 	private String location;
+
 }
