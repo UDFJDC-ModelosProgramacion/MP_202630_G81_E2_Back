@@ -1,4 +1,4 @@
-package co.edu.udistrital.mdp.pets.entities;
+package co.edu.udistrital.mdp.ZZZ.entities;
 
 import java.util.ArrayList;
 import java.util.List;

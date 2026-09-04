@@ -17,7 +17,7 @@ import jakarta.persistence.TemporalType;
 import co.edu.udistrital.mdp.ZZZ.entities.AdoptionRequestEntity;
 import co.edu.udistrital.mdp.ZZZ.entities.AdoptionEntity;
 import co.edu.udistrital.mdp.ZZZ.entities.ReviewEntity;
-import co.edu.udistrital.mdp.pets.entities.ShelterEntity;
+import co.edu.udistrital.mdp.ZZZ.entities.ShelterEntity;
 
 import lombok.Data;
 
