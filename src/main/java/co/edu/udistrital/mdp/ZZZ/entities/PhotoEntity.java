@@ -4,6 +4,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToOne;
 import uk.co.jemos.podam.common.PodamExclude;
 
+import co.edu.udistrital.mdp.ZZZ.entities.ShelterEntity;
 import lombok.Data;
 
 @Data
@@ -19,4 +20,7 @@ public class PhotoEntity extends BaseEntity {
 	@ManyToOne
 	private PetEntity pet;
 
+	@PodamExclude
+	@ManyToOne
+	private ShelterEntity shelter;
 }
