@@ -25,4 +25,16 @@ public class AdopterEntity extends UserEntity {
     @PodamExclude
     @OneToMany(mappedBy = "adopter")
     private List<TrialCohabitationRequestEntity> cohabitationRequests = new ArrayList<>();
+
+    @PodamExclude 
+    @OneToMany(mappedBy = "adopter")
+    private List<AdoptionRequestEntity> adoptionRequests = new ArrayList<>();
+
+    @PodamExclude 
+    @OneToMany(mappedBy = "adopter")
+    private List<TrialCohabitationEntity> trialCohabitions = new ArrayList<>();
+
+    @PodamExclude
+    @OneToMany(mappedBy = "adopter")
+    private List<AdoptionEntity> adoptions = new ArrayList<>();
 }

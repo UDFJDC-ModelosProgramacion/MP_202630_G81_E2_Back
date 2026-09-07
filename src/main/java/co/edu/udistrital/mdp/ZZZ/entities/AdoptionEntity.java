@@ -1,10 +1,12 @@
 package co.edu.udistrital.mdp.ZZZ.entities;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
@@ -42,11 +44,14 @@ public class AdoptionEntity extends BaseEntity {
 	private AdoptionRequestEntity adoptionRequest;
 
 	@PodamExclude
-	@OneToOne
-	private TrialCohabitationEntity trialCohabitation;
-
-	
-	@PodamExclude
-	@OneToOne(mappedBy = "adoption", cascade = CascadeType.PERSIST, orphanRemoval = true)
+	@OneToOne(mappedBy = "adoption")
 	private ReturnEntity returnAfterAdoption;
+
+	@PodamExclude 
+	@OneToMany(mappedBy = "adoption")
+	private List<ReviewEntity> reviews = new ArrayList<>();
+
+	@PodamExclude
+	@OneToMany(mappedBy = "adoption")
+	private List<FollowUpEntity> followUps = new ArrayList<>();
 }

@@ -1,6 +1,5 @@
 package co.edu.udistrital.mdp.ZZZ.entities;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
@@ -26,8 +25,11 @@ public class AdoptionRequestEntity extends RequestEntity {
 	@ManyToOne
 	private AdopterEntity adopter;
 
-	
 	@PodamExclude
-	@OneToOne(mappedBy = "adoptionRequest", cascade = CascadeType.PERSIST, orphanRemoval = true)
+	@OneToOne(mappedBy = "adoptionRequest")
 	private AdoptionEntity adoption;
+
+	@PodamExclude 
+	@OneToOne(mappedBy = "adoptionRequest")
+	private TrialCohabitationEntity trialCohabition;
 }

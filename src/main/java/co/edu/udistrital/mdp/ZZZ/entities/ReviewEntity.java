@@ -26,8 +26,7 @@ public class ReviewEntity extends BaseEntity {
     @ManyToOne
     private PetEntity pet;
 
-    // TODO: ¿también referencia al Adopter que la escribió?
-    // OJO: ya existe un ReviewEntity.java en tu proyecto (según tu captura de
-    // pantalla) — compara con esta versión antes de sobrescribir, puede que
-    // un compañero ya lo haya implementado.
+    @PodamExclude 
+    @ManyToOne
+    private AdoptionEntity adoption;
 }

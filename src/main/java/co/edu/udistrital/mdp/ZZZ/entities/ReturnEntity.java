@@ -3,6 +3,7 @@ package co.edu.udistrital.mdp.ZZZ.entities;
 import java.util.Date;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
@@ -21,13 +22,16 @@ public class ReturnEntity extends BaseEntity {
 
 	private String reason;
 
-	
+
 	@PodamExclude
 	@OneToOne
 	private TrialCohabitationEntity trialCohabitation;
 
-	
 	@PodamExclude
 	@OneToOne
 	private AdoptionEntity adoption;
+
+	@PodamExclude
+	@ManyToOne
+	private ShelterEntity shelter;
 }
