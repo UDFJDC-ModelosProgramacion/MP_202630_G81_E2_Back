@@ -28,6 +28,6 @@ public class VaccineEntity extends BaseEntity {
 	
 	@PodamExclude
 	@ManyToOne
-	private VaccineRecordEntity vaccinationRecord;
+	private VaccinationRecord vaccinationRecord;
 
 }

@@ -3,7 +3,6 @@ package co.edu.udistrital.mdp.ZZZ.entities;
 import java.util.ArrayList;
 import java.util.List;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
 
@@ -19,9 +18,14 @@ public class ShelterEntity extends BaseEntity {
     private String nit;
 
     @PodamExclude
-    @OneToMany(mappedBy = "shelter", cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "shelter")
     private List<PetEntity> pets = new ArrayList<>();
 
-    // TODO: returnPolicy() es del patrón Strategy (Ciclo 2), probablemente
-    // no se persiste como relación JPA
+    @PodamExclude
+    @OneToMany(mappedBy = "shelter")
+    private List<PhotoEntity> photos = new ArrayList<>();
+
+    @PodamExclude
+    @OneToMany(mappedBy = "shelter")
+    private List<TrialCohabitationRequestEntity> cohabitationRequests = new ArrayList<>();
 }

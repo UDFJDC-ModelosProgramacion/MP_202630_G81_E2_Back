@@ -14,10 +14,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 
-import co.edu.udistrital.mdp.ZZZ.entities.AdoptionRequestEntity;
-import co.edu.udistrital.mdp.ZZZ.entities.AdoptionEntity;
-import co.edu.udistrital.mdp.ZZZ.entities.ReviewEntity;
-import co.edu.udistrital.mdp.ZZZ.entities.ShelterEntity;
 
 import lombok.Data;
 
@@ -51,7 +47,7 @@ public class PetEntity extends BaseEntity {
 
 	@PodamExclude
 	@OneToOne(mappedBy = "pet")
-	private VaccineRecordEntity vaccinationRecord;
+	private VaccinationRecord vaccinationRecord;
 
 	@PodamExclude
 	@OneToMany(mappedBy = "pet")

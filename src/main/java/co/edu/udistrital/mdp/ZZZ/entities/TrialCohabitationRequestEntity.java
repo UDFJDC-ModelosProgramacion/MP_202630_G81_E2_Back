@@ -1,6 +1,5 @@
 package co.edu.udistrital.mdp.ZZZ.entities;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
@@ -16,18 +15,13 @@ public class TrialCohabitationRequestEntity extends RequestEntity {
 
 	@PodamExclude
 	@ManyToOne
-	private PetEntity pet;
-
-	@PodamExclude
-	@ManyToOne
 	private ShelterEntity shelter;
 
 	@PodamExclude
 	@ManyToOne
 	private AdopterEntity adopter;
 
-	
 	@PodamExclude
-	@OneToOne(mappedBy = "trialCohabitationRequest", cascade = CascadeType.PERSIST, orphanRemoval = true)
+	@OneToOne(mappedBy = "trialCohabitationRequest")
 	private TrialCohabitationEntity trialCohabitation;
 }

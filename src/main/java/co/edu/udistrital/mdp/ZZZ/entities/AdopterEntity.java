@@ -1,7 +1,13 @@
-package co.edu.udistrital.mdp.pets.entities;
+package co.edu.udistrital.mdp.ZZZ.entities;
+
+
+import java.util.ArrayList;
+import java.util.List;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.OneToMany;
 import lombok.Data;
+import uk.co.jemos.podam.common.PodamExclude;
 
 @Data
 @Entity
@@ -16,6 +22,7 @@ public class AdopterEntity extends UserEntity {
     private Boolean hasChildren;
     private Boolean hasOtherPets;
 
-    // TODO: relación con AdoptionRequest/TrialCohabitationRequest (Camilo, "Request")
-    // TODO: implementar ObserverRequest&Adoption y ObserverFollowUp (patrón Observer, Ciclo 3)
+    @PodamExclude
+    @OneToMany(mappedBy = "adopter")
+    private List<TrialCohabitationRequestEntity> cohabitationRequests = new ArrayList<>();
 }
