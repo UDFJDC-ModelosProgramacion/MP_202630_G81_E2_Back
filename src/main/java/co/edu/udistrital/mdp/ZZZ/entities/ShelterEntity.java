@@ -28,4 +28,36 @@ public class ShelterEntity extends BaseEntity {
     @PodamExclude
     @OneToMany(mappedBy = "shelter")
     private List<TrialCohabitationRequestEntity> cohabitationRequests = new ArrayList<>();
+
+    @PodamExclude 
+    @OneToMany(mappedBy = "shelter")
+    private List<AdoptionRequestEntity> adoptionRequests = new ArrayList<>();
+
+    @PodamExclude
+    @OneToMany(mappedBy = "shelter")
+    private List<TrialCohabitationEntity> trialCohabitations = new ArrayList<>();
+
+    @PodamExclude
+    @OneToMany(mappedBy = "shelter")
+    private List<AdoptionEntity> adoptions = new ArrayList<>();
+
+    @PodamExclude
+    @OneToMany(mappedBy = "shelter")
+    private List<ReturnEntity> returnsDuringTrial = new ArrayList<>();
+
+    @PodamExclude 
+    @OneToMany(mappedBy = "shelter")
+    private List<EventEntity> events = new ArrayList<>();
+
+    @PodamExclude 
+    @OneToMany(mappedBy = "shelter")
+    private List<UserEntity> users = new ArrayList<>();
+
+    @PodamExclude
+    @OneToMany(mappedBy = "shelter")
+    private List<AdopterEntity> adopters = new ArrayList<>();
+
+    @PodamExclude
+    @OneToMany(mappedBy = "shelter")
+    private List<VeterinarianEntity> veterinarians = new ArrayList<>();
 }

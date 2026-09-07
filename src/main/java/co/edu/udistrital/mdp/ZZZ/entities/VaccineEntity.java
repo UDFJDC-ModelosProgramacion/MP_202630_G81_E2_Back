@@ -15,7 +15,6 @@ import lombok.Data;
 @Entity
 public class VaccineEntity extends BaseEntity {
 
-	private Integer vaccineId;
 	private String name;
 
 	@Temporal(TemporalType.DATE)

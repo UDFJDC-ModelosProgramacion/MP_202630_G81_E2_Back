@@ -10,7 +10,6 @@ import lombok.Data;
 @Entity
 public class PhotoEntity extends BaseEntity {
 
-	private Integer photoId;
 	private String url;
 	private String type;
 	private String description;

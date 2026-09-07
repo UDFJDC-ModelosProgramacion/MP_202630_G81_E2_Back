@@ -2,7 +2,7 @@ package co.edu.udistrital.mdp.ZZZ.entities;
 
 import java.util.Date;
 
-import jakarta.persistence.CascadeType;
+import co.edu.udistrital.mdp.ZZZ.repositories.AdopterRepository;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
@@ -30,24 +30,21 @@ public class TrialCohabitationEntity extends BaseEntity {
 
 	@PodamExclude
 	@ManyToOne
-	private PetEntity pet;
+	private ShelterEntity shelter;
 
 	@PodamExclude
 	@ManyToOne
-	private ShelterEntity shelter;
-
+	private AdopterRepository adopter;
 	
 	@PodamExclude
 	@OneToOne
 	private TrialCohabitationRequestEntity trialCohabitationRequest;
-
-	
-	@PodamExclude
-	@OneToOne(mappedBy = "trialCohabitation", cascade = CascadeType.PERSIST, orphanRemoval = true)
-	private ReturnEntity returnDuringTrial;
-
 	
 	@PodamExclude
 	@OneToOne(mappedBy = "trialCohabitation")
-	private AdoptionEntity adoption;
+	private ReturnEntity returnDuringTrial;
+
+	@PodamExclude 
+	@OneToOne 
+	private AdoptionRequestEntity adoptionRequest;
 }
