@@ -1,16 +1,19 @@
 package co.edu.udistrital.mdp.ZZZ.entities;
 
 import java.util.Date;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
+import jakarta.persistence.ManyToOne;
 import uk.co.jemos.podam.common.PodamExclude;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
+
 
 import lombok.Data;
 
@@ -44,6 +47,21 @@ public class PetEntity extends BaseEntity {
 
 	@PodamExclude
 	@OneToOne(mappedBy = "pet")
-	private VaccineRecordEntity vaccinationRecord;
+	private VaccinationRecord vaccinationRecord;
 
+	@PodamExclude
+	@OneToMany(mappedBy = "pet")
+	private List<AdoptionRequestEntity> adoptionRequests = new ArrayList<>();
+
+	@PodamExclude
+	@OneToMany(mappedBy = "pet")
+	private List<AdoptionEntity> adoptions = new ArrayList<>();
+
+	@PodamExclude
+	@OneToMany(mappedBy = "pet")
+	private List<ReviewEntity> reviews = new ArrayList<>();
+
+	@PodamExclude
+	@ManyToOne
+	private ShelterEntity shelter;
 }

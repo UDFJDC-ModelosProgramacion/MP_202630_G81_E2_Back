@@ -19,4 +19,7 @@ public class PhotoEntity extends BaseEntity {
 	@ManyToOne
 	private PetEntity pet;
 
+	@PodamExclude
+	@ManyToOne
+	private ShelterEntity shelter;
 }
