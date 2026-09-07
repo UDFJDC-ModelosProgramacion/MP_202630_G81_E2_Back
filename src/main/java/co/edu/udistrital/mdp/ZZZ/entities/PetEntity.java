@@ -21,7 +21,6 @@ import lombok.Data;
 @Entity
 public class PetEntity extends BaseEntity {
 
-	private Integer petID;
 	private String name;
 	private String species;
 	private String breed;
@@ -64,4 +63,8 @@ public class PetEntity extends BaseEntity {
 	@PodamExclude
 	@ManyToOne
 	private ShelterEntity shelter;
+
+	@PodamExclude
+	@OneToMany(mappedBy = "pet")
+	private List<MedicalEventEntity> medicalEvents = new ArrayList<>();
 }

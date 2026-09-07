@@ -20,7 +20,8 @@ public class ReviewEntity extends BaseEntity {
     @Temporal(TemporalType.DATE)
     private Date date;
 
-    private String time;
+    @Temporal(TemporalType.TIMESTAMP)
+	private Date time;
 
     @PodamExclude
     @ManyToOne

@@ -44,4 +44,20 @@ public class ShelterEntity extends BaseEntity {
     @PodamExclude
     @OneToMany(mappedBy = "shelter")
     private List<ReturnEntity> returnsDuringTrial = new ArrayList<>();
+
+    @PodamExclude 
+    @OneToMany(mappedBy = "shelter")
+    private List<EventEntity> events = new ArrayList<>();
+
+    @PodamExclude 
+    @OneToMany(mappedBy = "shelter")
+    private List<UserEntity> users = new ArrayList<>();
+
+    @PodamExclude
+    @OneToMany(mappedBy = "shelter")
+    private List<AdopterEntity> adopters = new ArrayList<>();
+
+    @PodamExclude
+    @OneToMany(mappedBy = "shelter")
+    private List<VeterinarianEntity> veterinarians = new ArrayList<>();
 }

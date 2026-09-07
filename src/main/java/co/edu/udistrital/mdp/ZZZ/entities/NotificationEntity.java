@@ -3,19 +3,16 @@ package co.edu.udistrital.mdp.ZZZ.entities;
 import java.util.Date;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.Inheritance;
-import jakarta.persistence.InheritanceType;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 
 import lombok.Data;
-import lombok.EqualsAndHashCode;
+import uk.co.jemos.podam.common.PodamExclude;
 
 // Base notification class, extended by Email, SMS and Push notifications
 @Data
-@EqualsAndHashCode(callSuper = true)
 @Entity
-@Inheritance(strategy = InheritanceType.JOINED)
 public class NotificationEntity extends BaseEntity {
 
 	// Short notification message
@@ -25,6 +22,13 @@ public class NotificationEntity extends BaseEntity {
 	@Temporal(TemporalType.DATE)
 	private Date date;
 
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date time;
+
 	// Full content of the notification
 	private String content;
+
+	@PodamExclude 
+	@ManyToOne
+	private UserEntity user;
 }

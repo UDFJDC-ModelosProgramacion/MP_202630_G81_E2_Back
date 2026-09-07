@@ -1,17 +1,28 @@
 package co.edu.udistrital.mdp.ZZZ.entities;
 
+import java.util.Date;
+
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
+import jakarta.persistence.TemporalType;
+import jakarta.persistence.Temporal;
 
 import lombok.Data;
-import lombok.EqualsAndHashCode;
+
 import uk.co.jemos.podam.common.PodamExclude;
 
 @Data
-@EqualsAndHashCode(callSuper = true)
 @Entity
 public class TrialCohabitationRequestEntity extends RequestEntity {
+
+	private String status;
+
+	@Temporal(TemporalType.DATE)
+	private Date date;
+
+	private String description;
 
 	@PodamExclude
 	@ManyToOne
