@@ -14,8 +14,6 @@ import lombok.Data;
 @Data
 @Entity
 public class VaccinationRecord extends BaseEntity {
-
-	private String recordId;
 	
 	@PodamExclude
 	@OneToOne

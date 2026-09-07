@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import lombok.Data;
 import uk.co.jemos.podam.common.PodamExclude;
@@ -37,4 +38,8 @@ public class AdopterEntity extends UserEntity {
     @PodamExclude
     @OneToMany(mappedBy = "adopter")
     private List<AdoptionEntity> adoptions = new ArrayList<>();
+
+    @PodamExclude 
+    @ManyToOne
+    private ShelterEntity shelter;
 }
