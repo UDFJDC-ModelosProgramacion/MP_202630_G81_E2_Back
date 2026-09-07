@@ -1,9 +1,9 @@
-package co.edu.udistrital.mdp.pets.repositories;
+package co.edu.udistrital.mdp.ZZZ.repositories;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import co.edu.udistrital.mdp.pets.entities.AdopterEntity;
+import co.edu.udistrital.mdp.ZZZ.entities.AdopterEntity;
 
 @Repository
 public interface AdopterRepository extends JpaRepository<AdopterEntity, Long> {

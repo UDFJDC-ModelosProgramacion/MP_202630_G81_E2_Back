@@ -18,4 +18,5 @@ public class FollowUpEntity extends BaseEntity{
      public void setObservation(String observation){
         this.observation = observation;
     }
+    
 }
