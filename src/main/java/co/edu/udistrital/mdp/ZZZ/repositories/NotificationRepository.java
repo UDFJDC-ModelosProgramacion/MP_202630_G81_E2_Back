@@ -3,9 +3,8 @@ package co.edu.udistrital.mdp.ZZZ.repositories;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import co.edu.udistrital.mdp.ZZZ.entities.FollowUpEntity;
+import co.edu.udistrital.mdp.ZZZ.entities.NotificationEntity;
 
 @Repository
-public interface FollowUpRepository extends JpaRepository<FollowUpEntity, Long> {
-
+public interface NotificationRepository extends JpaRepository<NotificationEntity, Long> {
 }
