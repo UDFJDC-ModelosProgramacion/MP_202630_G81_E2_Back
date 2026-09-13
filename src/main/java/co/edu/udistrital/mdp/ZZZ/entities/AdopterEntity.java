@@ -39,7 +39,4 @@ public class AdopterEntity extends UserEntity {
     @OneToMany(mappedBy = "adopter")
     private List<AdoptionEntity> adoptions = new ArrayList<>();
 
-    @PodamExclude 
-    @ManyToOne
-    private ShelterEntity shelter;
 }
