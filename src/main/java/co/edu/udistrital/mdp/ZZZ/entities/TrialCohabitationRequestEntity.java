@@ -17,13 +17,6 @@ import uk.co.jemos.podam.common.PodamExclude;
 @Entity
 public class TrialCohabitationRequestEntity extends RequestEntity {
 
-	private String status;
-
-	@Temporal(TemporalType.DATE)
-	private Date date;
-
-	private String description;
-
 	@PodamExclude
 	@ManyToOne
 	private ShelterEntity shelter;
@@ -35,4 +28,8 @@ public class TrialCohabitationRequestEntity extends RequestEntity {
 	@PodamExclude
 	@OneToOne(mappedBy = "trialCohabitationRequest")
 	private TrialCohabitationEntity trialCohabitation;
+
+	@PodamExclude
+	@ManyToOne
+	private PetEntity pet;
 }

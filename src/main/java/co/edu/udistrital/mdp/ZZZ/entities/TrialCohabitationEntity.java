@@ -2,7 +2,7 @@ package co.edu.udistrital.mdp.ZZZ.entities;
 
 import java.util.Date;
 
-import co.edu.udistrital.mdp.ZZZ.repositories.AdopterRepository;
+import co.edu.udistrital.mdp.ZZZ.entities.AdopterEntity;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
@@ -34,7 +34,7 @@ public class TrialCohabitationEntity extends BaseEntity {
 
 	@PodamExclude
 	@ManyToOne
-	private AdopterRepository adopter;
+	private AdopterEntity adopter;
 	
 	@PodamExclude
 	@OneToOne
