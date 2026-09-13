@@ -16,13 +16,11 @@ public class ReviewEntity extends BaseEntity {
 
     private Integer rating;
     private String comment;
-
     @Temporal(TemporalType.DATE)
     private Date date;
-
     @Temporal(TemporalType.TIMESTAMP)
 	private Date time;
-
+    
     @PodamExclude
     @ManyToOne
     private PetEntity pet;

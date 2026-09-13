@@ -14,7 +14,6 @@ public class FollowUpEntity extends BaseEntity{
     
     @Temporal (TemporalType.DATE)
     private Date date;
-
     private String observation;
 
     public void setObservation(String observation){

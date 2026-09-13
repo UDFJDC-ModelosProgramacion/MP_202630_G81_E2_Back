@@ -16,10 +16,8 @@ import lombok.EqualsAndHashCode;
 public abstract class RequestEntity extends BaseEntity {
 
 	private String status;
-
 	@Temporal(TemporalType.DATE)
 	private Date date;
-
 	private String description;
 
 	public void setStatus(String status) {

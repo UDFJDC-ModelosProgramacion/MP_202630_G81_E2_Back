@@ -1,13 +1,8 @@
 package co.edu.udistrital.mdp.ZZZ.entities;
 
-import java.util.Date;
-
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
-import jakarta.persistence.TemporalType;
-import jakarta.persistence.Temporal;
 
 import lombok.Data;
 

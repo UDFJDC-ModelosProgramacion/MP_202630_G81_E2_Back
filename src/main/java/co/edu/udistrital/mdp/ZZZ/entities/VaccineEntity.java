@@ -16,13 +16,10 @@ import lombok.Data;
 public class VaccineEntity extends BaseEntity {
 
 	private String name;
-
 	@Temporal(TemporalType.DATE)
 	private Date administrationDate;
-
 	@Temporal(TemporalType.DATE)
 	private Date nextAdministration;
-
 	private Boolean status;
 	
 	@PodamExclude

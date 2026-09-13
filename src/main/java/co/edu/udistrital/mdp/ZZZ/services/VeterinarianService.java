@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import co.edu.udistrital.mdp.ZZZ.entities.UserEntity;
 import co.edu.udistrital.mdp.ZZZ.entities.VeterinarianEntity;
 import co.edu.udistrital.mdp.ZZZ.exceptions.EntityNotFoundException;
 import co.edu.udistrital.mdp.ZZZ.exceptions.IllegalOperationException;

@@ -2,7 +2,6 @@ package co.edu.udistrital.mdp.ZZZ.entities;
 
 import java.util.Date;
 
-import co.edu.udistrital.mdp.ZZZ.entities.AdopterEntity;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
@@ -20,12 +19,9 @@ public class TrialCohabitationEntity extends BaseEntity {
 
 	@Temporal(TemporalType.DATE)
 	private Date startDate;
-
 	@Temporal(TemporalType.DATE)
 	private Date endDate;
-
 	private String status;
-
 	private String observations;
 
 	@PodamExclude

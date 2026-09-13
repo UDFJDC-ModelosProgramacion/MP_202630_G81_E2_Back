@@ -15,7 +15,6 @@ public class MedicalEventEntity extends BaseEntity{
     
     @Temporal(TemporalType.DATE)
     private Date date;
-
     private String type;
     private String description;
 

@@ -22,9 +22,7 @@ public class AdoptionEntity extends BaseEntity {
 
 	@Temporal(TemporalType.DATE)
 	private Date date;
-
 	private String status;
-
 	private String importantNotes;
 
 	@PodamExclude
