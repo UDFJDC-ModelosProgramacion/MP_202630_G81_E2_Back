@@ -46,7 +46,7 @@ public class PetEntity extends BaseEntity {
 
 	@PodamExclude
 	@OneToOne(mappedBy = "pet")
-	private VaccinationRecord vaccinationRecord;
+	private VaccinationRecordEntity vaccinationRecord;
 
 	@PodamExclude
 	@OneToMany(mappedBy = "pet")
