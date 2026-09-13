@@ -26,15 +26,15 @@ public class UserEntity extends BaseEntity {
     @ManyToOne
     private ShelterEntity shelter;
 
-    @PodamExclude
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "sendUser")
     private List<MessageEntity> sendMessages = new ArrayList<>();
 
-    @PodamExclude
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "receivesUser")
     private List<MessageEntity> receiveMessages = new ArrayList<>();
 
     @PodamExclude
     @OneToMany(mappedBy = "user")
     private List<NotificationEntity> notifications = new ArrayList<>();
+
+    
 }
