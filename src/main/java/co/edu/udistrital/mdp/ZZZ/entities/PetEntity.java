@@ -29,10 +29,8 @@ public class PetEntity extends BaseEntity {
 	private String size;
 	private String healthStatus;
 	private String description;
-
 	@Temporal(TemporalType.DATE)
 	private Date admissionDate;
-
 	private String temperament;
 	private String specificNeeds;
 	private Boolean compatibilityChildren;

@@ -19,9 +19,7 @@ public class ReturnEntity extends BaseEntity {
 
 	@Temporal(TemporalType.DATE)
 	private Date date;
-
 	private String reason;
-
 
 	@PodamExclude
 	@OneToOne
