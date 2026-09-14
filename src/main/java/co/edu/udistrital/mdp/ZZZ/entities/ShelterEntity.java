@@ -16,6 +16,11 @@ public class ShelterEntity extends BaseEntity {
     private String name;
     private String city;
     private String nit;
+    private String location;
+
+    public String getLocation(){
+        return location;
+    }
 
     @PodamExclude
     @OneToMany(mappedBy = "shelter")

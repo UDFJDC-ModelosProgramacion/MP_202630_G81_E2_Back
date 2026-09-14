@@ -29,4 +29,3 @@ public class MessageEntity extends BaseEntity {
 	@ManyToOne
 	private UserEntity receivesUser;
 }
-// Review parameters in UML 
