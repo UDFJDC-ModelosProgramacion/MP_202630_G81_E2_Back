@@ -19,13 +19,16 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 public class VeterinarianService {
 
+	private static final String VETERINARIAN_ID_NOT_VALID = "Veterinarian id is not valid";
+	private static final String VETERINARIAN_NOT_FOUND = "Veterinarian not found";
+
 	private final VeterinarianRepository veterinarianRepository;
 	private final UserRepository userRepository;
 
 	@Transactional
 	public VeterinarianEntity createVeterinarian(VeterinarianEntity veterinarian)
 			throws IllegalOperationException {
-		log.info("Inicia proceso de creación del veterinario");
+		log.info("Starting process to create a veterinarian");
 
 		if (veterinarian.getFirstName() == null || veterinarian.getFirstName().isBlank())
 			throw new IllegalOperationException("First name cannot be null or empty");
@@ -46,55 +49,55 @@ public class VeterinarianService {
 			throw new IllegalOperationException(
 					"Two veterinarians cannot be associated with the same user; this user already exists");
 
-		log.info("Termina proceso de creación del veterinario");
+		log.info("Ending process to create a veterinarian");
 		return veterinarianRepository.save(veterinarian);
 	}
 
 	@Transactional
 	public List<VeterinarianEntity> getVeterinarians() {
-		log.info("Inicia proceso de consultar todos los veterinarios");
+		log.info("Starting process to retrieve all veterinarians");
 		List<VeterinarianEntity> veterinarians = veterinarianRepository.findAll();
 		if (veterinarians.isEmpty())
-			log.info("No hay veterinarios registrados");
+			log.info("No veterinarians found");
 		return veterinarians;
 	}
 
 	@Transactional
 	public List<VeterinarianEntity> getVeterinarians(String specialization, String availability) {
-		log.info("Inicia proceso de consultar veterinarios filtrados");
+		log.info("Starting process to retrieve filtered veterinarians");
 		List<VeterinarianEntity> veterinarians = veterinarianRepository.findAll().stream()
 				.filter(v -> specialization == null || specialization.equalsIgnoreCase(v.getSpecialization()))
 				.filter(v -> availability == null || availability.equalsIgnoreCase(v.getAvailability()))
 				.toList();
 		if (veterinarians.isEmpty())
-			log.info("No hay veterinarios registrados que cumplan los filtros");
+			log.info("No filtered veterinarians found");
 		return veterinarians;
 	}
 
 	@Transactional
 	public VeterinarianEntity getVeterinarian(Long veterinarianId) throws EntityNotFoundException, IllegalOperationException {
-		log.info("Inicia proceso de consultar el veterinario con id = {}", veterinarianId);
+		log.info("Starting process to retrieve a veterinarian");
 		if (veterinarianId == null || veterinarianId <= 0)
-			throw new IllegalOperationException("Veterinarian id is not valid");
+			throw new IllegalOperationException(VETERINARIAN_ID_NOT_VALID);
 
 		Optional<VeterinarianEntity> veterinarian = veterinarianRepository.findById(veterinarianId);
 		if (veterinarian.isEmpty())
-			throw new EntityNotFoundException("Veterinarian not found");
+			throw new EntityNotFoundException(VETERINARIAN_NOT_FOUND);
 
-		log.info("Termina proceso de consultar el veterinario con id = {}", veterinarianId);
+		log.info("Ending process to retrieve a veterinarian");
 		return veterinarian.get();
 	}
 
 	@Transactional
 	public VeterinarianEntity updateVeterinarian(Long veterinarianId, VeterinarianEntity veterinarian)
 			throws EntityNotFoundException, IllegalOperationException {
-		log.info("Inicia proceso de actualizar el veterinario con id = {}", veterinarianId);
+		log.info("Starting process to update a veterinarian");
 		if (veterinarianId == null || veterinarianId <= 0)
-			throw new IllegalOperationException("Veterinarian id is not valid");
+			throw new IllegalOperationException(VETERINARIAN_ID_NOT_VALID);
 
 		Optional<VeterinarianEntity> existing = veterinarianRepository.findById(veterinarianId);
 		if (existing.isEmpty())
-			throw new EntityNotFoundException("Veterinarian not found");
+			throw new EntityNotFoundException(VETERINARIAN_NOT_FOUND);
 
 		if (veterinarian.getSpecialization() == null || veterinarian.getSpecialization().isBlank())
 			throw new IllegalOperationException("Specialization cannot be null or empty");
@@ -105,26 +108,25 @@ public class VeterinarianService {
 		current.setSpecialization(veterinarian.getSpecialization());
 		current.setAvailability(veterinarian.getAvailability());
 
-		log.info("Termina proceso de actualizar el veterinario con id = {}", veterinarianId);
+		log.info("Ending process to update a veterinarian");
 		return veterinarianRepository.save(current);
 	}
 
 	@Transactional
 	public void deleteVeterinarian(Long veterinarianId) throws EntityNotFoundException, IllegalOperationException {
-		log.info("Inicia proceso de borrar el veterinario con id = {}", veterinarianId);
+		log.info("Starting process to delete a veterinarian");
 		if (veterinarianId == null || veterinarianId <= 0)
-			throw new IllegalOperationException("Veterinarian id is not valid");
+			throw new IllegalOperationException(VETERINARIAN_ID_NOT_VALID);
 
 		Optional<VeterinarianEntity> veterinarian = veterinarianRepository.findById(veterinarianId);
 		if (veterinarian.isEmpty())
-			throw new EntityNotFoundException("Veterinarian not found");
-
+			throw new EntityNotFoundException(VETERINARIAN_NOT_FOUND);
 		VeterinarianEntity current = veterinarian.get();
 		if (!current.getMedicalEvents().isEmpty() || !current.getFollowUps().isEmpty())
 			throw new IllegalOperationException(
 					"A veterinarian with active or past medical events or follow-ups cannot be deleted");
 
 		veterinarianRepository.deleteById(veterinarianId);
-		log.info("Termina proceso de borrar el veterinario con id = {}", veterinarianId);
+		log.info("Ending process to delete a veterinarian");
 	}
 }
