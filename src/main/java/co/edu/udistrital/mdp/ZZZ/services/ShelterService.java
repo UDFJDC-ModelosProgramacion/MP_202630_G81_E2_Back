@@ -8,11 +8,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import co.edu.udistrital.mdp.ZZZ.entities.AdoptionEntity;
+import co.edu.udistrital.mdp.ZZZ.entities.PetEntity;
 import co.edu.udistrital.mdp.ZZZ.entities.ShelterEntity;
 import co.edu.udistrital.mdp.ZZZ.entities.UserEntity;
 import co.edu.udistrital.mdp.ZZZ.exceptions.EntityNotFoundException;
 import co.edu.udistrital.mdp.ZZZ.exceptions.IllegalOperationException;
+import co.edu.udistrital.mdp.ZZZ.repositories.AdoptionRepository;
 import co.edu.udistrital.mdp.ZZZ.repositories.ShelterRepository;
+import co.edu.udistrital.mdp.ZZZ.repositories.PetRepository;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -21,6 +25,12 @@ public class ShelterService {
 
 	@Autowired
 	ShelterRepository shelterRepository;
+
+	@Autowired
+	AdoptionRepository adoptionRepository;
+
+	@Autowired
+	PetRepository petRepository;
 
 	@Transactional
 	public ShelterEntity createShelter(ShelterEntity shelter) throws IllegalOperationException {
@@ -146,26 +156,32 @@ public class ShelterService {
 
 		ShelterEntity current = shelter.get();
 
-		if (current.getPets() != null && !current.getPets().isEmpty())
+		List<PetEntity> pets = petRepository.findAll().stream()
+				.filter(p -> p.getShelter() != null && p.getShelter().getId().equals(shelterId))
+				.toList();
+		if (!pets.isEmpty())
 			throw new IllegalOperationException("A shelter with pets currently under its care cannot be deleted");
+
+		List<AdoptionEntity> adoptions = adoptionRepository.findAll().stream()
+				.filter(a -> a.getShelter() != null && a.getShelter().getId().equals(shelterId))
+				.toList();
 
 		boolean hasActiveProcesses = (current.getAdoptionRequests() != null && !current.getAdoptionRequests().isEmpty())
 				|| (current.getCohabitationRequests() != null && !current.getCohabitationRequests().isEmpty())
 				|| (current.getTrialCohabitations() != null && !current.getTrialCohabitations().isEmpty())
-				|| (current.getAdoptions() != null
-						&& current.getAdoptions().stream().anyMatch(a -> a.getReturnAfterAdoption() == null));
+				|| adoptions.stream().anyMatch(a -> a.getReturnAfterAdoption() == null);
 		if (hasActiveProcesses)
 			throw new IllegalOperationException(
 					"A shelter with active associated processes in progress cannot be deleted");
 
-		boolean hasHistory = (current.getAdoptions() != null && !current.getAdoptions().isEmpty())
+		boolean hasHistory = !adoptions.isEmpty()
 				|| (current.getEvents() != null && !current.getEvents().isEmpty())
 				|| (current.getVeterinarians() != null && !current.getVeterinarians().isEmpty())
 				|| (current.getReturnsDuringTrial() != null && !current.getReturnsDuringTrial().isEmpty());
 		if (hasHistory)
 			throw new IllegalOperationException(
 					"A shelter with associated history cannot be deleted, in order to maintain traceability");
-
+		
 		shelterRepository.deleteById(shelterId);
 		log.info("Finish process of deleting the shelter with id = {}", shelterId);
 	}
