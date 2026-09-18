@@ -24,7 +24,6 @@ import co.edu.udistrital.mdp.pets.entities.VaccinationRecordEntity;
 import co.edu.udistrital.mdp.pets.entities.VaccineEntity;
 import co.edu.udistrital.mdp.pets.exceptions.EntityNotFoundException;
 import co.edu.udistrital.mdp.pets.exceptions.IllegalOperationException;
-import co.edu.udistrital.mdp.pets.services.VaccinationRecordService;
 import uk.co.jemos.podam.api.PodamFactory;
 import uk.co.jemos.podam.api.PodamFactoryImpl;
 
@@ -64,10 +63,10 @@ class VaccinationRecordServiceTest {
 			entityManager.persist(petEntity);
 			petList.add(petEntity);
 
-			VaccinationRecordEntity record = factory.manufacturePojo(VaccinationRecordEntity.class);
-			record.setPet(petEntity);
-			entityManager.persist(record);
-			recordList.add(record);
+			VaccinationRecordEntity vaccinationRecord = factory.manufacturePojo(VaccinationRecordEntity.class);
+			vaccinationRecord.setPet(petEntity);
+			entityManager.persist(vaccinationRecord);
+			recordList.add(vaccinationRecord);
 		}
 	}
 

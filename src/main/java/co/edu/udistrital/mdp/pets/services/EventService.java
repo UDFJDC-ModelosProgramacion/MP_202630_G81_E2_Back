@@ -24,6 +24,9 @@ public class EventService {
 	private final EventRepository eventRepository;
 	private final ShelterRepository shelterRepository;
 
+	private final String EVENT_ID_NOT_VALID = "Event id is not valid";
+	private final String EVENT_NOT_FOUND = "Event not found";
+
 	@Transactional
 	public EventEntity createEvent(EventEntity event) throws EntityNotFoundException, IllegalOperationException {
 		log.info("Starts event creation process");
@@ -61,16 +64,21 @@ public class EventService {
 
 	@Transactional
 	public EventEntity getEvent(Long eventId) throws EntityNotFoundException, IllegalOperationException {
-		return getEvent(eventId, null, null);
+		return findEvent(eventId, null, null);
 	}
 
 	@Transactional
 	public EventEntity getEvent(Long eventId, String name, Date date)
 			throws EntityNotFoundException, IllegalOperationException {
+		return findEvent(eventId, name, date);
+	}
+
+	private EventEntity findEvent(Long eventId, String name, Date date)
+			throws EntityNotFoundException, IllegalOperationException {
 		log.info("Starts the process of consulting an event by filters");
 
 		if (eventId != null && eventId <= 0)
-			throw new IllegalOperationException("Event id is not valid");
+			throw new IllegalOperationException(EVENT_ID_NOT_VALID);
 
 		Optional<EventEntity> event = eventRepository.findAll().stream()
 				.filter(e -> eventId == null || eventId.equals(e.getId()))
@@ -79,7 +87,7 @@ public class EventService {
 				.findFirst();
 
 		if (event.isEmpty())
-			throw new EntityNotFoundException("Event not found");
+			throw new EntityNotFoundException(EVENT_NOT_FOUND);
 
 		log.info("Finishes the process of consulting an event by filters");
 		return event.get();
@@ -90,11 +98,11 @@ public class EventService {
 			throws EntityNotFoundException, IllegalOperationException {
 		log.info("Starts process of updating the event with id = {}", eventId);
 		if (eventId == null || eventId <= 0)
-			throw new IllegalOperationException("Event id is not valid");
+			throw new IllegalOperationException(EVENT_ID_NOT_VALID);
 
 		Optional<EventEntity> existing = eventRepository.findById(eventId);
 		if (existing.isEmpty())
-			throw new EntityNotFoundException("Event not found");
+			throw new EntityNotFoundException(EVENT_NOT_FOUND);
 
 		validateMandatoryAttributes(event);
 
@@ -122,11 +130,11 @@ public class EventService {
 	public void deleteEvent(Long eventId) throws EntityNotFoundException, IllegalOperationException {
 		log.info("Starts process of deleting the event with id = {}", eventId);
 		if (eventId == null || eventId <= 0)
-			throw new IllegalOperationException("Event id is not valid");
+			throw new IllegalOperationException(EVENT_ID_NOT_VALID);
 
 		Optional<EventEntity> event = eventRepository.findById(eventId);
 		if (event.isEmpty())
-			throw new EntityNotFoundException("Event not found");
+			throw new EntityNotFoundException(EVENT_NOT_FOUND);
 
 		if (event.get().getDate() != null && event.get().getDate().before(today()))
 			throw new IllegalOperationException(

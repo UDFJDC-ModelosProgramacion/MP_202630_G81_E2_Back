@@ -23,6 +23,8 @@ import lombok.extern.slf4j.Slf4j;
 public class VaccinationRecordService {
 
 	private static final String FINALIZED_STATUS = "FINALIZED";
+	private static final String VACCINATION_RECORD_ID_NOT_VALID = "Vaccination record id is not valid";
+	private static final String VACCINATION_RECORD_NOT_FOUND = "Vaccination record not found";
 
 	private final VaccinationRecordRepository vaccinationRecordRepository;
 	private final PetRepository petRepository;
@@ -31,14 +33,14 @@ public class VaccinationRecordService {
 	 * Crea un nuevo registro de vacunación.
 	 */
 	@Transactional
-	public VaccinationRecordEntity createVaccinationRecord(VaccinationRecordEntity record)
+	public VaccinationRecordEntity createVaccinationRecord(VaccinationRecordEntity vaccinationRecord)
 			throws EntityNotFoundException, IllegalOperationException {
-		log.info("Inicia proceso de creación del registro de vacunación");
+		log.info("Starting vaccination record creation process");
 
-		if (record.getPet() == null || record.getPet().getId() == null)
+		if (vaccinationRecord.getPet() == null || vaccinationRecord.getPet().getId() == null)
 			throw new IllegalOperationException("Vaccination record must be associated with an existing pet");
 
-		Optional<PetEntity> pet = petRepository.findById(record.getPet().getId());
+		Optional<PetEntity> pet = petRepository.findById(vaccinationRecord.getPet().getId());
 		if (pet.isEmpty())
 			throw new EntityNotFoundException("Pet not found");
 
@@ -47,10 +49,10 @@ public class VaccinationRecordService {
 		if (petAlreadyHasRecord)
 			throw new IllegalOperationException("This pet already has a vaccination record");
 
-		record.setPet(pet.get());
+		vaccinationRecord.setPet(pet.get());
 
-		log.info("Termina proceso de creación del registro de vacunación");
-		return vaccinationRecordRepository.save(record);
+		log.info("Ending vaccination record creation process");
+		return vaccinationRecordRepository.save(vaccinationRecord);
 	}
 
 	/**
@@ -58,10 +60,10 @@ public class VaccinationRecordService {
 	 */
 	@Transactional
 	public List<VaccinationRecordEntity> getVaccinationRecords() {
-		log.info("Inicia proceso de consultar todos los registros de vacunación");
+		log.info("Starting process to consult all vaccination records");
 		List<VaccinationRecordEntity> records = vaccinationRecordRepository.findAll();
 		if (records.isEmpty())
-			log.info("No hay registros de vacunación registrados");
+			log.info("No vaccination records found");
 		return records;
 	}
 
@@ -70,13 +72,13 @@ public class VaccinationRecordService {
 	 */
 	@Transactional
 	public VaccinationRecordEntity getVaccinationRecordByPet(Long petId) throws EntityNotFoundException {
-		log.info("Inicia proceso de consultar el registro de vacunación de la mascota con id = {}", petId);
-		Optional<VaccinationRecordEntity> record = vaccinationRecordRepository.findAll().stream()
+		log.info("Starting process to consult vaccination record for pet with id = {}", petId);
+		Optional<VaccinationRecordEntity> vaccinationRecord = vaccinationRecordRepository.findAll().stream()
 				.filter(r -> r.getPet() != null && r.getPet().getId().equals(petId))
 				.findFirst();
-		if (record.isEmpty())
+		if (vaccinationRecord.isEmpty())
 			throw new EntityNotFoundException("Vaccination record not found for that pet");
-		return record.get();
+		return vaccinationRecord.get();
 	}
 
 	/**
@@ -84,43 +86,43 @@ public class VaccinationRecordService {
 	 */
 	@Transactional
 	public VaccinationRecordEntity getVaccinationRecord(Long recordId) throws EntityNotFoundException, IllegalOperationException {
-		log.info("Inicia proceso de consultar el registro de vacunación con id = {}", recordId);
+		log.info("Starting process to consult vaccination record with id = {}", recordId);
 		if (recordId == null || recordId <= 0)
-			throw new IllegalOperationException("Vaccination record id is not valid");
+			throw new IllegalOperationException(VACCINATION_RECORD_ID_NOT_VALID);
 
-		Optional<VaccinationRecordEntity> record = vaccinationRecordRepository.findById(recordId);
-		if (record.isEmpty())
-			throw new EntityNotFoundException("Vaccination record not found");
+		Optional<VaccinationRecordEntity> vaccinationRecord = vaccinationRecordRepository.findById(recordId);
+		if (vaccinationRecord.isEmpty())
+			throw new EntityNotFoundException(VACCINATION_RECORD_NOT_FOUND);
 
-		log.info("Termina proceso de consultar el registro de vacunación con id = {}", recordId);
-		return record.get();
+		log.info("Ending process to consult vaccination record with id = {}", recordId);
+		return vaccinationRecord.get();
 	}
 
 	/**
 	 * Actualiza un registro de vacunación existente.
 	 */
 	@Transactional
-	public VaccinationRecordEntity updateVaccinationRecord(Long recordId, VaccinationRecordEntity record)
+	public VaccinationRecordEntity updateVaccinationRecord(Long recordId, VaccinationRecordEntity vaccinationRecord)
 			throws EntityNotFoundException, IllegalOperationException {
-		log.info("Inicia proceso de actualizar el registro de vacunación con id = {}", recordId);
+		log.info("Starting process to update vaccination record with id = {}", recordId);
 		if (recordId == null || recordId <= 0)
-			throw new IllegalOperationException("Vaccination record id is not valid");
+			throw new IllegalOperationException(VACCINATION_RECORD_ID_NOT_VALID);
 
 		Optional<VaccinationRecordEntity> existing = vaccinationRecordRepository.findById(recordId);
 		if (existing.isEmpty())
-			throw new EntityNotFoundException("Vaccination record not found");
+			throw new EntityNotFoundException(VACCINATION_RECORD_NOT_FOUND);
 
 		VaccinationRecordEntity current = existing.get();
 
-		if (record.getPet() != null && current.getPet() != null
-				&& !record.getPet().getId().equals(current.getPet().getId()))
+		if (vaccinationRecord.getPet() != null && current.getPet() != null
+				&& !vaccinationRecord.getPet().getId().equals(current.getPet().getId()))
 			throw new IllegalOperationException("The vaccination record cannot be reassigned to a different pet");
 
-		record.setId(recordId);
-		record.setPet(current.getPet());
+		vaccinationRecord.setId(recordId);
+		vaccinationRecord.setPet(current.getPet());
 
-		log.info("Termina proceso de actualizar el registro de vacunación con id = {}", recordId);
-		return vaccinationRecordRepository.save(record);
+		log.info("Ending process to update vaccination record with id = {}", recordId);
+		return vaccinationRecordRepository.save(vaccinationRecord);
 	}
 
 	/**
@@ -129,13 +131,13 @@ public class VaccinationRecordService {
 	@Transactional
 	public VaccinationRecordEntity addVaccine(Long recordId, VaccineEntity vaccine)
 			throws EntityNotFoundException, IllegalOperationException {
-		log.info("Inicia proceso de agregar una vacuna al registro con id = {}", recordId);
+		log.info("Starting process to add vaccine to vaccination record with id = {}", recordId);
 		if (recordId == null || recordId <= 0)
-			throw new IllegalOperationException("Vaccination record id is not valid");
+			throw new IllegalOperationException(VACCINATION_RECORD_ID_NOT_VALID);
 
 		Optional<VaccinationRecordEntity> existing = vaccinationRecordRepository.findById(recordId);
 		if (existing.isEmpty())
-			throw new EntityNotFoundException("Vaccination record not found");
+			throw new EntityNotFoundException(VACCINATION_RECORD_NOT_FOUND);
 
 		if (vaccine == null)
 			throw new IllegalOperationException("Vaccine cannot be null");
@@ -144,7 +146,7 @@ public class VaccinationRecordService {
 		vaccine.setVaccinationRecord(current);
 		current.getVaccines().add(vaccine);
 
-		log.info("Termina proceso de agregar una vacuna al registro con id = {}", recordId);
+		log.info("Ending process to add vaccine to vaccination record with id = {}", recordId);
 		return vaccinationRecordRepository.save(current);
 	}
 
@@ -153,22 +155,22 @@ public class VaccinationRecordService {
 	 */
 	@Transactional
 	public void deleteVaccinationRecord(Long recordId) throws EntityNotFoundException, IllegalOperationException {
-		log.info("Inicia proceso de borrar el registro de vacunación con id = {}", recordId);
+		log.info("Starting process to delete vaccination record with id = {}", recordId);
 		if (recordId == null || recordId <= 0)
-			throw new IllegalOperationException("Vaccination record id is not valid");
+			throw new IllegalOperationException(VACCINATION_RECORD_ID_NOT_VALID);
 
-		Optional<VaccinationRecordEntity> record = vaccinationRecordRepository.findById(recordId);
-		if (record.isEmpty())
-			throw new EntityNotFoundException("Vaccination record not found");
+		Optional<VaccinationRecordEntity> vaccinationRecord = vaccinationRecordRepository.findById(recordId);
+		if (vaccinationRecord.isEmpty())
+			throw new EntityNotFoundException(VACCINATION_RECORD_NOT_FOUND);
 
-		PetEntity pet = record.get().getPet();
+		PetEntity pet = vaccinationRecord.get().getPet();
 		if (pet != null && isPetActiveInShelter(pet))
 			throw new IllegalOperationException(
 					"Vaccination record cannot be deleted while the pet is still active in the shelter");
 
 		// relación vaccines, sus vacunas asociadas se borran en cascada.
 		vaccinationRecordRepository.deleteById(recordId);
-		log.info("Termina proceso de borrar el registro de vacunación con id = {}", recordId);
+		log.info("Ending process to delete vaccination record with id = {}", recordId);
 	}
 
 	private boolean isPetActiveInShelter(PetEntity pet) {

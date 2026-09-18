@@ -29,6 +29,9 @@ public class NotificationService {
 	private final NotificationRepository notificationRepository;
 	private final UserRepository userRepository;
 
+	private final String NOTIFICATION_ID_NOT_VALID = "Notification id is not valid";
+	private final String NOTIFICATION_NOT_FOUND = "Notification not found";
+	
 	/**
 	 * Crea una nueva notificación.
 	 */
@@ -107,11 +110,11 @@ public class NotificationService {
 			throws EntityNotFoundException, IllegalOperationException {
 		log.info("Inicia proceso de consultar la notificación con id = {}", notificationId);
 		if (notificationId == null || notificationId <= 0)
-			throw new IllegalOperationException("Notification id is not valid");
+			throw new IllegalOperationException(NOTIFICATION_ID_NOT_VALID);
 
 		Optional<NotificationEntity> notification = notificationRepository.findById(notificationId);
 		if (notification.isEmpty())
-			throw new EntityNotFoundException("Notification not found");
+			throw new EntityNotFoundException(NOTIFICATION_NOT_FOUND);
 
 		log.info("Termina proceso de consultar la notificación con id = {}", notificationId);
 		return notification.get();
@@ -125,11 +128,11 @@ public class NotificationService {
 			throws EntityNotFoundException, IllegalOperationException {
 		log.info("Inicia proceso de actualizar la notificación con id = {}", notificationId);
 		if (notificationId == null || notificationId <= 0)
-			throw new IllegalOperationException("Notification id is not valid");
+			throw new IllegalOperationException(NOTIFICATION_ID_NOT_VALID);
 
 		Optional<NotificationEntity> existing = notificationRepository.findById(notificationId);
 		if (existing.isEmpty())
-			throw new EntityNotFoundException("Notification not found");
+			throw new EntityNotFoundException(NOTIFICATION_NOT_FOUND);
 
 		if (notification.getMessage() == null || notification.getMessage().isBlank())
 			throw new IllegalOperationException("Notification message cannot be null or empty");
@@ -165,11 +168,11 @@ public class NotificationService {
 	public void deleteNotification(Long notificationId) throws EntityNotFoundException, IllegalOperationException {
 		log.info("Inicia proceso de borrar la notificación con id = {}", notificationId);
 		if (notificationId == null || notificationId <= 0)
-			throw new IllegalOperationException("Notification id is not valid");
+			throw new IllegalOperationException(NOTIFICATION_ID_NOT_VALID);
 
 		Optional<NotificationEntity> notification = notificationRepository.findById(notificationId);
 		if (notification.isEmpty())
-			throw new EntityNotFoundException("Notification not found");
+			throw new EntityNotFoundException(NOTIFICATION_NOT_FOUND);
 
 		if (Boolean.TRUE.equals(notification.get().getSent()))
 			throw new IllegalOperationException(
