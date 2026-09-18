@@ -29,8 +29,8 @@ public class NotificationService {
 	private final NotificationRepository notificationRepository;
 	private final UserRepository userRepository;
 
-	private final String NOTIFICATION_ID_NOT_VALID = "Notification id is not valid";
-	private final String NOTIFICATION_NOT_FOUND = "Notification not found";
+	private static final String NOTIFICATION_ID_NOT_VALID = "Notification id is not valid";
+	private static final String NOTIFICATION_NOT_FOUND = "Notification not found";
 	
 	/**
 	 * Crea una nueva notificación.
