@@ -15,6 +15,7 @@ import co.edu.udistrital.mdp.ZZZ.exceptions.EntityNotFoundException;
 import co.edu.udistrital.mdp.ZZZ.exceptions.IllegalOperationException;
 import co.edu.udistrital.mdp.ZZZ.repositories.VaccinationRecordRepository;
 import co.edu.udistrital.mdp.ZZZ.repositories.VaccineRepository;
+import co.edu.udistrital.mdp.ZZZ.repositories.AdoptionRepository;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -28,6 +29,9 @@ public class VaccineService {
 
 	@Autowired
 	VaccinationRecordRepository vaccinationRecordRepository;
+
+	@Autowired 
+	AdoptionRepository adoptionRepository;
 
 	@Transactional
 	public VaccineEntity createVaccine(VaccineEntity vaccine) throws EntityNotFoundException, IllegalOperationException {
@@ -56,7 +60,9 @@ public class VaccineService {
 
 		vaccine.setVaccinationRecord(record.get());
 
-		boolean duplicated = record.get().getVaccines() != null && record.get().getVaccines().stream()
+		boolean duplicated = vaccineRepository.findAll().stream()
+				.filter(v -> v.getVaccinationRecord() != null
+						&& v.getVaccinationRecord().getId().equals(record.get().getId()))
 				.anyMatch(v -> v.getName() != null && v.getName().equalsIgnoreCase(vaccine.getName())
 						&& v.getAdministrationDate() != null
 						&& sameDay(v.getAdministrationDate(), vaccine.getAdministrationDate()));
@@ -177,22 +183,16 @@ public class VaccineService {
 		PetEntity pet = vaccine.get().getVaccinationRecord() != null
 				? vaccine.get().getVaccinationRecord().getPet()
 				: null;
-		boolean petAlreadyAdopted = pet != null && pet.getAdoptions() != null
-				&& pet.getAdoptions().stream().anyMatch(a -> FINALIZED_STATUS.equalsIgnoreCase(a.getStatus()));
+
+		boolean petAlreadyAdopted = pet != null && adoptionRepository.findAll().stream()
+				.filter(a -> a.getPet() != null && a.getPet().getId().equals(pet.getId()))
+				.anyMatch(a -> FINALIZED_STATUS.equalsIgnoreCase(a.getStatus()));
 		if (petAlreadyAdopted)
 			throw new IllegalOperationException(
 					"A vaccine that is part of the medical history of an already adopted pet cannot be deleted");
 
 		vaccineRepository.deleteById(vaccineId);
 		log.info("Finish the process of deleting the vaccine with id = {}", vaccineId);
-	}
-
-	private void refreshStatus(VaccineEntity vaccine) {
-		if (Boolean.TRUE.equals(vaccine.getStatus()) && vaccine.getNextAdministration() != null
-				&& vaccine.getNextAdministration().before(new Date())) {
-			vaccine.setStatus(false);
-			vaccineRepository.save(vaccine);
-		}
 	}
 
 	private boolean sameDay(Date d1, Date d2) {
@@ -209,5 +209,13 @@ public class VaccineService {
 		c.set(java.util.Calendar.SECOND, 0);
 		c.set(java.util.Calendar.MILLISECOND, 0);
 		return c.getTime();
+	}
+
+	private void refreshStatus(VaccineEntity vaccine) {
+	if (Boolean.TRUE.equals(vaccine.getStatus()) && vaccine.getNextAdministration() != null
+				&& vaccine.getNextAdministration().before(new Date())) {
+			vaccine.setStatus(false);
+			vaccineRepository.save(vaccine);
+		}
 	}
 }

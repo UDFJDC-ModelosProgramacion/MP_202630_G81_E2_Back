@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import co.edu.udistrital.mdp.ZZZ.entities.AdoptionEntity;
 import co.edu.udistrital.mdp.ZZZ.entities.MedicalEventEntity;
 import co.edu.udistrital.mdp.ZZZ.entities.PetEntity;
 import co.edu.udistrital.mdp.ZZZ.entities.ShelterEntity;
@@ -18,6 +19,7 @@ import co.edu.udistrital.mdp.ZZZ.repositories.MedicalEventRepository;
 import co.edu.udistrital.mdp.ZZZ.repositories.PetRepository;
 import co.edu.udistrital.mdp.ZZZ.repositories.ShelterRepository;
 import co.edu.udistrital.mdp.ZZZ.repositories.TrialCohabitationRepository;
+import co.edu.udistrital.mdp.ZZZ.repositories.AdoptionRepository;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -35,6 +37,9 @@ public class PetService {
 
 	@Autowired
 	TrialCohabitationRepository trialCohabitationRepository;
+
+	@Autowired
+	AdoptionRepository adoptionRepository;
 
 	@Transactional
 	public PetEntity createPet(PetEntity pet) throws EntityNotFoundException, IllegalOperationException {
@@ -193,8 +198,9 @@ public class PetService {
 	}
 
 	private boolean hasActiveAdoptionOrCohabitation(PetEntity pet) {
-		boolean activeAdoption = pet.getAdoptions() != null
-				&& pet.getAdoptions().stream().anyMatch(a -> a.getReturnAfterAdoption() == null);
+		boolean activeAdoption = adoptionRepository.findAll().stream()
+				.filter(a -> a.getPet() != null && a.getPet().getId().equals(pet.getId()))
+				.anyMatch(a -> a.getReturnAfterAdoption() == null);
 		boolean activeCohabitation = trialCohabitationRepository.findAll().stream()
 				.filter(t -> t.getTrialCohabitationRequest() != null && t.getTrialCohabitationRequest().getPet() != null
 						&& t.getTrialCohabitationRequest().getPet().getId().equals(pet.getId()))
@@ -203,13 +209,15 @@ public class PetService {
 	}
 
 	private boolean hasAssociatedHistory(PetEntity pet) {
+		List<AdoptionEntity> adoptions = adoptionRepository.findAll().stream()
+				.filter(a -> a.getPet() != null && a.getPet().getId().equals(pet.getId()))
+				.toList();
 		boolean moreThanOneMedicalEvent = pet.getMedicalEvents() != null && pet.getMedicalEvents().size() > 1;
 		boolean hasVaccinationRecord = pet.getVaccinationRecord() != null
 				&& pet.getVaccinationRecord().getVaccines() != null
 				&& !pet.getVaccinationRecord().getVaccines().isEmpty();
-		boolean hasAdoption = pet.getAdoptions() != null && !pet.getAdoptions().isEmpty();
-		boolean hasReturn = pet.getAdoptions() != null
-				&& pet.getAdoptions().stream().anyMatch(a -> a.getReturnAfterAdoption() != null);
+		boolean hasAdoption = !adoptions.isEmpty();
+		boolean hasReturn = adoptions.stream().anyMatch(a -> a.getReturnAfterAdoption() != null);
 		boolean hasCohabitationReturn = trialCohabitationRepository.findAll().stream()
 				.filter(t -> t.getTrialCohabitationRequest() != null && t.getTrialCohabitationRequest().getPet() != null
 						&& t.getTrialCohabitationRequest().getPet().getId().equals(pet.getId()))

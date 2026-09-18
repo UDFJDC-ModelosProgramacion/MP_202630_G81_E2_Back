@@ -242,6 +242,7 @@ class VaccineServiceTest {
 		pojoEntity.setId(entity.getId());
 		pojoEntity.setStatus(true);
 		pojoEntity.setNextAdministration(futureDate(200));
+		pojoEntity.setAdministrationDate(entity.getAdministrationDate());
 
 		vaccineService.updateVaccine(entity.getId(), pojoEntity);
 
