@@ -21,7 +21,6 @@ import co.edu.udistrital.mdp.pets.entities.NotificationEntity;
 import co.edu.udistrital.mdp.pets.entities.UserEntity;
 import co.edu.udistrital.mdp.pets.exceptions.EntityNotFoundException;
 import co.edu.udistrital.mdp.pets.exceptions.IllegalOperationException;
-import co.edu.udistrital.mdp.pets.services.NotificationService;
 
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import uk.co.jemos.podam.api.PodamFactory;

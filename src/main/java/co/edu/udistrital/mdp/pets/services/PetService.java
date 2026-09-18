@@ -32,6 +32,9 @@ public class PetService {
 	private final MedicalEventRepository medicalEventRepository;
 	private final TrialCohabitationRepository trialCohabitationRepository;
 	private final AdoptionRepository adoptionRepository;
+	
+	private static final String PET_ID_NOT_VALID = "Pet id is not valid";
+	private static final String PET_NOT_FOUND = "Pet not found";
 
 	@Transactional
 	public PetEntity createPet(PetEntity pet) throws EntityNotFoundException, IllegalOperationException {
@@ -105,11 +108,11 @@ public class PetService {
 	public PetEntity getPet(Long petId) throws EntityNotFoundException, IllegalOperationException {
 		log.info("Start the process of consulting the pet with id = {}", petId);
 		if (petId == null || petId <= 0)
-			throw new IllegalOperationException("Pet id is not valid");
+			throw new IllegalOperationException(PET_ID_NOT_VALID);
 
 		Optional<PetEntity> pet = petRepository.findById(petId);
 		if (pet.isEmpty())
-			throw new EntityNotFoundException("Pet not found");
+			throw new EntityNotFoundException(PET_NOT_FOUND);
 
 		log.info("Finish the process of consulting the pet with id = {}", petId);
 		return pet.get();
@@ -119,11 +122,11 @@ public class PetService {
 	public PetEntity updatePet(Long petId, PetEntity pet) throws EntityNotFoundException, IllegalOperationException {
 		log.info("Starts process of updating the pet with id = {}", petId);
 		if (petId == null || petId <= 0)
-			throw new IllegalOperationException("Pet id is not valid");
+			throw new IllegalOperationException(PET_ID_NOT_VALID);
 
 		Optional<PetEntity> existing = petRepository.findById(petId);
 		if (existing.isEmpty())
-			throw new EntityNotFoundException("Pet not found");
+			throw new EntityNotFoundException(PET_NOT_FOUND);
 
 		validateMandatoryAttributes(pet);
 
@@ -169,11 +172,11 @@ public class PetService {
 	public void deletePet(Long petId) throws EntityNotFoundException, IllegalOperationException {
 		log.info("Start the process of deleting the pet with id = {}", petId);
 		if (petId == null || petId <= 0)
-			throw new IllegalOperationException("Pet id is not valid");
+			throw new IllegalOperationException(PET_ID_NOT_VALID);
 
 		Optional<PetEntity> pet = petRepository.findById(petId);
 		if (pet.isEmpty())
-			throw new EntityNotFoundException("Pet not found");
+			throw new EntityNotFoundException(PET_NOT_FOUND);
 
 		PetEntity petEntity = pet.get();
 
@@ -218,26 +221,46 @@ public class PetService {
 	}
 
 	private void validateMandatoryAttributes(PetEntity pet) throws IllegalOperationException {
+		validateIdentity(pet);
+		validatePhysicalAttributes(pet);
+		validateHealthAndAdmission(pet);
+		validateCompatibility(pet);
+		validateLifestyle(pet);
+	}
+
+	private void validateIdentity(PetEntity pet) throws IllegalOperationException {
 		if (pet.getName() == null || pet.getName().isBlank())
 			throw new IllegalOperationException("Name cannot be null or empty");
 		if (pet.getSpecies() == null || pet.getSpecies().isBlank())
 			throw new IllegalOperationException("Species cannot be null or empty");
 		if (pet.getBreed() == null || pet.getBreed().isBlank())
 			throw new IllegalOperationException("Breed cannot be null or empty");
+	}
+
+	private void validatePhysicalAttributes(PetEntity pet) throws IllegalOperationException {
 		if (pet.getAge() == null)
 			throw new IllegalOperationException("Age cannot be null");
 		if (pet.getSex() == null || pet.getSex().isBlank())
 			throw new IllegalOperationException("Sex cannot be null or empty");
 		if (pet.getSize() == null || pet.getSize().isBlank())
 			throw new IllegalOperationException("Size cannot be null or empty");
+	}
+
+	private void validateHealthAndAdmission(PetEntity pet) throws IllegalOperationException {
 		if (pet.getHealthStatus() == null || pet.getHealthStatus().isBlank())
 			throw new IllegalOperationException("Health status cannot be null or empty");
 		if (pet.getAdmissionDate() == null)
 			throw new IllegalOperationException("Admission date cannot be null");
+	}
+
+	private void validateCompatibility(PetEntity pet) throws IllegalOperationException {
 		if (pet.getCompatibilityChildren() == null)
 			throw new IllegalOperationException("Compatibility with children cannot be null");
 		if (pet.getCompatibilityOtherPets() == null)
 			throw new IllegalOperationException("Compatibility with other pets cannot be null");
+	}
+
+	private void validateLifestyle(PetEntity pet) throws IllegalOperationException {
 		if (pet.getActivityLevel() == null || pet.getActivityLevel().isBlank())
 			throw new IllegalOperationException("Activity level cannot be null or empty");
 		if (pet.getRequiredSpace() == null || pet.getRequiredSpace().isBlank())

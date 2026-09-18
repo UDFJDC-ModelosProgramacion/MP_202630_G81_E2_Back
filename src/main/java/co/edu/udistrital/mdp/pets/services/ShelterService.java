@@ -21,8 +21,11 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Service
-@RequiredArgsConstructor 
+@RequiredArgsConstructor
 public class ShelterService {
+
+	private static final String SHELTER_ID_NOT_VALID = "Shelter id is not valid";
+	private static final String SHELTER_NOT_FOUND = "Shelter not found";
 
 	private final ShelterRepository shelterRepository;
 	private final AdoptionRepository adoptionRepository;
@@ -55,6 +58,15 @@ public class ShelterService {
 
 	@Transactional
 	public List<ShelterEntity> readShelter(String city, String location) {
+		return findShelters(city, location);
+	}
+
+	@Transactional
+	public List<ShelterEntity> readShelter() {
+		return findShelters(null, null);
+	}
+
+	private List<ShelterEntity> findShelters(String city, String location) {
 		log.info("The process of consulting leaked shelters begins");
 		List<ShelterEntity> shelters = shelterRepository.findAll().stream()
 				.filter(s -> city == null || city.equalsIgnoreCase(s.getCity()))
@@ -66,22 +78,22 @@ public class ShelterService {
 	}
 
 	@Transactional
-	public List<ShelterEntity> readShelter() {
-		return readShelter(null, null);
-	}
-
-	@Transactional
 	public ShelterEntity readAllShelters(Long shelterId) throws EntityNotFoundException, IllegalOperationException {
-		return readAllShelters(shelterId, null, null);
+		return findShelter(shelterId, null, null);
 	}
 
 	@Transactional
 	public ShelterEntity readAllShelters(Long shelterId, String name, String nit)
 			throws EntityNotFoundException, IllegalOperationException {
+		return findShelter(shelterId, name, nit);
+	}
+
+	private ShelterEntity findShelter(Long shelterId, String name, String nit)
+			throws EntityNotFoundException, IllegalOperationException {
 		log.info("The process of consulting a shelter through filters begins");
 
 		if (shelterId != null && shelterId <= 0)
-			throw new IllegalOperationException("Shelter id is not valid");
+			throw new IllegalOperationException(SHELTER_ID_NOT_VALID);
 
 		Optional<ShelterEntity> shelter = shelterRepository.findAll().stream()
 				.filter(s -> shelterId == null || shelterId.equals(s.getId()))
@@ -90,7 +102,7 @@ public class ShelterService {
 				.findFirst();
 
 		if (shelter.isEmpty())
-			throw new EntityNotFoundException("Shelter not found");
+			throw new EntityNotFoundException(SHELTER_NOT_FOUND);
 
 		log.info("The process of consulting a shelter through filters ends");
 		return shelter.get();
@@ -101,11 +113,11 @@ public class ShelterService {
 			throws EntityNotFoundException, IllegalOperationException {
 		log.info("Starts process of updating the shelter with id = {}", shelterId);
 		if (shelterId == null || shelterId <= 0)
-			throw new IllegalOperationException("Shelter id is not valid");
+			throw new IllegalOperationException(SHELTER_ID_NOT_VALID);
 
 		Optional<ShelterEntity> existing = shelterRepository.findById(shelterId);
 		if (existing.isEmpty())
-			throw new EntityNotFoundException("Shelter not found");
+			throw new EntityNotFoundException(SHELTER_NOT_FOUND);
 
 		validateMandatoryAttributes(shelter);
 
@@ -144,24 +156,39 @@ public class ShelterService {
 	public void deleteShelter(Long shelterId) throws EntityNotFoundException, IllegalOperationException {
 		log.info("Starts process of deleting the shelter with id = {}", shelterId);
 		if (shelterId == null || shelterId <= 0)
-			throw new IllegalOperationException("Shelter id is not valid");
+			throw new IllegalOperationException(SHELTER_ID_NOT_VALID);
 
 		Optional<ShelterEntity> shelter = shelterRepository.findById(shelterId);
 		if (shelter.isEmpty())
-			throw new EntityNotFoundException("Shelter not found");
+			throw new EntityNotFoundException(SHELTER_NOT_FOUND);
 
 		ShelterEntity current = shelter.get();
+		List<AdoptionEntity> adoptions = adoptionsOf(shelterId);
 
+		validateNoPets(shelterId);
+		validateNoActiveProcesses(current, adoptions);
+		validateNoHistory(current, adoptions);
+
+		shelterRepository.deleteById(shelterId);
+		log.info("Finish process of deleting the shelter with id = {}", shelterId);
+	}
+
+	private List<AdoptionEntity> adoptionsOf(Long shelterId) {
+		return adoptionRepository.findAll().stream()
+				.filter(a -> a.getShelter() != null && a.getShelter().getId().equals(shelterId))
+				.toList();
+	}
+
+	private void validateNoPets(Long shelterId) throws IllegalOperationException {
 		List<PetEntity> pets = petRepository.findAll().stream()
 				.filter(p -> p.getShelter() != null && p.getShelter().getId().equals(shelterId))
 				.toList();
 		if (!pets.isEmpty())
 			throw new IllegalOperationException("A shelter with pets currently under its care cannot be deleted");
+	}
 
-		List<AdoptionEntity> adoptions = adoptionRepository.findAll().stream()
-				.filter(a -> a.getShelter() != null && a.getShelter().getId().equals(shelterId))
-				.toList();
-
+	private void validateNoActiveProcesses(ShelterEntity current, List<AdoptionEntity> adoptions)
+			throws IllegalOperationException {
 		boolean hasActiveProcesses = (current.getAdoptionRequests() != null && !current.getAdoptionRequests().isEmpty())
 				|| (current.getCohabitationRequests() != null && !current.getCohabitationRequests().isEmpty())
 				|| (current.getTrialCohabitations() != null && !current.getTrialCohabitations().isEmpty())
@@ -169,7 +196,10 @@ public class ShelterService {
 		if (hasActiveProcesses)
 			throw new IllegalOperationException(
 					"A shelter with active associated processes in progress cannot be deleted");
+	}
 
+	private void validateNoHistory(ShelterEntity current, List<AdoptionEntity> adoptions)
+			throws IllegalOperationException {
 		boolean hasHistory = !adoptions.isEmpty()
 				|| (current.getEvents() != null && !current.getEvents().isEmpty())
 				|| (current.getVeterinarians() != null && !current.getVeterinarians().isEmpty())
@@ -177,9 +207,6 @@ public class ShelterService {
 		if (hasHistory)
 			throw new IllegalOperationException(
 					"A shelter with associated history cannot be deleted, in order to maintain traceability");
-		
-		shelterRepository.deleteById(shelterId);
-		log.info("Finish process of deleting the shelter with id = {}", shelterId);
 	}
 
 	private void validateMandatoryAttributes(ShelterEntity shelter) throws IllegalOperationException {

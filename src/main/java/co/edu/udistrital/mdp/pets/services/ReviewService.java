@@ -26,6 +26,8 @@ public class ReviewService {
 	private static final String FINALIZED_STATUS = "FINALIZED";
 	private static final int MIN_RATING = 1;
 	private static final int MAX_RATING = 5;
+	private static final String REVIEW_ID_NOT_VALID = "Review id is not valid";
+	private static final String REVIEW_NOT_FOUND = "Review not found";
 
 	private final ReviewRepository reviewRepository;
 	private final PetRepository petRepository;
@@ -38,6 +40,21 @@ public class ReviewService {
 	public ReviewEntity createReview(ReviewEntity review) throws EntityNotFoundException, IllegalOperationException {
 		log.info("Inicia proceso de creación de la reseña");
 
+		validateMandatoryAttributes(review);
+
+		PetEntity pet = resolvePet(review);
+		AdoptionEntity adoption = resolveFinalizedAdoption(review, pet);
+
+		validateNotAlreadyReviewed(pet, adoption);
+
+		review.setPet(pet);
+		review.setAdoption(adoption);
+
+		log.info("Termina proceso de creación de la reseña");
+		return reviewRepository.save(review);
+	}
+
+	private void validateMandatoryAttributes(ReviewEntity review) throws IllegalOperationException {
 		if (review.getRating() == null)
 			throw new IllegalOperationException("Rating cannot be null");
 		if (review.getComment() == null || review.getComment().isBlank())
@@ -48,13 +65,19 @@ public class ReviewService {
 			throw new IllegalOperationException("Time cannot be null");
 		if (review.getRating() < MIN_RATING || review.getRating() > MAX_RATING)
 			throw new IllegalOperationException("Rating must be between " + MIN_RATING + " and " + MAX_RATING);
+	}
 
+	private PetEntity resolvePet(ReviewEntity review) throws EntityNotFoundException, IllegalOperationException {
 		if (review.getPet() == null || review.getPet().getId() == null)
 			throw new IllegalOperationException("Review must be associated with an existing pet");
 		Optional<PetEntity> pet = petRepository.findById(review.getPet().getId());
 		if (pet.isEmpty())
 			throw new EntityNotFoundException("Pet not found");
+		return pet.get();
+	}
 
+	private AdoptionEntity resolveFinalizedAdoption(ReviewEntity review, PetEntity pet)
+			throws EntityNotFoundException, IllegalOperationException {
 		if (review.getAdoption() == null || review.getAdoption().getId() == null)
 			throw new IllegalOperationException("Review must be associated with an existing adopter");
 		Optional<AdoptionEntity> adoption = adoptionRepository.findById(review.getAdoption().getId());
@@ -65,23 +88,21 @@ public class ReviewService {
 		if (adoptionEntity.getAdopter() == null)
 			throw new IllegalOperationException("Review must be associated with an existing adopter");
 
-		if (adoptionEntity.getPet() == null || !adoptionEntity.getPet().getId().equals(pet.get().getId())
+		if (adoptionEntity.getPet() == null || !adoptionEntity.getPet().getId().equals(pet.getId())
 				|| !FINALIZED_STATUS.equalsIgnoreCase(adoptionEntity.getStatus()))
 			throw new IllegalOperationException(
 					"The adopter can only review a pet with which it has had a finalized adoption process");
 
+		return adoptionEntity;
+	}
+
+	private void validateNotAlreadyReviewed(PetEntity pet, AdoptionEntity adoption) throws IllegalOperationException {
 		boolean alreadyReviewed = reviewRepository.findAll().stream()
-				.anyMatch(r -> r.getPet() != null && r.getPet().getId().equals(pet.get().getId())
+				.anyMatch(r -> r.getPet() != null && r.getPet().getId().equals(pet.getId())
 						&& r.getAdoption() != null && r.getAdoption().getAdopter() != null
-						&& r.getAdoption().getAdopter().getId().equals(adoptionEntity.getAdopter().getId()));
+						&& r.getAdoption().getAdopter().getId().equals(adoption.getAdopter().getId()));
 		if (alreadyReviewed)
 			throw new IllegalOperationException("This adopter has already reviewed this pet");
-
-		review.setPet(pet.get());
-		review.setAdoption(adoptionEntity);
-
-		log.info("Termina proceso de creación de la reseña");
-		return reviewRepository.save(review);
 	}
 
 	/**
@@ -120,11 +141,11 @@ public class ReviewService {
 	public ReviewEntity getReview(Long reviewId) throws EntityNotFoundException, IllegalOperationException {
 		log.info("Inicia proceso de consultar la reseña con id = {}", reviewId);
 		if (reviewId == null || reviewId <= 0)
-			throw new IllegalOperationException("Review id is not valid");
+			throw new IllegalOperationException(REVIEW_ID_NOT_VALID);
 
 		Optional<ReviewEntity> review = reviewRepository.findById(reviewId);
 		if (review.isEmpty())
-			throw new EntityNotFoundException("Review not found");
+			throw new EntityNotFoundException(REVIEW_NOT_FOUND);
 
 		log.info("Termina proceso de consultar la reseña con id = {}", reviewId);
 		return review.get();
@@ -138,11 +159,11 @@ public class ReviewService {
 			throws EntityNotFoundException, IllegalOperationException {
 		log.info("Inicia proceso de actualizar la reseña con id = {}", reviewId);
 		if (reviewId == null || reviewId <= 0)
-			throw new IllegalOperationException("Review id is not valid");
+			throw new IllegalOperationException(REVIEW_ID_NOT_VALID);
 
 		Optional<ReviewEntity> existing = reviewRepository.findById(reviewId);
 		if (existing.isEmpty())
-			throw new EntityNotFoundException("Review not found");
+			throw new EntityNotFoundException(REVIEW_NOT_FOUND);
 
 		if (review.getRating() == null)
 			throw new IllegalOperationException("Rating cannot be null");
@@ -172,11 +193,11 @@ public class ReviewService {
 	public void deleteReview(Long reviewId, Long adopterId) throws EntityNotFoundException, IllegalOperationException {
 		log.info("Inicia proceso de borrar la reseña con id = {}", reviewId);
 		if (reviewId == null || reviewId <= 0)
-			throw new IllegalOperationException("Review id is not valid");
+			throw new IllegalOperationException(REVIEW_ID_NOT_VALID);
 
 		Optional<ReviewEntity> review = reviewRepository.findById(reviewId);
 		if (review.isEmpty())
-			throw new EntityNotFoundException("Review not found");
+			throw new EntityNotFoundException(REVIEW_NOT_FOUND);
 
 		ReviewEntity reviewEntity = review.get();
 		if (reviewEntity.getAdoption() == null || reviewEntity.getAdoption().getAdopter() == null
