@@ -4,7 +4,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,22 +15,19 @@ import co.edu.udistrital.mdp.pets.exceptions.IllegalOperationException;
 import co.edu.udistrital.mdp.pets.repositories.AdoptionRepository;
 import co.edu.udistrital.mdp.pets.repositories.VaccinationRecordRepository;
 import co.edu.udistrital.mdp.pets.repositories.VaccineRepository;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Service
+@RequiredArgsConstructor 
 public class VaccineService {
 
 	private static final String FINALIZED_STATUS = "FINALIZED";
 
-	@Autowired
-	VaccineRepository vaccineRepository;
-
-	@Autowired
-	VaccinationRecordRepository vaccinationRecordRepository;
-
-	@Autowired 
-	AdoptionRepository adoptionRepository;
+	private final VaccineRepository vaccineRepository;
+	private final VaccinationRecordRepository vaccinationRecordRepository;
+	private final AdoptionRepository adoptionRepository;
 
 	@Transactional
 	public VaccineEntity createVaccine(VaccineEntity vaccine) throws EntityNotFoundException, IllegalOperationException {

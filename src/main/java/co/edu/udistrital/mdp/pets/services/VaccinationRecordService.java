@@ -3,7 +3,6 @@ package co.edu.udistrital.mdp.pets.services;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,20 +13,19 @@ import co.edu.udistrital.mdp.pets.exceptions.EntityNotFoundException;
 import co.edu.udistrital.mdp.pets.exceptions.IllegalOperationException;
 import co.edu.udistrital.mdp.pets.repositories.PetRepository;
 import co.edu.udistrital.mdp.pets.repositories.VaccinationRecordRepository;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 
 @Slf4j
 @Service
+@RequiredArgsConstructor 
 public class VaccinationRecordService {
 
 	private static final String FINALIZED_STATUS = "FINALIZED";
 
-	@Autowired
-	VaccinationRecordRepository vaccinationRecordRepository;
-
-	@Autowired
-	PetRepository petRepository;
+	private final VaccinationRecordRepository vaccinationRecordRepository;
+	private final PetRepository petRepository;
 
 	/**
 	 * Crea un nuevo registro de vacunación.

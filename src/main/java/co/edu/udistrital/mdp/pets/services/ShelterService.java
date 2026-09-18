@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,20 +16,17 @@ import co.edu.udistrital.mdp.pets.exceptions.IllegalOperationException;
 import co.edu.udistrital.mdp.pets.repositories.AdoptionRepository;
 import co.edu.udistrital.mdp.pets.repositories.PetRepository;
 import co.edu.udistrital.mdp.pets.repositories.ShelterRepository;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Service
+@RequiredArgsConstructor 
 public class ShelterService {
 
-	@Autowired
-	ShelterRepository shelterRepository;
-
-	@Autowired
-	AdoptionRepository adoptionRepository;
-
-	@Autowired
-	PetRepository petRepository;
+	private final ShelterRepository shelterRepository;
+	private final AdoptionRepository adoptionRepository;
+	private final PetRepository petRepository;
 
 	@Transactional
 	public ShelterEntity createShelter(ShelterEntity shelter) throws IllegalOperationException {

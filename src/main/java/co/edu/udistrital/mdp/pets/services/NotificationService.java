@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,21 +14,20 @@ import co.edu.udistrital.mdp.pets.exceptions.EntityNotFoundException;
 import co.edu.udistrital.mdp.pets.exceptions.IllegalOperationException;
 import co.edu.udistrital.mdp.pets.repositories.NotificationRepository;
 import co.edu.udistrital.mdp.pets.repositories.UserRepository;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 
 @Slf4j
 @Service
+@RequiredArgsConstructor 
 public class NotificationService {
 
 	// Canales válidos para el envío de una notificación
 	public static final Set<String> VALID_CHANNELS = Set.of("EMAIL", "SMS", "PUSH");
 
-	@Autowired
-	NotificationRepository notificationRepository;
-
-	@Autowired
-	UserRepository userRepository;
+	private final NotificationRepository notificationRepository;
+	private final UserRepository userRepository;
 
 	/**
 	 * Crea una nueva notificación.

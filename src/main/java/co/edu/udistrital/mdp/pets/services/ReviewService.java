@@ -3,7 +3,6 @@ package co.edu.udistrital.mdp.pets.services;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,25 +14,22 @@ import co.edu.udistrital.mdp.pets.exceptions.IllegalOperationException;
 import co.edu.udistrital.mdp.pets.repositories.AdoptionRepository;
 import co.edu.udistrital.mdp.pets.repositories.PetRepository;
 import co.edu.udistrital.mdp.pets.repositories.ReviewRepository;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 
 @Slf4j
 @Service
+@RequiredArgsConstructor 
 public class ReviewService {
 
 	private static final String FINALIZED_STATUS = "FINALIZED";
 	private static final int MIN_RATING = 1;
 	private static final int MAX_RATING = 5;
 
-	@Autowired
-	ReviewRepository reviewRepository;
-
-	@Autowired
-	PetRepository petRepository;
-
-	@Autowired
-	AdoptionRepository adoptionRepository;
+	private final ReviewRepository reviewRepository;
+	private final PetRepository petRepository;
+	private final AdoptionRepository adoptionRepository;
 
 	/**
 	 * Crea una nueva reseña.

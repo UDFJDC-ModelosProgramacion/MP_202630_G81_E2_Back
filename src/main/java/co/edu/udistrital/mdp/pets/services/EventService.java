@@ -4,7 +4,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,17 +13,16 @@ import co.edu.udistrital.mdp.pets.exceptions.EntityNotFoundException;
 import co.edu.udistrital.mdp.pets.exceptions.IllegalOperationException;
 import co.edu.udistrital.mdp.pets.repositories.EventRepository;
 import co.edu.udistrital.mdp.pets.repositories.ShelterRepository;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Service
+@RequiredArgsConstructor 
 public class EventService {
 
-	@Autowired
-	EventRepository eventRepository;
-
-	@Autowired
-	ShelterRepository shelterRepository;
+	private final EventRepository eventRepository;
+	private final ShelterRepository shelterRepository;
 
 	@Transactional
 	public EventEntity createEvent(EventEntity event) throws EntityNotFoundException, IllegalOperationException {

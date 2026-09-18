@@ -3,7 +3,6 @@ package co.edu.udistrital.mdp.pets.services;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -12,21 +11,17 @@ import co.edu.udistrital.mdp.pets.exceptions.EntityNotFoundException;
 import co.edu.udistrital.mdp.pets.exceptions.IllegalOperationException;
 import co.edu.udistrital.mdp.pets.repositories.UserRepository;
 import co.edu.udistrital.mdp.pets.repositories.VeterinarianRepository;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Service
+@RequiredArgsConstructor
 public class VeterinarianService {
 
-	@Autowired
-	VeterinarianRepository veterinarianRepository;
+	private final VeterinarianRepository veterinarianRepository;
+	private final UserRepository userRepository;
 
-	@Autowired
-	UserRepository userRepository;
-
-	/**
-	 * Crea un nuevo veterinario.
-	 */
 	@Transactional
 	public VeterinarianEntity createVeterinarian(VeterinarianEntity veterinarian)
 			throws IllegalOperationException {
@@ -55,9 +50,6 @@ public class VeterinarianService {
 		return veterinarianRepository.save(veterinarian);
 	}
 
-	/**
-	 * Obtiene todos los veterinarios registrados.
-	 */
 	@Transactional
 	public List<VeterinarianEntity> getVeterinarians() {
 		log.info("Inicia proceso de consultar todos los veterinarios");
@@ -67,10 +59,6 @@ public class VeterinarianService {
 		return veterinarians;
 	}
 
-	/**
-	 * Obtiene los veterinarios filtrando, de forma opcional, por especialización
-	 * y/o disponibilidad.
-	 */
 	@Transactional
 	public List<VeterinarianEntity> getVeterinarians(String specialization, String availability) {
 		log.info("Inicia proceso de consultar veterinarios filtrados");
@@ -83,9 +71,6 @@ public class VeterinarianService {
 		return veterinarians;
 	}
 
-	/**
-	 * Obtiene un veterinario a partir de su id.
-	 */
 	@Transactional
 	public VeterinarianEntity getVeterinarian(Long veterinarianId) throws EntityNotFoundException, IllegalOperationException {
 		log.info("Inicia proceso de consultar el veterinario con id = {}", veterinarianId);
@@ -100,10 +85,6 @@ public class VeterinarianService {
 		return veterinarian.get();
 	}
 
-	/**
-	 * Actualiza un veterinario existente. Solo se pueden modificar los atributos
-	 * specialization y availability.
-	 */
 	@Transactional
 	public VeterinarianEntity updateVeterinarian(Long veterinarianId, VeterinarianEntity veterinarian)
 			throws EntityNotFoundException, IllegalOperationException {
@@ -128,9 +109,6 @@ public class VeterinarianService {
 		return veterinarianRepository.save(current);
 	}
 
-	/**
-	 * Borra un veterinario a partir de su id.
-	 */
 	@Transactional
 	public void deleteVeterinarian(Long veterinarianId) throws EntityNotFoundException, IllegalOperationException {
 		log.info("Inicia proceso de borrar el veterinario con id = {}", veterinarianId);

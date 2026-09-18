@@ -5,7 +5,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,26 +19,19 @@ import co.edu.udistrital.mdp.pets.repositories.MedicalEventRepository;
 import co.edu.udistrital.mdp.pets.repositories.PetRepository;
 import co.edu.udistrital.mdp.pets.repositories.ShelterRepository;
 import co.edu.udistrital.mdp.pets.repositories.TrialCohabitationRepository;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Service
+@RequiredArgsConstructor 
 public class PetService {
 
-	@Autowired
-	PetRepository petRepository;
-
-	@Autowired
-	ShelterRepository shelterRepository;
-
-	@Autowired
-	MedicalEventRepository medicalEventRepository;
-
-	@Autowired
-	TrialCohabitationRepository trialCohabitationRepository;
-
-	@Autowired
-	AdoptionRepository adoptionRepository;
+	private final PetRepository petRepository;
+	private final ShelterRepository shelterRepository;
+	private final MedicalEventRepository medicalEventRepository;
+	private final TrialCohabitationRepository trialCohabitationRepository;
+	private final AdoptionRepository adoptionRepository;
 
 	@Transactional
 	public PetEntity createPet(PetEntity pet) throws EntityNotFoundException, IllegalOperationException {
