@@ -32,4 +32,10 @@ public class ReturnEntity extends BaseEntity {
 	@PodamExclude
 	@ManyToOne
 	private ShelterEntity shelter;
+
+	public String
+
+	public String getReason(){
+        return reason;
+    }
 }

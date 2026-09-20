@@ -1,106 +1,149 @@
 package co.edu.udistrital.mdp.pets.services;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import co.edu.udistrital.mdp.pets.entities.UserEntity;
-import co.edu.udistrital.mdp.pets.repositories.UserRepository;
 import co.edu.udistrital.mdp.pets.exceptions.EntityNotFoundException;
 import co.edu.udistrital.mdp.pets.exceptions.IllegalOperationException;
+import co.edu.udistrital.mdp.pets.repositories.MessageRepository;
+import co.edu.udistrital.mdp.pets.repositories.UserRepository;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
-import java.util.List;
-import java.util.Optional;
-
+@Slf4j
 @Service
+@RequiredArgsConstructor
 public class UserService {
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
+    private final MessageRepository messageRepository;
+
+    private static final String USER_ID_NOT_VALID = "Invalid identifiers are not accepted.";
+    private static final String USER_NOT_FOUND = "If the user does not exist, a message indicating this is displayed.";
 
     @Transactional
     public UserEntity createUser(UserEntity user) throws IllegalOperationException {
-        if (user.getEmail() == null || user.getEmail().trim().isEmpty() || 
+        log.info("User creation process started");
+
+        if (user.getEmail() == null || user.getEmail().trim().isEmpty() ||
             user.getPassword() == null || user.getPassword().trim().isEmpty() ||
             user.getFirstName() == null || user.getFirstName().trim().isEmpty()) {
-            throw new IllegalOperationException("Ningún atributo obligatorio puede ser nulo o vacío.");
+            throw new IllegalOperationException("Required attributes cannot be null or empty.");
         }
+
         if (user.getPassword().length() < 8) {
-            throw new IllegalOperationException("La contraseña debe cumplir con los requisitos mínimos de seguridad (mínimo 8 caracteres).");
+            throw new IllegalOperationException("The password must meet the minimum security requirements (at least 8 characters).");
         }
+
         Optional<UserEntity> existingUser = userRepository.findByEmail(user.getEmail());
         if (existingUser.isPresent()) {
-            throw new IllegalOperationException("El correo electrónico debe ser único en el sistema.");
+            throw new IllegalOperationException("The email address must be unique in the system.");
         }
-        return userRepository.save(user);
+
+        UserEntity savedUser = userRepository.save(user);
+        log.info("User creation process completed");
+        return savedUser;
     }
 
     @Transactional(readOnly = true)
-    public UserEntity readUser(Long id, Long currentUserId, String currentUserRole) throws EntityNotFoundException {
+    public UserEntity readUser(Long id, Long currentUserId, String currentUserRole)
+            throws EntityNotFoundException, IllegalOperationException {
+
+        log.info("User query process started for id = {}", id);
+
         if (id == null || id <= 0) {
-            throw new IllegalArgumentException("No se aceptan identificadores inválidos.");
+            throw new IllegalOperationException(USER_ID_NOT_VALID);
         }
+
         UserEntity user = userRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Si el usuario no existe, se muestra un mensaje indicándolo."));
-        
-        // Remove sensitive data
+                .orElseThrow(() -> new EntityNotFoundException(USER_NOT_FOUND));
+
         user.setPassword(null);
+
+        log.info("User query process completed for id = {}", id);
         return user;
     }
 
     @Transactional(readOnly = true)
-    public List<UserEntity> readAllUsers(Long currentUserId, String currentUserRole) throws IllegalOperationException {
+    public List<UserEntity> readAllUsers(Long currentUserId, String currentUserRole)
+            throws IllegalOperationException {
+
+        log.info("Process of querying all users started");
+
         if (!"ADMIN".equalsIgnoreCase(currentUserRole)) {
-            throw new IllegalOperationException("El listado completo de usuarios es de acceso exclusivo para roles de administración.");
+            throw new IllegalOperationException(
+                    "The complete list of users is exclusively accessible to administrator roles.");
         }
+
         List<UserEntity> users = userRepository.findAll();
-        users.forEach(u -> u.setPassword(null)); // Hide sensitive data
+        users.forEach(u -> u.setPassword(null));
+
+        log.info("Process of querying all users completed");
         return users;
     }
 
     @Transactional
-    public UserEntity updateUser(Long id, UserEntity userUpdate, Long currentUserId, String currentUserRole) throws EntityNotFoundException, IllegalOperationException {
+    public UserEntity updateUser(Long id, UserEntity userUpdate, Long currentUserId, String currentUserRole)
+            throws EntityNotFoundException, IllegalOperationException {
+
+        log.info("User update process started for id = {}", id);
+
         if (id == null || id <= 0) {
-            throw new IllegalArgumentException("No se aceptan identificadores inválidos.");
+            throw new IllegalOperationException(USER_ID_NOT_VALID);
         }
+
         UserEntity existingUser = userRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Si el usuario no existe, se muestra un mensaje indicándolo."));
+                .orElseThrow(() -> new EntityNotFoundException(USER_NOT_FOUND));
 
         if (userUpdate.getEmail() == null || userUpdate.getEmail().trim().isEmpty()) {
-            throw new IllegalOperationException("No se aceptan atributos nulos.");
+            throw new IllegalOperationException("Null attributes are not accepted.");
         }
 
         if (!existingUser.getEmail().equals(userUpdate.getEmail())) {
             Optional<UserEntity> userWithEmail = userRepository.findByEmail(userUpdate.getEmail());
             if (userWithEmail.isPresent()) {
-                throw new IllegalOperationException("El correo electrónico no puede actualizarse por uno que ya pertenezca a otro usuario.");
+                throw new IllegalOperationException(
+                        "The email address cannot be updated to one that already belongs to another user.");
             }
         }
-        
-        // Note: We avoid updating roles or passwords here to keep it simple and restricted as per rule
+
         existingUser.setFirstName(userUpdate.getFirstName());
         existingUser.setLastName(userUpdate.getLastName());
         existingUser.setEmail(userUpdate.getEmail());
         existingUser.setPhone(userUpdate.getPhone());
-        
-        return userRepository.save(existingUser);
+
+        UserEntity savedUser = userRepository.save(existingUser);
+
+        log.info("User update process completed for id = {}", id);
+        return savedUser;
     }
 
     @Transactional
-    public void deleteUser(Long id, Long currentUserId, String currentUserRole) throws EntityNotFoundException, IllegalOperationException {
-        if (id == null || id <= 0) {
-            throw new IllegalArgumentException("No se aceptan identificadores inválidos.");
-        }
-        UserEntity existingUser = userRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Si el identificador no existe, se muestra un mensaje indicándolo."));
+    public void deleteUser(Long id, Long currentUserId, String currentUserRole)
+            throws EntityNotFoundException, IllegalOperationException {
 
-        // Validation for active adoptions or return processes would go here.
-        // Assuming we check the lists if they are populated:
-        if (!existingUser.getSendMessages().isEmpty() || !existingUser.getReceiveMessages().isEmpty()) {
-             // simplified logic
-             throw new IllegalOperationException("No se puede eliminar un usuario que tenga procesos activos.");
+        log.info("User deletion process started for id = {}", id);
+
+        if (id == null || id <= 0) {
+            throw new IllegalOperationException(USER_ID_NOT_VALID);
         }
-        
+
+        UserEntity existingUser = userRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException(USER_NOT_FOUND));
+
+        boolean hasMessages = !messageRepository.findBySendUserIdOrReceivesUserId(id, id).isEmpty();
+
+        if (hasMessages) {
+            throw new IllegalOperationException(
+                    "A user who has active processes cannot be deleted.");
+        }
+
         userRepository.delete(existingUser);
+
+        log.info("User deletion process completed for id = {}", id);
     }
 }

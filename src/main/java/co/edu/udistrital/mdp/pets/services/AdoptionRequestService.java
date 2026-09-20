@@ -1,52 +1,67 @@
 package co.edu.udistrital.mdp.pets.services;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import co.edu.udistrital.mdp.pets.entities.AdoptionRequestEntity;
-import co.edu.udistrital.mdp.pets.entities.AdopterEntity;
-import co.edu.udistrital.mdp.pets.entities.PetEntity;
-import co.edu.udistrital.mdp.pets.repositories.AdoptionRequestRepository;
-import co.edu.udistrital.mdp.pets.repositories.AdopterRepository;
-import co.edu.udistrital.mdp.pets.repositories.PetRepository;
-import co.edu.udistrital.mdp.pets.exceptions.EntityNotFoundException;
-import co.edu.udistrital.mdp.pets.exceptions.IllegalOperationException;
-
 import java.util.Date;
 import java.util.List;
 
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import co.edu.udistrital.mdp.pets.entities.AdopterEntity;
+import co.edu.udistrital.mdp.pets.entities.AdoptionRequestEntity;
+import co.edu.udistrital.mdp.pets.entities.PetEntity;
+import co.edu.udistrital.mdp.pets.exceptions.EntityNotFoundException;
+import co.edu.udistrital.mdp.pets.exceptions.IllegalOperationException;
+import co.edu.udistrital.mdp.pets.repositories.AdopterRepository;
+import co.edu.udistrital.mdp.pets.repositories.AdoptionRequestRepository;
+import co.edu.udistrital.mdp.pets.repositories.PetRepository;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Service
+@RequiredArgsConstructor
 public class AdoptionRequestService {
 
-    @Autowired
-    private AdoptionRequestRepository adoptionRequestRepository;
+    private final AdoptionRequestRepository adoptionRequestRepository;
+    private final AdopterRepository adopterRepository;
+    private final PetRepository petRepository;
 
-    @Autowired
-    private AdopterRepository adopterRepository;
-
-    @Autowired
-    private PetRepository petRepository;
+    private static final String REQUEST_ID_NOT_VALID = "Invalid identifiers are not accepted.";
 
     @Transactional
-    public AdoptionRequestEntity createAdoptionRequest(AdoptionRequestEntity request, Long currentUserId, String currentUserRole) throws EntityNotFoundException, IllegalOperationException {
+    public AdoptionRequestEntity createAdoptionRequest(
+            AdoptionRequestEntity request,
+            Long currentUserId,
+            String currentUserRole)
+            throws EntityNotFoundException, IllegalOperationException {
+
+        log.info("Adoption request creation process started");
+
         if (request.getAdopter() == null || request.getPet() == null) {
-            throw new IllegalOperationException("Ningún atributo obligatorio puede ser nulo o vacío (adopter y pet son requeridos).");
+            throw new IllegalOperationException(
+                    "Required attributes cannot be null or empty (adopter and pet are required).");
         }
 
         AdopterEntity adopter = adopterRepository.findById(request.getAdopter().getId())
-                .orElseThrow(() -> new EntityNotFoundException("El usuario solicitante no existe o no es válido."));
-        
-        PetEntity pet = petRepository.findById(request.getPet().getId())
-                .orElseThrow(() -> new EntityNotFoundException("La mascota solicitada no existe."));
+                .orElseThrow(() -> new EntityNotFoundException(
+                        "The requesting user does not exist or is not valid."));
 
-        // TODO: Validate if pet is available for adoption based on PetEntity's specific attributes (e.g., pet.getStatus().equals("AVAILABLE"))
-        
+        PetEntity pet = petRepository.findById(request.getPet().getId())
+                .orElseThrow(() -> new EntityNotFoundException(
+                        "The requested pet does not exist."));
+
+        // TODO: Validate pet availability according to its attributes
+        // (e.g. pet.getStatus().equals("AVAILABLE"))
+
         List<AdoptionRequestEntity> activeRequests = adoptionRequestRepository
-                .findByAdopterIdAndPetIdAndStatus(adopter.getId(), pet.getId(), "PENDIENTE");
-        
+                .findByAdopterIdAndPetIdAndStatus(
+                        adopter.getId(),
+                        pet.getId(),
+                        "PENDIENTE");
+
         if (!activeRequests.isEmpty()) {
-            throw new IllegalOperationException("Un usuario no puede tener más de una solicitud activa para la misma mascota.");
+            throw new IllegalOperationException(
+                    "A user cannot have more than one active request for the same pet.");
         }
 
         request.setAdopter(adopter);
@@ -54,88 +69,148 @@ public class AdoptionRequestService {
         request.setStatus("PENDIENTE");
         request.setDate(new Date());
 
-        return adoptionRequestRepository.save(request);
+        AdoptionRequestEntity savedRequest = adoptionRequestRepository.save(request);
+
+        log.info("Adoption request creation process completed");
+        return savedRequest;
     }
 
     @Transactional(readOnly = true)
-    public AdoptionRequestEntity readAdoptionRequest(Long id, Long currentUserId, String currentUserRole) throws EntityNotFoundException, IllegalOperationException {
+    public AdoptionRequestEntity readAdoptionRequest(
+            Long id,
+            Long currentUserId,
+            String currentUserRole)
+            throws EntityNotFoundException, IllegalOperationException {
+
+        log.info("Adoption request query process started for id = {}", id);
+
         if (id == null || id <= 0) {
-            throw new IllegalArgumentException("No se aceptan identificadores inválidos.");
+            throw new IllegalOperationException(REQUEST_ID_NOT_VALID);
         }
 
         AdoptionRequestEntity request = adoptionRequestRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Si la solicitud no existe, se muestra un mensaje de error indicándolo."));
+                .orElseThrow(() -> new EntityNotFoundException(
+                        "If the request does not exist, an error message indicating this is displayed."));
 
-        if (!"ADMIN".equalsIgnoreCase(currentUserRole) && !request.getAdopter().getId().equals(currentUserId)) {
-            throw new IllegalOperationException("Solo el usuario creador de la solicitud y los roles autorizados pueden visualizarla.");
+        if (!"ADMIN".equalsIgnoreCase(currentUserRole)
+                && !request.getAdopter().getId().equals(currentUserId)) {
+            throw new IllegalOperationException(
+                    "Only the user who created the request and authorized roles can view it.");
         }
 
+        log.info("Adoption request query process completed for id = {}", id);
         return request;
     }
 
     @Transactional(readOnly = true)
-    public List<AdoptionRequestEntity> readAllAdoptionRequests(Long currentUserId, String currentUserRole) {
+    public List<AdoptionRequestEntity> readAllAdoptionRequests(
+            Long currentUserId,
+            String currentUserRole) {
+
+        log.info("Process of querying all adoption requests started");
+
+        List<AdoptionRequestEntity> requests;
+
         if ("ADMIN".equalsIgnoreCase(currentUserRole)) {
-            return adoptionRequestRepository.findAll();
+            requests = adoptionRequestRepository.findAll();
+        } else {
+            // TODO: Replace with a findByAdopterId(currentUserId) repository method when available
+            requests = adoptionRequestRepository.findAll().stream()
+                    .filter(r -> r.getAdopter().getId().equals(currentUserId))
+                    .toList();
         }
-        // In a real scenario we'd create a repository method findByAdopterId(currentUserId)
-        return adoptionRequestRepository.findAll().stream()
-                .filter(r -> r.getAdopter().getId().equals(currentUserId))
-                .toList();
+
+        log.info("Process of querying all adoption requests completed");
+        return requests;
     }
 
     @Transactional
-    public AdoptionRequestEntity updateAdoptionRequest(Long id, AdoptionRequestEntity requestUpdate, Long currentUserId, String currentUserRole) throws EntityNotFoundException, IllegalOperationException {
+    public AdoptionRequestEntity updateAdoptionRequest(
+            Long id,
+            AdoptionRequestEntity requestUpdate,
+            Long currentUserId,
+            String currentUserRole)
+            throws EntityNotFoundException, IllegalOperationException {
+
+        log.info("Adoption request update process started for id = {}", id);
+
         if (id == null || id <= 0) {
-            throw new IllegalArgumentException("No se aceptan identificadores inválidos.");
+            throw new IllegalOperationException(REQUEST_ID_NOT_VALID);
         }
 
         AdoptionRequestEntity existingRequest = adoptionRequestRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Solicitud no encontrada."));
+                .orElseThrow(() -> new EntityNotFoundException(
+                        "Adoption request not found."));
 
-        if ("APROBADA".equalsIgnoreCase(existingRequest.getStatus()) || "RECHAZADA".equalsIgnoreCase(existingRequest.getStatus())) {
-            throw new IllegalOperationException("Una solicitud en estado finalizado (aprobada o rechazada) no puede volver a estado pendiente o modificarse.");
+        if ("APROBADA".equalsIgnoreCase(existingRequest.getStatus())
+                || "RECHAZADA".equalsIgnoreCase(existingRequest.getStatus())) {
+            throw new IllegalOperationException(
+                    "A request in a final state (approved or rejected) cannot be returned to pending status or modified.");
         }
 
-        // We check if the requestUpdate attempts to change the pet or user (not allowed)
-        if (requestUpdate.getPet() != null && !existingRequest.getPet().getId().equals(requestUpdate.getPet().getId())) {
-             throw new IllegalOperationException("La mascota asociada no puede ser modificada tras la creación.");
+        if (requestUpdate.getPet() != null
+                && !existingRequest.getPet().getId().equals(requestUpdate.getPet().getId())) {
+            throw new IllegalOperationException(
+                    "The associated pet cannot be modified after creation.");
         }
 
-        if (requestUpdate.getStatus() != null && !existingRequest.getStatus().equalsIgnoreCase(requestUpdate.getStatus())) {
-            // Check roles
+        if (requestUpdate.getStatus() != null
+                && !existingRequest.getStatus().equalsIgnoreCase(requestUpdate.getStatus())) {
+
             if (!"ADMIN".equalsIgnoreCase(currentUserRole)) {
-                if ("CANCELADA".equalsIgnoreCase(requestUpdate.getStatus()) && existingRequest.getAdopter().getId().equals(currentUserId)) {
-                    // Valid case: user cancelling their own request
+
+                if ("CANCELADA".equalsIgnoreCase(requestUpdate.getStatus())
+                        && existingRequest.getAdopter().getId().equals(currentUserId)) {
+
                     existingRequest.setStatus("CANCELADA");
+
                 } else {
-                    throw new IllegalOperationException("El estado de la solicitud solo puede ser modificado por administradores, a menos que sea el usuario cancelando su propia solicitud.");
+                    throw new IllegalOperationException(
+                            "The request status can only be modified by administrators, unless the user is canceling their own request.");
                 }
+
             } else {
                 existingRequest.setStatus(requestUpdate.getStatus().toUpperCase());
             }
         }
 
-        return adoptionRequestRepository.save(existingRequest);
+        AdoptionRequestEntity savedRequest = adoptionRequestRepository.save(existingRequest);
+
+        log.info("Adoption request update process completed for id = {}", id);
+        return savedRequest;
     }
 
     @Transactional
-    public void deleteAdoptionRequest(Long id, Long currentUserId, String currentUserRole) throws EntityNotFoundException, IllegalOperationException {
+    public void deleteAdoptionRequest(
+            Long id,
+            Long currentUserId,
+            String currentUserRole)
+            throws EntityNotFoundException, IllegalOperationException {
+
+        log.info("Adoption request deletion process started for id = {}", id);
+
         if (id == null || id <= 0) {
-            throw new IllegalArgumentException("No se aceptan identificadores inválidos.");
+            throw new IllegalOperationException(REQUEST_ID_NOT_VALID);
         }
 
         AdoptionRequestEntity existingRequest = adoptionRequestRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Si el identificador no existe, se muestra un mensaje indicándolo."));
+                .orElseThrow(() -> new EntityNotFoundException(
+                        "If the identifier does not exist, a message indicating this is displayed."));
 
-        if ("APROBADA".equalsIgnoreCase(existingRequest.getStatus()) || "RECHAZADA".equalsIgnoreCase(existingRequest.getStatus())) {
-            throw new IllegalOperationException("No se puede eliminar físicamente una solicitud que ya haya sido procesada (solo se permite cancelación de pendientes).");
+        if ("APROBADA".equalsIgnoreCase(existingRequest.getStatus())
+                || "RECHAZADA".equalsIgnoreCase(existingRequest.getStatus())) {
+            throw new IllegalOperationException(
+                    "A request that has already been processed cannot be physically deleted (only pending requests can be canceled).");
         }
 
-        if (!"ADMIN".equalsIgnoreCase(currentUserRole) && !existingRequest.getAdopter().getId().equals(currentUserId)) {
-             throw new IllegalOperationException("No tiene permisos para eliminar o cancelar esta solicitud.");
+        if (!"ADMIN".equalsIgnoreCase(currentUserRole)
+                && !existingRequest.getAdopter().getId().equals(currentUserId)) {
+            throw new IllegalOperationException(
+                    "You do not have permission to delete or cancel this request.");
         }
 
         adoptionRequestRepository.delete(existingRequest);
+
+        log.info("Adoption request deletion process completed for id = {}", id);
     }
 }
