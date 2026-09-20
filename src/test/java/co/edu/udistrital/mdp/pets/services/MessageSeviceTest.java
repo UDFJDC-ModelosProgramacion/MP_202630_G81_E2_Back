@@ -280,14 +280,25 @@ class MessageServiceTest {
     }
 
     @Test
-    void testDeleteMessageNotYetImplemented() {
+    void testDeleteMessageHidesForRequestingUser() throws EntityNotFoundException, IllegalOperationException {
         MessageEntity existingMessage = messageList.get(0);
+        Long requesterId = userList.get(0).getId();
 
-        // Logical deletion is not implemented in the base schema, so this
-        // always throws even for the sender/recipient — see TODO in the service.
-        assertThrows(IllegalOperationException.class, () -> {
-            messageService.deleteMessage(existingMessage.getId(), userList.get(0).getId());
-        });
+        boolean isSender = existingMessage.getSendUser().getId().equals(requesterId);
+        boolean isReceiver = existingMessage.getReceivesUser().getId().equals(requesterId);
+        assertTrue(isSender || isReceiver,
+                "This test assumes userList.get(0) is the sender or recipient of messageList.get(0)");
+
+        messageService.deleteMessage(existingMessage.getId(), requesterId);
+
+        MessageEntity updated = messageRepository.findById(existingMessage.getId()).orElseThrow();
+        if (isSender) {
+            assertTrue(updated.getHiddenForSender());
+            assertFalse(updated.getHiddenForReceiver());
+        } else {
+            assertTrue(updated.getHiddenForReceiver());
+            assertFalse(updated.getHiddenForSender());
+        }
     }
 
     @Test
