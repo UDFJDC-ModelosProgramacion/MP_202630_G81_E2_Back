@@ -24,6 +24,7 @@ import lombok.extern.slf4j.Slf4j;
 public class FollowUpService {
 
 	private static final String FINALIZED_STATUS = "FINALIZED";
+	private static final String ADMIN_ROLE = "ADMIN";
 
 	private static final String FOLLOW_UP_ID_INVALID = "Follow-up id is not valid";
 	private static final String FOLLOW_UP_NOT_FOUND = "Follow-up not found";
@@ -122,7 +123,20 @@ public class FollowUpService {
 	@Transactional
 	public FollowUpEntity getFollowUp(Long followUpId, Long requesterId)
 			throws EntityNotFoundException, IllegalOperationException {
+		return getFollowUp(followUpId, requesterId, null);
+	}
+
+	/**
+	 * Obtiene un seguimiento a partir de su id. Pueden consultarlo los
+	 * administradores, el veterinario responsable y el adoptante asociado.
+	 */
+	@Transactional
+	public FollowUpEntity getFollowUp(Long followUpId, Long requesterId, String requesterRole)
+			throws EntityNotFoundException, IllegalOperationException {
 		FollowUpEntity followUp = fetchFollowUpById(followUpId);
+
+		if (ADMIN_ROLE.equalsIgnoreCase(requesterRole))
+			return followUp;
 
 		if (requesterId == null)
 			throw new IllegalOperationException("A requester is required to consult a follow-up");
@@ -133,7 +147,7 @@ public class FollowUpService {
 				&& requesterId.equals(followUp.getVeterinarian().getId());
 		if (!isAssociatedAdopter && !isAssociatedVeterinarian)
 			throw new IllegalOperationException(
-					"Only authorized staff (veterinarians) and the associated adopter can consult a follow-up");
+					"Only authorized staff (administrators/veterinarians) and the associated adopter can consult a follow-up");
 
 		return followUp;
 	}

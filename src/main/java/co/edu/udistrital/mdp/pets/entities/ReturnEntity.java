@@ -20,6 +20,7 @@ public class ReturnEntity extends BaseEntity {
 	@Temporal(TemporalType.DATE)
 	private Date date;
 	private String reason;
+	private String status;
 
 	@PodamExclude
 	@OneToOne
@@ -32,10 +33,4 @@ public class ReturnEntity extends BaseEntity {
 	@PodamExclude
 	@ManyToOne
 	private ShelterEntity shelter;
-
-	public String
-
-	public String getReason(){
-        return reason;
-    }
 }
