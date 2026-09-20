@@ -87,7 +87,7 @@ public class UserService {
 	 */
 	@Transactional(readOnly = true)
 	public List<UserEntity> readAllUsers(String currentUserRole) throws IllegalOperationException {
-		return readAllUsers(currentUserRole, null, null, null, null);
+		return doReadAllUsers(currentUserRole, null, null, null, null);
 	}
 
 	/**
@@ -97,6 +97,17 @@ public class UserService {
 	 */
 	@Transactional(readOnly = true)
 	public List<UserEntity> readAllUsers(String currentUserRole, String firstName, String lastName, String email,
+			Long shelterId) throws IllegalOperationException {
+		return doReadAllUsers(currentUserRole, firstName, lastName, email, shelterId);
+	}
+
+	/**
+	 * Lógica compartida de consulta y filtrado. No está anotada como
+	 * @Transactional para evitar la auto-invocación entre métodos transaccionales
+	 * de la misma clase (el proxy de Spring no intercepta llamadas internas vía
+	 * "this"); cada punto de entrada público ya está anotado y delega aquí.
+	 */
+	private List<UserEntity> doReadAllUsers(String currentUserRole, String firstName, String lastName, String email,
 			Long shelterId) throws IllegalOperationException {
 		log.info("Inicia proceso de consultar todos los usuarios");
 
