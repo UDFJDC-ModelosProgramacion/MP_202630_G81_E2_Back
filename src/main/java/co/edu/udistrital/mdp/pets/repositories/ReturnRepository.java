@@ -7,4 +7,7 @@ import co.edu.udistrital.mdp.pets.entities.ReturnEntity;
 
 @Repository
 public interface ReturnRepository extends JpaRepository<ReturnEntity, Long> {
+    
+	boolean existsByAdoption_Pet_Id(Long petId);
+	boolean existsByAdoption_Id(Long adoptionId);
 }
