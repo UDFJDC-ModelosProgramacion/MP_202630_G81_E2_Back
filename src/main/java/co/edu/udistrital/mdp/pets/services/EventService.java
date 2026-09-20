@@ -24,8 +24,8 @@ public class EventService {
 	private final EventRepository eventRepository;
 	private final ShelterRepository shelterRepository;
 
-	private final String EVENT_ID_NOT_VALID = "Event id is not valid";
-	private final String EVENT_NOT_FOUND = "Event not found";
+	private static final String EVENT_ID_NOT_VALID = "Event id is not valid";
+	private static final String EVENT_NOT_FOUND = "Event not found";
 
 	@Transactional
 	public EventEntity createEvent(EventEntity event) throws EntityNotFoundException, IllegalOperationException {
