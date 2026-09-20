@@ -1,38 +1,39 @@
-package co.edu.udistrital.mdp.ZZZ.services;
+package co.edu.udistrital.mdp.pets.services;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import co.edu.udistrital.mdp.ZZZ.entities.PetEntity;
-import co.edu.udistrital.mdp.ZZZ.entities.PhotoEntity;
-import co.edu.udistrital.mdp.ZZZ.entities.ShelterEntity;
-import co.edu.udistrital.mdp.ZZZ.exceptions.EntityNotFoundException;
-import co.edu.udistrital.mdp.ZZZ.exceptions.IllegalOperationException;
-import co.edu.udistrital.mdp.ZZZ.repositories.PetRepository;
-import co.edu.udistrital.mdp.ZZZ.repositories.PhotoRepository;
-import co.edu.udistrital.mdp.ZZZ.repositories.ShelterRepository;
+import co.edu.udistrital.mdp.pets.entities.PetEntity;
+import co.edu.udistrital.mdp.pets.entities.PhotoEntity;
+import co.edu.udistrital.mdp.pets.entities.ShelterEntity;
+import co.edu.udistrital.mdp.pets.exceptions.EntityNotFoundException;
+import co.edu.udistrital.mdp.pets.exceptions.IllegalOperationException;
+import co.edu.udistrital.mdp.pets.repositories.AdoptionRepository;
+import co.edu.udistrital.mdp.pets.repositories.PetRepository;
+import co.edu.udistrital.mdp.pets.repositories.PhotoRepository;
+import co.edu.udistrital.mdp.pets.repositories.ShelterRepository;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Service
+@RequiredArgsConstructor 
 public class PhotoService {
 
 	private static final Set<String> VALID_FORMATS = Set.of("JPG", "JPEG", "PNG", "GIF", "WEBP", "BMP");
 	private static final String FINALIZED_STATUS = "FINALIZED";
 
-	@Autowired
-	PhotoRepository photoRepository;
+	private static final String PHOTO_NOT_FOUND = "Photo not found";
+	private static final String PHOTO_ID_NOT_VALID = "Photo id is not valid";
 
-	@Autowired
-	PetRepository petRepository;
-
-	@Autowired
-	ShelterRepository shelterRepository;
+	private final PhotoRepository photoRepository;
+	private final PetRepository petRepository;
+	private final ShelterRepository shelterRepository;
+	private final AdoptionRepository adoptionRepository;
 
 	/**
 	 * Crea una nueva foto.
@@ -121,11 +122,11 @@ public class PhotoService {
 	public PhotoEntity getPhoto(Long photoId) throws EntityNotFoundException, IllegalOperationException {
 		log.info("Inicia proceso de consultar la foto con id = {}", photoId);
 		if (photoId == null || photoId <= 0)
-			throw new IllegalOperationException("Photo id is not valid");
+			throw new IllegalOperationException(PHOTO_ID_NOT_VALID);
 
 		Optional<PhotoEntity> photo = photoRepository.findById(photoId);
 		if (photo.isEmpty())
-			throw new EntityNotFoundException("Photo not found");
+			throw new EntityNotFoundException(PHOTO_NOT_FOUND);
 
 		log.info("Termina proceso de consultar la foto con id = {}", photoId);
 		return photo.get();
@@ -140,11 +141,11 @@ public class PhotoService {
 			throws EntityNotFoundException, IllegalOperationException {
 		log.info("Inicia proceso de actualizar la foto con id = {}", photoId);
 		if (photoId == null || photoId <= 0)
-			throw new IllegalOperationException("Photo id is not valid");
+			throw new IllegalOperationException(PHOTO_ID_NOT_VALID);
 
 		Optional<PhotoEntity> existing = photoRepository.findById(photoId);
 		if (existing.isEmpty())
-			throw new EntityNotFoundException("Photo not found");
+			throw new EntityNotFoundException(PHOTO_NOT_FOUND);
 
 		if (photo.getUrl() == null || photo.getUrl().isBlank())
 			throw new IllegalOperationException("The new photo url cannot be null or empty");
@@ -169,11 +170,11 @@ public class PhotoService {
 	public void deletePhoto(Long photoId) throws EntityNotFoundException, IllegalOperationException {
 		log.info("Inicia proceso de borrar la foto con id = {}", photoId);
 		if (photoId == null || photoId <= 0)
-			throw new IllegalOperationException("Photo id is not valid");
+			throw new IllegalOperationException(PHOTO_ID_NOT_VALID);
 
 		Optional<PhotoEntity> photo = photoRepository.findById(photoId);
 		if (photo.isEmpty())
-			throw new EntityNotFoundException("Photo not found");
+			throw new EntityNotFoundException(PHOTO_NOT_FOUND);
 
 		PhotoEntity current = photo.get();
 		if (current.getPet() != null && isMainPhotoOfActivePet(current))
@@ -185,11 +186,15 @@ public class PhotoService {
 	}
 
 	private boolean isMainPhotoOfActivePet(PhotoEntity photo) {
-		PetEntity pet = photo.getPet();
-		if (pet.getPhotos() == null || pet.getPhotos().size() != 1)
+		Long petId = photo.getPet().getId();
+		long photoCount = photoRepository.findAll().stream()
+				.filter(p -> p.getPet() != null && petId.equals(p.getPet().getId()))
+				.count();
+		if (photoCount != 1)
 			return false;
-		boolean hasFinalizedAdoption = pet.getAdoptions() != null && pet.getAdoptions().stream()
-				.anyMatch(a -> a.getStatus() != null && FINALIZED_STATUS.equalsIgnoreCase(a.getStatus()));
+		boolean hasFinalizedAdoption = adoptionRepository.findAll().stream()
+				.anyMatch(a -> a.getPet() != null && petId.equals(a.getPet().getId())
+						&& a.getStatus() != null && FINALIZED_STATUS.equalsIgnoreCase(a.getStatus()));
 		return !hasFinalizedAdoption;
 	}
 }

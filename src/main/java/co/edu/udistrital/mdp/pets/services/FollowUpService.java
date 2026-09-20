@@ -1,37 +1,37 @@
-package co.edu.udistrital.mdp.ZZZ.services;
+package co.edu.udistrital.mdp.pets.services;
 
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import co.edu.udistrital.mdp.ZZZ.entities.AdoptionEntity;
-import co.edu.udistrital.mdp.ZZZ.entities.FollowUpEntity;
-import co.edu.udistrital.mdp.ZZZ.entities.VeterinarianEntity;
-import co.edu.udistrital.mdp.ZZZ.exceptions.EntityNotFoundException;
-import co.edu.udistrital.mdp.ZZZ.exceptions.IllegalOperationException;
-import co.edu.udistrital.mdp.ZZZ.repositories.AdoptionRepository;
-import co.edu.udistrital.mdp.ZZZ.repositories.FollowUpRepository;
-import co.edu.udistrital.mdp.ZZZ.repositories.VeterinarianRepository;
+import co.edu.udistrital.mdp.pets.entities.AdoptionEntity;
+import co.edu.udistrital.mdp.pets.entities.FollowUpEntity;
+import co.edu.udistrital.mdp.pets.entities.VeterinarianEntity;
+import co.edu.udistrital.mdp.pets.exceptions.EntityNotFoundException;
+import co.edu.udistrital.mdp.pets.exceptions.IllegalOperationException;
+import co.edu.udistrital.mdp.pets.repositories.AdoptionRepository;
+import co.edu.udistrital.mdp.pets.repositories.FollowUpRepository;
+import co.edu.udistrital.mdp.pets.repositories.VeterinarianRepository;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Service
+@RequiredArgsConstructor 
 public class FollowUpService {
 
 	private static final String FINALIZED_STATUS = "FINALIZED";
 
-	@Autowired
-	FollowUpRepository followUpRepository;
+	private static final String FOLLOW_UP_ID_INVALID = "Follow-up id is not valid";
+	private static final String FOLLOW_UP_NOT_FOUND = "Follow-up not found";
 
-	@Autowired
-	AdoptionRepository adoptionRepository;
 
-	@Autowired
-	VeterinarianRepository veterinarianRepository;
+	private final FollowUpRepository followUpRepository;
+	private final AdoptionRepository adoptionRepository;
+	private final VeterinarianRepository veterinarianRepository;
 
 	/**
 	 * Crea un nuevo seguimiento de una adopción.
@@ -39,7 +39,7 @@ public class FollowUpService {
 	@Transactional
 	public FollowUpEntity createFollowUp(FollowUpEntity followUp)
 			throws EntityNotFoundException, IllegalOperationException {
-		log.info("Inicia proceso de creación del seguimiento");
+		log.info("Initiate the process of creating the tracking mechanism.");
 
 		if (followUp.getDate() == null)
 			throw new IllegalOperationException("Follow-up date cannot be null");
@@ -68,7 +68,7 @@ public class FollowUpService {
 		followUp.setVeterinarian(veterinarian.get());
 		followUp.setAdoption(adoption.get());
 
-		log.info("Termina proceso de creación del seguimiento");
+		log.info("The process of creating the tracking setup is complete.");
 		return followUpRepository.save(followUp);
 	}
 
@@ -77,10 +77,10 @@ public class FollowUpService {
 	 */
 	@Transactional
 	public List<FollowUpEntity> getFollowUps() {
-		log.info("Inicia proceso de consultar todos los seguimientos");
+		log.info("Initiate the process of querying all follow-ups.");
 		List<FollowUpEntity> followUps = followUpRepository.findAll();
 		if (followUps.isEmpty())
-			log.info("No hay seguimientos registrados");
+			log.info("No hay seguimientos registrados.");
 		return followUps;
 	}
 
@@ -89,12 +89,12 @@ public class FollowUpService {
 	 */
 	@Transactional
 	public List<FollowUpEntity> getFollowUps(Long adoptionId) {
-		log.info("Inicia proceso de consultar los seguimientos de la adopción con id = {}", adoptionId);
+		log.info("Initiate the process of checking adoption follow-ups with id = {}", adoptionId);
 		List<FollowUpEntity> followUps = followUpRepository.findAll().stream()
 				.filter(f -> f.getAdoption() != null && adoptionId.equals(f.getAdoption().getId()))
 				.toList();
 		if (followUps.isEmpty())
-			log.info("No hay seguimientos registrados para la adopción consultada");
+			log.info("No follow-ups are recorded for the adoption in question.");
 		return followUps;
 	}
 
@@ -103,15 +103,15 @@ public class FollowUpService {
 	 */
 	@Transactional
 	public FollowUpEntity getFollowUp(Long followUpId) throws EntityNotFoundException, IllegalOperationException {
-		log.info("Inicia proceso de consultar el seguimiento con id = {}", followUpId);
+		log.info("Starting the process to check the tracking for id = {}", followUpId);
 		if (followUpId == null || followUpId <= 0)
-			throw new IllegalOperationException("Follow-up id is not valid");
+			throw new IllegalOperationException(FOLLOW_UP_ID_INVALID);
 
 		Optional<FollowUpEntity> followUp = followUpRepository.findById(followUpId);
 		if (followUp.isEmpty())
-			throw new EntityNotFoundException("Follow-up not found");
+			throw new EntityNotFoundException(FOLLOW_UP_NOT_FOUND);
 
-		log.info("Termina proceso de consultar el seguimiento con id = {}", followUpId);
+		log.info("Tracking inquiry process for id = {} completed.", followUpId);
 		return followUp.get();
 	}
 
@@ -122,7 +122,7 @@ public class FollowUpService {
 	@Transactional
 	public FollowUpEntity getFollowUp(Long followUpId, Long requesterId)
 			throws EntityNotFoundException, IllegalOperationException {
-		FollowUpEntity followUp = getFollowUp(followUpId);
+		FollowUpEntity followUp = fetchFollowUpById(followUpId);
 
 		if (requesterId == null)
 			throw new IllegalOperationException("A requester is required to consult a follow-up");
@@ -138,6 +138,17 @@ public class FollowUpService {
 		return followUp;
 	}
 
+	private FollowUpEntity fetchFollowUpById(Long followUpId) throws EntityNotFoundException, IllegalOperationException {
+		if (followUpId == null || followUpId <= 0)
+			throw new IllegalOperationException(FOLLOW_UP_ID_INVALID);
+
+		Optional<FollowUpEntity> followUp = followUpRepository.findById(followUpId);
+		if (followUp.isEmpty())
+			throw new EntityNotFoundException(FOLLOW_UP_NOT_FOUND);
+
+		return followUp.get();
+	}
+
 	/**
 	 * Actualiza un seguimiento existente. La adopción asociada al seguimiento
 	 * original no puede ser modificada a otra distinta.
@@ -145,13 +156,13 @@ public class FollowUpService {
 	@Transactional
 	public FollowUpEntity updateFollowUp(Long followUpId, FollowUpEntity followUp)
 			throws EntityNotFoundException, IllegalOperationException {
-		log.info("Inicia proceso de actualizar el seguimiento con id = {}", followUpId);
+		log.info("Initiating the process to update the tracking with id = {}", followUpId);
 		if (followUpId == null || followUpId <= 0)
-			throw new IllegalOperationException("Follow-up id is not valid");
+			throw new IllegalOperationException(FOLLOW_UP_ID_INVALID);
 
 		Optional<FollowUpEntity> existing = followUpRepository.findById(followUpId);
 		if (existing.isEmpty())
-			throw new EntityNotFoundException("Follow-up not found");
+			throw new EntityNotFoundException(FOLLOW_UP_NOT_FOUND);
 
 		if (followUp.getDate() == null)
 			throw new IllegalOperationException("Follow-up date cannot be null");
@@ -166,7 +177,7 @@ public class FollowUpService {
 		current.setDate(followUp.getDate());
 		current.setObservation(followUp.getObservation());
 
-		log.info("Termina proceso de actualizar el seguimiento con id = {}", followUpId);
+		log.info("Process of updating the tracking with id = {} completed.", followUpId);
 		return followUpRepository.save(current);
 	}
 
@@ -175,13 +186,13 @@ public class FollowUpService {
 	 */
 	@Transactional
 	public void deleteFollowUp(Long followUpId) throws EntityNotFoundException, IllegalOperationException {
-		log.info("Inicia proceso de borrar el seguimiento con id = {}", followUpId);
+		log.info("Starting the process to delete the tracking with id = {}", followUpId);
 		if (followUpId == null || followUpId <= 0)
-			throw new IllegalOperationException("Follow-up id is not valid");
+			throw new IllegalOperationException(FOLLOW_UP_ID_INVALID);
 
 		Optional<FollowUpEntity> followUp = followUpRepository.findById(followUpId);
 		if (followUp.isEmpty())
-			throw new EntityNotFoundException("Follow-up not found");
+			throw new EntityNotFoundException(FOLLOW_UP_NOT_FOUND);
 
 		FollowUpEntity current = followUp.get();
 		if (current.getDate() != null && current.getDate().before(new Date()))
@@ -189,6 +200,6 @@ public class FollowUpService {
 					"A follow-up that has already been closed or validated cannot be deleted; it preserves the shelter history");
 
 		followUpRepository.deleteById(followUpId);
-		log.info("Termina proceso de borrar el seguimiento con id = {}", followUpId);
+		log.info("Finished the process of deleting the tracking with id = {}", followUpId);
 	}
 }

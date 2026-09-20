@@ -1,43 +1,40 @@
-package co.edu.udistrital.mdp.ZZZ.services;
+package co.edu.udistrital.mdp.pets.services;
 
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import co.edu.udistrital.mdp.ZZZ.entities.AdopterEntity;
-import co.edu.udistrital.mdp.ZZZ.entities.ShelterEntity;
-import co.edu.udistrital.mdp.ZZZ.entities.TrialCohabitationEntity;
-import co.edu.udistrital.mdp.ZZZ.exceptions.EntityNotFoundException;
-import co.edu.udistrital.mdp.ZZZ.exceptions.IllegalOperationException;
-import co.edu.udistrital.mdp.ZZZ.repositories.AdopterRepository;
-import co.edu.udistrital.mdp.ZZZ.repositories.PetRepository;
-import co.edu.udistrital.mdp.ZZZ.repositories.ShelterRepository;
-import co.edu.udistrital.mdp.ZZZ.repositories.TrialCohabitationRepository;
+import co.edu.udistrital.mdp.pets.entities.AdopterEntity;
+import co.edu.udistrital.mdp.pets.entities.ShelterEntity;
+import co.edu.udistrital.mdp.pets.entities.TrialCohabitationEntity;
+import co.edu.udistrital.mdp.pets.exceptions.EntityNotFoundException;
+import co.edu.udistrital.mdp.pets.exceptions.IllegalOperationException;
+import co.edu.udistrital.mdp.pets.repositories.AdopterRepository;
+import co.edu.udistrital.mdp.pets.repositories.PetRepository;
+import co.edu.udistrital.mdp.pets.repositories.ShelterRepository;
+import co.edu.udistrital.mdp.pets.repositories.TrialCohabitationRepository;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Service
+@RequiredArgsConstructor 
 public class TrialCohabitationService {
 
 	public static final String PENDING_STATUS = "PENDING";
 	public static final String IN_PROGRESS_STATUS = "IN_PROGRESS";
 	public static final String FINALIZED_STATUS = "FINALIZED";
 
-	@Autowired
-	TrialCohabitationRepository trialCohabitationRepository;
+	private static final String TRIAL_ID_NOT_VALID = "Trial id is not valid";
+	private static final String TRIAL_NOT_FOUND = "Trial cohabitation not found";
 
-	@Autowired
-	AdopterRepository adopterRepository;
-
-	@Autowired
-	ShelterRepository shelterRepository;
-
-	@Autowired
-	PetRepository petRepository;
+	private final TrialCohabitationRepository trialCohabitationRepository;
+	private final AdopterRepository adopterRepository;
+	private final ShelterRepository shelterRepository;
+	private final PetRepository petRepository;
 
 	/**
 	 * Crea una nueva convivencia de prueba.
@@ -50,18 +47,45 @@ public class TrialCohabitationService {
 		if (trial.getStartDate() == null)
 			throw new IllegalOperationException("Trial start date cannot be null");
 
+		AdopterEntity adopter = resolveAdopter(trial);
+		ShelterEntity shelter = resolveShelter(trial);
+		Long petId = resolvePetId(trial);
+		validatePetNotAlreadyInTrial(trial, petId);
+
+		Date today = new Date();
+		if (trial.getStartDate().before(today))
+			throw new IllegalOperationException("The trial start date cannot be before the current date");
+
+		trial.setAdopter(adopter);
+		trial.setShelter(shelter);
+		if (trial.getStatus() == null || trial.getStatus().isBlank())
+			trial.setStatus(PENDING_STATUS);
+
+		log.info("Termina proceso de creación de la convivencia de prueba");
+		return trialCohabitationRepository.save(trial);
+	}
+
+	private AdopterEntity resolveAdopter(TrialCohabitationEntity trial)
+			throws EntityNotFoundException, IllegalOperationException {
 		if (trial.getAdopter() == null || trial.getAdopter().getId() == null)
 			throw new IllegalOperationException("Trial must be associated with an existing adopter");
 		Optional<AdopterEntity> adopter = adopterRepository.findById(trial.getAdopter().getId());
 		if (adopter.isEmpty())
 			throw new EntityNotFoundException("Adopter not found");
+		return adopter.get();
+	}
 
+	private ShelterEntity resolveShelter(TrialCohabitationEntity trial)
+			throws EntityNotFoundException, IllegalOperationException {
 		if (trial.getShelter() == null || trial.getShelter().getId() == null)
 			throw new IllegalOperationException("Trial must be associated with an existing shelter");
 		Optional<ShelterEntity> shelter = shelterRepository.findById(trial.getShelter().getId());
 		if (shelter.isEmpty())
 			throw new EntityNotFoundException("Shelter not found");
+		return shelter.get();
+	}
 
+	private Long resolvePetId(TrialCohabitationEntity trial) throws EntityNotFoundException, IllegalOperationException {
 		if (trial.getTrialCohabitationRequest() == null)
 			throw new IllegalOperationException(
 					"Trial must be associated with a cohabitation request that references an existing pet");
@@ -70,7 +94,11 @@ public class TrialCohabitationService {
 				: trial.getTrialCohabitationRequest().getPet().getId();
 		if (petId == null || petRepository.findById(petId).isEmpty())
 			throw new EntityNotFoundException("Pet not found");
+		return petId;
+	}
 
+	private void validatePetNotAlreadyInTrial(TrialCohabitationEntity trial, Long petId)
+			throws IllegalOperationException {
 		boolean petAlreadyInTrial = trialCohabitationRepository.findAll().stream()
 				.anyMatch(t -> (trial.getId() == null || !trial.getId().equals(t.getId()))
 						&& t.getTrialCohabitationRequest() != null
@@ -81,18 +109,6 @@ public class TrialCohabitationService {
 		if (petAlreadyInTrial)
 			throw new IllegalOperationException(
 					"The requested pet is already involved in another in-progress trial cohabitation");
-
-		Date today = new Date();
-		if (trial.getStartDate().before(today))
-			throw new IllegalOperationException("The trial start date cannot be before the current date");
-
-		trial.setAdopter(adopter.get());
-		trial.setShelter(shelter.get());
-		if (trial.getStatus() == null || trial.getStatus().isBlank())
-			trial.setStatus(PENDING_STATUS);
-
-		log.info("Termina proceso de creación de la convivencia de prueba");
-		return trialCohabitationRepository.save(trial);
 	}
 
 	/**
@@ -135,11 +151,11 @@ public class TrialCohabitationService {
 	public TrialCohabitationEntity readTrial(Long trialId) throws EntityNotFoundException, IllegalOperationException {
 		log.info("Inicia proceso de consultar la convivencia de prueba con id = {}", trialId);
 		if (trialId == null || trialId <= 0)
-			throw new IllegalOperationException("Trial id is not valid");
+			throw new IllegalOperationException(TRIAL_ID_NOT_VALID);
 
 		Optional<TrialCohabitationEntity> trial = trialCohabitationRepository.findById(trialId);
 		if (trial.isEmpty())
-			throw new EntityNotFoundException("Trial cohabitation not found");
+			throw new EntityNotFoundException(TRIAL_NOT_FOUND);
 
 		log.info("Termina proceso de consultar la convivencia de prueba con id = {}", trialId);
 		return trial.get();
@@ -153,11 +169,11 @@ public class TrialCohabitationService {
 			throws EntityNotFoundException, IllegalOperationException {
 		log.info("Inicia proceso de actualizar la convivencia de prueba con id = {}", trialId);
 		if (trialId == null || trialId <= 0)
-			throw new IllegalOperationException("Trial id is not valid");
+			throw new IllegalOperationException(TRIAL_ID_NOT_VALID);
 
 		Optional<TrialCohabitationEntity> existing = trialCohabitationRepository.findById(trialId);
 		if (existing.isEmpty())
-			throw new EntityNotFoundException("Trial cohabitation not found");
+			throw new EntityNotFoundException(TRIAL_NOT_FOUND);
 
 		if (trial.getStartDate() == null)
 			throw new IllegalOperationException("Trial start date cannot be null");
@@ -191,11 +207,11 @@ public class TrialCohabitationService {
 	public void deleteTrial(Long trialId) throws EntityNotFoundException, IllegalOperationException {
 		log.info("Inicia proceso de borrar la convivencia de prueba con id = {}", trialId);
 		if (trialId == null || trialId <= 0)
-			throw new IllegalOperationException("Trial id is not valid");
+			throw new IllegalOperationException(TRIAL_ID_NOT_VALID);
 
 		Optional<TrialCohabitationEntity> trial = trialCohabitationRepository.findById(trialId);
 		if (trial.isEmpty())
-			throw new EntityNotFoundException("Trial cohabitation not found");
+			throw new EntityNotFoundException(TRIAL_NOT_FOUND);
 
 		TrialCohabitationEntity current = trial.get();
 		if (!PENDING_STATUS.equalsIgnoreCase(current.getStatus()))

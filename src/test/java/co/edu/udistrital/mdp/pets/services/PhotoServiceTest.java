@@ -1,4 +1,4 @@
-package co.edu.udistrital.mdp.ZZZ.services;
+package co.edu.udistrital.mdp.pets.services;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -17,13 +17,13 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.context.annotation.Import;
 import org.springframework.transaction.annotation.Transactional;
 
-import co.edu.udistrital.mdp.ZZZ.entities.AdopterEntity;
-import co.edu.udistrital.mdp.ZZZ.entities.AdoptionEntity;
-import co.edu.udistrital.mdp.ZZZ.entities.PetEntity;
-import co.edu.udistrital.mdp.ZZZ.entities.PhotoEntity;
-import co.edu.udistrital.mdp.ZZZ.entities.ShelterEntity;
-import co.edu.udistrital.mdp.ZZZ.exceptions.EntityNotFoundException;
-import co.edu.udistrital.mdp.ZZZ.exceptions.IllegalOperationException;
+import co.edu.udistrital.mdp.pets.entities.AdopterEntity;
+import co.edu.udistrital.mdp.pets.entities.AdoptionEntity;
+import co.edu.udistrital.mdp.pets.entities.PetEntity;
+import co.edu.udistrital.mdp.pets.entities.PhotoEntity;
+import co.edu.udistrital.mdp.pets.entities.ShelterEntity;
+import co.edu.udistrital.mdp.pets.exceptions.EntityNotFoundException;
+import co.edu.udistrital.mdp.pets.exceptions.IllegalOperationException;
 import uk.co.jemos.podam.api.PodamFactory;
 import uk.co.jemos.podam.api.PodamFactoryImpl;
 
