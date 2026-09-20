@@ -123,7 +123,7 @@ public class FollowUpService {
 	@Transactional
 	public FollowUpEntity getFollowUp(Long followUpId, Long requesterId)
 			throws EntityNotFoundException, IllegalOperationException {
-		return doGetFollowUp(followUpId, requesterId, null);
+		return getFollowUp(followUpId, requesterId, null);
 	}
 
 	/**
@@ -132,17 +132,6 @@ public class FollowUpService {
 	 */
 	@Transactional
 	public FollowUpEntity getFollowUp(Long followUpId, Long requesterId, String requesterRole)
-			throws EntityNotFoundException, IllegalOperationException {
-		return doGetFollowUp(followUpId, requesterId, requesterRole);
-	}
-
-	/**
-	 * Lógica compartida de consulta con control de acceso. No está anotado como
-	 * @Transactional para evitar la auto-invocación entre métodos transaccionales
-	 * de la misma clase (el proxy de Spring no intercepta llamadas internas via
-	 * "this"); cada punto de entrada público ya está anotado y delega aquí.
-	 */
-	private FollowUpEntity doGetFollowUp(Long followUpId, Long requesterId, String requesterRole)
 			throws EntityNotFoundException, IllegalOperationException {
 		FollowUpEntity followUp = fetchFollowUpById(followUpId);
 

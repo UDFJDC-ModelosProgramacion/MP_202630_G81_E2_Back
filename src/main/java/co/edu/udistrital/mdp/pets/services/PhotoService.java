@@ -42,19 +42,6 @@ public class PhotoService {
 	public PhotoEntity createPhoto(PhotoEntity photo) throws EntityNotFoundException, IllegalOperationException {
 		log.info("Inicia proceso de creación de la foto");
 
-		validatePhotoData(photo);
-
-		if (photo.getPet() == null && photo.getShelter() == null)
-			throw new IllegalOperationException("Photo must be associated with an existing pet, shelter or user");
-
-		attachToPet(photo);
-		attachToShelter(photo);
-
-		log.info("Termina proceso de creación de la foto");
-		return photoRepository.save(photo);
-	}
-
-	private void validatePhotoData(PhotoEntity photo) throws IllegalOperationException {
 		if (photo.getUrl() == null || photo.getUrl().isBlank())
 			throw new IllegalOperationException("Photo url cannot be null or empty");
 
@@ -62,32 +49,32 @@ public class PhotoService {
 			throw new IllegalOperationException("Photo format cannot be null or empty");
 		if (!VALID_FORMATS.contains(photo.getType().toUpperCase()))
 			throw new IllegalOperationException("Photo format is not valid; use JPG, PNG or another supported format");
-	}
 
-	private void attachToPet(PhotoEntity photo) throws EntityNotFoundException, IllegalOperationException {
-		if (photo.getPet() == null)
-			return;
+		if (photo.getPet() == null && photo.getShelter() == null)
+			throw new IllegalOperationException("Photo must be associated with an existing pet, shelter or user");
 
-		if (photo.getPet().getId() == null)
-			throw new IllegalOperationException("Photo must be associated with an existing pet");
+		if (photo.getPet() != null) {
+			if (photo.getPet().getId() == null)
+				throw new IllegalOperationException("Photo must be associated with an existing pet");
+			Optional<PetEntity> pet = petRepository.findById(photo.getPet().getId());
+			if (pet.isEmpty())
+				throw new EntityNotFoundException("Pet not found");
+			photo.setPet(pet.get());
+			pet.get().getPhotos().add(photo);
+		}
 
-		PetEntity pet = petRepository.findById(photo.getPet().getId())
-				.orElseThrow(() -> new EntityNotFoundException("Pet not found"));
-		photo.setPet(pet);
-		pet.getPhotos().add(photo);
-	}
+		if (photo.getShelter() != null) {
+			if (photo.getShelter().getId() == null)
+				throw new IllegalOperationException("Photo must be associated with an existing shelter");
+			Optional<ShelterEntity> shelter = shelterRepository.findById(photo.getShelter().getId());
+			if (shelter.isEmpty())
+				throw new EntityNotFoundException("Shelter not found");
+			photo.setShelter(shelter.get());
+			shelter.get().getPhotos().add(photo);
+		}
 
-	private void attachToShelter(PhotoEntity photo) throws EntityNotFoundException, IllegalOperationException {
-		if (photo.getShelter() == null)
-			return;
-
-		if (photo.getShelter().getId() == null)
-			throw new IllegalOperationException("Photo must be associated with an existing shelter");
-
-		ShelterEntity shelter = shelterRepository.findById(photo.getShelter().getId())
-				.orElseThrow(() -> new EntityNotFoundException("Shelter not found"));
-		photo.setShelter(shelter);
-		shelter.getPhotos().add(photo);
+		log.info("Termina proceso de creación de la foto");
+		return photoRepository.save(photo);
 	}
 
 	/**
@@ -110,11 +97,14 @@ public class PhotoService {
 	public List<PhotoEntity> getPhotos(Long petId, Long shelterId)
 			throws EntityNotFoundException, IllegalOperationException {
 		log.info("Inicia proceso de consultar fotos filtradas");
-		if (petId != null && (petId <= 0 || petRepository.findById(petId).isEmpty()))
-			throw new EntityNotFoundException("Pet not found");
-
-		if (shelterId != null && (shelterId <= 0 || shelterRepository.findById(shelterId).isEmpty()))
-			throw new EntityNotFoundException("Shelter not found");
+		if (petId != null) {
+			if (petId <= 0 || petRepository.findById(petId).isEmpty())
+				throw new EntityNotFoundException("Pet not found");
+		}
+		if (shelterId != null) {
+			if (shelterId <= 0 || shelterRepository.findById(shelterId).isEmpty())
+				throw new EntityNotFoundException("Shelter not found");
+		}
 
 		List<PhotoEntity> photos = photoRepository.findAll().stream()
 				.filter(p -> petId == null || (p.getPet() != null && petId.equals(p.getPet().getId())))
