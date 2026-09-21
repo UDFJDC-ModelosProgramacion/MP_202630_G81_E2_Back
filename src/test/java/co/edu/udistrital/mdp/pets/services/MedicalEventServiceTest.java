@@ -33,6 +33,9 @@ import uk.co.jemos.podam.api.PodamFactoryImpl;
 @Import(MedicalEventService.class)
 class MedicalEventServiceTest {
 
+	private static final Long NON_EXISTENT_ID = 1000L;
+	private static final Long INVALID_ID = 0L;
+
 	@Autowired
 	private MedicalEventService medicalEventService;
 
@@ -78,33 +81,52 @@ class MedicalEventServiceTest {
 			veterinarianList.add(veterinarianEntity);
 		}
 		for (int i = 0; i < 3; i++) {
-			MedicalEventEntity medicalEventEntity = factory.manufacturePojo(MedicalEventEntity.class);
-			medicalEventEntity.setDate(pastDate());
-			medicalEventEntity.setPet(petList.get(0));
-			medicalEventEntity.setVeterinarian(veterinarianList.get(0));
+			MedicalEventEntity medicalEventEntity = newMedicalEvent(pastDate(), petList.get(0),
+					veterinarianList.get(0));
 			entityManager.persist(medicalEventEntity);
 			medicalEventList.add(medicalEventEntity);
 		}
 	}
 
+	private MedicalEventEntity newMedicalEvent(Date date, PetEntity pet, VeterinarianEntity veterinarian) {
+		MedicalEventEntity medicalEvent = factory.manufacturePojo(MedicalEventEntity.class);
+		medicalEvent.setDate(date);
+		medicalEvent.setPet(pet);
+		medicalEvent.setVeterinarian(veterinarian);
+		return medicalEvent;
+	}
+
+	private PetEntity petWithId(Long id) {
+		PetEntity pet = new PetEntity();
+		pet.setId(id);
+		return pet;
+	}
+
+	private VeterinarianEntity veterinarianWithId(Long id) {
+		VeterinarianEntity veterinarian = new VeterinarianEntity();
+		veterinarian.setId(id);
+		return veterinarian;
+	}
+
 	private Date pastDate() {
-		Calendar calendar = Calendar.getInstance();
-		calendar.add(Calendar.DATE, -5);
-		return calendar.getTime();
+		return daysFromNow(-5);
 	}
 
 	private Date futureDate() {
+		return daysFromNow(5);
+	}
+
+	private Date daysFromNow(int days) {
 		Calendar calendar = Calendar.getInstance();
-		calendar.add(Calendar.DATE, 5);
+		calendar.add(Calendar.DATE, days);
 		return calendar.getTime();
 	}
 
+	// ---------------------------------------------------------------- create
+
 	@Test
 	void testCreateMedicalEvent() throws EntityNotFoundException, IllegalOperationException {
-		MedicalEventEntity newEntity = factory.manufacturePojo(MedicalEventEntity.class);
-		newEntity.setDate(pastDate());
-		newEntity.setPet(petList.get(1));
-		newEntity.setVeterinarian(veterinarianList.get(1));
+		MedicalEventEntity newEntity = newMedicalEvent(pastDate(), petList.get(1), veterinarianList.get(1));
 
 		MedicalEventEntity result = medicalEventService.createMedicalEvent(newEntity);
 
@@ -117,52 +139,60 @@ class MedicalEventServiceTest {
 	}
 
 	@Test
+	void testCreateNullMedicalEvent() {
+		assertThrows(IllegalOperationException.class, () -> medicalEventService.createMedicalEvent(null));
+	}
+
+	@Test
 	void testCreateMedicalEventWithFutureDate() {
-		assertThrows(IllegalOperationException.class, () -> {
-			MedicalEventEntity newEntity = factory.manufacturePojo(MedicalEventEntity.class);
-			newEntity.setDate(futureDate());
-			newEntity.setPet(petList.get(1));
-			newEntity.setVeterinarian(veterinarianList.get(1));
-			medicalEventService.createMedicalEvent(newEntity);
-		});
+		MedicalEventEntity newEntity = newMedicalEvent(futureDate(), petList.get(1), veterinarianList.get(1));
+		assertThrows(IllegalOperationException.class, () -> medicalEventService.createMedicalEvent(newEntity));
 	}
 
 	@Test
 	void testCreateMedicalEventWithNullDate() {
-		assertThrows(IllegalOperationException.class, () -> {
-			MedicalEventEntity newEntity = factory.manufacturePojo(MedicalEventEntity.class);
-			newEntity.setDate(null);
-			newEntity.setPet(petList.get(1));
-			newEntity.setVeterinarian(veterinarianList.get(1));
-			medicalEventService.createMedicalEvent(newEntity);
-		});
+		MedicalEventEntity newEntity = newMedicalEvent(null, petList.get(1), veterinarianList.get(1));
+		assertThrows(IllegalOperationException.class, () -> medicalEventService.createMedicalEvent(newEntity));
+	}
+
+	@Test
+	void testCreateMedicalEventWithBlankType() {
+		MedicalEventEntity newEntity = newMedicalEvent(pastDate(), petList.get(1), veterinarianList.get(1));
+		newEntity.setType("   ");
+		assertThrows(IllegalOperationException.class, () -> medicalEventService.createMedicalEvent(newEntity));
+	}
+
+	@Test
+	void testCreateMedicalEventWithNullPet() {
+		MedicalEventEntity newEntity = newMedicalEvent(pastDate(), null, veterinarianList.get(1));
+		assertThrows(IllegalOperationException.class, () -> medicalEventService.createMedicalEvent(newEntity));
+	}
+
+	@Test
+	void testCreateMedicalEventWithPetWithoutId() {
+		MedicalEventEntity newEntity = newMedicalEvent(pastDate(), new PetEntity(), veterinarianList.get(1));
+		assertThrows(IllegalOperationException.class, () -> medicalEventService.createMedicalEvent(newEntity));
 	}
 
 	@Test
 	void testCreateMedicalEventWithInvalidPet() {
-		assertThrows(EntityNotFoundException.class, () -> {
-			MedicalEventEntity newEntity = factory.manufacturePojo(MedicalEventEntity.class);
-			newEntity.setDate(pastDate());
-			PetEntity pet = new PetEntity();
-			pet.setId(0L);
-			newEntity.setPet(pet);
-			newEntity.setVeterinarian(veterinarianList.get(1));
-			medicalEventService.createMedicalEvent(newEntity);
-		});
+		MedicalEventEntity newEntity = newMedicalEvent(pastDate(), petWithId(INVALID_ID), veterinarianList.get(1));
+		assertThrows(EntityNotFoundException.class, () -> medicalEventService.createMedicalEvent(newEntity));
+	}
+
+	@Test
+	void testCreateMedicalEventWithNullVeterinarian() {
+		MedicalEventEntity newEntity = newMedicalEvent(pastDate(), petList.get(1), null);
+		assertThrows(IllegalOperationException.class, () -> medicalEventService.createMedicalEvent(newEntity));
 	}
 
 	@Test
 	void testCreateMedicalEventWithInvalidVeterinarian() {
-		assertThrows(EntityNotFoundException.class, () -> {
-			MedicalEventEntity newEntity = factory.manufacturePojo(MedicalEventEntity.class);
-			newEntity.setDate(pastDate());
-			newEntity.setPet(petList.get(1));
-			VeterinarianEntity vet = new VeterinarianEntity();
-			vet.setId(0L);
-			newEntity.setVeterinarian(vet);
-			medicalEventService.createMedicalEvent(newEntity);
-		});
+		MedicalEventEntity newEntity = newMedicalEvent(pastDate(), petList.get(1), veterinarianWithId(INVALID_ID));
+		assertThrows(EntityNotFoundException.class, () -> medicalEventService.createMedicalEvent(newEntity));
 	}
+
+	// ------------------------------------------------------------------- get
 
 	@Test
 	void testGetMedicalEvents() {
@@ -181,64 +211,84 @@ class MedicalEventServiceTest {
 
 	@Test
 	void testGetMedicalEventInvalidId() {
-		assertThrows(IllegalOperationException.class, () -> {
-			medicalEventService.getMedicalEvent(0L);
-		});
+		assertThrows(IllegalOperationException.class, () -> medicalEventService.getMedicalEvent(INVALID_ID));
 	}
 
 	@Test
 	void testGetNonExistentMedicalEvent() {
-		assertThrows(EntityNotFoundException.class, () -> {
-			medicalEventService.getMedicalEvent(1000L);
-		});
+		assertThrows(EntityNotFoundException.class, () -> medicalEventService.getMedicalEvent(NON_EXISTENT_ID));
 	}
+
+	// ---------------------------------------------------------------- update
 
 	@Test
 	void testUpdateMedicalEvent() throws EntityNotFoundException, IllegalOperationException {
 		MedicalEventEntity entity = medicalEventList.get(0);
-		MedicalEventEntity pojoEntity = factory.manufacturePojo(MedicalEventEntity.class);
-		pojoEntity.setId(entity.getId());
-		pojoEntity.setDate(pastDate());
-		pojoEntity.setVeterinarian(entity.getVeterinarian());
+		MedicalEventEntity update = newMedicalEvent(pastDate(), null, veterinarianList.get(1));
 
-		medicalEventService.updateMedicalEvent(entity.getId(), pojoEntity);
+		medicalEventService.updateMedicalEvent(entity.getId(), update);
 
 		MedicalEventEntity resp = entityManager.find(MedicalEventEntity.class, entity.getId());
-		assertEquals(pojoEntity.getType(), resp.getType());
-		assertEquals(pojoEntity.getDescription(), resp.getDescription());
-		assertEquals(entity.getPet().getId(), resp.getPet().getId());
+		assertEquals(update.getType(), resp.getType());
+		assertEquals(update.getDescription(), resp.getDescription());
+		assertEquals(petList.get(0).getId(), resp.getPet().getId());
+		assertEquals(veterinarianList.get(1).getId(), resp.getVeterinarian().getId());
+	}
+
+	@Test
+	void testUpdateMedicalEventKeepsVeterinarianWhenNotProvided()
+			throws EntityNotFoundException, IllegalOperationException {
+		MedicalEventEntity entity = medicalEventList.get(0);
+		MedicalEventEntity update = newMedicalEvent(pastDate(), null, null);
+
+		medicalEventService.updateMedicalEvent(entity.getId(), update);
+
+		MedicalEventEntity resp = entityManager.find(MedicalEventEntity.class, entity.getId());
+		assertEquals(veterinarianList.get(0).getId(), resp.getVeterinarian().getId());
 	}
 
 	@Test
 	void testUpdateMedicalEventInvalidId() {
-		assertThrows(IllegalOperationException.class, () -> {
-			MedicalEventEntity pojoEntity = factory.manufacturePojo(MedicalEventEntity.class);
-			pojoEntity.setId(0L);
-			pojoEntity.setDate(pastDate());
-			medicalEventService.updateMedicalEvent(0L, pojoEntity);
-		});
+		MedicalEventEntity update = newMedicalEvent(pastDate(), null, null);
+		assertThrows(IllegalOperationException.class, () -> medicalEventService.updateMedicalEvent(INVALID_ID, update));
 	}
 
 	@Test
 	void testUpdateNonExistentMedicalEvent() {
-		assertThrows(EntityNotFoundException.class, () -> {
-			MedicalEventEntity pojoEntity = factory.manufacturePojo(MedicalEventEntity.class);
-			pojoEntity.setId(1000L);
-			pojoEntity.setDate(pastDate());
-			medicalEventService.updateMedicalEvent(1000L, pojoEntity);
-		});
+		MedicalEventEntity update = newMedicalEvent(pastDate(), null, null);
+		assertThrows(EntityNotFoundException.class,
+				() -> medicalEventService.updateMedicalEvent(NON_EXISTENT_ID, update));
+	}
+
+	@Test
+	void testUpdateMedicalEventWithNullEntity() {
+		Long id = medicalEventList.get(0).getId();
+		assertThrows(IllegalOperationException.class, () -> medicalEventService.updateMedicalEvent(id, null));
 	}
 
 	@Test
 	void testUpdateMedicalEventWithFutureDate() {
-		assertThrows(IllegalOperationException.class, () -> {
-			MedicalEventEntity entity = medicalEventList.get(0);
-			MedicalEventEntity pojoEntity = factory.manufacturePojo(MedicalEventEntity.class);
-			pojoEntity.setId(entity.getId());
-			pojoEntity.setDate(futureDate());
-			medicalEventService.updateMedicalEvent(entity.getId(), pojoEntity);
-		});
+		Long id = medicalEventList.get(0).getId();
+		MedicalEventEntity update = newMedicalEvent(futureDate(), null, null);
+		assertThrows(IllegalOperationException.class, () -> medicalEventService.updateMedicalEvent(id, update));
 	}
+
+	@Test
+	void testUpdateMedicalEventWithBlankType() {
+		Long id = medicalEventList.get(0).getId();
+		MedicalEventEntity update = newMedicalEvent(pastDate(), null, null);
+		update.setType("");
+		assertThrows(IllegalOperationException.class, () -> medicalEventService.updateMedicalEvent(id, update));
+	}
+
+	@Test
+	void testUpdateMedicalEventWithInvalidVeterinarian() {
+		Long id = medicalEventList.get(0).getId();
+		MedicalEventEntity update = newMedicalEvent(pastDate(), null, veterinarianWithId(INVALID_ID));
+		assertThrows(EntityNotFoundException.class, () -> medicalEventService.updateMedicalEvent(id, update));
+	}
+
+	// ---------------------------------------------------------------- delete
 
 	@Test
 	void testDeleteMedicalEvent() throws EntityNotFoundException, IllegalOperationException {
@@ -250,15 +300,11 @@ class MedicalEventServiceTest {
 
 	@Test
 	void testDeleteMedicalEventInvalidId() {
-		assertThrows(IllegalOperationException.class, () -> {
-			medicalEventService.deleteMedicalEvent(0L);
-		});
+		assertThrows(IllegalOperationException.class, () -> medicalEventService.deleteMedicalEvent(INVALID_ID));
 	}
 
 	@Test
 	void testDeleteNonExistentMedicalEvent() {
-		assertThrows(EntityNotFoundException.class, () -> {
-			medicalEventService.deleteMedicalEvent(1000L);
-		});
+		assertThrows(EntityNotFoundException.class, () -> medicalEventService.deleteMedicalEvent(NON_EXISTENT_ID));
 	}
 }

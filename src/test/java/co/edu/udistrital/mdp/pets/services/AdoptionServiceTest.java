@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -19,7 +20,9 @@ import org.springframework.transaction.annotation.Transactional;
 import co.edu.udistrital.mdp.pets.entities.AdopterEntity;
 import co.edu.udistrital.mdp.pets.entities.AdoptionEntity;
 import co.edu.udistrital.mdp.pets.entities.AdoptionRequestEntity;
+import co.edu.udistrital.mdp.pets.entities.FollowUpEntity;
 import co.edu.udistrital.mdp.pets.entities.PetEntity;
+import co.edu.udistrital.mdp.pets.entities.ReviewEntity;
 import co.edu.udistrital.mdp.pets.entities.ShelterEntity;
 import co.edu.udistrital.mdp.pets.exceptions.EntityNotFoundException;
 import co.edu.udistrital.mdp.pets.exceptions.IllegalOperationException;
@@ -32,6 +35,10 @@ import uk.co.jemos.podam.api.PodamFactoryImpl;
 @Import(AdoptionService.class)
 class AdoptionServiceTest {
 
+	private static final String IN_PROGRESS = "IN_PROGRESS";
+	private static final Long NON_EXISTENT_ID = 1000L;
+	private static final Long INVALID_ID = 0L;
+
 	@Autowired
 	private AdoptionService adoptionService;
 
@@ -40,11 +47,12 @@ class AdoptionServiceTest {
 
 	private PodamFactory factory = new PodamFactoryImpl();
 
-	private List<AdoptionEntity> adoptionList = new ArrayList<>();
+	private ShelterEntity shelter;
+	private AdopterEntity adopter;
+
+	/** Las mascotas 0, 1 y 2 ya tienen una adopción; la 3 y la 4 están libres. */
 	private List<PetEntity> petList = new ArrayList<>();
-	private List<ShelterEntity> shelterList = new ArrayList<>();
-	private List<AdopterEntity> adopterList = new ArrayList<>();
-	private List<AdoptionRequestEntity> requestList = new ArrayList<>();
+	private List<AdoptionEntity> adoptionList = new ArrayList<>();
 
 	@BeforeEach
 	void setUp() {
@@ -53,140 +61,213 @@ class AdoptionServiceTest {
 	}
 
 	private void clearData() {
+		entityManager.getEntityManager().createQuery("delete from ReviewEntity").executeUpdate();
+		entityManager.getEntityManager().createQuery("delete from FollowUpEntity").executeUpdate();
+		entityManager.getEntityManager().createQuery("delete from ReturnEntity").executeUpdate();
+		entityManager.getEntityManager().createQuery("delete from TrialCohabitationEntity").executeUpdate();
 		entityManager.getEntityManager().createQuery("delete from AdoptionEntity").executeUpdate();
 		entityManager.getEntityManager().createQuery("delete from AdoptionRequestEntity").executeUpdate();
+		entityManager.getEntityManager().createQuery("delete from AdopterEntity").executeUpdate();
 		entityManager.getEntityManager().createQuery("delete from PetEntity").executeUpdate();
 		entityManager.getEntityManager().createQuery("delete from ShelterEntity").executeUpdate();
-		entityManager.getEntityManager().createQuery("delete from AdopterEntity").executeUpdate();
 	}
 
 	private void insertData() {
+		shelter = factory.manufacturePojo(ShelterEntity.class);
+		entityManager.persist(shelter);
+
+		adopter = factory.manufacturePojo(AdopterEntity.class);
+		adopter.setShelter(shelter);
+		entityManager.persist(adopter);
+
+		for (int i = 0; i < 5; i++) {
+			PetEntity pet = factory.manufacturePojo(PetEntity.class);
+			pet.setShelter(shelter);
+			entityManager.persist(pet);
+			petList.add(pet);
+		}
+
 		for (int i = 0; i < 3; i++) {
-			ShelterEntity shelterEntity = factory.manufacturePojo(ShelterEntity.class);
-			entityManager.persist(shelterEntity);
-			shelterList.add(shelterEntity);
+			AdoptionEntity adoption = newAdoption(petList.get(i), null);
+			entityManager.persist(adoption);
+			adoptionList.add(adoption);
+
+			// mantiene la asociación bidireccional en memoria para las reglas sobre la mascota
+			petList.get(i).getAdoptions().add(adoption);
 		}
-		for (int i = 0; i < 4; i++) {
-			PetEntity petEntity = factory.manufacturePojo(PetEntity.class);
-			petEntity.setShelter(shelterList.get(0));
-			entityManager.persist(petEntity);
-			petList.add(petEntity);
-		}
-		for (int i = 0; i < 3; i++) {
-			AdopterEntity adopterEntity = factory.manufacturePojo(AdopterEntity.class);
-			adopterEntity.setShelter(shelterList.get(0));
-			entityManager.persist(adopterEntity);
-			adopterList.add(adopterEntity);
-		}
-		// solicitudes aprobadas, cada una para una mascota distinta y sin usar todavía
-		for (int i = 0; i < 3; i++) {
-			AdoptionRequestEntity requestEntity = factory.manufacturePojo(AdoptionRequestEntity.class);
-			requestEntity.setStatus("APPROVED");
-			requestEntity.setPet(petList.get(i));
-			requestEntity.setShelter(shelterList.get(0));
-			requestEntity.setAdopter(adopterList.get(0));
-			entityManager.persist(requestEntity);
-			requestList.add(requestEntity);
-		}
-		// una adopción ya existente, usando la solicitud en la posición 0
-		AdoptionEntity adoptionEntity = factory.manufacturePojo(AdoptionEntity.class);
-		adoptionEntity.setStatus("ACTIVE");
-		adoptionEntity.setPet(petList.get(0));
-		adoptionEntity.setShelter(shelterList.get(0));
-		adoptionEntity.setAdopter(adopterList.get(0));
-		adoptionEntity.setAdoptionRequest(requestList.get(0));
-		entityManager.persist(adoptionEntity);
-		adoptionList.add(adoptionEntity);
 	}
+
+	private AdoptionEntity newAdoption(PetEntity pet, AdoptionRequestEntity request) {
+		AdoptionEntity adoption = factory.manufacturePojo(AdoptionEntity.class);
+		adoption.setStatus(IN_PROGRESS);
+		adoption.setDate(new Date());
+		adoption.setPet(pet);
+		adoption.setShelter(shelter);
+		adoption.setAdopter(adopter);
+		adoption.setAdoptionRequest(request);
+		return adoption;
+	}
+
+	private AdoptionRequestEntity persistRequest(PetEntity pet, String status) {
+		AdoptionRequestEntity request = new AdoptionRequestEntity();
+		request.setPet(pet);
+		request.setShelter(shelter);
+		request.setAdopter(adopter);
+		request.setStatus(status);
+		request.setDate(new Date());
+		request.setDescription("I would like to adopt this pet");
+		entityManager.persist(request);
+		return request;
+	}
+
+	private AdoptionRequestEntity approvedRequestFor(PetEntity pet) {
+		return persistRequest(pet, AdoptionRequestService.APPROVED_STATUS);
+	}
+
+	/** Adopción válida sobre una mascota libre (la 3) con una solicitud aprobada. */
+	private AdoptionEntity newValidAdoption() {
+		return newAdoption(petList.get(3), approvedRequestFor(petList.get(3)));
+	}
+
+	private AdoptionEntity newUpdate(String status, String notes) {
+		AdoptionEntity update = new AdoptionEntity();
+		update.setStatus(status);
+		update.setImportantNotes(notes);
+		return update;
+	}
+
+	// ---------------------------------------------------------------- create
 
 	@Test
 	void testCreateAdoption() throws EntityNotFoundException, IllegalOperationException {
-		AdoptionEntity newEntity = factory.manufacturePojo(AdoptionEntity.class);
-		newEntity.setStatus("ACTIVE");
-		newEntity.setPet(petList.get(1));
-		newEntity.setShelter(shelterList.get(0));
-		newEntity.setAdopter(adopterList.get(0));
-		newEntity.setAdoptionRequest(requestList.get(1));
+		AdoptionEntity newEntity = newValidAdoption();
 
 		AdoptionEntity result = adoptionService.createAdoption(newEntity);
 
-		assertNotNull(result);
+		assertNotNull(result.getId());
 		AdoptionEntity entity = entityManager.find(AdoptionEntity.class, result.getId());
 		assertEquals(newEntity.getStatus(), entity.getStatus());
-		assertEquals(newEntity.getImportantNotes(), entity.getImportantNotes());
-		assertEquals(newEntity.getPet().getId(), entity.getPet().getId());
+		assertEquals(petList.get(3).getId(), entity.getPet().getId());
+		assertEquals(shelter.getId(), entity.getShelter().getId());
+		assertEquals(adopter.getId(), entity.getAdopter().getId());
 		assertEquals(newEntity.getAdoptionRequest().getId(), entity.getAdoptionRequest().getId());
 	}
 
 	@Test
-	void testCreateAdoptionWithNoValidStatus() {
-		assertThrows(IllegalOperationException.class, () -> {
-			AdoptionEntity newEntity = factory.manufacturePojo(AdoptionEntity.class);
-			newEntity.setStatus("");
-			newEntity.setPet(petList.get(1));
-			newEntity.setShelter(shelterList.get(0));
-			newEntity.setAdopter(adopterList.get(0));
-			newEntity.setAdoptionRequest(requestList.get(1));
-			adoptionService.createAdoption(newEntity);
-		});
+	void testCreateAdoptionForPetWithOnlyCancelledAdoption() throws EntityNotFoundException, IllegalOperationException {
+		adoptionList.get(0).setStatus(AdoptionService.CANCELLED_STATUS);
+		AdoptionEntity newEntity = newAdoption(petList.get(0), approvedRequestFor(petList.get(0)));
+
+		AdoptionEntity result = adoptionService.createAdoption(newEntity);
+
+		assertNotNull(result.getId());
+	}
+
+	@Test
+	void testCreateNullAdoption() {
+		assertThrows(IllegalOperationException.class, () -> adoptionService.createAdoption(null));
+	}
+
+	@Test
+	void testCreateAdoptionWithNullDate() {
+		AdoptionEntity newEntity = newValidAdoption();
+		newEntity.setDate(null);
+		assertThrows(IllegalOperationException.class, () -> adoptionService.createAdoption(newEntity));
+	}
+
+	@Test
+	void testCreateAdoptionWithBlankStatus() {
+		AdoptionEntity newEntity = newValidAdoption();
+		newEntity.setStatus(" ");
+		assertThrows(IllegalOperationException.class, () -> adoptionService.createAdoption(newEntity));
+	}
+
+	@Test
+	void testCreateAdoptionWithNullPet() {
+		AdoptionEntity newEntity = newValidAdoption();
+		newEntity.setPet(null);
+		assertThrows(IllegalOperationException.class, () -> adoptionService.createAdoption(newEntity));
 	}
 
 	@Test
 	void testCreateAdoptionWithInvalidPet() {
-		assertThrows(EntityNotFoundException.class, () -> {
-			AdoptionEntity newEntity = factory.manufacturePojo(AdoptionEntity.class);
-			newEntity.setStatus("ACTIVE");
-			PetEntity pet = new PetEntity();
-			pet.setId(0L);
-			newEntity.setPet(pet);
-			newEntity.setShelter(shelterList.get(0));
-			newEntity.setAdopter(adopterList.get(0));
-			newEntity.setAdoptionRequest(requestList.get(1));
-			adoptionService.createAdoption(newEntity);
-		});
+		AdoptionEntity newEntity = newValidAdoption();
+		PetEntity pet = new PetEntity();
+		pet.setId(INVALID_ID);
+		newEntity.setPet(pet);
+		assertThrows(EntityNotFoundException.class, () -> adoptionService.createAdoption(newEntity));
 	}
 
 	@Test
-	void testCreateAdoptionWithUnapprovedRequest() {
-		assertThrows(IllegalOperationException.class, () -> {
-			AdoptionEntity newEntity = factory.manufacturePojo(AdoptionEntity.class);
-			newEntity.setStatus("ACTIVE");
-			newEntity.setPet(petList.get(1));
-			newEntity.setShelter(shelterList.get(0));
-			newEntity.setAdopter(adopterList.get(0));
-
-			AdoptionRequestEntity pendingRequest = factory.manufacturePojo(AdoptionRequestEntity.class);
-			pendingRequest.setStatus("PENDING");
-			pendingRequest.setPet(petList.get(1));
-			pendingRequest.setShelter(shelterList.get(0));
-			pendingRequest.setAdopter(adopterList.get(0));
-			entityManager.persist(pendingRequest);
-
-			newEntity.setAdoptionRequest(pendingRequest);
-			adoptionService.createAdoption(newEntity);
-		});
+	void testCreateAdoptionWithNullShelter() {
+		AdoptionEntity newEntity = newValidAdoption();
+		newEntity.setShelter(null);
+		assertThrows(IllegalOperationException.class, () -> adoptionService.createAdoption(newEntity));
 	}
 
 	@Test
-	void testCreateAdoptionWithAlreadyAdoptedPet() {
-		assertThrows(IllegalOperationException.class, () -> {
-			AdoptionEntity newEntity = factory.manufacturePojo(AdoptionEntity.class);
-			newEntity.setStatus("ACTIVE");
-			newEntity.setPet(petList.get(0)); // ya tiene adopción
-			newEntity.setShelter(shelterList.get(0));
-			newEntity.setAdopter(adopterList.get(0));
-
-			AdoptionRequestEntity requestEntity = factory.manufacturePojo(AdoptionRequestEntity.class);
-			requestEntity.setStatus("APPROVED");
-			requestEntity.setPet(petList.get(0));
-			requestEntity.setShelter(shelterList.get(0));
-			requestEntity.setAdopter(adopterList.get(0));
-			entityManager.persist(requestEntity);
-
-			newEntity.setAdoptionRequest(requestEntity);
-			adoptionService.createAdoption(newEntity);
-		});
+	void testCreateAdoptionWithInvalidShelter() {
+		AdoptionEntity newEntity = newValidAdoption();
+		ShelterEntity invalidShelter = new ShelterEntity();
+		invalidShelter.setId(INVALID_ID);
+		newEntity.setShelter(invalidShelter);
+		assertThrows(EntityNotFoundException.class, () -> adoptionService.createAdoption(newEntity));
 	}
+
+	@Test
+	void testCreateAdoptionWithNullAdopter() {
+		AdoptionEntity newEntity = newValidAdoption();
+		newEntity.setAdopter(null);
+		assertThrows(IllegalOperationException.class, () -> adoptionService.createAdoption(newEntity));
+	}
+
+	@Test
+	void testCreateAdoptionWithInvalidAdopter() {
+		AdoptionEntity newEntity = newValidAdoption();
+		AdopterEntity invalidAdopter = new AdopterEntity();
+		invalidAdopter.setId(INVALID_ID);
+		newEntity.setAdopter(invalidAdopter);
+		assertThrows(EntityNotFoundException.class, () -> adoptionService.createAdoption(newEntity));
+	}
+
+	@Test
+	void testCreateAdoptionWithNullRequest() {
+		AdoptionEntity newEntity = newValidAdoption();
+		newEntity.setAdoptionRequest(null);
+		assertThrows(IllegalOperationException.class, () -> adoptionService.createAdoption(newEntity));
+	}
+
+	@Test
+	void testCreateAdoptionWithInvalidRequest() {
+		AdoptionEntity newEntity = newValidAdoption();
+		AdoptionRequestEntity invalidRequest = new AdoptionRequestEntity();
+		invalidRequest.setId(INVALID_ID);
+		newEntity.setAdoptionRequest(invalidRequest);
+		assertThrows(EntityNotFoundException.class, () -> adoptionService.createAdoption(newEntity));
+	}
+
+	@Test
+	void testCreateAdoptionWithRequestNotApproved() {
+		AdoptionEntity newEntity = newAdoption(petList.get(3),
+				persistRequest(petList.get(3), AdoptionRequestService.PENDING_STATUS));
+		assertThrows(IllegalOperationException.class, () -> adoptionService.createAdoption(newEntity));
+	}
+
+	@Test
+	void testCreateAdoptionWithRequestThatAlreadyHasAdoption() {
+		AdoptionRequestEntity request = approvedRequestFor(petList.get(3));
+		request.setAdoption(adoptionList.get(0));
+		AdoptionEntity newEntity = newAdoption(petList.get(3), request);
+		assertThrows(IllegalOperationException.class, () -> adoptionService.createAdoption(newEntity));
+	}
+
+	@Test
+	void testCreateAdoptionForAlreadyAdoptedPet() {
+		AdoptionEntity newEntity = newAdoption(petList.get(0), approvedRequestFor(petList.get(0)));
+		assertThrows(IllegalOperationException.class, () -> adoptionService.createAdoption(newEntity));
+	}
+
+	// ------------------------------------------------------------------- get
 
 	@Test
 	void testGetAdoptions() {
@@ -205,86 +286,114 @@ class AdoptionServiceTest {
 
 	@Test
 	void testGetAdoptionInvalidId() {
-		assertThrows(IllegalOperationException.class, () -> {
-			adoptionService.getAdoption(0L);
-		});
+		assertThrows(IllegalOperationException.class, () -> adoptionService.getAdoption(INVALID_ID));
 	}
 
 	@Test
 	void testGetNonExistentAdoption() {
-		assertThrows(EntityNotFoundException.class, () -> {
-			adoptionService.getAdoption(1000L);
-		});
+		assertThrows(EntityNotFoundException.class, () -> adoptionService.getAdoption(NON_EXISTENT_ID));
 	}
+
+	// ---------------------------------------------------------------- update
 
 	@Test
 	void testUpdateAdoption() throws EntityNotFoundException, IllegalOperationException {
 		AdoptionEntity entity = adoptionList.get(0);
-		AdoptionEntity pojoEntity = factory.manufacturePojo(AdoptionEntity.class);
-		pojoEntity.setId(entity.getId());
-		pojoEntity.setStatus("ACTIVE");
+		AdoptionEntity update = newUpdate(AdoptionService.FINALIZED_STATUS, "Adopted and settled");
 
-		adoptionService.updateAdoption(entity.getId(), pojoEntity);
+		adoptionService.updateAdoption(entity.getId(), update);
 
 		AdoptionEntity resp = entityManager.find(AdoptionEntity.class, entity.getId());
-		assertEquals(pojoEntity.getStatus(), resp.getStatus());
-		assertEquals(pojoEntity.getImportantNotes(), resp.getImportantNotes());
-		assertEquals(entity.getPet().getId(), resp.getPet().getId());
+		assertEquals(AdoptionService.FINALIZED_STATUS, resp.getStatus());
+		assertEquals("Adopted and settled", resp.getImportantNotes());
+		assertEquals(petList.get(0).getId(), resp.getPet().getId());
+		assertEquals(adopter.getId(), resp.getAdopter().getId());
+		assertEquals(shelter.getId(), resp.getShelter().getId());
 	}
 
 	@Test
 	void testUpdateAdoptionInvalidId() {
-		assertThrows(IllegalOperationException.class, () -> {
-			AdoptionEntity pojoEntity = factory.manufacturePojo(AdoptionEntity.class);
-			pojoEntity.setId(0L);
-			pojoEntity.setStatus("ACTIVE");
-			adoptionService.updateAdoption(0L, pojoEntity);
-		});
+		AdoptionEntity update = newUpdate(IN_PROGRESS, null);
+		assertThrows(IllegalOperationException.class, () -> adoptionService.updateAdoption(INVALID_ID, update));
 	}
 
 	@Test
 	void testUpdateNonExistentAdoption() {
-		assertThrows(EntityNotFoundException.class, () -> {
-			AdoptionEntity pojoEntity = factory.manufacturePojo(AdoptionEntity.class);
-			pojoEntity.setId(1000L);
-			pojoEntity.setStatus("ACTIVE");
-			adoptionService.updateAdoption(1000L, pojoEntity);
-		});
+		AdoptionEntity update = newUpdate(IN_PROGRESS, null);
+		assertThrows(EntityNotFoundException.class, () -> adoptionService.updateAdoption(NON_EXISTENT_ID, update));
 	}
 
 	@Test
-	void testUpdateFinishedAdoption() {
-		assertThrows(IllegalOperationException.class, () -> {
-			AdoptionEntity entity = adoptionList.get(0);
-			entity.setStatus("FINISHED");
-			entityManager.merge(entity);
-
-			AdoptionEntity pojoEntity = factory.manufacturePojo(AdoptionEntity.class);
-			pojoEntity.setId(entity.getId());
-			pojoEntity.setStatus("ACTIVE");
-			adoptionService.updateAdoption(entity.getId(), pojoEntity);
-		});
+	void testUpdateAdoptionWithNullEntity() {
+		Long id = adoptionList.get(0).getId();
+		assertThrows(IllegalOperationException.class, () -> adoptionService.updateAdoption(id, null));
 	}
+
+	@Test
+	void testUpdateAdoptionWithBlankStatus() {
+		Long id = adoptionList.get(0).getId();
+		AdoptionEntity update = newUpdate("", null);
+		assertThrows(IllegalOperationException.class, () -> adoptionService.updateAdoption(id, update));
+	}
+
+	@Test
+	void testUpdateFinalizedAdoption() {
+		AdoptionEntity entity = adoptionList.get(1);
+		entity.setStatus(AdoptionService.FINALIZED_STATUS);
+		Long id = entity.getId();
+		AdoptionEntity update = newUpdate(IN_PROGRESS, null);
+		assertThrows(IllegalOperationException.class, () -> adoptionService.updateAdoption(id, update));
+	}
+
+	@Test
+	void testUpdateCancelledAdoption() {
+		AdoptionEntity entity = adoptionList.get(1);
+		entity.setStatus(AdoptionService.CANCELLED_STATUS);
+		Long id = entity.getId();
+		AdoptionEntity update = newUpdate(IN_PROGRESS, null);
+		assertThrows(IllegalOperationException.class, () -> adoptionService.updateAdoption(id, update));
+	}
+
+	// ---------------------------------------------------------------- delete
 
 	@Test
 	void testDeleteAdoption() throws EntityNotFoundException, IllegalOperationException {
 		AdoptionEntity entity = adoptionList.get(0);
 		adoptionService.deleteAdoption(entity.getId());
-		AdoptionEntity deleted = entityManager.find(AdoptionEntity.class, entity.getId());
-		assertNull(deleted);
+		assertNull(entityManager.find(AdoptionEntity.class, entity.getId()));
 	}
 
 	@Test
 	void testDeleteAdoptionInvalidId() {
-		assertThrows(IllegalOperationException.class, () -> {
-			adoptionService.deleteAdoption(0L);
-		});
+		assertThrows(IllegalOperationException.class, () -> adoptionService.deleteAdoption(INVALID_ID));
 	}
 
 	@Test
 	void testDeleteNonExistentAdoption() {
-		assertThrows(EntityNotFoundException.class, () -> {
-			adoptionService.deleteAdoption(1000L);
-		});
+		assertThrows(EntityNotFoundException.class, () -> adoptionService.deleteAdoption(NON_EXISTENT_ID));
+	}
+
+	@Test
+	void testDeleteAdoptionWithReviews() {
+		AdoptionEntity entity = adoptionList.get(0);
+		ReviewEntity review = factory.manufacturePojo(ReviewEntity.class);
+		review.setAdoption(entity);
+		entityManager.persist(review);
+		entity.getReviews().add(review);
+		Long id = entity.getId();
+
+		assertThrows(IllegalOperationException.class, () -> adoptionService.deleteAdoption(id));
+	}
+
+	@Test
+	void testDeleteAdoptionWithFollowUps() {
+		AdoptionEntity entity = adoptionList.get(0);
+		FollowUpEntity followUp = factory.manufacturePojo(FollowUpEntity.class);
+		followUp.setAdoption(entity);
+		entityManager.persist(followUp);
+		entity.getFollowUps().add(followUp);
+		Long id = entity.getId();
+
+		assertThrows(IllegalOperationException.class, () -> adoptionService.deleteAdoption(id));
 	}
 }

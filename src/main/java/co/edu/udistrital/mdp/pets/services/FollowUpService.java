@@ -34,9 +34,6 @@ public class FollowUpService {
 	private final AdoptionRepository adoptionRepository;
 	private final VeterinarianRepository veterinarianRepository;
 
-	/**
-	 * Crea un nuevo seguimiento de una adopción.
-	 */
 	@Transactional
 	public FollowUpEntity createFollowUp(FollowUpEntity followUp)
 			throws EntityNotFoundException, IllegalOperationException {
@@ -73,9 +70,6 @@ public class FollowUpService {
 		return followUpRepository.save(followUp);
 	}
 
-	/**
-	 * Obtiene todos los seguimientos registrados.
-	 */
 	@Transactional
 	public List<FollowUpEntity> getFollowUps() {
 		log.info("Initiate the process of querying all follow-ups.");
@@ -85,9 +79,6 @@ public class FollowUpService {
 		return followUps;
 	}
 
-	/**
-	 * Obtiene los seguimientos registrados para una adopción específica.
-	 */
 	@Transactional
 	public List<FollowUpEntity> getFollowUps(Long adoptionId) {
 		log.info("Initiate the process of checking adoption follow-ups with id = {}", adoptionId);
@@ -99,9 +90,6 @@ public class FollowUpService {
 		return followUps;
 	}
 
-	/**
-	 * Obtiene un seguimiento a partir de su id.
-	 */
 	@Transactional
 	public FollowUpEntity getFollowUp(Long followUpId) throws EntityNotFoundException, IllegalOperationException {
 		log.info("Starting the process to check the tracking for id = {}", followUpId);
@@ -116,20 +104,12 @@ public class FollowUpService {
 		return followUp.get();
 	}
 
-	/**
-	 * Obtiene un seguimiento a partir de su id verificando que el solicitante sea
-	 * el adoptante asociado o el veterinario responsable (personal autorizado).
-	 */
 	@Transactional
 	public FollowUpEntity getFollowUp(Long followUpId, Long requesterId)
 			throws EntityNotFoundException, IllegalOperationException {
 		return getFollowUp(followUpId, requesterId, null);
 	}
 
-	/**
-	 * Obtiene un seguimiento a partir de su id. Pueden consultarlo los
-	 * administradores, el veterinario responsable y el adoptante asociado.
-	 */
 	@Transactional
 	public FollowUpEntity getFollowUp(Long followUpId, Long requesterId, String requesterRole)
 			throws EntityNotFoundException, IllegalOperationException {
@@ -163,10 +143,6 @@ public class FollowUpService {
 		return followUp.get();
 	}
 
-	/**
-	 * Actualiza un seguimiento existente. La adopción asociada al seguimiento
-	 * original no puede ser modificada a otra distinta.
-	 */
 	@Transactional
 	public FollowUpEntity updateFollowUp(Long followUpId, FollowUpEntity followUp)
 			throws EntityNotFoundException, IllegalOperationException {
@@ -195,9 +171,6 @@ public class FollowUpService {
 		return followUpRepository.save(current);
 	}
 
-	/**
-	 * Borra un seguimiento a partir de su id.
-	 */
 	@Transactional
 	public void deleteFollowUp(Long followUpId) throws EntityNotFoundException, IllegalOperationException {
 		log.info("Starting the process to delete the tracking with id = {}", followUpId);

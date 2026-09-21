@@ -37,7 +37,6 @@ public class AdoptionRequestService {
 	private static final Set<String> VALID_STATUSES = Set.of(PENDING_STATUS, APPROVED_STATUS, REJECTED_STATUS,
 			IN_PROGRESS_STATUS, FINALIZED_STATUS);
 
-	// Solicitudes "activas": las mismas que AdopterService usa para impedir eliminar al adoptante
 	private static final Set<String> ACTIVE_STATUSES = Set.of(PENDING_STATUS, APPROVED_STATUS, IN_PROGRESS_STATUS);
 
 	// Solicitudes ya procesadas: no se pueden devolver a pendiente ni eliminar
@@ -52,10 +51,6 @@ public class AdoptionRequestService {
 	private final PetRepository petRepository;
 	private final AdoptionRepository adoptionRepository;
 
-	/**
-	 * Crea una solicitud de adopción. El estado inicial (PENDING), la fecha y el
-	 * refugio (el de la mascota) los asigna el sistema.
-	 */
 	@Transactional
 	public AdoptionRequestEntity createAdoptionRequest(AdoptionRequestEntity request)
 			throws EntityNotFoundException, IllegalOperationException {
@@ -98,19 +93,12 @@ public class AdoptionRequestService {
 						.isEmpty());
 	}
 
-	/**
-	 * Una mascota está disponible mientras no tenga una adopción que no haya sido
-	 * cancelada.
-	 */
 	private boolean isPetAvailable(Long petId) {
 		return adoptionRepository.findAll().stream()
 				.noneMatch(a -> a.getPet() != null && petId.equals(a.getPet().getId())
 						&& !ADOPTION_CANCELLED_STATUS.equalsIgnoreCase(a.getStatus()));
 	}
 
-	/**
-	 * Obtiene una solicitud. Solo puede verla quien la creó o un administrador.
-	 */
 	@Transactional(readOnly = true)
 	public AdoptionRequestEntity readAdoptionRequest(Long id, Long currentUserId, String currentUserRole)
 			throws EntityNotFoundException, IllegalOperationException {
@@ -129,11 +117,6 @@ public class AdoptionRequestService {
 		return request;
 	}
 
-	/**
-	 * Lista las solicitudes filtrando, de forma opcional, por adoptante, mascota y
-	 * estado. Si se combinan varios filtros, todos deben coincidir. Un usuario que
-	 * no es administrador solo ve sus propias solicitudes.
-	 */
 	@Transactional(readOnly = true)
 	public List<AdoptionRequestEntity> readAllAdoptionRequests(Long adopterId, Long petId, String status,
 			Long currentUserId, String currentUserRole) throws IllegalOperationException {
@@ -158,10 +141,6 @@ public class AdoptionRequestService {
 		return requests;
 	}
 
-	/**
-	 * Actualiza la descripción y el estado de una solicitud. La mascota no se puede
-	 * modificar y una solicitud ya procesada no puede volver a pendiente.
-	 */
 	@Transactional
 	public AdoptionRequestEntity updateAdoptionRequest(Long id, AdoptionRequestEntity requestUpdate)
 			throws EntityNotFoundException, IllegalOperationException {
@@ -192,10 +171,6 @@ public class AdoptionRequestService {
 		return adoptionRequestRepository.save(current);
 	}
 
-	/**
-	 * Elimina una solicitud. Las solicitudes aprobadas, rechazadas o ya en proceso
-	 * o finalizadas no se pueden eliminar.
-	 */
 	@Transactional
 	public void deleteAdoptionRequest(Long id) throws EntityNotFoundException, IllegalOperationException {
 		log.info("Inicia proceso de eliminar la solicitud de adopción con id = {}", id);
