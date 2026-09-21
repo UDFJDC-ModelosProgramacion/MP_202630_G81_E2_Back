@@ -26,7 +26,6 @@ public class UserService {
 	private static final int MIN_PASSWORD_LENGTH = 8;
 	private static final String ADMIN_ROLE = "ADMIN";
 
-	// Estados que se consideran "procesos de adopción activos" de un usuario
 	private static final Set<String> ACTIVE_REQUEST_STATUSES = Set.of("PENDING", "APPROVED", "IN_PROGRESS");
 	private static final Set<String> CLOSED_ADOPTION_STATUSES = Set.of("FINALIZED", "CANCELLED");
 	private static final Set<String> ACTIVE_TRIAL_STATUSES = Set.of("PENDING", "IN_PROGRESS");
@@ -40,10 +39,6 @@ public class UserService {
 	private final AdoptionRepository adoptionRepository;
 	private final TrialCohabitationRepository trialCohabitationRepository;
 
-	/**
-	 * Crea un usuario. Nombre, apellido, correo y contraseña son obligatorios; el
-	 * correo debe ser único y la contraseña cumplir el mínimo de seguridad.
-	 */
 	@Transactional
 	public UserEntity createUser(UserEntity user) throws IllegalOperationException {
 		log.info("Inicia proceso de creación del usuario");
@@ -65,10 +60,6 @@ public class UserService {
 		return userRepository.save(user);
 	}
 
-	/**
-	 * Obtiene un usuario por su id sin datos sensibles (la contraseña no se
-	 * devuelve). Se responde con una copia para no modificar la entidad gestionada.
-	 */
 	@Transactional(readOnly = true)
 	public UserEntity readUser(Long id) throws EntityNotFoundException, IllegalOperationException {
 		log.info("Inicia proceso de consultar el usuario con id = {}", id);
@@ -82,31 +73,17 @@ public class UserService {
 		return withoutSensitiveData(user);
 	}
 
-	/**
-	 * Lista todos los usuarios (solo administradores).
-	 */
 	@Transactional(readOnly = true)
 	public List<UserEntity> readAllUsers(String currentUserRole) throws IllegalOperationException {
 		return doReadAllUsers(currentUserRole, null, null, null, null);
 	}
 
-	/**
-	 * Lista los usuarios (solo administradores) filtrando, de forma opcional, por
-	 * nombre, apellido, correo y refugio. Si se combinan varios filtros, todos
-	 * deben coincidir.
-	 */
 	@Transactional(readOnly = true)
 	public List<UserEntity> readAllUsers(String currentUserRole, String firstName, String lastName, String email,
 			Long shelterId) throws IllegalOperationException {
 		return doReadAllUsers(currentUserRole, firstName, lastName, email, shelterId);
 	}
 
-	/**
-	 * Lógica compartida de listado con filtros. No está anotado como
-	 * @Transactional para evitar la auto-invocación entre métodos transaccionales
-	 * de la misma clase (el proxy de Spring no intercepta llamadas internas via
-	 * "this"); cada punto de entrada público ya está anotado y delega aquí.
-	 */
 	private List<UserEntity> doReadAllUsers(String currentUserRole, String firstName, String lastName, String email,
 			Long shelterId) throws IllegalOperationException {
 		log.info("Inicia proceso de consultar todos los usuarios");
@@ -131,10 +108,6 @@ public class UserService {
 		return users;
 	}
 
-	/**
-	 * Actualiza los datos básicos de un usuario. El correo no puede pasar a ser el
-	 * de otro usuario.
-	 */
 	@Transactional
 	public UserEntity updateUser(Long id, UserEntity userUpdate)
 			throws EntityNotFoundException, IllegalOperationException {
@@ -162,11 +135,6 @@ public class UserService {
 		return userRepository.save(current);
 	}
 
-	/**
-	 * Elimina un usuario. No se puede eliminar un usuario con procesos de adopción
-	 * activos (solicitudes, adopciones o convivencias de prueba) ni con mensajes
-	 * registrados.
-	 */
 	@Transactional
 	public void deleteUser(Long id) throws EntityNotFoundException, IllegalOperationException {
 		log.info("Inicia proceso de eliminar el usuario con id = {}", id);
@@ -202,10 +170,6 @@ public class UserService {
 		return activeRequest || activeAdoption || activeTrial;
 	}
 
-	/**
-	 * Copia del usuario sin la contraseña; nunca se modifica la entidad gestionada
-	 * para evitar que el cambio se persista por accidente.
-	 */
 	private UserEntity withoutSensitiveData(UserEntity source) {
 		UserEntity copy = new UserEntity();
 		copy.setId(source.getId());
