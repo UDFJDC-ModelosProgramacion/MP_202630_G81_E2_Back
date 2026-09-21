@@ -31,7 +31,7 @@ class MessageServiceTest {
     @Autowired
     private MessageService messageService;
 
-    @Autowired
+    @Autowired 
     private MessageRepository messageRepository;
 
     @Autowired
@@ -299,5 +299,39 @@ class MessageServiceTest {
             assertTrue(updated.getHiddenForReceiver());
             assertFalse(updated.getHiddenForSender());
         }
+    }
+
+    @Test
+    void testDeleteMessageHidesForOneSide() throws EntityNotFoundException, IllegalOperationException {
+        MessageEntity existingMessage = messageList.get(0);
+        Long senderId = existingMessage.getSendUser().getId();
+
+        messageService.deleteMessage(existingMessage.getId(), senderId);
+
+        MessageEntity updated = messageRepository.findById(existingMessage.getId()).orElseThrow();
+        assertTrue(updated.getHiddenForSender());
+        assertFalse(updated.getHiddenForReceiver());
+    }
+
+    @Test
+    void testDeleteMessagePhysicallyDeletesWhenBothSidesHideIt()
+            throws EntityNotFoundException, IllegalOperationException {
+        MessageEntity existingMessage = messageList.get(0);
+        Long senderId = existingMessage.getSendUser().getId();
+        Long receiverId = existingMessage.getReceivesUser().getId();
+
+        messageService.deleteMessage(existingMessage.getId(), senderId);
+        messageService.deleteMessage(existingMessage.getId(), receiverId);
+
+        assertTrue(messageRepository.findById(existingMessage.getId()).isEmpty());
+    }
+
+    @Test
+    void testDeleteMessageByUnrelatedUserThrowsException() {
+        MessageEntity existingMessage = messageList.get(0);
+        Long unrelatedUserId = -1L;
+
+        assertThrows(IllegalOperationException.class,
+                () -> messageService.deleteMessage(existingMessage.getId(), unrelatedUserId));
     }
 }

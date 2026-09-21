@@ -24,7 +24,7 @@ public class MessageService {
     private final UserRepository userRepository;
 
     private static final String MESSAGE_ID_NOT_VALID = "Invalid identifiers are not accepted.";
-    private static final String MESSAGE_NOT_FOUND = "If the message does not exist, an error message is displayed.";
+    private static final String MESSAGE_NOT_FOUND = "Message not found.";
 
     @Transactional
     public MessageEntity createMessage(MessageEntity message, Long currentUserId)
@@ -132,7 +132,7 @@ public class MessageService {
         }
 
         MessageEntity existingMessage = messageRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Message not found."));
+                .orElseThrow(() -> new EntityNotFoundException(MESSAGE_NOT_FOUND));
 
         if (!existingMessage.getReceivesUser().getId().equals(currentUserId)) {
             throw new IllegalOperationException(

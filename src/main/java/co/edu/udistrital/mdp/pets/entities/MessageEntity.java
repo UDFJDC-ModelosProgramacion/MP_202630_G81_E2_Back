@@ -26,7 +26,7 @@ public class MessageEntity extends BaseEntity {
 
 	@PodamExclude
 	private Boolean hiddenForReceiver = false;
-		
+
 	@PodamExclude
 	@ManyToOne
 	private UserEntity sendUser;
