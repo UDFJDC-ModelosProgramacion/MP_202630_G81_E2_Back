@@ -20,6 +20,7 @@ import co.edu.udistrital.mdp.pets.entities.MessageEntity;
 import co.edu.udistrital.mdp.pets.entities.UserEntity;
 import co.edu.udistrital.mdp.pets.exceptions.EntityNotFoundException;
 import co.edu.udistrital.mdp.pets.exceptions.IllegalOperationException;
+import co.edu.udistrital.mdp.pets.repositories.MessageRepository;
 import uk.co.jemos.podam.api.PodamFactory;
 import uk.co.jemos.podam.api.PodamFactoryImpl;
 
@@ -29,6 +30,9 @@ class MessageServiceTest {
 
     @Autowired
     private MessageService messageService;
+
+    @Autowired
+    private MessageRepository messageRepository;
 
     @Autowired
     private TestEntityManager entityManager;
