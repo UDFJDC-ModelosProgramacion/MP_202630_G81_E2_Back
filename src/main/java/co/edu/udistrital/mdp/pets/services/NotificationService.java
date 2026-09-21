@@ -23,7 +23,6 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor 
 public class NotificationService {
 
-	// Canales válidos para el envío de una notificación
 	public static final Set<String> VALID_CHANNELS = Set.of("EMAIL", "SMS", "PUSH");
 
 	private final NotificationRepository notificationRepository;
@@ -32,9 +31,6 @@ public class NotificationService {
 	private static final String NOTIFICATION_ID_NOT_VALID = "Notification id is not valid";
 	private static final String NOTIFICATION_NOT_FOUND = "Notification not found";
 	
-	/**
-	 * Crea una nueva notificación.
-	 */
 	@Transactional
 	public NotificationEntity createNotification(NotificationEntity notification)
 			throws IllegalOperationException {
@@ -73,9 +69,7 @@ public class NotificationService {
 		return notificationRepository.save(notification);
 	}
 
-	/**
-	 * Obtiene todas las notificaciones registradas.
-	 */
+
 	@Transactional
 	public List<NotificationEntity> getNotifications() {
 		log.info("Inicia proceso de consultar todas las notificaciones");
