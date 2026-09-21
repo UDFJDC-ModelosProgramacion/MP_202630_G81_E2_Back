@@ -25,6 +25,7 @@ public class AdopterService {
 
 	private static final String ADOPTER_NOT_FOUND = "Adopter not found";
 	private static final String ADOPTER_ID_NOT_VALID = "Adopter id is not valid";
+	private static final String SEARCH_FILTERS_CANNOT_BE_EMPTY = "Search filters cannot be empty";
 
 	private final AdopterRepository adopterRepository;
 	private final UserRepository userRepository;
@@ -116,11 +117,11 @@ public class AdopterService {
 			throws IllegalOperationException {
 		log.info("The process of consulting screened adopters begins.");
 		if (nationalId != null && nationalId.isBlank())
-			throw new IllegalOperationException("Search filters cannot be empty");
+			throw new IllegalOperationException(SEARCH_FILTERS_CANNOT_BE_EMPTY);
 		if (housingType != null && housingType.isBlank())
-			throw new IllegalOperationException("Search filters cannot be empty");
+			throw new IllegalOperationException(SEARCH_FILTERS_CANNOT_BE_EMPTY);
 		if (occupation != null && occupation.isBlank())
-			throw new IllegalOperationException("Search filters cannot be empty");
+			throw new IllegalOperationException(SEARCH_FILTERS_CANNOT_BE_EMPTY);
 
 		List<AdopterEntity> adopters = adopterRepository.findAll().stream()
 				.filter(a -> nationalId == null

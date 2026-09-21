@@ -20,6 +20,7 @@ import co.edu.udistrital.mdp.pets.entities.MessageEntity;
 import co.edu.udistrital.mdp.pets.entities.UserEntity;
 import co.edu.udistrital.mdp.pets.exceptions.EntityNotFoundException;
 import co.edu.udistrital.mdp.pets.exceptions.IllegalOperationException;
+import co.edu.udistrital.mdp.pets.repositories.MessageRepository;
 import uk.co.jemos.podam.api.PodamFactory;
 import uk.co.jemos.podam.api.PodamFactoryImpl;
 
@@ -29,6 +30,9 @@ class MessageServiceTest {
 
     @Autowired
     private MessageService messageService;
+
+    @Autowired 
+    private MessageRepository messageRepository;
 
     @Autowired
     private TestEntityManager entityManager;
@@ -276,13 +280,58 @@ class MessageServiceTest {
     }
 
     @Test
-    void testDeleteMessageNotYetImplemented() {
+    void testDeleteMessageHidesForRequestingUser() throws EntityNotFoundException, IllegalOperationException {
         MessageEntity existingMessage = messageList.get(0);
+        Long requesterId = userList.get(0).getId();
 
-        // Logical deletion is not implemented in the base schema, so this
-        // always throws even for the sender/recipient — see TODO in the service.
-        assertThrows(IllegalOperationException.class, () -> {
-            messageService.deleteMessage(existingMessage.getId(), userList.get(0).getId());
-        });
+        boolean isSender = existingMessage.getSendUser().getId().equals(requesterId);
+        boolean isReceiver = existingMessage.getReceivesUser().getId().equals(requesterId);
+        assertTrue(isSender || isReceiver,
+                "This test assumes userList.get(0) is the sender or recipient of messageList.get(0)");
+
+        messageService.deleteMessage(existingMessage.getId(), requesterId);
+
+        MessageEntity updated = messageRepository.findById(existingMessage.getId()).orElseThrow();
+        if (isSender) {
+            assertTrue(updated.getHiddenForSender());
+            assertFalse(updated.getHiddenForReceiver());
+        } else {
+            assertTrue(updated.getHiddenForReceiver());
+            assertFalse(updated.getHiddenForSender());
+        }
+    }
+
+    @Test
+    void testDeleteMessageHidesForOneSide() throws EntityNotFoundException, IllegalOperationException {
+        MessageEntity existingMessage = messageList.get(0);
+        Long senderId = existingMessage.getSendUser().getId();
+
+        messageService.deleteMessage(existingMessage.getId(), senderId);
+
+        MessageEntity updated = messageRepository.findById(existingMessage.getId()).orElseThrow();
+        assertTrue(updated.getHiddenForSender());
+        assertFalse(updated.getHiddenForReceiver());
+    }
+
+    @Test
+    void testDeleteMessagePhysicallyDeletesWhenBothSidesHideIt()
+            throws EntityNotFoundException, IllegalOperationException {
+        MessageEntity existingMessage = messageList.get(0);
+        Long senderId = existingMessage.getSendUser().getId();
+        Long receiverId = existingMessage.getReceivesUser().getId();
+
+        messageService.deleteMessage(existingMessage.getId(), senderId);
+        messageService.deleteMessage(existingMessage.getId(), receiverId);
+
+        assertTrue(messageRepository.findById(existingMessage.getId()).isEmpty());
+    }
+
+    @Test
+    void testDeleteMessageByUnrelatedUserThrowsException() {
+        MessageEntity existingMessage = messageList.get(0);
+        Long unrelatedUserId = -1L;
+
+        assertThrows(IllegalOperationException.class,
+                () -> messageService.deleteMessage(existingMessage.getId(), unrelatedUserId));
     }
 }
