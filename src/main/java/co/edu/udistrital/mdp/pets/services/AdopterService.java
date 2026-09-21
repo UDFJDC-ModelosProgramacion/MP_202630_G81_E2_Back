@@ -21,7 +21,6 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor 
 public class AdopterService {
 
-	// Estados de solicitud de adopción que impiden eliminar al adoptante
 	private static final Set<String> ACTIVE_REQUEST_STATUSES = Set.of("PENDING", "APPROVED", "IN_PROGRESS");
 
 	private static final String ADOPTER_NOT_FOUND = "Adopter not found";
@@ -32,9 +31,6 @@ public class AdopterService {
 	private final UserRepository userRepository;
 	private final AdoptionRequestRepository adoptionRequestRepository;
 
-	/**
-	 * Crea un nuevo adoptante.
-	 */
 	@Transactional 
 	public AdopterEntity createAdopter(AdopterEntity adopter) throws IllegalOperationException {
 		log.info("The process of creating the adopter record begins.");
@@ -80,7 +76,6 @@ public class AdopterService {
 	}
  
 	private void validateNoDuplicates(AdopterEntity adopter) throws IllegalOperationException {
-		// El usuario asociado debe existir (y no estar duplicado) en el sistema.
 		boolean userAlreadyExists = userRepository.findAll().stream()
 				.anyMatch(u -> u.getEmail() != null && u.getEmail().equalsIgnoreCase(adopter.getEmail()));
 		if (userAlreadyExists)
@@ -94,9 +89,6 @@ public class AdopterService {
 			throw new IllegalOperationException("An adopter with the same national id already exists");
 	}
 
-	/**
-	 * Obtiene un adoptante a partir de su id.
-	 */
 	@Transactional
 	public AdopterEntity readAdopter(Long adopterId) throws EntityNotFoundException, IllegalOperationException {
 		log.info("Initiate the process of querying the adopter with id = {}", adopterId);
@@ -111,9 +103,6 @@ public class AdopterService {
 		return adopter.get();
 	}
 
-	/**
-	 * Obtiene todos los adoptantes registrados.
-	 */
 	@Transactional
 	public List<AdopterEntity> readAllAdopters() {
 		log.info("Initiate the process of querying all adopters.");
@@ -123,11 +112,6 @@ public class AdopterService {
 		return adopters;
 	}
 
-	/**
-	 * Obtiene los adoptantes filtrando, de forma opcional, por documento de
-	 * identidad, tipo de vivienda y/o ocupación. Si se combinan varios filtros,
-	 * todos deben coincidir para retornar un resultado.
-	 */
 	@Transactional
 	public List<AdopterEntity> readAllAdopters(String nationalId, String housingType, String occupation)
 			throws IllegalOperationException {
@@ -152,10 +136,6 @@ public class AdopterService {
 		return adopters;
 	}
 
-	/**
-	 * Actualiza un adoptante existente. El documento de identidad y el usuario
-	 * asociado no pueden ser modificados tras la creación.
-	 */
 	@Transactional
 	public AdopterEntity updateAdopter(Long adopterId, AdopterEntity adopter)
 			throws EntityNotFoundException, IllegalOperationException {
@@ -203,10 +183,6 @@ public class AdopterService {
 		current.setHasOtherPets(adopter.getHasOtherPets());
 	}
  
-
-	/**
-	 * Borra un adoptante a partir de su id.
-	 */
 	@Transactional
 	public void deleteAdopter(Long adopterId) throws EntityNotFoundException, IllegalOperationException {
 		log.info("Starting the process to delete the adopter with id = {}", adopterId);

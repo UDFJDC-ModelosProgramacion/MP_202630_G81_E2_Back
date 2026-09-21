@@ -1,0 +1,880 @@
+{
+  "info": {
+    "_postman_id": "219f28b6-03cb-4bb4-abd1-236e302fbb24",
+    "name": "Veterinarian",
+    "description": "Diseno del API para el recurso Veterinarian. Representacion basica: id, firstName, lastName, email, phone, specialization, availability (el password nunca se retorna en las respuestas). Representacion detallada: agrega shelter, medicalEvents y followUps.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Crear un veterinario",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/veterinarians",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "veterinarians"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"firstName\": \"Carlos\",\n    \"lastName\": \"Ramirez\",\n    \"email\": \"carlos.ramirez@example.com\",\n    \"password\": \"Segura123*\",\n    \"phone\": \"3109876543\",\n    \"specialization\": \"Medicina interna de pequenos animales\",\n    \"availability\": \"Lunes a viernes 8:00 - 17:00\",\n    \"shelter\": {\n        \"id\": 1\n    }\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": [
+        {
+          "name": "Crear un veterinario",
+          "originalRequest": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/veterinarians",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "veterinarians"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"firstName\": \"Carlos\",\n    \"lastName\": \"Ramirez\",\n    \"email\": \"carlos.ramirez@example.com\",\n    \"password\": \"Segura123*\",\n    \"phone\": \"3109876543\",\n    \"specialization\": \"Medicina interna de pequenos animales\",\n    \"availability\": \"Lunes a viernes 8:00 - 17:00\",\n    \"shelter\": {\n        \"id\": 1\n    }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "Created",
+          "code": 201,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n    \"id\": 1,\n    \"firstName\": \"Carlos\",\n    \"lastName\": \"Ramirez\",\n    \"email\": \"carlos.ramirez@example.com\",\n    \"phone\": \"3109876543\",\n    \"specialization\": \"Medicina interna de pequenos animales\",\n    \"availability\": \"Lunes a viernes 8:00 - 17:00\"\n}"
+        }
+      ]
+    },
+    {
+      "name": "Crear un veterinario sin especializacion",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/veterinarians",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "veterinarians"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"firstName\": \"Carlos\",\n    \"lastName\": \"Ramirez\",\n    \"email\": \"carlos.ramirez@example.com\",\n    \"password\": \"Segura123*\",\n    \"phone\": \"3109876543\",\n    \"specialization\": \"\",\n    \"availability\": \"Lunes a viernes 8:00 - 17:00\",\n    \"shelter\": {\n        \"id\": 1\n    }\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": [
+        {
+          "name": "Crear un veterinario sin especializacion",
+          "originalRequest": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/veterinarians",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "veterinarians"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"firstName\": \"Carlos\",\n    \"lastName\": \"Ramirez\",\n    \"email\": \"carlos.ramirez@example.com\",\n    \"password\": \"Segura123*\",\n    \"phone\": \"3109876543\",\n    \"specialization\": \"\",\n    \"availability\": \"Lunes a viernes 8:00 - 17:00\",\n    \"shelter\": {\n        \"id\": 1\n    }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "Precondition Failed",
+          "code": 412,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"20-09-2026 10:01:09\",\n        \"message\": \"Specialization is not valid\"\n    }\n}"
+        }
+      ]
+    },
+    {
+      "name": "Crear un veterinario sin disponibilidad",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/veterinarians",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "veterinarians"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"firstName\": \"Carlos\",\n    \"lastName\": \"Ramirez\",\n    \"email\": \"carlos.ramirez@example.com\",\n    \"password\": \"Segura123*\",\n    \"phone\": \"3109876543\",\n    \"specialization\": \"Medicina interna de pequenos animales\",\n    \"availability\": \"\",\n    \"shelter\": {\n        \"id\": 1\n    }\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": [
+        {
+          "name": "Crear un veterinario sin disponibilidad",
+          "originalRequest": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/veterinarians",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "veterinarians"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"firstName\": \"Carlos\",\n    \"lastName\": \"Ramirez\",\n    \"email\": \"carlos.ramirez@example.com\",\n    \"password\": \"Segura123*\",\n    \"phone\": \"3109876543\",\n    \"specialization\": \"Medicina interna de pequenos animales\",\n    \"availability\": \"\",\n    \"shelter\": {\n        \"id\": 1\n    }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "Precondition Failed",
+          "code": 412,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"20-09-2026 10:01:09\",\n        \"message\": \"Availability is not valid\"\n    }\n}"
+        }
+      ]
+    },
+    {
+      "name": "Crear un veterinario con un email ya registrado",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/veterinarians",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "veterinarians"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"firstName\": \"Carlos\",\n    \"lastName\": \"Ramirez\",\n    \"email\": \"carlos.ramirez@example.com\",\n    \"password\": \"Segura123*\",\n    \"phone\": \"3109876543\",\n    \"specialization\": \"Medicina interna de pequenos animales\",\n    \"availability\": \"Lunes a viernes 8:00 - 17:00\",\n    \"shelter\": {\n        \"id\": 1\n    }\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": [
+        {
+          "name": "Crear un veterinario con un email ya registrado",
+          "originalRequest": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/veterinarians",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "veterinarians"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"firstName\": \"Carlos\",\n    \"lastName\": \"Ramirez\",\n    \"email\": \"carlos.ramirez@example.com\",\n    \"password\": \"Segura123*\",\n    \"phone\": \"3109876543\",\n    \"specialization\": \"Medicina interna de pequenos animales\",\n    \"availability\": \"Lunes a viernes 8:00 - 17:00\",\n    \"shelter\": {\n        \"id\": 1\n    }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "Precondition Failed",
+          "code": 412,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"20-09-2026 10:01:09\",\n        \"message\": \"Email already exists\"\n    }\n}"
+        }
+      ]
+    },
+    {
+      "name": "Crear un veterinario en un refugio que no existe",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/veterinarians",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "veterinarians"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"firstName\": \"Carlos\",\n    \"lastName\": \"Ramirez\",\n    \"email\": \"carlos.ramirez@example.com\",\n    \"password\": \"Segura123*\",\n    \"phone\": \"3109876543\",\n    \"specialization\": \"Medicina interna de pequenos animales\",\n    \"availability\": \"Lunes a viernes 8:00 - 17:00\",\n    \"shelter\": {\n        \"id\": 0\n    }\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": [
+        {
+          "name": "Crear un veterinario en un refugio que no existe",
+          "originalRequest": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/veterinarians",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "veterinarians"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"firstName\": \"Carlos\",\n    \"lastName\": \"Ramirez\",\n    \"email\": \"carlos.ramirez@example.com\",\n    \"password\": \"Segura123*\",\n    \"phone\": \"3109876543\",\n    \"specialization\": \"Medicina interna de pequenos animales\",\n    \"availability\": \"Lunes a viernes 8:00 - 17:00\",\n    \"shelter\": {\n        \"id\": 0\n    }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "Not Found",
+          "code": 404,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n    \"apierror\": {\n        \"status\": \"NOT_FOUND\",\n        \"timestamp\": \"20-09-2026 10:01:09\",\n        \"message\": \"The shelter with the given id was not found\"\n    }\n}"
+        }
+      ]
+    },
+    {
+      "name": "Obtener todos los veterinarios",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/veterinarians",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "veterinarians"
+          ]
+        }
+      },
+      "response": [
+        {
+          "name": "Obtener todos los veterinarios",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/veterinarians",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "veterinarians"
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "cookie": [],
+          "body": "[\n    {\n        \"id\": 1,\n        \"firstName\": \"Carlos\",\n        \"lastName\": \"Ramirez\",\n        \"email\": \"carlos.ramirez@example.com\",\n        \"phone\": \"3109876543\",\n        \"specialization\": \"Medicina interna de pequenos animales\",\n        \"availability\": \"Lunes a viernes 8:00 - 17:00\",\n        \"shelter\": {\n            \"id\": 1,\n            \"name\": \"Refugio Patitas Felices\",\n            \"city\": \"Bogota\",\n            \"nit\": \"900123456-7\"\n        },\n        \"medicalEvents\": [\n            {\n                \"id\": 1,\n                \"date\": \"2026-03-12\",\n                \"type\": \"Consulta general\",\n                \"description\": \"Revision de rutina, sin hallazgos relevantes.\"\n            }\n        ],\n        \"followUps\": [\n            {\n                \"id\": 1,\n                \"date\": \"2026-04-02\",\n                \"observation\": \"La mascota se adapto bien al nuevo hogar.\"\n            }\n        ]\n    }\n]"
+        }
+      ]
+    },
+    {
+      "name": "Obtener un veterinario",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/veterinarians/{{veterinarian_id}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "veterinarians",
+            "{{veterinarian_id}}"
+          ]
+        }
+      },
+      "response": [
+        {
+          "name": "Obtener un veterinario",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/veterinarians/{{veterinarian_id}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "veterinarians",
+                "{{veterinarian_id}}"
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n    \"id\": 1,\n    \"firstName\": \"Carlos\",\n    \"lastName\": \"Ramirez\",\n    \"email\": \"carlos.ramirez@example.com\",\n    \"phone\": \"3109876543\",\n    \"specialization\": \"Medicina interna de pequenos animales\",\n    \"availability\": \"Lunes a viernes 8:00 - 17:00\",\n    \"shelter\": {\n        \"id\": 1,\n        \"name\": \"Refugio Patitas Felices\",\n        \"city\": \"Bogota\",\n        \"nit\": \"900123456-7\"\n    },\n    \"medicalEvents\": [\n        {\n            \"id\": 1,\n            \"date\": \"2026-03-12\",\n            \"type\": \"Consulta general\",\n            \"description\": \"Revision de rutina, sin hallazgos relevantes.\"\n        }\n    ],\n    \"followUps\": [\n        {\n            \"id\": 1,\n            \"date\": \"2026-04-02\",\n            \"observation\": \"La mascota se adapto bien al nuevo hogar.\"\n        }\n    ]\n}"
+        }
+      ]
+    },
+    {
+      "name": "Obtener un veterinario que no existe",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/veterinarians/0",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "veterinarians",
+            "0"
+          ]
+        }
+      },
+      "response": [
+        {
+          "name": "Obtener un veterinario que no existe",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/veterinarians/0",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "veterinarians",
+                "0"
+              ]
+            }
+          },
+          "status": "Not Found",
+          "code": 404,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n    \"apierror\": {\n        \"status\": \"NOT_FOUND\",\n        \"timestamp\": \"20-09-2026 10:01:09\",\n        \"message\": \"The veterinarian with the given id was not found\"\n    }\n}"
+        }
+      ]
+    },
+    {
+      "name": "Editar un veterinario",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/veterinarians/{{veterinarian_id}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "veterinarians",
+            "{{veterinarian_id}}"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"firstName\": \"Carlos\",\n    \"lastName\": \"Ramirez\",\n    \"email\": \"carlos.ramirez@example.com\",\n    \"password\": \"Segura123*\",\n    \"phone\": \"3109876543\",\n    \"specialization\": \"Medicina interna de pequenos animales\",\n    \"availability\": \"Lunes a sabado 7:00 - 15:00\",\n    \"shelter\": {\n        \"id\": 1\n    }\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": [
+        {
+          "name": "Editar un veterinario",
+          "originalRequest": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/veterinarians/{{veterinarian_id}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "veterinarians",
+                "{{veterinarian_id}}"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"firstName\": \"Carlos\",\n    \"lastName\": \"Ramirez\",\n    \"email\": \"carlos.ramirez@example.com\",\n    \"password\": \"Segura123*\",\n    \"phone\": \"3109876543\",\n    \"specialization\": \"Medicina interna de pequenos animales\",\n    \"availability\": \"Lunes a sabado 7:00 - 15:00\",\n    \"shelter\": {\n        \"id\": 1\n    }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n    \"id\": 1,\n    \"firstName\": \"Carlos\",\n    \"lastName\": \"Ramirez\",\n    \"email\": \"carlos.ramirez@example.com\",\n    \"phone\": \"3109876543\",\n    \"specialization\": \"Medicina interna de pequenos animales\",\n    \"availability\": \"Lunes a sabado 7:00 - 15:00\"\n}"
+        }
+      ]
+    },
+    {
+      "name": "Editar un veterinario que no existe",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/veterinarians/0",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "veterinarians",
+            "0"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"firstName\": \"Carlos\",\n    \"lastName\": \"Ramirez\",\n    \"email\": \"carlos.ramirez@example.com\",\n    \"password\": \"Segura123*\",\n    \"phone\": \"3109876543\",\n    \"specialization\": \"Medicina interna de pequenos animales\",\n    \"availability\": \"Lunes a sabado 7:00 - 15:00\",\n    \"shelter\": {\n        \"id\": 1\n    }\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": [
+        {
+          "name": "Editar un veterinario que no existe",
+          "originalRequest": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/veterinarians/0",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "veterinarians",
+                "0"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"firstName\": \"Carlos\",\n    \"lastName\": \"Ramirez\",\n    \"email\": \"carlos.ramirez@example.com\",\n    \"password\": \"Segura123*\",\n    \"phone\": \"3109876543\",\n    \"specialization\": \"Medicina interna de pequenos animales\",\n    \"availability\": \"Lunes a sabado 7:00 - 15:00\",\n    \"shelter\": {\n        \"id\": 1\n    }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "Not Found",
+          "code": 404,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n    \"apierror\": {\n        \"status\": \"NOT_FOUND\",\n        \"timestamp\": \"20-09-2026 10:01:09\",\n        \"message\": \"The veterinarian with the given id was not found\"\n    }\n}"
+        }
+      ]
+    },
+    {
+      "name": "Editar un veterinario sin especializacion",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/veterinarians/{{veterinarian_id}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "veterinarians",
+            "{{veterinarian_id}}"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"firstName\": \"Carlos\",\n    \"lastName\": \"Ramirez\",\n    \"email\": \"carlos.ramirez@example.com\",\n    \"password\": \"Segura123*\",\n    \"phone\": \"3109876543\",\n    \"specialization\": \"\",\n    \"availability\": \"Lunes a viernes 8:00 - 17:00\",\n    \"shelter\": {\n        \"id\": 1\n    }\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": [
+        {
+          "name": "Editar un veterinario sin especializacion",
+          "originalRequest": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/veterinarians/{{veterinarian_id}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "veterinarians",
+                "{{veterinarian_id}}"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"firstName\": \"Carlos\",\n    \"lastName\": \"Ramirez\",\n    \"email\": \"carlos.ramirez@example.com\",\n    \"password\": \"Segura123*\",\n    \"phone\": \"3109876543\",\n    \"specialization\": \"\",\n    \"availability\": \"Lunes a viernes 8:00 - 17:00\",\n    \"shelter\": {\n        \"id\": 1\n    }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "Precondition Failed",
+          "code": 412,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"20-09-2026 10:01:09\",\n        \"message\": \"Specialization is not valid\"\n    }\n}"
+        }
+      ]
+    },
+    {
+      "name": "Borrar un veterinario",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/veterinarians/{{veterinarian_id}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "veterinarians",
+            "{{veterinarian_id}}"
+          ]
+        }
+      },
+      "response": [
+        {
+          "name": "Borrar un veterinario",
+          "originalRequest": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/veterinarians/{{veterinarian_id}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "veterinarians",
+                "{{veterinarian_id}}"
+              ]
+            }
+          },
+          "status": "No Content",
+          "code": 204,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "cookie": [],
+          "body": ""
+        }
+      ]
+    },
+    {
+      "name": "Borrar un veterinario que no existe",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/veterinarians/0",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "veterinarians",
+            "0"
+          ]
+        }
+      },
+      "response": [
+        {
+          "name": "Borrar un veterinario que no existe",
+          "originalRequest": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/veterinarians/0",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "veterinarians",
+                "0"
+              ]
+            }
+          },
+          "status": "Not Found",
+          "code": 404,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n    \"apierror\": {\n        \"status\": \"NOT_FOUND\",\n        \"timestamp\": \"20-09-2026 10:01:09\",\n        \"message\": \"The veterinarian with the given id was not found\"\n    }\n}"
+        }
+      ]
+    },
+    {
+      "name": "Borrar un veterinario con eventos medicos asociados",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/veterinarians/{{veterinarian_id}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "veterinarians",
+            "{{veterinarian_id}}"
+          ]
+        }
+      },
+      "response": [
+        {
+          "name": "Borrar un veterinario con eventos medicos asociados",
+          "originalRequest": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/veterinarians/{{veterinarian_id}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "veterinarians",
+                "{{veterinarian_id}}"
+              ]
+            }
+          },
+          "status": "Precondition Failed",
+          "code": 412,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"20-09-2026 10:01:09\",\n        \"message\": \"Unable to delete veterinarian because it has associated medical events\"\n    }\n}"
+        }
+      ]
+    }
+  ]
+}
