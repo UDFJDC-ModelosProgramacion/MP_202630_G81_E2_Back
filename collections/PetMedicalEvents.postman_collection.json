@@ -1,648 +1,646 @@
 {
-	"info": {
-		"_postman_id": "18224e22-2dd0-4ac5-8c0d-a9d0a01d925a",
-		"name": "PetMedicalEvents",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
-	},
-	"item": [
-		{
-			"name": "Agregar un evento medico a una mascota",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"url": {
-					"raw": "{{baseUrl}}/pets/{{pet_id}}/medicalevents/{{medical_event_id_1}}",
-					"host": [
-						"{{baseUrl}}"
-					],
-					"path": [
-						"pets",
-						"{{pet_id}}",
-						"medicalevents",
-						"{{medical_event_id_1}}"
-					]
-				},
-				"description": "Asocia un evento medico existente ({{medical_event_id_1}}) a una mascota. No lleva body; responde con un evento medico asociado."
-			},
-			"response": [
-				{
-					"name": "Agregar un evento medico a una mascota",
-					"originalRequest": {
-						"method": "POST",
-						"header": [],
-						"url": {
-							"raw": "{{baseUrl}}/pets/{{pet_id}}/medicalevents/{{medical_event_id_1}}",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"pets",
-								"{{pet_id}}",
-								"medicalevents",
-								"{{medical_event_id_1}}"
-							]
-						}
-					},
-					"status": "Created",
-					"code": 201,
-					"_postman_previewlanguage": "json",
-					"header": [
-						{
-							"key": "Content-Type",
-							"value": "application/json"
-						}
-					],
-					"cookie": [],
-					"body": "{\n    \"id\": 3,\n    \"date\": \"2026-05-20\",\n    \"type\": \"Cirugia\",\n    \"description\": \"Esterilizacion sin complicaciones.\"\n}"
-				}
-			]
-		},
-		{
-			"name": "Agregar un evento medico que no existe a una mascota",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"url": {
-					"raw": "{{baseUrl}}/pets/{{pet_id}}/medicalevents/0",
-					"host": [
-						"{{baseUrl}}"
-					],
-					"path": [
-						"pets",
-						"{{pet_id}}",
-						"medicalevents",
-						"0"
-					]
-				},
-				"description": "El id 0 no existe por convencion."
-			},
-			"response": [
-				{
-					"name": "Agregar un evento medico que no existe a una mascota",
-					"originalRequest": {
-						"method": "POST",
-						"header": [],
-						"url": {
-							"raw": "{{baseUrl}}/pets/{{pet_id}}/medicalevents/0",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"pets",
-								"{{pet_id}}",
-								"medicalevents",
-								"0"
-							]
-						}
-					},
-					"status": "Not Found",
-					"code": 404,
-					"_postman_previewlanguage": "json",
-					"header": [
-						{
-							"key": "Content-Type",
-							"value": "application/json"
-						}
-					],
-					"cookie": [],
-					"body": "{\n    \"apierror\": {\n        \"status\": \"NOT_FOUND\",\n        \"timestamp\": \"20-09-2026 10:09:10\",\n        \"message\": \"The medical event with the given id was not found\"\n    }\n}"
-				}
-			]
-		},
-		{
-			"name": "Obtener un evento medico de una mascota",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "{{baseUrl}}/pets/{{pet_id}}/medicalevents/{{medical_event_id_1}}",
-					"host": [
-						"{{baseUrl}}"
-					],
-					"path": [
-						"pets",
-						"{{pet_id}}",
-						"medicalevents",
-						"{{medical_event_id_1}}"
-					]
-				},
-				"description": "Consulta un evento medico que ya esta asociado a una mascota."
-			},
-			"response": [
-				{
-					"name": "Obtener un evento medico de una mascota",
-					"originalRequest": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{baseUrl}}/pets/{{pet_id}}/medicalevents/{{medical_event_id_1}}",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"pets",
-								"{{pet_id}}",
-								"medicalevents",
-								"{{medical_event_id_1}}"
-							]
-						}
-					},
-					"status": "OK",
-					"code": 200,
-					"_postman_previewlanguage": "json",
-					"header": [
-						{
-							"key": "Content-Type",
-							"value": "application/json"
-						}
-					],
-					"cookie": [],
-					"body": "{\n    \"id\": 3,\n    \"date\": \"2026-05-20\",\n    \"type\": \"Cirugia\",\n    \"description\": \"Esterilizacion sin complicaciones.\"\n}"
-				}
-			]
-		},
-		{
-			"name": "Obtener un evento medico que no existe de una mascota",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "{{baseUrl}}/pets/{{pet_id}}/medicalevents/0",
-					"host": [
-						"{{baseUrl}}"
-					],
-					"path": [
-						"pets",
-						"{{pet_id}}",
-						"medicalevents",
-						"0"
-					]
-				},
-				"description": "El id 0 no existe por convencion."
-			},
-			"response": [
-				{
-					"name": "Obtener un evento medico que no existe de una mascota",
-					"originalRequest": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{baseUrl}}/pets/{{pet_id}}/medicalevents/0",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"pets",
-								"{{pet_id}}",
-								"medicalevents",
-								"0"
-							]
-						}
-					},
-					"status": "Not Found",
-					"code": 404,
-					"_postman_previewlanguage": "json",
-					"header": [
-						{
-							"key": "Content-Type",
-							"value": "application/json"
-						}
-					],
-					"cookie": [],
-					"body": "{\n    \"apierror\": {\n        \"status\": \"NOT_FOUND\",\n        \"timestamp\": \"20-09-2026 10:09:47\",\n        \"message\": \"The medical event with the given id was not found\"\n    }\n}"
-				}
-			]
-		},
-		{
-			"name": "Obtener un evento medico que no esta asociado a una mascota",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "{{baseUrl}}/pets/{{pet_id}}/medicalevents/{{medical_event_id_2}}",
-					"host": [
-						"{{baseUrl}}"
-					],
-					"path": [
-						"pets",
-						"{{pet_id}}",
-						"medicalevents",
-						"{{medical_event_id_2}}"
-					]
-				},
-				"description": "medical_event_id_2 debe ser un evento medico que existe pero pertenece a otra mascota (no a pet_id)."
-			},
-			"response": [
-				{
-					"name": "Obtener un evento medico que no esta asociado a una mascota",
-					"originalRequest": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{baseUrl}}/pets/{{pet_id}}/medicalevents/{{medical_event_id_2}}",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"pets",
-								"{{pet_id}}",
-								"medicalevents",
-								"{{medical_event_id_2}}"
-							]
-						}
-					},
-					"status": "Precondition Failed",
-					"code": 412,
-					"_postman_previewlanguage": "json",
-					"header": [
-						{
-							"key": "Content-Type",
-							"value": "application/json"
-						}
-					],
-					"cookie": [],
-					"body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"20-09-2026 10:10:24\",\n        \"message\": \"The medical event is not associated to the pet\"\n    }\n}"
-				}
-			]
-		},
-		{
-			"name": "Obtener los eventos medicos de una mascota",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "{{baseUrl}}/pets/{{pet_id}}/medicalevents",
-					"host": [
-						"{{baseUrl}}"
-					],
-					"path": [
-						"pets",
-						"{{pet_id}}",
-						"medicalevents"
-					]
-				},
-				"description": "Lista los eventos medicos asociados a una mascota, en representacion detallada."
-			},
-			"response": [
-				{
-					"name": "Obtener los eventos medicos de una mascota",
-					"originalRequest": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{baseUrl}}/pets/{{pet_id}}/medicalevents",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"pets",
-								"{{pet_id}}",
-								"medicalevents"
-							]
-						}
-					},
-					"status": "OK",
-					"code": 200,
-					"_postman_previewlanguage": "json",
-					"header": [
-						{
-							"key": "Content-Type",
-							"value": "application/json"
-						}
-					],
-					"cookie": [],
-					"body": "[\n    {\n        \"id\": 1,\n        \"date\": \"2026-03-10\",\n        \"type\": \"Llegada al refugio\",\n        \"description\": \"Rescatada de la calle en el barrio Chapinero.\"\n    },\n    {\n        \"id\": 3,\n        \"date\": \"2026-05-20\",\n        \"type\": \"Cirugia\",\n        \"description\": \"Esterilizacion sin complicaciones.\"\n    }\n]"
-				}
-			]
-		},
-		{
-			"name": "Asociar eventos medicos a una mascota",
-			"request": {
-				"method": "PUT",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json"
-					}
-				],
-				"url": {
-					"raw": "{{baseUrl}}/pets/{{pet_id}}/medicalevents",
-					"host": [
-						"{{baseUrl}}"
-					],
-					"path": [
-						"pets",
-						"{{pet_id}}",
-						"medicalevents"
-					]
-				},
-				"description": "Reemplaza el conjunto de eventos medicos de una mascota por la lista enviada. La lista incluye el evento de llegada (medical_event_id_arrival) porque toda mascota debe conservar al menos uno (regla 5 de createPet).",
-				"body": {
-					"mode": "raw",
-					"raw": "[\n    {\n        \"id\": {{medical_event_id_arrival}},\n        \"date\": \"2026-03-10T00:00:00-05:00\",\n        \"type\": \"Llegada al refugio\",\n        \"description\": \"Rescatada de la calle en el barrio Chapinero.\"\n    },\n    {\n        \"id\": {{medical_event_id_1}},\n        \"date\": \"2026-05-20T00:00:00-05:00\",\n        \"type\": \"Cirugia\",\n        \"description\": \"Esterilizacion sin complicaciones.\"\n    },\n    {\n        \"id\": {{medical_event_id_2}},\n        \"date\": \"2026-06-15T00:00:00-05:00\",\n        \"type\": \"Consulta general\",\n        \"description\": \"Control de rutina, sin hallazgos.\"\n    }\n]",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				}
-			},
-			"response": [
-				{
-					"name": "Asociar eventos medicos a una mascota",
-					"originalRequest": {
-						"method": "PUT",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"url": {
-							"raw": "{{baseUrl}}/pets/{{pet_id}}/medicalevents",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"pets",
-								"{{pet_id}}",
-								"medicalevents"
-							]
-						},
-						"body": {
-							"mode": "raw",
-							"raw": "[\n    {\n        \"id\": {{medical_event_id_arrival}},\n        \"date\": \"2026-03-10T00:00:00-05:00\",\n        \"type\": \"Llegada al refugio\",\n        \"description\": \"Rescatada de la calle en el barrio Chapinero.\"\n    },\n    {\n        \"id\": {{medical_event_id_1}},\n        \"date\": \"2026-05-20T00:00:00-05:00\",\n        \"type\": \"Cirugia\",\n        \"description\": \"Esterilizacion sin complicaciones.\"\n    },\n    {\n        \"id\": {{medical_event_id_2}},\n        \"date\": \"2026-06-15T00:00:00-05:00\",\n        \"type\": \"Consulta general\",\n        \"description\": \"Control de rutina, sin hallazgos.\"\n    }\n]",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						}
-					},
-					"status": "OK",
-					"code": 200,
-					"_postman_previewlanguage": "json",
-					"header": [
-						{
-							"key": "Content-Type",
-							"value": "application/json"
-						}
-					],
-					"cookie": [],
-					"body": "[\n    {\n        \"id\": 1,\n        \"date\": \"2026-03-10T05:00:00.000+00:00\",\n        \"type\": \"Llegada al refugio\",\n        \"description\": \"Rescatada de la calle en el barrio Chapinero.\"\n    },\n    {\n        \"id\": 3,\n        \"date\": \"2026-05-20T05:00:00.000+00:00\",\n        \"type\": \"Cirugia\",\n        \"description\": \"Esterilizacion sin complicaciones.\"\n    },\n    {\n        \"id\": 4,\n        \"date\": \"2026-06-15T05:00:00.000+00:00\",\n        \"type\": \"Consulta general\",\n        \"description\": \"Control de rutina, sin hallazgos.\"\n    }\n]"
-				}
-			]
-		},
-		{
-			"name": "Asociar eventos medicos que no existen a una mascota",
-			"request": {
-				"method": "PUT",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json"
-					}
-				],
-				"url": {
-					"raw": "{{baseUrl}}/pets/{{pet_id}}/medicalevents",
-					"host": [
-						"{{baseUrl}}"
-					],
-					"path": [
-						"pets",
-						"{{pet_id}}",
-						"medicalevents"
-					]
-				},
-				"description": "La lista incluye un elemento con id 0, que no existe.",
-				"body": {
-					"mode": "raw",
-					"raw": "[\n    {\n        \"id\": 0,\n        \"date\": \"2026-05-20T00:00:00-05:00\",\n        \"type\": \"Cirugia\",\n        \"description\": \"Esterilizacion sin complicaciones.\"\n    }\n]",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				}
-			},
-			"response": [
-				{
-					"name": "Asociar eventos medicos que no existen a una mascota",
-					"originalRequest": {
-						"method": "PUT",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"url": {
-							"raw": "{{baseUrl}}/pets/{{pet_id}}/medicalevents",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"pets",
-								"{{pet_id}}",
-								"medicalevents"
-							]
-						},
-						"body": {
-							"mode": "raw",
-							"raw": "[\n    {\n        \"id\": 0,\n        \"date\": \"2026-05-20T00:00:00-05:00\",\n        \"type\": \"Cirugia\",\n        \"description\": \"Esterilizacion sin complicaciones.\"\n    }\n]",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						}
-					},
-					"status": "Not Found",
-					"code": 404,
-					"_postman_previewlanguage": "json",
-					"header": [
-						{
-							"key": "Content-Type",
-							"value": "application/json"
-						}
-					],
-					"cookie": [],
-					"body": "{\n    \"apierror\": {\n        \"status\": \"NOT_FOUND\",\n        \"timestamp\": \"20-09-2026 10:11:01\",\n        \"message\": \"The medical event with the given id was not found\"\n    }\n}"
-				}
-			]
-		},
-		{
-			"name": "Borrar un evento medico de una mascota",
-			"request": {
-				"method": "DELETE",
-				"header": [],
-				"url": {
-					"raw": "{{baseUrl}}/pets/{{pet_id}}/medicalevents/{{medical_event_id_2}}",
-					"host": [
-						"{{baseUrl}}"
-					],
-					"path": [
-						"pets",
-						"{{pet_id}}",
-						"medicalevents",
-						"{{medical_event_id_2}}"
-					]
-				},
-				"description": "Desasocia el evento medico medical_event_id_2 de la mascota (no es el evento de llegada)."
-			},
-			"response": [
-				{
-					"name": "Borrar un evento medico de una mascota",
-					"originalRequest": {
-						"method": "DELETE",
-						"header": [],
-						"url": {
-							"raw": "{{baseUrl}}/pets/{{pet_id}}/medicalevents/{{medical_event_id_2}}",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"pets",
-								"{{pet_id}}",
-								"medicalevents",
-								"{{medical_event_id_2}}"
-							]
-						}
-					},
-					"status": "No Content",
-					"code": 204,
-					"_postman_previewlanguage": "text",
-					"header": [],
-					"cookie": [],
-					"body": ""
-				}
-			]
-		},
-		{
-			"name": "Borrar un evento medico de una mascota que no existe",
-			"request": {
-				"method": "DELETE",
-				"header": [],
-				"url": {
-					"raw": "{{baseUrl}}/pets/0/medicalevents/{{medical_event_id_2}}",
-					"host": [
-						"{{baseUrl}}"
-					],
-					"path": [
-						"pets",
-						"0",
-						"medicalevents",
-						"{{medical_event_id_2}}"
-					]
-				},
-				"description": "El id 0 no existe por convencion."
-			},
-			"response": [
-				{
-					"name": "Borrar un evento medico de una mascota que no existe",
-					"originalRequest": {
-						"method": "DELETE",
-						"header": [],
-						"url": {
-							"raw": "{{baseUrl}}/pets/0/medicalevents/{{medical_event_id_2}}",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"pets",
-								"0",
-								"medicalevents",
-								"{{medical_event_id_2}}"
-							]
-						}
-					},
-					"status": "Not Found",
-					"code": 404,
-					"_postman_previewlanguage": "json",
-					"header": [
-						{
-							"key": "Content-Type",
-							"value": "application/json"
-						}
-					],
-					"cookie": [],
-					"body": "{\n    \"apierror\": {\n        \"status\": \"NOT_FOUND\",\n        \"timestamp\": \"20-09-2026 10:11:38\",\n        \"message\": \"The pet with the given id was not found\"\n    }\n}"
-				}
-			]
-		},
-		{
-			"name": "Borrar un evento medico que no existe de una mascota",
-			"request": {
-				"method": "DELETE",
-				"header": [],
-				"url": {
-					"raw": "{{baseUrl}}/pets/{{pet_id}}/medicalevents/0",
-					"host": [
-						"{{baseUrl}}"
-					],
-					"path": [
-						"pets",
-						"{{pet_id}}",
-						"medicalevents",
-						"0"
-					]
-				},
-				"description": "El id 0 no existe por convencion."
-			},
-			"response": [
-				{
-					"name": "Borrar un evento medico que no existe de una mascota",
-					"originalRequest": {
-						"method": "DELETE",
-						"header": [],
-						"url": {
-							"raw": "{{baseUrl}}/pets/{{pet_id}}/medicalevents/0",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"pets",
-								"{{pet_id}}",
-								"medicalevents",
-								"0"
-							]
-						}
-					},
-					"status": "Not Found",
-					"code": 404,
-					"_postman_previewlanguage": "json",
-					"header": [
-						{
-							"key": "Content-Type",
-							"value": "application/json"
-						}
-					],
-					"cookie": [],
-					"body": "{\n    \"apierror\": {\n        \"status\": \"NOT_FOUND\",\n        \"timestamp\": \"20-09-2026 10:12:15\",\n        \"message\": \"The medical event with the given id was not found\"\n    }\n}"
-				}
-			]
-		}
-	],
-	"variable": [
-		{
-			"key": "pet_id",
-			"value": "1",
-			"type": "string"
-		},
-		{
-			"key": "medical_event_id_1",
-			"value": "3",
-			"type": "string"
-		},
-		{
-			"key": "medical_event_id_2",
-			"value": "4",
-			"type": "string"
-		},
-		{
-			"key": "medical_event_id_arrival",
-			"value": "1",
-			"type": "string"
-		}
-	]
+  "info": {
+    "_postman_id": "3743fe50-200c-445d-ae52-5d983b0f8e00",
+    "name": "PetMedicalEvents",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "49510484",
+    "_collection_link": "https://go.postman.co/collection/49510484-3743fe50-200c-445d-ae52-5d983b0f8e00?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "Agregar un evento medico a una mascota",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/pets/{{pet_id}}/medicalevents/{{medical_event_id_1}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "pets",
+            "{{pet_id}}",
+            "medicalevents",
+            "{{medical_event_id_1}}"
+          ]
+        },
+        "description": "Asocia un evento medico existente ({{medical_event_id_1}}) a una mascota. No lleva body; responde con un evento medico asociado."
+      },
+      "response": [
+        {
+          "name": "Agregar un evento medico a una mascota",
+          "originalRequest": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/pets/{{pet_id}}/medicalevents/{{medical_event_id_1}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "pets",
+                "{{pet_id}}",
+                "medicalevents",
+                "{{medical_event_id_1}}"
+              ]
+            }
+          },
+          "status": "Created",
+          "code": 201,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n    \"id\": 3,\n    \"date\": \"2026-05-20\",\n    \"type\": \"Cirugia\",\n    \"description\": \"Esterilizacion sin complicaciones.\"\n}"
+        }
+      ]
+    },
+    {
+      "name": "Agregar un evento medico que no existe a una mascota",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/pets/{{pet_id}}/medicalevents/0",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "pets",
+            "{{pet_id}}",
+            "medicalevents",
+            "0"
+          ]
+        },
+        "description": "El id 0 no existe por convencion."
+      },
+      "response": [
+        {
+          "name": "Agregar un evento medico que no existe a una mascota",
+          "originalRequest": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/pets/{{pet_id}}/medicalevents/0",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "pets",
+                "{{pet_id}}",
+                "medicalevents",
+                "0"
+              ]
+            }
+          },
+          "status": "Not Found",
+          "code": 404,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n    \"apierror\": {\n        \"status\": \"NOT_FOUND\",\n        \"timestamp\": \"20-09-2026 10:09:10\",\n        \"message\": \"The medical event with the given id was not found\"\n    }\n}"
+        }
+      ]
+    },
+    {
+      "name": "Obtener un evento medico de una mascota",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/pets/{{pet_id}}/medicalevents/{{medical_event_id_1}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "pets",
+            "{{pet_id}}",
+            "medicalevents",
+            "{{medical_event_id_1}}"
+          ]
+        },
+        "description": "Consulta un evento medico que ya esta asociado a una mascota."
+      },
+      "response": [
+        {
+          "name": "Obtener un evento medico de una mascota",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/pets/{{pet_id}}/medicalevents/{{medical_event_id_1}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "pets",
+                "{{pet_id}}",
+                "medicalevents",
+                "{{medical_event_id_1}}"
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n    \"id\": 3,\n    \"date\": \"2026-05-20\",\n    \"type\": \"Cirugia\",\n    \"description\": \"Esterilizacion sin complicaciones.\"\n}"
+        }
+      ]
+    },
+    {
+      "name": "Obtener un evento medico que no existe de una mascota",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/pets/{{pet_id}}/medicalevents/0",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "pets",
+            "{{pet_id}}",
+            "medicalevents",
+            "0"
+          ]
+        },
+        "description": "El id 0 no existe por convencion."
+      },
+      "response": [
+        {
+          "name": "Obtener un evento medico que no existe de una mascota",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/pets/{{pet_id}}/medicalevents/0",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "pets",
+                "{{pet_id}}",
+                "medicalevents",
+                "0"
+              ]
+            }
+          },
+          "status": "Not Found",
+          "code": 404,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n    \"apierror\": {\n        \"status\": \"NOT_FOUND\",\n        \"timestamp\": \"20-09-2026 10:09:47\",\n        \"message\": \"The medical event with the given id was not found\"\n    }\n}"
+        }
+      ]
+    },
+    {
+      "name": "Obtener un evento medico que no esta asociado a una mascota",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/pets/{{pet_id}}/medicalevents/{{medical_event_id_2}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "pets",
+            "{{pet_id}}",
+            "medicalevents",
+            "{{medical_event_id_2}}"
+          ]
+        },
+        "description": "medical_event_id_2 debe ser un evento medico que existe pero pertenece a otra mascota (no a pet_id)."
+      },
+      "response": [
+        {
+          "name": "Obtener un evento medico que no esta asociado a una mascota",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/pets/{{pet_id}}/medicalevents/{{medical_event_id_2}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "pets",
+                "{{pet_id}}",
+                "medicalevents",
+                "{{medical_event_id_2}}"
+              ]
+            }
+          },
+          "status": "Precondition Failed",
+          "code": 412,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"20-09-2026 10:10:24\",\n        \"message\": \"The medical event is not associated to the pet\"\n    }\n}"
+        }
+      ]
+    },
+    {
+      "name": "Obtener los eventos medicos de una mascota",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/pets/{{pet_id}}/medicalevents",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "pets",
+            "{{pet_id}}",
+            "medicalevents"
+          ]
+        },
+        "description": "Lista los eventos medicos asociados a una mascota, en representacion detallada."
+      },
+      "response": [
+        {
+          "name": "Obtener los eventos medicos de una mascota",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/pets/{{pet_id}}/medicalevents",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "pets",
+                "{{pet_id}}",
+                "medicalevents"
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "cookie": [],
+          "body": "[\n    {\n        \"id\": 1,\n        \"date\": \"2026-03-10\",\n        \"type\": \"Llegada al refugio\",\n        \"description\": \"Rescatada de la calle en el barrio Chapinero.\"\n    },\n    {\n        \"id\": 3,\n        \"date\": \"2026-05-20\",\n        \"type\": \"Cirugia\",\n        \"description\": \"Esterilizacion sin complicaciones.\"\n    }\n]"
+        }
+      ]
+    },
+    {
+      "name": "Asociar eventos medicos a una mascota",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "[\n    {\n        \"id\": {{medical_event_id_arrival}},\n        \"date\": \"2026-03-10T00:00:00-05:00\",\n        \"type\": \"Llegada al refugio\",\n        \"description\": \"Rescatada de la calle en el barrio Chapinero.\"\n    },\n    {\n        \"id\": {{medical_event_id_1}},\n        \"date\": \"2026-05-20T00:00:00-05:00\",\n        \"type\": \"Cirugia\",\n        \"description\": \"Esterilizacion sin complicaciones.\"\n    },\n    {\n        \"id\": {{medical_event_id_2}},\n        \"date\": \"2026-06-15T00:00:00-05:00\",\n        \"type\": \"Consulta general\",\n        \"description\": \"Control de rutina, sin hallazgos.\"\n    }\n]",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/pets/{{pet_id}}/medicalevents",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "pets",
+            "{{pet_id}}",
+            "medicalevents"
+          ]
+        },
+        "description": "Reemplaza el conjunto de eventos medicos de una mascota por la lista enviada. La lista incluye el evento de llegada (medical_event_id_arrival) porque toda mascota debe conservar al menos uno (regla 5 de createPet)."
+      },
+      "response": [
+        {
+          "name": "Asociar eventos medicos a una mascota",
+          "originalRequest": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "[\n    {\n        \"id\": {{medical_event_id_arrival}},\n        \"date\": \"2026-03-10T00:00:00-05:00\",\n        \"type\": \"Llegada al refugio\",\n        \"description\": \"Rescatada de la calle en el barrio Chapinero.\"\n    },\n    {\n        \"id\": {{medical_event_id_1}},\n        \"date\": \"2026-05-20T00:00:00-05:00\",\n        \"type\": \"Cirugia\",\n        \"description\": \"Esterilizacion sin complicaciones.\"\n    },\n    {\n        \"id\": {{medical_event_id_2}},\n        \"date\": \"2026-06-15T00:00:00-05:00\",\n        \"type\": \"Consulta general\",\n        \"description\": \"Control de rutina, sin hallazgos.\"\n    }\n]",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/pets/{{pet_id}}/medicalevents",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "pets",
+                "{{pet_id}}",
+                "medicalevents"
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "cookie": [],
+          "body": "[\n    {\n        \"id\": 1,\n        \"date\": \"2026-03-10T05:00:00.000+00:00\",\n        \"type\": \"Llegada al refugio\",\n        \"description\": \"Rescatada de la calle en el barrio Chapinero.\"\n    },\n    {\n        \"id\": 3,\n        \"date\": \"2026-05-20T05:00:00.000+00:00\",\n        \"type\": \"Cirugia\",\n        \"description\": \"Esterilizacion sin complicaciones.\"\n    },\n    {\n        \"id\": 4,\n        \"date\": \"2026-06-15T05:00:00.000+00:00\",\n        \"type\": \"Consulta general\",\n        \"description\": \"Control de rutina, sin hallazgos.\"\n    }\n]"
+        }
+      ]
+    },
+    {
+      "name": "Asociar eventos medicos que no existen a una mascota",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "[\n    {\n        \"id\": 0,\n        \"date\": \"2026-05-20T00:00:00-05:00\",\n        \"type\": \"Cirugia\",\n        \"description\": \"Esterilizacion sin complicaciones.\"\n    }\n]",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/pets/{{pet_id}}/medicalevents",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "pets",
+            "{{pet_id}}",
+            "medicalevents"
+          ]
+        },
+        "description": "La lista incluye un elemento con id 0, que no existe."
+      },
+      "response": [
+        {
+          "name": "Asociar eventos medicos que no existen a una mascota",
+          "originalRequest": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "[\n    {\n        \"id\": 0,\n        \"date\": \"2026-05-20T00:00:00-05:00\",\n        \"type\": \"Cirugia\",\n        \"description\": \"Esterilizacion sin complicaciones.\"\n    }\n]",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/pets/{{pet_id}}/medicalevents",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "pets",
+                "{{pet_id}}",
+                "medicalevents"
+              ]
+            }
+          },
+          "status": "Not Found",
+          "code": 404,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n    \"apierror\": {\n        \"status\": \"NOT_FOUND\",\n        \"timestamp\": \"20-09-2026 10:11:01\",\n        \"message\": \"The medical event with the given id was not found\"\n    }\n}"
+        }
+      ]
+    },
+    {
+      "name": "Borrar un evento medico de una mascota",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/pets/{{pet_id}}/medicalevents/{{medical_event_id_2}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "pets",
+            "{{pet_id}}",
+            "medicalevents",
+            "{{medical_event_id_2}}"
+          ]
+        },
+        "description": "Desasocia el evento medico medical_event_id_2 de la mascota (no es el evento de llegada)."
+      },
+      "response": [
+        {
+          "name": "Borrar un evento medico de una mascota",
+          "originalRequest": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/pets/{{pet_id}}/medicalevents/{{medical_event_id_2}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "pets",
+                "{{pet_id}}",
+                "medicalevents",
+                "{{medical_event_id_2}}"
+              ]
+            }
+          },
+          "status": "No Content",
+          "code": 204,
+          "_postman_previewlanguage": "text",
+          "header": [],
+          "cookie": [],
+          "body": ""
+        }
+      ]
+    },
+    {
+      "name": "Borrar un evento medico de una mascota que no existe",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/pets/0/medicalevents/{{medical_event_id_2}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "pets",
+            "0",
+            "medicalevents",
+            "{{medical_event_id_2}}"
+          ]
+        },
+        "description": "El id 0 no existe por convencion."
+      },
+      "response": [
+        {
+          "name": "Borrar un evento medico de una mascota que no existe",
+          "originalRequest": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/pets/0/medicalevents/{{medical_event_id_2}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "pets",
+                "0",
+                "medicalevents",
+                "{{medical_event_id_2}}"
+              ]
+            }
+          },
+          "status": "Not Found",
+          "code": 404,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n    \"apierror\": {\n        \"status\": \"NOT_FOUND\",\n        \"timestamp\": \"20-09-2026 10:11:38\",\n        \"message\": \"The pet with the given id was not found\"\n    }\n}"
+        }
+      ]
+    },
+    {
+      "name": "Borrar un evento medico que no existe de una mascota",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/pets/{{pet_id}}/medicalevents/0",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "pets",
+            "{{pet_id}}",
+            "medicalevents",
+            "0"
+          ]
+        },
+        "description": "El id 0 no existe por convencion."
+      },
+      "response": [
+        {
+          "name": "Borrar un evento medico que no existe de una mascota",
+          "originalRequest": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/pets/{{pet_id}}/medicalevents/0",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "pets",
+                "{{pet_id}}",
+                "medicalevents",
+                "0"
+              ]
+            }
+          },
+          "status": "Not Found",
+          "code": 404,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n    \"apierror\": {\n        \"status\": \"NOT_FOUND\",\n        \"timestamp\": \"20-09-2026 10:12:15\",\n        \"message\": \"The medical event with the given id was not found\"\n    }\n}"
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "pet_id",
+      "value": "1"
+    },
+    {
+      "key": "medical_event_id_1",
+      "value": "3"
+    },
+    {
+      "key": "medical_event_id_2",
+      "value": "4"
+    },
+    {
+      "key": "medical_event_id_arrival",
+      "value": "1"
+    }
+  ]
 }
