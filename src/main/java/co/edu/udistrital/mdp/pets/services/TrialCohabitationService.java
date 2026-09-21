@@ -36,9 +36,6 @@ public class TrialCohabitationService {
 	private final ShelterRepository shelterRepository;
 	private final PetRepository petRepository;
 
-	/**
-	 * Crea una nueva convivencia de prueba.
-	 */
 	@Transactional
 	public TrialCohabitationEntity createTrial(TrialCohabitationEntity trial)
 			throws EntityNotFoundException, IllegalOperationException {
@@ -111,9 +108,6 @@ public class TrialCohabitationService {
 					"The requested pet is already involved in another in-progress trial cohabitation");
 	}
 
-	/**
-	 * Obtiene todas las convivencias de prueba registradas.
-	 */
 	@Transactional
 	public List<TrialCohabitationEntity> readAllTrials() {
 		log.info("Inicia proceso de consultar todas las convivencias de prueba");
@@ -123,10 +117,6 @@ public class TrialCohabitationService {
 		return trials;
 	}
 
-	/**
-	 * Obtiene las convivencias de prueba filtrando, de forma opcional, por estado
-	 * y/o rango de fechas. Si se combinan varios filtros, todos deben coincidir.
-	 */
 	@Transactional
 	public List<TrialCohabitationEntity> readAllTrials(String status, Date startDate, Date endDate)
 			throws IllegalOperationException {
@@ -144,9 +134,6 @@ public class TrialCohabitationService {
 		return trials;
 	}
 
-	/**
-	 * Obtiene una convivencia de prueba a partir de su id.
-	 */
 	@Transactional
 	public TrialCohabitationEntity readTrial(Long trialId) throws EntityNotFoundException, IllegalOperationException {
 		log.info("Inicia proceso de consultar la convivencia de prueba con id = {}", trialId);
@@ -161,9 +148,6 @@ public class TrialCohabitationService {
 		return trial.get();
 	}
 
-	/**
-	 * Actualiza una convivencia de prueba existente.
-	 */
 	@Transactional
 	public TrialCohabitationEntity updateTrial(Long trialId, TrialCohabitationEntity trial)
 			throws EntityNotFoundException, IllegalOperationException {
@@ -199,10 +183,6 @@ public class TrialCohabitationService {
 		return trialCohabitationRepository.save(current);
 	}
 
-	/**
-	 * Borra una convivencia de prueba a partir de su id. Únicamente se pueden
-	 * eliminar aquellas en estado pendiente.
-	 */
 	@Transactional
 	public void deleteTrial(Long trialId) throws EntityNotFoundException, IllegalOperationException {
 		log.info("Inicia proceso de borrar la convivencia de prueba con id = {}", trialId);

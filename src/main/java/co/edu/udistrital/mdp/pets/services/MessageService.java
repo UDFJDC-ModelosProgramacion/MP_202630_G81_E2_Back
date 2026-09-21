@@ -76,8 +76,7 @@ public class MessageService {
         }
 
         MessageEntity message = messageRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException(
-                        "If the message does not exist, an error message is displayed."));
+                .orElseThrow(() -> new EntityNotFoundException(MESSAGE_NOT_FOUND));
 
         if (!message.getSendUser().getId().equals(currentUserId)
                 && !message.getReceivesUser().getId().equals(currentUserId)) {
