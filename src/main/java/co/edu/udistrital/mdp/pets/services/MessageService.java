@@ -24,6 +24,7 @@ public class MessageService {
     private final UserRepository userRepository;
 
     private static final String MESSAGE_ID_NOT_VALID = "Invalid identifiers are not accepted.";
+    private static final String MESSAGE_NOT_FOUND = "If the message does not exist, an error message is displayed.";
 
     @Transactional
     public MessageEntity createMessage(MessageEntity message, Long currentUserId)
@@ -55,6 +56,8 @@ public class MessageService {
         message.setDate(new Date());
         message.setTime(new Date());
         message.setIsRead(false);
+        message.setHiddenForSender(false);
+        message.setHiddenForReceiver(false);
 
         MessageEntity savedMessage = messageRepository.save(message);
 
@@ -73,13 +76,16 @@ public class MessageService {
         }
 
         MessageEntity message = messageRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException(
-                        "If the message does not exist, an error message is displayed."));
+                .orElseThrow(() -> new EntityNotFoundException(MESSAGE_NOT_FOUND));
 
         if (!message.getSendUser().getId().equals(currentUserId)
                 && !message.getReceivesUser().getId().equals(currentUserId)) {
             throw new IllegalOperationException(
                     "Only the sender and recipient have permission to read the message.");
+        }
+
+        if (isHiddenFor(message, currentUserId)) {
+            throw new EntityNotFoundException(MESSAGE_NOT_FOUND);
         }
 
         log.info("Message query process completed for id = {}", id);
@@ -94,13 +100,22 @@ public class MessageService {
                 currentUserId);
 
         List<MessageEntity> messages = messageRepository
-                .findBySendUserIdOrReceivesUserId(currentUserId, currentUserId);
+                .findBySendUserIdOrReceivesUserId(currentUserId, currentUserId).stream()
+                .filter(m -> !isHiddenFor(m, currentUserId))
+                .toList();
 
         log.info(
                 "Process of querying all messages for user with id = {} completed",
                 currentUserId);
 
         return messages;
+    }
+
+    private boolean isHiddenFor(MessageEntity message, Long userId) {
+        if (message.getSendUser().getId().equals(userId)) {
+            return Boolean.TRUE.equals(message.getHiddenForSender());
+        }
+        return Boolean.TRUE.equals(message.getHiddenForReceiver());
     }
 
     @Transactional
@@ -117,8 +132,7 @@ public class MessageService {
         }
 
         MessageEntity existingMessage = messageRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException(
-                        "Message not found."));
+                .orElseThrow(() -> new EntityNotFoundException("Message not found."));
 
         if (!existingMessage.getReceivesUser().getId().equals(currentUserId)) {
             throw new IllegalOperationException(
@@ -135,6 +149,12 @@ public class MessageService {
         return savedMessage;
     }
 
+    /**
+     * Realiza un borrado lógico del mensaje para el usuario solicitante: el
+     * mensaje deja de ser visible para él, pero sigue existiendo para la otra
+     * parte de la conversación. Cuando ambos lados lo han ocultado, el
+     * registro se elimina físicamente.
+     */
     @Transactional
     public void deleteMessage(Long id, Long currentUserId)
             throws EntityNotFoundException, IllegalOperationException {
@@ -146,17 +166,30 @@ public class MessageService {
         }
 
         MessageEntity existingMessage = messageRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException(
-                        "If the identifier does not exist, a message indicating this is displayed."));
+                .orElseThrow(() -> new EntityNotFoundException(MESSAGE_NOT_FOUND));
 
-        if (!existingMessage.getSendUser().getId().equals(currentUserId)
-                && !existingMessage.getReceivesUser().getId().equals(currentUserId)) {
+        boolean isSender = existingMessage.getSendUser().getId().equals(currentUserId);
+        boolean isReceiver = existingMessage.getReceivesUser().getId().equals(currentUserId);
+
+        if (!isSender && !isReceiver) {
             throw new IllegalOperationException(
                     "You do not have permission to delete this message.");
         }
 
-        throw new IllegalOperationException(
-                "Deletion only hides the message for the user "
-                + "(logical deletion is not implemented in the base schema).");
+        if (isSender) {
+            existingMessage.setHiddenForSender(true);
+        }
+        if (isReceiver) {
+            existingMessage.setHiddenForReceiver(true);
+        }
+
+        if (Boolean.TRUE.equals(existingMessage.getHiddenForSender())
+                && Boolean.TRUE.equals(existingMessage.getHiddenForReceiver())) {
+            messageRepository.deleteById(id);
+        } else {
+            messageRepository.save(existingMessage);
+        }
+
+        log.info("Message deletion process completed for id = {}", id);
     }
 }
