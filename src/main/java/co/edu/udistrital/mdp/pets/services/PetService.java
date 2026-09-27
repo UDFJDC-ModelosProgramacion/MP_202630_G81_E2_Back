@@ -153,8 +153,7 @@ public class PetService {
 				.filter(p -> !p.getId().equals(petId))
 				.anyMatch(p -> isSamePet(p, pet));
 		if (duplicated)
-			throw new IllegalOperationException(
-					"A pet already exists for this shelter with the same name, species and admission date");
+			throw new IllegalOperationException("A pet already exists for this shelter with the same name, species and admission date");
 
 		pet.setId(petId);
 		pet.setMedicalEvents(current.getMedicalEvents());
@@ -181,12 +180,10 @@ public class PetService {
 		PetEntity petEntity = pet.get();
 
 		if (hasActiveAdoptionOrCohabitation(petEntity))
-			throw new IllegalOperationException(
-					"A pet with an active adoption or trial cohabitation cannot be deleted");
+			throw new IllegalOperationException("A pet with an active adoption or trial cohabitation cannot be deleted");
 
 		if (hasAssociatedHistory(petEntity))
-			throw new IllegalOperationException(
-					"A pet with associated history cannot be deleted, in order to maintain traceability");
+			throw new IllegalOperationException("A pet with associated history cannot be deleted, in order to maintain traceability");
 
 		petRepository.deleteById(petId);
 		log.info("Finish the process of deleting the pet with id = {}", petId);

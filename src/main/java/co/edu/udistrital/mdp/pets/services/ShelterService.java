@@ -57,12 +57,12 @@ public class ShelterService {
 	}
 
 	@Transactional
-	public List<ShelterEntity> readShelter(String city, String location) {
+	public List<ShelterEntity> getShelter(String city, String location) {
 		return findShelters(city, location);
 	}
 
 	@Transactional
-	public List<ShelterEntity> readShelter() {
+	public List<ShelterEntity> getShelter() {
 		return findShelters(null, null);
 	}
 
@@ -78,12 +78,12 @@ public class ShelterService {
 	}
 
 	@Transactional
-	public ShelterEntity readAllShelters(Long shelterId) throws EntityNotFoundException, IllegalOperationException {
+	public ShelterEntity getAllShelters(Long shelterId) throws EntityNotFoundException, IllegalOperationException {
 		return findShelter(shelterId, null, null);
 	}
 
 	@Transactional
-	public ShelterEntity readAllShelters(Long shelterId, String name, String nit)
+	public ShelterEntity getAllShelters(Long shelterId, String name, String nit)
 			throws EntityNotFoundException, IllegalOperationException {
 		return findShelter(shelterId, name, nit);
 	}
