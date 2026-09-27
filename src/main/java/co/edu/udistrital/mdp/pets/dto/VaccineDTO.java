@@ -10,4 +10,6 @@ public class VaccineDTO {
     private Date addministrationDate;
     private Date nextAdministration;
     private Boolean status;
+
+    private VaccinationRecordDTO vaccinationRecord;
 }
