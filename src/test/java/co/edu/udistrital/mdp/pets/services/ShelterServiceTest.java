@@ -17,9 +17,16 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.context.annotation.Import;
 import org.springframework.transaction.annotation.Transactional;
 
+import co.edu.udistrital.mdp.pets.entities.AdoptionEntity;
+import co.edu.udistrital.mdp.pets.entities.AdoptionRequestEntity;
+import co.edu.udistrital.mdp.pets.entities.EventEntity;
 import co.edu.udistrital.mdp.pets.entities.PetEntity;
+import co.edu.udistrital.mdp.pets.entities.ReturnEntity;
 import co.edu.udistrital.mdp.pets.entities.ShelterEntity;
+import co.edu.udistrital.mdp.pets.entities.TrialCohabitationEntity;
+import co.edu.udistrital.mdp.pets.entities.TrialCohabitationRequestEntity;
 import co.edu.udistrital.mdp.pets.entities.UserEntity;
+import co.edu.udistrital.mdp.pets.entities.VeterinarianEntity;
 import co.edu.udistrital.mdp.pets.exceptions.EntityNotFoundException;
 import co.edu.udistrital.mdp.pets.exceptions.IllegalOperationException;
 import uk.co.jemos.podam.api.PodamFactory;
@@ -68,6 +75,8 @@ class ShelterServiceTest {
 		return factory.manufacturePojo(ShelterEntity.class);
 	}
 
+	// Test for createShelter
+	
 	@Test
 	void testCreateShelter() throws IllegalOperationException {
 		ShelterEntity newEntity = newValidShelter();
@@ -132,61 +141,66 @@ class ShelterServiceTest {
 		});
 	}
 
+	// Test for getShelter
+
 	@Test
-	void testReadShelter() {
-		List<ShelterEntity> list = shelterService.readShelter();
+	void testGetShelter() {
+		List<ShelterEntity> list = shelterService.getShelter();
 		assertEquals(shelterList.size(), list.size());
 	}
 
 	@Test
-	void testReadShelterEmpty() {
+	void testGetShelterEmpty() {
 		entityManager.getEntityManager().createQuery("delete from PetEntity").executeUpdate();
 		entityManager.getEntityManager().createQuery("delete from UserEntity").executeUpdate();
 		entityManager.getEntityManager().createQuery("delete from ShelterEntity").executeUpdate();
-		List<ShelterEntity> list = shelterService.readShelter();
+		List<ShelterEntity> list = shelterService.getShelter();
 		assertTrue(list.isEmpty());
 	}
 
 	@Test
-	void testReadShelterFilteredByCityAndLocation() {
+	void testGetShelterFilteredByCityAndLocation() {
 		ShelterEntity target = shelterList.get(0);
-		List<ShelterEntity> list = shelterService.readShelter(target.getCity(), target.getLocation());
+		List<ShelterEntity> list = shelterService.getShelter(target.getCity(), target.getLocation());
 		assertTrue(list.stream().anyMatch(s -> s.getId().equals(target.getId())));
 
-		List<ShelterEntity> emptyList = shelterService.readShelter(target.getCity(), "unmatched-location-xyz");
+		List<ShelterEntity> emptyList = shelterService.getShelter(target.getCity(), "unmatched-location-xyz");
 		assertTrue(emptyList.isEmpty());
 	}
 
+	// Test for getAllShelters
+
 	@Test
-	void testReadAllSheltersById() throws EntityNotFoundException, IllegalOperationException {
+	void testGetAllSheltersById() throws EntityNotFoundException, IllegalOperationException {
 		ShelterEntity entity = shelterList.get(0);
-		ShelterEntity result = shelterService.readAllShelters(entity.getId());
+		ShelterEntity result = shelterService.getAllShelters(entity.getId());
 		assertNotNull(result);
 		assertEquals(entity.getId(), result.getId());
 	}
 
 	@Test
-	void testReadAllSheltersInvalidId() {
+	void testGetAllSheltersInvalidId() {
 		assertThrows(IllegalOperationException.class, () -> {
-			shelterService.readAllShelters(0L);
+			shelterService.getAllShelters(0L);
 		});
 	}
 
 	@Test
-	void testReadAllSheltersCombinedFiltersNoMatch() {
+	void testGetAllSheltersCombinedFiltersNoMatch() {
 		assertThrows(EntityNotFoundException.class, () -> {
 			ShelterEntity entity = shelterList.get(0);
-			shelterService.readAllShelters(entity.getId(), "unmatched-name-xyz", entity.getNit());
+			shelterService.getAllShelters(entity.getId(), "unmatched-name-xyz", entity.getNit());
 		});
 	}
 
 	@Test
-	void testReadNonExistentShelter() {
+	void testGetNonExistentShelter() {
 		assertThrows(EntityNotFoundException.class, () -> {
-			shelterService.readAllShelters(1000L);
+			shelterService.getAllShelters(1000L);
 		});
 	}
 
+	// TEst for updateShelter
 	@Test
 	void testUpdateShelter() throws EntityNotFoundException, IllegalOperationException {
 		ShelterEntity entity = shelterList.get(0);
@@ -219,6 +233,7 @@ class ShelterServiceTest {
 		});
 	}
 
+	// Test for deleteShelter
 	@Test
 	void testDeleteShelter() throws EntityNotFoundException, IllegalOperationException {
 		ShelterEntity entity = shelterList.get(0);
@@ -241,6 +256,95 @@ class ShelterServiceTest {
 			PetEntity pet = factory.manufacturePojo(PetEntity.class);
 			pet.setShelter(entity);
 			entityManager.persist(pet);
+			shelterService.deleteShelter(entity.getId());
+		});
+	}
+
+	@Test
+	void testDeleteShelterWithActiveAdoptionRequest() {
+		assertThrows(IllegalOperationException.class, () -> {
+			ShelterEntity entity = shelterList.get(0);
+			AdoptionRequestEntity request = factory.manufacturePojo(AdoptionRequestEntity.class);
+			request.setShelter(entity);
+			entityManager.persist(request);
+			shelterService.deleteShelter(entity.getId());
+		});
+	}
+
+	@Test
+	void testDeleteShelterWithActiveCohabitationRequest() {
+		assertThrows(IllegalOperationException.class, () -> {
+			ShelterEntity entity = shelterList.get(0);
+			TrialCohabitationRequestEntity request = factory.manufacturePojo(TrialCohabitationRequestEntity.class);
+			request.setShelter(entity);
+			entityManager.persist(request);
+			shelterService.deleteShelter(entity.getId());
+		});
+	}
+
+	@Test
+	void testDeleteShelterWithActiveTrialCohabitation() {
+		assertThrows(IllegalOperationException.class, () -> {
+			ShelterEntity entity = shelterList.get(0);
+			TrialCohabitationEntity trial = factory.manufacturePojo(TrialCohabitationEntity.class);
+			trial.setShelter(entity);
+			entityManager.persist(trial);
+			shelterService.deleteShelter(entity.getId());
+		});
+	}
+
+	@Test
+	void testDeleteShelterWithOngoingAdoption() {
+		assertThrows(IllegalOperationException.class, () -> {
+			ShelterEntity entity = shelterList.get(0);
+			AdoptionEntity adoption = factory.manufacturePojo(AdoptionEntity.class);
+			adoption.setShelter(entity);
+			adoption.setReturnAfterAdoption(null); // sin cerrar -> proceso activo
+			entityManager.persist(adoption);
+			shelterService.deleteShelter(entity.getId());
+		});
+	}
+
+	@Test
+	void testDeleteShelterWithCompletedAdoptionHistory() {
+		assertThrows(IllegalOperationException.class, () -> {
+			ShelterEntity entity = shelterList.get(0);
+			AdoptionEntity adoption = factory.manufacturePojo(AdoptionEntity.class);
+			adoption.setShelter(entity);
+			entityManager.persist(adoption); // returnAfterAdoption != null -> cuenta como historial
+			shelterService.deleteShelter(entity.getId());
+		});
+	}
+
+	@Test
+	void testDeleteShelterWithEventHistory() {
+		assertThrows(IllegalOperationException.class, () -> {
+			ShelterEntity entity = shelterList.get(0);
+			EventEntity event = factory.manufacturePojo(EventEntity.class);
+			event.setShelter(entity);
+			entityManager.persist(event);
+			shelterService.deleteShelter(entity.getId());
+		});
+	}
+
+	@Test
+	void testDeleteShelterWithVeterinarianHistory() {
+		assertThrows(IllegalOperationException.class, () -> {
+			ShelterEntity entity = shelterList.get(0);
+			VeterinarianEntity vet = factory.manufacturePojo(VeterinarianEntity.class);
+			vet.setShelter(entity);
+			entityManager.persist(vet);
+			shelterService.deleteShelter(entity.getId());
+		});
+	}
+
+	@Test
+	void testDeleteShelterWithReturnDuringTrialHistory() {
+		assertThrows(IllegalOperationException.class, () -> {
+			ShelterEntity entity = shelterList.get(0);
+			ReturnEntity returnEntity = factory.manufacturePojo(ReturnEntity.class);
+			returnEntity.setShelter(entity);
+			entityManager.persist(returnEntity);
 			shelterService.deleteShelter(entity.getId());
 		});
 	}

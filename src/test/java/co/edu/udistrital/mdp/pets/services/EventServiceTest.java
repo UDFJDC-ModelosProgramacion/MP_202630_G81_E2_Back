@@ -78,6 +78,8 @@ class EventServiceTest {
 		return c.getTime();
 	}
 
+	// Test for Create Event
+
 	@Test
 	void testCreateEvent() throws EntityNotFoundException, IllegalOperationException {
 		EventEntity newEntity = factory.manufacturePojo(EventEntity.class);
@@ -94,12 +96,110 @@ class EventServiceTest {
 	}
 
 	@Test
+	void testCreateEventWithTodayDate() throws EntityNotFoundException, IllegalOperationException {
+		EventEntity newEntity = factory.manufacturePojo(EventEntity.class);
+		newEntity.setDate(new Date());
+		newEntity.setShelter(shelter);
+
+		EventEntity result = eventService.createEvent(newEntity);
+
+		assertNotNull(result);
+	}
+
+	@Test
 	void testCreateEventWithNullName() {
 		assertThrows(IllegalOperationException.class, () -> {
 			EventEntity newEntity = factory.manufacturePojo(EventEntity.class);
 			newEntity.setDate(futureDate(5));
 			newEntity.setShelter(shelter);
 			newEntity.setName(null);
+			eventService.createEvent(newEntity);
+		});
+	}
+
+	@Test
+	void testCreateEventWithBlankName() {
+		assertThrows(IllegalOperationException.class, () -> {
+			EventEntity newEntity = factory.manufacturePojo(EventEntity.class);
+			newEntity.setDate(futureDate(5));
+			newEntity.setShelter(shelter);
+			newEntity.setName("   ");
+			eventService.createEvent(newEntity);
+		});
+	}
+
+	@Test
+	void testCreateEventWithNullDate() {
+		assertThrows(IllegalOperationException.class, () -> {
+			EventEntity newEntity = factory.manufacturePojo(EventEntity.class);
+			newEntity.setShelter(shelter);
+			newEntity.setDate(null);
+			eventService.createEvent(newEntity);
+		});
+	}
+
+	@Test
+	void testCreateEventWithNullTime() {
+		assertThrows(IllegalOperationException.class, () -> {
+			EventEntity newEntity = factory.manufacturePojo(EventEntity.class);
+			newEntity.setDate(futureDate(5));
+			newEntity.setShelter(shelter);
+			newEntity.setTime(null);
+			eventService.createEvent(newEntity);
+		});
+	}
+
+	@Test
+	void testCreateEventWithBlankTime() {
+		assertThrows(IllegalOperationException.class, () -> {
+			EventEntity newEntity = factory.manufacturePojo(EventEntity.class);
+			newEntity.setDate(futureDate(5));
+			newEntity.setShelter(shelter);
+			newEntity.setTime("  ");
+			eventService.createEvent(newEntity);
+		});
+	}
+
+	@Test
+	void testCreateEventWithNullDescription() {
+		assertThrows(IllegalOperationException.class, () -> {
+			EventEntity newEntity = factory.manufacturePojo(EventEntity.class);
+			newEntity.setDate(futureDate(5));
+			newEntity.setShelter(shelter);
+			newEntity.setDescription(null);
+			eventService.createEvent(newEntity);
+		});
+	}
+
+	@Test
+	void testCreateEventWithNullLocation() {
+		assertThrows(IllegalOperationException.class, () -> {
+			EventEntity newEntity = factory.manufacturePojo(EventEntity.class);
+			newEntity.setDate(futureDate(5));
+			newEntity.setShelter(shelter);
+			newEntity.setLocation(null);
+			eventService.createEvent(newEntity);
+		});
+	}
+
+	@Test
+	void testCreateEventWithNullShelter() {
+		assertThrows(IllegalOperationException.class, () -> {
+			EventEntity newEntity = factory.manufacturePojo(EventEntity.class);
+			newEntity.setDate(futureDate(5));
+			newEntity.setShelter(null);
+			eventService.createEvent(newEntity);
+		});
+	}
+
+	@Test
+	void testCreateEventWithShelterWithoutId() {
+		assertThrows(IllegalOperationException.class, () -> {
+			EventEntity newEntity = factory.manufacturePojo(EventEntity.class);
+			newEntity.setDate(futureDate(5));
+			ShelterEntity shelterNoId = new ShelterEntity();
+			// id intentionally left null
+			newEntity.setShelter(shelterNoId);
 			eventService.createEvent(newEntity);
 		});
 	}
@@ -139,6 +239,8 @@ class EventServiceTest {
 		});
 	}
 
+	// Tests for getEvents
+
 	@Test
 	void testGetEvents() {
 		List<EventEntity> list = eventService.getEvents();
@@ -152,6 +254,8 @@ class EventServiceTest {
 		assertTrue(list.isEmpty());
 	}
 
+	// Test for getEvet
+
 	@Test
 	void testGetEvent() throws EntityNotFoundException, IllegalOperationException {
 		EventEntity entity = eventList.get(0);
@@ -164,6 +268,13 @@ class EventServiceTest {
 	void testGetEventInvalidId() {
 		assertThrows(IllegalOperationException.class, () -> {
 			eventService.getEvent(0L);
+		});
+	}
+
+	@Test
+	void testGetEventNegativeId() {
+		assertThrows(IllegalOperationException.class, () -> {
+			eventService.getEvent(-1L);
 		});
 	}
 
@@ -184,11 +295,29 @@ class EventServiceTest {
 	}
 
 	@Test
+	void testGetEventCombinedFiltersDateMismatch() {
+		assertThrows(EntityNotFoundException.class, () -> {
+			EventEntity entity = eventList.get(0);
+			eventService.getEvent(entity.getId(), entity.getName(), futureDate(500));
+		});
+	}
+
+	@Test
+	void testGetEventCombinedFiltersInvalidId() {
+		assertThrows(IllegalOperationException.class, () -> {
+			EventEntity entity = eventList.get(0);
+			eventService.getEvent(0L, entity.getName(), entity.getDate());
+		});
+	}
+
+	@Test
 	void testGetNonExistentEvent() {
 		assertThrows(EntityNotFoundException.class, () -> {
 			eventService.getEvent(1000L);
 		});
 	}
+
+	// Test for updateEvent
 
 	@Test
 	void testUpdateEvent() throws EntityNotFoundException, IllegalOperationException {
@@ -206,11 +335,50 @@ class EventServiceTest {
 	}
 
 	@Test
+	void testUpdateEventCannotChangeShelter() throws EntityNotFoundException, IllegalOperationException {
+		EventEntity entity = eventList.get(0);
+
+		ShelterEntity anotherShelter = factory.manufacturePojo(ShelterEntity.class);
+		entityManager.persist(anotherShelter);
+
+		EventEntity pojoEntity = factory.manufacturePojo(EventEntity.class);
+		pojoEntity.setId(entity.getId());
+		pojoEntity.setDate(futureDate(20));
+		pojoEntity.setShelter(anotherShelter);
+
+		eventService.updateEvent(entity.getId(), pojoEntity);
+
+		EventEntity resp = entityManager.find(EventEntity.class, entity.getId());
+		assertEquals(shelter.getId(), resp.getShelter().getId());
+	}
+
+	@Test
 	void testUpdateEventInvalidId() {
+		assertThrows(IllegalOperationException.class, () -> {
+			EventEntity pojoEntity = factory.manufacturePojo(EventEntity.class);
+			pojoEntity.setDate(futureDate(5));
+			eventService.updateEvent(0L, pojoEntity);
+		});
+	}
+
+	@Test
+	void testUpdateNonExistentEvent() {
 		assertThrows(EntityNotFoundException.class, () -> {
 			EventEntity pojoEntity = factory.manufacturePojo(EventEntity.class);
 			pojoEntity.setDate(futureDate(5));
 			eventService.updateEvent(1000L, pojoEntity);
+		});
+	}
+
+	@Test
+	void testUpdateEventWithNullName() {
+		assertThrows(IllegalOperationException.class, () -> {
+			EventEntity entity = eventList.get(0);
+			EventEntity pojoEntity = factory.manufacturePojo(EventEntity.class);
+			pojoEntity.setId(entity.getId());
+			pojoEntity.setDate(futureDate(20));
+			pojoEntity.setName(null);
+			eventService.updateEvent(entity.getId(), pojoEntity);
 		});
 	}
 
@@ -226,11 +394,36 @@ class EventServiceTest {
 	}
 
 	@Test
+	void testUpdateEventDuplicated() {
+		assertThrows(IllegalOperationException.class, () -> {
+			EventEntity target = eventList.get(1);
+			EventEntity other = eventList.get(0);
+
+			EventEntity pojoEntity = factory.manufacturePojo(EventEntity.class);
+			pojoEntity.setId(target.getId());
+			pojoEntity.setName(other.getName());
+			pojoEntity.setLocation(other.getLocation());
+			pojoEntity.setDate(other.getDate());
+
+			eventService.updateEvent(target.getId(), pojoEntity);
+		});
+	}
+
+	// Test dor feleteEvent
+
+	@Test
 	void testDeleteEvent() throws EntityNotFoundException, IllegalOperationException {
 		EventEntity entity = eventList.get(0);
 		eventService.deleteEvent(entity.getId());
 		EventEntity deleted = entityManager.find(EventEntity.class, entity.getId());
 		assertNull(deleted);
+	}
+
+	@Test
+	void testDeleteEventInvalidId() {
+		assertThrows(IllegalOperationException.class, () -> {
+			eventService.deleteEvent(0L);
+		});
 	}
 
 	@Test
