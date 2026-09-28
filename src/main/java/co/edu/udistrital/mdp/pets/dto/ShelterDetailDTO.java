@@ -9,14 +9,13 @@ import lombok.Data;
 public class ShelterDetailDTO extends ShelterDTO {
 
     private List<PetDTO> pets = new ArrayList<>();
-    // Photos
+    private List<PhotoDTO> photos = new ArrayList<>();
     // CohabitationRequests
     // AdoptionRequests
-    // TrialCohabitations
+    private List<TrialCohabitationDTO> trialCohabitations = new ArrayList<>();
     // Adoptions
     // Returns duringtrial
     private List<EventDTO> events = new ArrayList<>();
-    // Users
-    // Adopters
+    private List<AdopterDTO> adopters = new ArrayList<>();
     private List<VeterinarianDTO> veterinarians = new ArrayList<>();
 }
