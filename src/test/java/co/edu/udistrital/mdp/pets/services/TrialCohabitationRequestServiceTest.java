@@ -6,6 +6,8 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -91,6 +93,7 @@ class TrialCohabitationRequestServiceTest {
 		}
 	}
 
+	/** Solicitud con un periodo de convivencia válido: empieza en 5 días y termina en 19. */
 	private TrialCohabitationRequestEntity newRequest(String status, ShelterEntity shelter, AdopterEntity adopter,
 			PetEntity pet) {
 		TrialCohabitationRequestEntity request = factory.manufacturePojo(TrialCohabitationRequestEntity.class);
@@ -98,6 +101,8 @@ class TrialCohabitationRequestServiceTest {
 		request.setShelter(shelter);
 		request.setAdopter(adopter);
 		request.setPet(pet);
+		request.setStartDate(daysFromNow(5));
+		request.setEndDate(daysFromNow(19));
 		return request;
 	}
 
@@ -125,6 +130,12 @@ class TrialCohabitationRequestServiceTest {
 		return pet;
 	}
 
+	private Date daysFromNow(int days) {
+		Calendar calendar = Calendar.getInstance();
+		calendar.add(Calendar.DATE, days);
+		return calendar.getTime();
+	}
+
 	// ---------------------------------------------------------------- create
 
 	@Test
@@ -141,6 +152,20 @@ class TrialCohabitationRequestServiceTest {
 		assertEquals(newEntity.getDescription(), entity.getDescription());
 		assertEquals(newEntity.getPet().getId(), entity.getPet().getId());
 		assertEquals(newEntity.getAdopter().getId(), entity.getAdopter().getId());
+		assertNotNull(entity.getStartDate());
+		assertNotNull(entity.getEndDate());
+	}
+
+	@Test
+	void testCreateTrialCohabitationRequestStartingToday() throws EntityNotFoundException, IllegalOperationException {
+		TrialCohabitationRequestEntity newEntity = newValidRequest();
+		newEntity.setStartDate(daysFromNow(0));
+		newEntity.setEndDate(daysFromNow(7));
+
+		TrialCohabitationRequestEntity result =
+				trialCohabitationRequestService.createTrialCohabitationRequest(newEntity);
+
+		assertNotNull(result.getId());
 	}
 
 	@Test
@@ -161,6 +186,40 @@ class TrialCohabitationRequestServiceTest {
 	void testCreateTrialCohabitationRequestWithNullDate() {
 		TrialCohabitationRequestEntity newEntity = newValidRequest();
 		newEntity.setDate(null);
+		assertThrows(IllegalOperationException.class,
+				() -> trialCohabitationRequestService.createTrialCohabitationRequest(newEntity));
+	}
+
+	@Test
+	void testCreateTrialCohabitationRequestWithNullStartDate() {
+		TrialCohabitationRequestEntity newEntity = newValidRequest();
+		newEntity.setStartDate(null);
+		assertThrows(IllegalOperationException.class,
+				() -> trialCohabitationRequestService.createTrialCohabitationRequest(newEntity));
+	}
+
+	@Test
+	void testCreateTrialCohabitationRequestWithNullEndDate() {
+		TrialCohabitationRequestEntity newEntity = newValidRequest();
+		newEntity.setEndDate(null);
+		assertThrows(IllegalOperationException.class,
+				() -> trialCohabitationRequestService.createTrialCohabitationRequest(newEntity));
+	}
+
+	@Test
+	void testCreateTrialCohabitationRequestWithPastStartDate() {
+		TrialCohabitationRequestEntity newEntity = newValidRequest();
+		newEntity.setStartDate(daysFromNow(-5));
+		newEntity.setEndDate(daysFromNow(10));
+		assertThrows(IllegalOperationException.class,
+				() -> trialCohabitationRequestService.createTrialCohabitationRequest(newEntity));
+	}
+
+	@Test
+	void testCreateTrialCohabitationRequestWithEndDateBeforeStartDate() {
+		TrialCohabitationRequestEntity newEntity = newValidRequest();
+		newEntity.setStartDate(daysFromNow(10));
+		newEntity.setEndDate(daysFromNow(5));
 		assertThrows(IllegalOperationException.class,
 				() -> trialCohabitationRequestService.createTrialCohabitationRequest(newEntity));
 	}
@@ -259,6 +318,8 @@ class TrialCohabitationRequestServiceTest {
 		TrialCohabitationRequestEntity entity = requestList.get(0);
 		TrialCohabitationRequestEntity update = factory.manufacturePojo(TrialCohabitationRequestEntity.class);
 		update.setStatus(APPROVED);
+		update.setStartDate(daysFromNow(6));
+		update.setEndDate(daysFromNow(20));
 
 		trialCohabitationRequestService.updateTrialCohabitationRequest(entity.getId(), update);
 
@@ -269,6 +330,52 @@ class TrialCohabitationRequestServiceTest {
 		assertEquals(petList.get(1).getId(), resp.getPet().getId());
 		assertEquals(adopterList.get(0).getId(), resp.getAdopter().getId());
 		assertEquals(shelterList.get(0).getId(), resp.getShelter().getId());
+	}
+
+	@Test
+	void testUpdateTrialCohabitationRequestPeriod() throws EntityNotFoundException, IllegalOperationException {
+		TrialCohabitationRequestEntity entity = requestList.get(0);
+		TrialCohabitationRequestEntity update = new TrialCohabitationRequestEntity();
+		update.setStatus(TrialCohabitationRequestService.PENDING_STATUS);
+		Date newStart = daysFromNow(8);
+		Date newEnd = daysFromNow(22);
+		update.setStartDate(newStart);
+		update.setEndDate(newEnd);
+
+		trialCohabitationRequestService.updateTrialCohabitationRequest(entity.getId(), update);
+
+		TrialCohabitationRequestEntity resp =
+				entityManager.find(TrialCohabitationRequestEntity.class, entity.getId());
+		assertEquals(newStart, resp.getStartDate());
+		assertEquals(newEnd, resp.getEndDate());
+	}
+
+	@Test
+	void testUpdateTrialCohabitationRequestKeepsPeriodWhenNotProvided()
+			throws EntityNotFoundException, IllegalOperationException {
+		TrialCohabitationRequestEntity entity = requestList.get(0);
+		Date currentStart = entity.getStartDate();
+		Date currentEnd = entity.getEndDate();
+		TrialCohabitationRequestEntity update = new TrialCohabitationRequestEntity();
+		update.setStatus(APPROVED);
+
+		trialCohabitationRequestService.updateTrialCohabitationRequest(entity.getId(), update);
+
+		TrialCohabitationRequestEntity resp =
+				entityManager.find(TrialCohabitationRequestEntity.class, entity.getId());
+		assertEquals(currentStart, resp.getStartDate());
+		assertEquals(currentEnd, resp.getEndDate());
+	}
+
+	@Test
+	void testUpdateTrialCohabitationRequestWithEndDateBeforeStartDate() {
+		Long id = requestList.get(0).getId();
+		TrialCohabitationRequestEntity update = new TrialCohabitationRequestEntity();
+		update.setStatus(APPROVED);
+		update.setStartDate(daysFromNow(10));
+		update.setEndDate(daysFromNow(5));
+		assertThrows(IllegalOperationException.class,
+				() -> trialCohabitationRequestService.updateTrialCohabitationRequest(id, update));
 	}
 
 	@Test
