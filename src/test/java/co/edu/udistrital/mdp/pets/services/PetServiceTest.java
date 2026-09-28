@@ -26,8 +26,6 @@ import co.edu.udistrital.mdp.pets.entities.ReturnEntity;
 import co.edu.udistrital.mdp.pets.entities.ShelterEntity;
 import co.edu.udistrital.mdp.pets.entities.TrialCohabitationEntity;
 import co.edu.udistrital.mdp.pets.entities.TrialCohabitationRequestEntity;
-import co.edu.udistrital.mdp.pets.entities.VaccinationRecordEntity;
-import co.edu.udistrital.mdp.pets.entities.VaccineEntity;
 import co.edu.udistrital.mdp.pets.exceptions.EntityNotFoundException;
 import co.edu.udistrital.mdp.pets.exceptions.IllegalOperationException;
 import uk.co.jemos.podam.api.PodamFactory;
