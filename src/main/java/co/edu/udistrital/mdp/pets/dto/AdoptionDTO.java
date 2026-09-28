@@ -10,4 +10,7 @@ public class AdoptionDTO {
 	private Date date;
 	private String status;
 	private String importantNotes;
+
+	// Shelter
+	// Adopter
 }
