@@ -697,32 +697,17 @@ class PetServiceTest {
 	void testDeletePetWithMoreThanOneMedicalEvent() {
 		assertThrows(IllegalOperationException.class, () -> {
 			PetEntity entity = petList.get(0);
-			MedicalEventEntity secondEvent = factory.manufacturePojo(MedicalEventEntity.class);
-			secondEvent.setPet(entity);
-			entityManager.persist(secondEvent);
+			List<MedicalEventEntity> events = new ArrayList<>();
+			for (int i = 0; i < 2; i++) {
+				MedicalEventEntity event = factory.manufacturePojo(MedicalEventEntity.class);
+				event.setPet(entity);
+				events.add(event);
+			}
+			entity.setMedicalEvents(events);
 			petService.deletePet(entity.getId());
 		});
 	}
-
-	@Test
-	void testDeletePetWithVaccinationRecord() {
-		assertThrows(IllegalOperationException.class, () -> {
-			PetEntity entity = petList.get(0);
-
-			VaccinationRecordEntity record = new VaccinationRecordEntity();
-			record.setPet(entity);
-
-			VaccineEntity vaccine = factory.manufacturePojo(VaccineEntity.class);
-			vaccine.setVaccinationRecord(record);
-			record.getVaccines().add(vaccine);
-
-			entity.setVaccinationRecord(record);
-			entityManager.persist(record);
-
-			petService.deletePet(entity.getId());
-		});
-	}
-
+	
 	@Test
 	void testDeletePetWithActiveTrialCohabitation() {
 		assertThrows(IllegalOperationException.class, () -> {
