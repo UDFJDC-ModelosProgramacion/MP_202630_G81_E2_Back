@@ -350,4 +350,82 @@ class FollowUpServiceTest {
 			followUpService.deleteFollowUp(closed.getId());
 		});
 	}
+
+	@Test
+	void testCreateFollowUpWithNullDate() {
+		assertThrows(IllegalOperationException.class, () -> {
+			FollowUpEntity newEntity = buildValidFollowUp(adoptionList.get(0), veterinarianList.get(0));
+			newEntity.setDate(null);
+			followUpService.createFollowUp(newEntity);
+		});
+	}
+
+	@Test
+	void testCreateFollowUpWithNullVeterinarian() {
+		assertThrows(IllegalOperationException.class, () -> {
+			FollowUpEntity newEntity = buildValidFollowUp(adoptionList.get(0), veterinarianList.get(0));
+			newEntity.setVeterinarian(null);
+			followUpService.createFollowUp(newEntity);
+		});
+	}
+
+	@Test
+	void testCreateFollowUpWithNullAdoption() {
+		assertThrows(IllegalOperationException.class, () -> {
+			FollowUpEntity newEntity = buildValidFollowUp(adoptionList.get(0), veterinarianList.get(0));
+			newEntity.setAdoption(null);
+			followUpService.createFollowUp(newEntity);
+		});
+	}
+
+	@Test
+	void testGetFollowUpsByAdoptionWithNoFollowUps() {
+		List<FollowUpEntity> list = followUpService.getFollowUps(1000L);
+		assertTrue(list.isEmpty());
+	}
+
+	@Test
+	void testGetFollowUpWithNullRequesterId() {
+		assertThrows(IllegalOperationException.class, () -> {
+			followUpService.getFollowUp(followUpList.get(0).getId(), null);
+		});
+	}
+
+	@Test
+	void testGetFollowUpWithNullRequesterIdAndNonAdminRole() {
+		assertThrows(IllegalOperationException.class, () -> {
+			followUpService.getFollowUp(followUpList.get(0).getId(), null, "ADOPTER");
+		});
+	}
+
+	@Test
+	void testUpdateFollowUpWithNullDate() {
+		assertThrows(IllegalOperationException.class, () -> {
+			FollowUpEntity entity = followUpList.get(0);
+			FollowUpEntity pojoEntity = factory.manufacturePojo(FollowUpEntity.class);
+			pojoEntity.setId(entity.getId());
+			pojoEntity.setDate(null);
+			pojoEntity.setObservation("Nueva observacion");
+			pojoEntity.setAdoption(entity.getAdoption());
+			pojoEntity.setVeterinarian(entity.getVeterinarian());
+			followUpService.updateFollowUp(entity.getId(), pojoEntity);
+		});
+	}
+
+	@Test
+	void testUpdateFollowUpWithNullAdoptionKeepsOriginal() throws EntityNotFoundException, IllegalOperationException {
+		FollowUpEntity entity = followUpList.get(0);
+		FollowUpEntity pojoEntity = factory.manufacturePojo(FollowUpEntity.class);
+		pojoEntity.setId(entity.getId());
+		pojoEntity.setDate(futureDate());
+		pojoEntity.setObservation("Observacion tras update con adoption nula");
+		pojoEntity.setAdoption(null);
+		pojoEntity.setVeterinarian(entity.getVeterinarian());
+
+		followUpService.updateFollowUp(entity.getId(), pojoEntity);
+
+		FollowUpEntity resp = entityManager.find(FollowUpEntity.class, entity.getId());
+		assertEquals("Observacion tras update con adoption nula", resp.getObservation());
+		assertEquals(entity.getAdoption().getId(), resp.getAdoption().getId());
+	}
 }

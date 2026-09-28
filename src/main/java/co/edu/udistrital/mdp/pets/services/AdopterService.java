@@ -31,6 +31,16 @@ public class AdopterService {
 	private final UserRepository userRepository;
 	private final AdoptionRequestRepository adoptionRequestRepository;
 
+	/**
+	 * Creates a new adopter validating, in order, the identity/contact fields, the
+	 * profile fields and the absence of duplicates (email and national id). The
+	 * adopter is only persisted when all three validations succeed.
+	 *
+	 * @param adopter the adopter entity to persist
+	 * @return the persisted adopter
+	 * @throws IllegalOperationException if any required field is null/blank or a
+	 *                                   duplicate email/national id is detected
+	 */
 	@Transactional 
 	public AdopterEntity createAdopter(AdopterEntity adopter) throws IllegalOperationException {
 		log.info("The process of creating the adopter record begins.");
@@ -43,6 +53,13 @@ public class AdopterService {
 		return adopterRepository.save(adopter);
 	}
  
+	/**
+	 * Validates the identity and contact fields inherited from the user model. These
+	 * are the mandatory fields that identify an adopter as a registered user.
+	 *
+	 * @param adopter the adopter to validate
+	 * @throws IllegalOperationException if any identity/contact field is null or blank
+	 */
 	private void validateIdentityAndContactFields(AdopterEntity adopter) throws IllegalOperationException {
 		if (adopter.getFirstName() == null || adopter.getFirstName().isBlank())
 			throw new IllegalOperationException("First name cannot be null or empty");
@@ -60,6 +77,13 @@ public class AdopterService {
 			throw new IllegalOperationException("National id cannot be null or empty");
 	}
  
+	/**
+	 * Validates the socioeconomic profile fields of the adopter (occupation,
+	 * earnings, housing type, allergies, children and other pets flags).
+	 *
+	 * @param adopter the adopter to validate
+	 * @throws IllegalOperationException if any profile field is null or blank
+	 */
 	private void validateProfileFields(AdopterEntity adopter) throws IllegalOperationException {
 		if (adopter.getOccupation() == null || adopter.getOccupation().isBlank())
 			throw new IllegalOperationException("Occupation cannot be null or empty");
@@ -75,6 +99,13 @@ public class AdopterService {
 			throw new IllegalOperationException("Has other pets cannot be null");
 	}
  
+	/**
+	 * Prevents duplicates: the email must not belong to any existing user (case
+	 * insensitive) and the national id must not belong to any existing adopter.
+	 *
+	 * @param adopter the adopter to validate
+	 * @throws IllegalOperationException if the email or the national id is already in use
+	 */
 	private void validateNoDuplicates(AdopterEntity adopter) throws IllegalOperationException {
 		boolean userAlreadyExists = userRepository.findAll().stream()
 				.anyMatch(u -> u.getEmail() != null && u.getEmail().equalsIgnoreCase(adopter.getEmail()));
@@ -112,6 +143,17 @@ public class AdopterService {
 		return adopters;
 	}
 
+	/**
+	 * Queries adopters applying optional and combinable filters (national id,
+	 * housing type and occupation) with a case-insensitive match on each provided
+	 * filter. A filter value that is blank is rejected.
+	 *
+	 * @param nationalId  optional document to filter by
+	 * @param housingType optional housing type to filter by
+	 * @param occupation  optional occupation to filter by
+	 * @return the list of adopters matching all the provided filters
+	 * @throws IllegalOperationException if any provided filter is blank
+	 */
 	@Transactional
 	public List<AdopterEntity> readAllAdopters(String nationalId, String housingType, String occupation)
 			throws IllegalOperationException {
@@ -136,6 +178,18 @@ public class AdopterService {
 		return adopters;
 	}
 
+	/**
+	 * Updates an existing adopter. Only the updatable profile fields are copied
+	 * onto the persisted entity; identity/contact data and the national id are not
+	 * modified by design.
+	 *
+	 * @param adopterId the id of the adopter to update
+	 * @param adopter   the object holding the new updatable field values
+	 * @return the updated adopter
+	 * @throws EntityNotFoundException  if the adopter does not exist
+	 * @throws IllegalOperationException if the id is not valid or an updatable
+	 *                                   field is null or blank
+	 */
 	@Transactional
 	public AdopterEntity updateAdopter(Long adopterId, AdopterEntity adopter)
 			throws EntityNotFoundException, IllegalOperationException {
@@ -156,6 +210,13 @@ public class AdopterService {
 		return adopterRepository.save(current);
 	}
  
+	/**
+	 * Validates the fields that are allowed to be updated, rejecting null or blank
+	 * values so an update never degrades the adopter profile.
+	 *
+	 * @param adopter the object holding the new updatable field values
+	 * @throws IllegalOperationException if any updatable field is null or blank
+	 */
 	private void validateUpdatableFields(AdopterEntity adopter) throws IllegalOperationException {
 		if (adopter.getAddress() == null || adopter.getAddress().isBlank())
 			throw new IllegalOperationException("Address cannot be null or empty");
@@ -173,6 +234,13 @@ public class AdopterService {
 			throw new IllegalOperationException("Has other pets cannot be null");
 	}
  
+	/**
+	 * Copies only the updatable fields from the incoming object onto the current
+	 * persisted entity, keeping identity/contact data and the national id intact.
+	 *
+	 * @param current the persisted adopter to update
+	 * @param adopter the source object with the new field values
+	 */
 	private void applyUpdatableFields(AdopterEntity current, AdopterEntity adopter) {
 		current.setAddress(adopter.getAddress());
 		current.setOccupation(adopter.getOccupation());
@@ -183,6 +251,15 @@ public class AdopterService {
 		current.setHasOtherPets(adopter.getHasOtherPets());
 	}
  
+	/**
+	 * Deletes an adopter unless it has approved, pending or in-progress adoption
+	 * requests, which are protected to preserve the adoption workflow history.
+	 *
+	 * @param adopterId the id of the adopter to delete
+	 * @throws EntityNotFoundException  if the adopter does not exist
+	 * @throws IllegalOperationException if the id is not valid or the adopter has
+	 *                                   active adoption requests
+	 */
 	@Transactional
 	public void deleteAdopter(Long adopterId) throws EntityNotFoundException, IllegalOperationException {
 		log.info("Starting the process to delete the adopter with id = {}", adopterId);
