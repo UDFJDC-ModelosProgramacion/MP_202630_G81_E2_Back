@@ -44,7 +44,9 @@ class VaccineServiceTest {
 
 	private List<VaccineEntity> vaccineList = new ArrayList<>();
 	private VaccinationRecordEntity vaccinationRecord = new VaccinationRecordEntity();
+	private VaccinationRecordEntity otherRecord = new VaccinationRecordEntity();
 	private PetEntity pet = new PetEntity();
+	private PetEntity otherPet = new PetEntity();
 
 	@BeforeEach
 	void setUp() {
@@ -66,6 +68,13 @@ class VaccineServiceTest {
 		vaccinationRecord = factory.manufacturePojo(VaccinationRecordEntity.class);
 		vaccinationRecord.setPet(pet);
 		entityManager.persist(vaccinationRecord);
+
+		otherPet = factory.manufacturePojo(PetEntity.class);
+		entityManager.persist(otherPet);
+
+		otherRecord = factory.manufacturePojo(VaccinationRecordEntity.class);
+		otherRecord.setPet(otherPet);
+		entityManager.persist(otherRecord);
 
 		for (int i = 0; i < 3; i++) {
 			VaccineEntity vaccineEntity = factory.manufacturePojo(VaccineEntity.class);
@@ -95,8 +104,33 @@ class VaccineServiceTest {
 		vaccine.setAdministrationDate(pastDate(1));
 		vaccine.setNextAdministration(futureDate(100));
 		vaccine.setStatus(true);
-		vaccine.setVaccinationRecord(vaccinationRecord);
 		return vaccine;
+	}
+
+	private VaccineEntity newUpdateVaccine(VaccineEntity current) {
+		VaccineEntity pojoEntity = factory.manufacturePojo(VaccineEntity.class);
+		pojoEntity.setId(current.getId());
+		pojoEntity.setStatus(true);
+		pojoEntity.setAdministrationDate(current.getAdministrationDate());
+		pojoEntity.setNextAdministration(futureDate(200));
+		return pojoEntity;
+	}
+
+	private VaccineEntity persistExpiredVaccine() {
+		VaccineEntity expired = factory.manufacturePojo(VaccineEntity.class);
+		expired.setAdministrationDate(pastDate(60));
+		expired.setNextAdministration(pastDate(1));
+		expired.setStatus(true);
+		expired.setVaccinationRecord(vaccinationRecord);
+		entityManager.persist(expired);
+		return expired;
+	}
+
+	private void persistAdoption(PetEntity adoptedPet, String status) {
+		AdoptionEntity adoption = factory.manufacturePojo(AdoptionEntity.class);
+		adoption.setPet(adoptedPet);
+		adoption.setStatus(status);
+		entityManager.persist(adoption);
 	}
 
 	// Test for createVaccine
@@ -105,7 +139,7 @@ class VaccineServiceTest {
 	void testCreateVaccine() throws EntityNotFoundException, IllegalOperationException {
 		VaccineEntity newEntity = newValidVaccine();
 
-		VaccineEntity result = vaccineService.createVaccine(newEntity);
+		VaccineEntity result = vaccineService.createVaccine(vaccinationRecord.getId(), newEntity);
 
 		assertNotNull(result);
 		VaccineEntity entity = entityManager.find(VaccineEntity.class, result.getId());
@@ -118,9 +152,41 @@ class VaccineServiceTest {
 		VaccineEntity newEntity = newValidVaccine();
 		newEntity.setNextAdministration(null);
 
-		VaccineEntity result = vaccineService.createVaccine(newEntity);
+		VaccineEntity result = vaccineService.createVaccine(vaccinationRecord.getId(), newEntity);
 
 		assertNotNull(result);
+	}
+
+	@Test
+	void testCreateVaccineIgnoresRecordSetInEntity() throws EntityNotFoundException, IllegalOperationException {
+		VaccineEntity newEntity = newValidVaccine();
+		newEntity.setVaccinationRecord(otherRecord);
+
+		VaccineEntity result = vaccineService.createVaccine(vaccinationRecord.getId(), newEntity);
+
+		VaccineEntity entity = entityManager.find(VaccineEntity.class, result.getId());
+		assertEquals(vaccinationRecord.getId(), entity.getVaccinationRecord().getId());
+	}
+
+	@Test
+	void testCreateVaccineWithNullRecordId() {
+		assertThrows(IllegalOperationException.class, () -> {
+			vaccineService.createVaccine(null, newValidVaccine());
+		});
+	}
+
+	@Test
+	void testCreateVaccineWithInvalidRecordId() {
+		assertThrows(IllegalOperationException.class, () -> {
+			vaccineService.createVaccine(0L, newValidVaccine());
+		});
+	}
+
+	@Test
+	void testCreateVaccineWithNonExistentRecord() {
+		assertThrows(EntityNotFoundException.class, () -> {
+			vaccineService.createVaccine(1000L, newValidVaccine());
+		});
 	}
 
 	@Test
@@ -128,7 +194,7 @@ class VaccineServiceTest {
 		assertThrows(IllegalOperationException.class, () -> {
 			VaccineEntity newEntity = newValidVaccine();
 			newEntity.setName(null);
-			vaccineService.createVaccine(newEntity);
+			vaccineService.createVaccine(vaccinationRecord.getId(), newEntity);
 		});
 	}
 
@@ -137,7 +203,7 @@ class VaccineServiceTest {
 		assertThrows(IllegalOperationException.class, () -> {
 			VaccineEntity newEntity = newValidVaccine();
 			newEntity.setName("   ");
-			vaccineService.createVaccine(newEntity);
+			vaccineService.createVaccine(vaccinationRecord.getId(), newEntity);
 		});
 	}
 
@@ -146,7 +212,7 @@ class VaccineServiceTest {
 		assertThrows(IllegalOperationException.class, () -> {
 			VaccineEntity newEntity = newValidVaccine();
 			newEntity.setAdministrationDate(null);
-			vaccineService.createVaccine(newEntity);
+			vaccineService.createVaccine(vaccinationRecord.getId(), newEntity);
 		});
 	}
 
@@ -155,7 +221,7 @@ class VaccineServiceTest {
 		assertThrows(IllegalOperationException.class, () -> {
 			VaccineEntity newEntity = newValidVaccine();
 			newEntity.setStatus(null);
-			vaccineService.createVaccine(newEntity);
+			vaccineService.createVaccine(vaccinationRecord.getId(), newEntity);
 		});
 	}
 
@@ -164,16 +230,16 @@ class VaccineServiceTest {
 		assertThrows(IllegalOperationException.class, () -> {
 			VaccineEntity newEntity = newValidVaccine();
 			newEntity.setAdministrationDate(futureDate(5));
-			vaccineService.createVaccine(newEntity);
+			vaccineService.createVaccine(vaccinationRecord.getId(), newEntity);
 		});
 	}
 
 	@Test
-	void testCreateVaccineWithInvalidNextAdministration() {
+	void testCreateVaccineWithNextAdministrationBeforeAdministrationDate() {
 		assertThrows(IllegalOperationException.class, () -> {
 			VaccineEntity newEntity = newValidVaccine();
 			newEntity.setNextAdministration(pastDate(10));
-			vaccineService.createVaccine(newEntity);
+			vaccineService.createVaccine(vaccinationRecord.getId(), newEntity);
 		});
 	}
 
@@ -182,38 +248,7 @@ class VaccineServiceTest {
 		assertThrows(IllegalOperationException.class, () -> {
 			VaccineEntity newEntity = newValidVaccine();
 			newEntity.setNextAdministration(newEntity.getAdministrationDate());
-			vaccineService.createVaccine(newEntity);
-		});
-	}
-
-	@Test
-	void testCreateVaccineWithNullVaccinationRecord() {
-		assertThrows(IllegalOperationException.class, () -> {
-			VaccineEntity newEntity = newValidVaccine();
-			newEntity.setVaccinationRecord(null);
-			vaccineService.createVaccine(newEntity);
-		});
-	}
-
-	@Test
-	void testCreateVaccineWithVaccinationRecordWithoutId() {
-		assertThrows(IllegalOperationException.class, () -> {
-			VaccineEntity newEntity = newValidVaccine();
-			VaccinationRecordEntity recordNoId = new VaccinationRecordEntity();
-			// id intentionally left null
-			newEntity.setVaccinationRecord(recordNoId);
-			vaccineService.createVaccine(newEntity);
-		});
-	}
-
-	@Test
-	void testCreateVaccineWithNonExistentRecord() {
-		assertThrows(EntityNotFoundException.class, () -> {
-			VaccineEntity newEntity = newValidVaccine();
-			VaccinationRecordEntity fakeRecord = new VaccinationRecordEntity();
-			fakeRecord.setId(0L);
-			newEntity.setVaccinationRecord(fakeRecord);
-			vaccineService.createVaccine(newEntity);
+			vaccineService.createVaccine(vaccinationRecord.getId(), newEntity);
 		});
 	}
 
@@ -224,56 +259,110 @@ class VaccineServiceTest {
 			VaccineEntity newEntity = newValidVaccine();
 			newEntity.setName(existing.getName());
 			newEntity.setAdministrationDate(existing.getAdministrationDate());
-			vaccineService.createVaccine(newEntity);
+			vaccineService.createVaccine(vaccinationRecord.getId(), newEntity);
 		});
+	}
+
+	@Test
+	void testCreateDuplicatedVaccineIgnoringCase() {
+		assertThrows(IllegalOperationException.class, () -> {
+			VaccineEntity existing = vaccineList.get(0);
+			VaccineEntity newEntity = newValidVaccine();
+			newEntity.setName(existing.getName().toUpperCase());
+			newEntity.setAdministrationDate(existing.getAdministrationDate());
+			vaccineService.createVaccine(vaccinationRecord.getId(), newEntity);
+		});
+	}
+
+	@Test
+	void testCreateVaccineSameNameDifferentDateIsNotDuplicate()
+			throws EntityNotFoundException, IllegalOperationException {
+		VaccineEntity existing = vaccineList.get(0);
+		VaccineEntity newEntity = newValidVaccine();
+		newEntity.setName(existing.getName());
+		newEntity.setAdministrationDate(pastDate(5));
+
+		VaccineEntity result = vaccineService.createVaccine(vaccinationRecord.getId(), newEntity);
+
+		assertNotNull(result);
+	}
+
+	@Test
+	void testCreateVaccineSameDateDifferentNameIsNotDuplicate()
+			throws EntityNotFoundException, IllegalOperationException {
+		VaccineEntity existing = vaccineList.get(0);
+		VaccineEntity newEntity = newValidVaccine();
+		newEntity.setAdministrationDate(existing.getAdministrationDate());
+
+		VaccineEntity result = vaccineService.createVaccine(vaccinationRecord.getId(), newEntity);
+
+		assertNotNull(result);
 	}
 
 	@Test
 	void testCreateVaccineSameNameAndDateDifferentRecordIsNotDuplicate()
 			throws EntityNotFoundException, IllegalOperationException {
 		VaccineEntity existing = vaccineList.get(0);
-
-		PetEntity otherPet = factory.manufacturePojo(PetEntity.class);
-		entityManager.persist(otherPet);
-		VaccinationRecordEntity otherRecord = factory.manufacturePojo(VaccinationRecordEntity.class);
-		otherRecord.setPet(otherPet);
-		entityManager.persist(otherRecord);
-
 		VaccineEntity newEntity = newValidVaccine();
 		newEntity.setName(existing.getName());
 		newEntity.setAdministrationDate(existing.getAdministrationDate());
-		newEntity.setVaccinationRecord(otherRecord);
 
-		VaccineEntity result = vaccineService.createVaccine(newEntity);
+		VaccineEntity result = vaccineService.createVaccine(otherRecord.getId(), newEntity);
 
 		assertNotNull(result);
 	}
 
-	// Test for getVaccines 
+	// Test for getVaccines
 
 	@Test
-	void testGetVaccines() {
-		List<VaccineEntity> list = vaccineService.getVaccines();
+	void testGetVaccines() throws EntityNotFoundException, IllegalOperationException {
+		List<VaccineEntity> list = vaccineService.getVaccines(vaccinationRecord.getId());
 		assertEquals(vaccineList.size(), list.size());
 	}
 
 	@Test
-	void testGetVaccinesEmpty() {
-		entityManager.getEntityManager().createQuery("delete from VaccineEntity").executeUpdate();
-		List<VaccineEntity> list = vaccineService.getVaccines();
+	void testGetVaccinesEmpty() throws EntityNotFoundException, IllegalOperationException {
+		List<VaccineEntity> list = vaccineService.getVaccines(otherRecord.getId());
 		assertTrue(list.isEmpty());
 	}
 
 	@Test
-	void testGetVaccinesDoesNotDowngradeValidStatus() {
-		List<VaccineEntity> list = vaccineService.getVaccines();
+	void testGetVaccinesOnlyFromRequestedRecord() throws EntityNotFoundException, IllegalOperationException {
+		VaccineEntity other = newValidVaccine();
+		other.setVaccinationRecord(otherRecord);
+		entityManager.persist(other);
+
+		List<VaccineEntity> list = vaccineService.getVaccines(vaccinationRecord.getId());
+
+		assertEquals(vaccineList.size(), list.size());
+		assertTrue(list.stream().noneMatch(v -> v.getId().equals(other.getId())));
+	}
+
+	@Test
+	void testGetVaccinesWithInvalidRecordId() {
+		assertThrows(IllegalOperationException.class, () -> {
+			vaccineService.getVaccines(0L);
+		});
+	}
+
+	@Test
+	void testGetVaccinesWithNonExistentRecord() {
+		assertThrows(EntityNotFoundException.class, () -> {
+			vaccineService.getVaccines(1000L);
+		});
+	}
+
+	@Test
+	void testGetVaccinesDoesNotDowngradeValidStatus() throws EntityNotFoundException, IllegalOperationException {
+		List<VaccineEntity> list = vaccineService.getVaccines(vaccinationRecord.getId());
 		VaccineEntity entity = list.stream().filter(v -> v.getId().equals(vaccineList.get(0).getId())).findFirst()
 				.orElseThrow();
 		assertTrue(entity.getStatus());
 	}
 
 	@Test
-	void testGetVaccinesDoesNotDowngradeWhenNextAdministrationNull() {
+	void testGetVaccinesDoesNotDowngradeWhenNextAdministrationNull()
+			throws EntityNotFoundException, IllegalOperationException {
 		VaccineEntity noNext = factory.manufacturePojo(VaccineEntity.class);
 		noNext.setAdministrationDate(pastDate(10));
 		noNext.setNextAdministration(null);
@@ -281,63 +370,35 @@ class VaccineServiceTest {
 		noNext.setVaccinationRecord(vaccinationRecord);
 		entityManager.persist(noNext);
 
-		List<VaccineEntity> list = vaccineService.getVaccines();
+		List<VaccineEntity> list = vaccineService.getVaccines(vaccinationRecord.getId());
 		VaccineEntity updated = list.stream().filter(v -> v.getId().equals(noNext.getId())).findFirst().orElseThrow();
 		assertTrue(updated.getStatus());
 	}
 
 	@Test
-	void testAutomaticStatusUpdateWhenNextAdministrationPassed() {
-		VaccineEntity expired = factory.manufacturePojo(VaccineEntity.class);
-		expired.setAdministrationDate(pastDate(60));
-		expired.setNextAdministration(pastDate(1));
-		expired.setStatus(true);
-		expired.setVaccinationRecord(vaccinationRecord);
-		entityManager.persist(expired);
+	void testGetVaccinesKeepsFalseStatusWhenNextAdministrationPassed()
+			throws EntityNotFoundException, IllegalOperationException {
+		VaccineEntity inactive = factory.manufacturePojo(VaccineEntity.class);
+		inactive.setAdministrationDate(pastDate(60));
+		inactive.setNextAdministration(pastDate(1));
+		inactive.setStatus(false);
+		inactive.setVaccinationRecord(vaccinationRecord);
+		entityManager.persist(inactive);
 
-		List<VaccineEntity> list = vaccineService.getVaccines();
-		VaccineEntity updated = list.stream().filter(v -> v.getId().equals(expired.getId())).findFirst().orElseThrow();
+		List<VaccineEntity> list = vaccineService.getVaccines(vaccinationRecord.getId());
+		VaccineEntity updated = list.stream().filter(v -> v.getId().equals(inactive.getId())).findFirst()
+				.orElseThrow();
 		assertFalse(updated.getStatus());
 	}
 
 	@Test
-	void testGetVaccinesFilteredByRecordAndPet() {
-		List<VaccineEntity> list = vaccineService.getVaccines(vaccinationRecord.getId(), pet.getId(), null);
-		assertEquals(vaccineList.size(), list.size());
+	void testAutomaticStatusUpdateWhenNextAdministrationPassed()
+			throws EntityNotFoundException, IllegalOperationException {
+		VaccineEntity expired = persistExpiredVaccine();
 
-		List<VaccineEntity> emptyList = vaccineService.getVaccines(1000L, null, null);
-		assertTrue(emptyList.isEmpty());
-	}
-
-	@Test
-	void testGetVaccinesFilteredByPetOnly() {
-		List<VaccineEntity> list = vaccineService.getVaccines(null, pet.getId(), null);
-		assertEquals(vaccineList.size(), list.size());
-	}
-
-	@Test
-	void testGetVaccinesFilteredByPetMismatch() {
-		List<VaccineEntity> list = vaccineService.getVaccines(null, 1000L, null);
-		assertTrue(list.isEmpty());
-	}
-
-	@Test
-	void testGetVaccinesFilteredByStatusTrue() {
-		List<VaccineEntity> list = vaccineService.getVaccines(null, null, true);
-		assertEquals(vaccineList.size(), list.size());
-	}
-
-	@Test
-	void testGetVaccinesFilteredByStatusReflectsRefresh() {
-		VaccineEntity expired = factory.manufacturePojo(VaccineEntity.class);
-		expired.setAdministrationDate(pastDate(60));
-		expired.setNextAdministration(pastDate(1));
-		expired.setStatus(true);
-		expired.setVaccinationRecord(vaccinationRecord);
-		entityManager.persist(expired);
-
-		List<VaccineEntity> falseList = vaccineService.getVaccines(null, null, false);
-		assertTrue(falseList.stream().anyMatch(v -> v.getId().equals(expired.getId())));
+		List<VaccineEntity> list = vaccineService.getVaccines(vaccinationRecord.getId());
+		VaccineEntity updated = list.stream().filter(v -> v.getId().equals(expired.getId())).findFirst().orElseThrow();
+		assertFalse(updated.getStatus());
 	}
 
 	// Test for getVaccine
@@ -345,67 +406,79 @@ class VaccineServiceTest {
 	@Test
 	void testGetVaccine() throws EntityNotFoundException, IllegalOperationException {
 		VaccineEntity entity = vaccineList.get(0);
-		VaccineEntity result = vaccineService.getVaccine(entity.getId());
+		VaccineEntity result = vaccineService.getVaccine(vaccinationRecord.getId(), entity.getId());
 		assertNotNull(result);
 		assertEquals(entity.getId(), result.getId());
 	}
 
 	@Test
-	void testGetVaccineInvalidId() {
+	void testGetVaccineWithInvalidRecordId() {
 		assertThrows(IllegalOperationException.class, () -> {
-			vaccineService.getVaccine(0L);
+			vaccineService.getVaccine(0L, vaccineList.get(0).getId());
 		});
 	}
 
 	@Test
-	void testGetVaccineNegativeId() {
+	void testGetVaccineWithNonExistentRecord() {
+		assertThrows(EntityNotFoundException.class, () -> {
+			vaccineService.getVaccine(1000L, vaccineList.get(0).getId());
+		});
+	}
+
+	@Test
+	void testGetVaccineWithNullId() {
 		assertThrows(IllegalOperationException.class, () -> {
-			vaccineService.getVaccine(-1L);
+			vaccineService.getVaccine(vaccinationRecord.getId(), null);
+		});
+	}
+
+	@Test
+	void testGetVaccineWithInvalidId() {
+		assertThrows(IllegalOperationException.class, () -> {
+			vaccineService.getVaccine(vaccinationRecord.getId(), 0L);
+		});
+	}
+
+	@Test
+	void testGetVaccineWithNegativeId() {
+		assertThrows(IllegalOperationException.class, () -> {
+			vaccineService.getVaccine(vaccinationRecord.getId(), -1L);
 		});
 	}
 
 	@Test
 	void testGetNonExistentVaccine() {
 		assertThrows(EntityNotFoundException.class, () -> {
-			vaccineService.getVaccine(1000L);
+			vaccineService.getVaccine(vaccinationRecord.getId(), 1000L);
 		});
 	}
 
 	@Test
-	void testGetVaccineByNameAndRecord() throws EntityNotFoundException, IllegalOperationException {
-		VaccineEntity entity = vaccineList.get(0);
-		VaccineEntity result = vaccineService.getVaccine(null, entity.getName(), vaccinationRecord.getId());
-		assertNotNull(result);
-		assertEquals(entity.getId(), result.getId());
-	}
-
-	@Test
-	void testGetVaccineFilteredByRecordOnly() throws EntityNotFoundException, IllegalOperationException {
-		VaccineEntity result = vaccineService.getVaccine(null, null, vaccinationRecord.getId());
-		assertNotNull(result);
-	}
-
-	@Test
-	void testGetVaccineCombinedInvalidId() {
+	void testGetVaccineNotBelongingToRecord() {
 		assertThrows(IllegalOperationException.class, () -> {
-			VaccineEntity entity = vaccineList.get(0);
-			vaccineService.getVaccine(0L, entity.getName(), vaccinationRecord.getId());
+			vaccineService.getVaccine(otherRecord.getId(), vaccineList.get(0).getId());
 		});
 	}
 
 	@Test
-	void testGetVaccineCombinedNameMismatch() {
-		assertThrows(EntityNotFoundException.class, () -> {
-			vaccineService.getVaccine(null, "unmatched-name-xyz", vaccinationRecord.getId());
+	void testGetVaccineWithoutVaccinationRecord() {
+		assertThrows(IllegalOperationException.class, () -> {
+			VaccineEntity orphan = factory.manufacturePojo(VaccineEntity.class);
+			orphan.setAdministrationDate(pastDate(5));
+			orphan.setStatus(true);
+			orphan.setVaccinationRecord(null);
+			entityManager.persist(orphan);
+			vaccineService.getVaccine(vaccinationRecord.getId(), orphan.getId());
 		});
 	}
 
 	@Test
-	void testGetVaccineCombinedRecordMismatch() {
-		assertThrows(EntityNotFoundException.class, () -> {
-			VaccineEntity entity = vaccineList.get(0);
-			vaccineService.getVaccine(null, entity.getName(), 1000L);
-		});
+	void testGetVaccineRefreshesExpiredStatus() throws EntityNotFoundException, IllegalOperationException {
+		VaccineEntity expired = persistExpiredVaccine();
+
+		VaccineEntity result = vaccineService.getVaccine(vaccinationRecord.getId(), expired.getId());
+
+		assertFalse(result.getStatus());
 	}
 
 	// Test for updateVaccine
@@ -413,13 +486,9 @@ class VaccineServiceTest {
 	@Test
 	void testUpdateVaccine() throws EntityNotFoundException, IllegalOperationException {
 		VaccineEntity entity = vaccineList.get(0);
-		VaccineEntity pojoEntity = factory.manufacturePojo(VaccineEntity.class);
-		pojoEntity.setId(entity.getId());
-		pojoEntity.setStatus(true);
-		pojoEntity.setNextAdministration(futureDate(200));
-		pojoEntity.setAdministrationDate(entity.getAdministrationDate());
+		VaccineEntity pojoEntity = newUpdateVaccine(entity);
 
-		vaccineService.updateVaccine(entity.getId(), pojoEntity);
+		vaccineService.updateVaccine(vaccinationRecord.getId(), entity.getId(), pojoEntity);
 
 		VaccineEntity resp = entityManager.find(VaccineEntity.class, entity.getId());
 		assertEquals(pojoEntity.getName(), resp.getName());
@@ -427,11 +496,39 @@ class VaccineServiceTest {
 	}
 
 	@Test
+	void testUpdateVaccineWithoutNextAdministration() throws EntityNotFoundException, IllegalOperationException {
+		VaccineEntity entity = vaccineList.get(0);
+		VaccineEntity pojoEntity = newUpdateVaccine(entity);
+		pojoEntity.setNextAdministration(null);
+
+		VaccineEntity result = vaccineService.updateVaccine(vaccinationRecord.getId(), entity.getId(), pojoEntity);
+
+		assertNotNull(result);
+		assertNull(result.getNextAdministration());
+	}
+
+	@Test
+	void testUpdateVaccineWithInvalidRecordId() {
+		assertThrows(IllegalOperationException.class, () -> {
+			VaccineEntity entity = vaccineList.get(0);
+			vaccineService.updateVaccine(0L, entity.getId(), newUpdateVaccine(entity));
+		});
+	}
+
+	@Test
+	void testUpdateVaccineWithNonExistentRecord() {
+		assertThrows(EntityNotFoundException.class, () -> {
+			VaccineEntity entity = vaccineList.get(0);
+			vaccineService.updateVaccine(1000L, entity.getId(), newUpdateVaccine(entity));
+		});
+	}
+
+	@Test
 	void testUpdateVaccineInvalidId() {
 		assertThrows(IllegalOperationException.class, () -> {
 			VaccineEntity pojoEntity = factory.manufacturePojo(VaccineEntity.class);
 			pojoEntity.setStatus(true);
-			vaccineService.updateVaccine(0L, pojoEntity);
+			vaccineService.updateVaccine(vaccinationRecord.getId(), 0L, pojoEntity);
 		});
 	}
 
@@ -440,7 +537,15 @@ class VaccineServiceTest {
 		assertThrows(EntityNotFoundException.class, () -> {
 			VaccineEntity pojoEntity = factory.manufacturePojo(VaccineEntity.class);
 			pojoEntity.setStatus(true);
-			vaccineService.updateVaccine(1000L, pojoEntity);
+			vaccineService.updateVaccine(vaccinationRecord.getId(), 1000L, pojoEntity);
+		});
+	}
+
+	@Test
+	void testUpdateVaccineNotBelongingToRecord() {
+		assertThrows(IllegalOperationException.class, () -> {
+			VaccineEntity entity = vaccineList.get(0);
+			vaccineService.updateVaccine(otherRecord.getId(), entity.getId(), newUpdateVaccine(entity));
 		});
 	}
 
@@ -448,12 +553,9 @@ class VaccineServiceTest {
 	void testUpdateVaccineWithNullName() {
 		assertThrows(IllegalOperationException.class, () -> {
 			VaccineEntity entity = vaccineList.get(0);
-			VaccineEntity pojoEntity = factory.manufacturePojo(VaccineEntity.class);
-			pojoEntity.setId(entity.getId());
-			pojoEntity.setStatus(true);
-			pojoEntity.setAdministrationDate(entity.getAdministrationDate());
+			VaccineEntity pojoEntity = newUpdateVaccine(entity);
 			pojoEntity.setName(null);
-			vaccineService.updateVaccine(entity.getId(), pojoEntity);
+			vaccineService.updateVaccine(vaccinationRecord.getId(), entity.getId(), pojoEntity);
 		});
 	}
 
@@ -461,12 +563,9 @@ class VaccineServiceTest {
 	void testUpdateVaccineWithBlankName() {
 		assertThrows(IllegalOperationException.class, () -> {
 			VaccineEntity entity = vaccineList.get(0);
-			VaccineEntity pojoEntity = factory.manufacturePojo(VaccineEntity.class);
-			pojoEntity.setId(entity.getId());
-			pojoEntity.setStatus(true);
-			pojoEntity.setAdministrationDate(entity.getAdministrationDate());
+			VaccineEntity pojoEntity = newUpdateVaccine(entity);
 			pojoEntity.setName("   ");
-			vaccineService.updateVaccine(entity.getId(), pojoEntity);
+			vaccineService.updateVaccine(vaccinationRecord.getId(), entity.getId(), pojoEntity);
 		});
 	}
 
@@ -474,11 +573,9 @@ class VaccineServiceTest {
 	void testUpdateVaccineWithNullStatus() {
 		assertThrows(IllegalOperationException.class, () -> {
 			VaccineEntity entity = vaccineList.get(0);
-			VaccineEntity pojoEntity = factory.manufacturePojo(VaccineEntity.class);
-			pojoEntity.setId(entity.getId());
-			pojoEntity.setAdministrationDate(entity.getAdministrationDate());
+			VaccineEntity pojoEntity = newUpdateVaccine(entity);
 			pojoEntity.setStatus(null);
-			vaccineService.updateVaccine(entity.getId(), pojoEntity);
+			vaccineService.updateVaccine(vaccinationRecord.getId(), entity.getId(), pojoEntity);
 		});
 	}
 
@@ -486,78 +583,65 @@ class VaccineServiceTest {
 	void testUpdateVaccineChangingAdministrationDate() {
 		assertThrows(IllegalOperationException.class, () -> {
 			VaccineEntity entity = vaccineList.get(0);
-			VaccineEntity pojoEntity = factory.manufacturePojo(VaccineEntity.class);
-			pojoEntity.setId(entity.getId());
-			pojoEntity.setStatus(true);
+			VaccineEntity pojoEntity = newUpdateVaccine(entity);
 			pojoEntity.setAdministrationDate(pastDate(1));
-			vaccineService.updateVaccine(entity.getId(), pojoEntity);
+			vaccineService.updateVaccine(vaccinationRecord.getId(), entity.getId(), pojoEntity);
 		});
-	}
-
-	@Test
-	void testUpdateVaccineWithInvalidNextAdministration() {
-		assertThrows(IllegalOperationException.class, () -> {
-			VaccineEntity entity = vaccineList.get(0);
-			VaccineEntity pojoEntity = factory.manufacturePojo(VaccineEntity.class);
-			pojoEntity.setId(entity.getId());
-			pojoEntity.setStatus(true);
-			pojoEntity.setAdministrationDate(entity.getAdministrationDate());
-			// earlier than entity's administrationDate (pastDate(30))
-			pojoEntity.setNextAdministration(pastDate(100));
-			vaccineService.updateVaccine(entity.getId(), pojoEntity);
-		});
-	}
-
-	@Test
-	void testUpdateVaccinePreservesVaccinationRecord() throws EntityNotFoundException, IllegalOperationException {
-		VaccineEntity entity = vaccineList.get(0);
-
-		PetEntity otherPet = factory.manufacturePojo(PetEntity.class);
-		entityManager.persist(otherPet);
-		VaccinationRecordEntity otherRecord = factory.manufacturePojo(VaccinationRecordEntity.class);
-		otherRecord.setPet(otherPet);
-		entityManager.persist(otherRecord);
-
-		VaccineEntity pojoEntity = factory.manufacturePojo(VaccineEntity.class);
-		pojoEntity.setId(entity.getId());
-		pojoEntity.setStatus(true);
-		pojoEntity.setAdministrationDate(entity.getAdministrationDate());
-		pojoEntity.setVaccinationRecord(otherRecord);
-
-		vaccineService.updateVaccine(entity.getId(), pojoEntity);
-
-		VaccineEntity resp = entityManager.find(VaccineEntity.class, entity.getId());
-		assertEquals(vaccinationRecord.getId(), resp.getVaccinationRecord().getId());
 	}
 
 	@Test
 	void testUpdateVaccineWithNullAdministrationDateKeepsCurrent()
 			throws EntityNotFoundException, IllegalOperationException {
 		VaccineEntity entity = vaccineList.get(0);
-		VaccineEntity pojoEntity = factory.manufacturePojo(VaccineEntity.class);
-		pojoEntity.setId(entity.getId());
-		pojoEntity.setStatus(true);
+		VaccineEntity pojoEntity = newUpdateVaccine(entity);
 		pojoEntity.setAdministrationDate(null);
-		pojoEntity.setNextAdministration(futureDate(200));
 
-		vaccineService.updateVaccine(entity.getId(), pojoEntity);
+		vaccineService.updateVaccine(vaccinationRecord.getId(), entity.getId(), pojoEntity);
 
 		VaccineEntity resp = entityManager.find(VaccineEntity.class, entity.getId());
 		assertEquals(entity.getAdministrationDate(), resp.getAdministrationDate());
 	}
 
 	@Test
+	void testUpdateVaccineWithNextAdministrationBeforeAdministrationDate() {
+		assertThrows(IllegalOperationException.class, () -> {
+			VaccineEntity entity = vaccineList.get(0);
+			VaccineEntity pojoEntity = newUpdateVaccine(entity);
+			pojoEntity.setNextAdministration(pastDate(100));
+			vaccineService.updateVaccine(vaccinationRecord.getId(), entity.getId(), pojoEntity);
+		});
+	}
+
+	@Test
+	void testUpdateVaccineWithNextAdministrationEqualToAdministrationDate() {
+		assertThrows(IllegalOperationException.class, () -> {
+			VaccineEntity entity = vaccineList.get(0);
+			VaccineEntity pojoEntity = newUpdateVaccine(entity);
+			pojoEntity.setNextAdministration(entity.getAdministrationDate());
+			vaccineService.updateVaccine(vaccinationRecord.getId(), entity.getId(), pojoEntity);
+		});
+	}
+
+	@Test
+	void testUpdateVaccinePreservesVaccinationRecord() throws EntityNotFoundException, IllegalOperationException {
+		VaccineEntity entity = vaccineList.get(0);
+		VaccineEntity pojoEntity = newUpdateVaccine(entity);
+		pojoEntity.setVaccinationRecord(otherRecord);
+
+		vaccineService.updateVaccine(vaccinationRecord.getId(), entity.getId(), pojoEntity);
+
+		VaccineEntity resp = entityManager.find(VaccineEntity.class, entity.getId());
+		assertEquals(vaccinationRecord.getId(), resp.getVaccinationRecord().getId());
+	}
+
+	@Test
 	void testUpdateVaccineRefreshesStatusWhenNextAdministrationAlreadyPassed()
 			throws EntityNotFoundException, IllegalOperationException {
-		VaccineEntity entity = vaccineList.get(0); // administrationDate = pastDate(30)
-		VaccineEntity pojoEntity = factory.manufacturePojo(VaccineEntity.class);
-		pojoEntity.setId(entity.getId());
-		pojoEntity.setStatus(true);
-		pojoEntity.setAdministrationDate(entity.getAdministrationDate());
-		// after administrationDate (30 days ago), but already passed relative to "now"
-		pojoEntity.setNextAdministration(pastDate(1));
+		VaccineEntity entity = vaccineList.get(0);
+		VaccineEntity pojoEntity = newUpdateVaccine(entity);
+		pojoEntity.setNextAdministration(pastDate(1)); // despues de la administracion (hace 30 dias) pero ya vencida
 
-		VaccineEntity result = vaccineService.updateVaccine(entity.getId(), pojoEntity);
+		VaccineEntity result = vaccineService.updateVaccine(vaccinationRecord.getId(), entity.getId(), pojoEntity);
 
 		assertFalse(result.getStatus());
 	}
@@ -567,62 +651,94 @@ class VaccineServiceTest {
 	@Test
 	void testDeleteVaccine() throws EntityNotFoundException, IllegalOperationException {
 		VaccineEntity entity = vaccineList.get(0);
-		vaccineService.deleteVaccine(entity.getId());
+		vaccineService.deleteVaccine(vaccinationRecord.getId(), entity.getId());
 		VaccineEntity deleted = entityManager.find(VaccineEntity.class, entity.getId());
 		assertNull(deleted);
 	}
 
 	@Test
+	void testDeleteVaccineWithInvalidRecordId() {
+		assertThrows(IllegalOperationException.class, () -> {
+			vaccineService.deleteVaccine(0L, vaccineList.get(0).getId());
+		});
+	}
+
+	@Test
+	void testDeleteVaccineWithNonExistentRecord() {
+		assertThrows(EntityNotFoundException.class, () -> {
+			vaccineService.deleteVaccine(1000L, vaccineList.get(0).getId());
+		});
+	}
+
+	@Test
 	void testDeleteVaccineInvalidId() {
 		assertThrows(IllegalOperationException.class, () -> {
-			vaccineService.deleteVaccine(0L);
+			vaccineService.deleteVaccine(vaccinationRecord.getId(), 0L);
 		});
 	}
 
 	@Test
 	void testDeleteNonExistentVaccine() {
 		assertThrows(EntityNotFoundException.class, () -> {
-			vaccineService.deleteVaccine(1000L);
+			vaccineService.deleteVaccine(vaccinationRecord.getId(), 1000L);
+		});
+	}
+
+	@Test
+	void testDeleteVaccineNotBelongingToRecord() {
+		assertThrows(IllegalOperationException.class, () -> {
+			vaccineService.deleteVaccine(otherRecord.getId(), vaccineList.get(0).getId());
 		});
 	}
 
 	@Test
 	void testDeleteVaccineOfAdoptedPet() {
 		assertThrows(IllegalOperationException.class, () -> {
-			VaccineEntity entity = vaccineList.get(0);
-			AdoptionEntity adoption = factory.manufacturePojo(AdoptionEntity.class);
-			adoption.setPet(pet);
-			adoption.setStatus("FINALIZED");
-			entityManager.persist(adoption);
-			vaccineService.deleteVaccine(entity.getId());
+			persistAdoption(pet, "FINALIZED");
+			vaccineService.deleteVaccine(vaccinationRecord.getId(), vaccineList.get(0).getId());
+		});
+	}
+
+	@Test
+	void testDeleteVaccineOfAdoptedPetIgnoringCase() {
+		assertThrows(IllegalOperationException.class, () -> {
+			persistAdoption(pet, "finalized");
+			vaccineService.deleteVaccine(vaccinationRecord.getId(), vaccineList.get(0).getId());
 		});
 	}
 
 	@Test
 	void testDeleteVaccineOfPetWithNonFinalizedAdoption() throws EntityNotFoundException, IllegalOperationException {
 		VaccineEntity entity = vaccineList.get(0);
-		AdoptionEntity adoption = factory.manufacturePojo(AdoptionEntity.class);
-		adoption.setPet(pet);
-		adoption.setStatus("IN_PROGRESS");
-		entityManager.persist(adoption);
+		persistAdoption(pet, "IN_PROGRESS");
 
-		vaccineService.deleteVaccine(entity.getId());
+		vaccineService.deleteVaccine(vaccinationRecord.getId(), entity.getId());
 
-		VaccineEntity deleted = entityManager.find(VaccineEntity.class, entity.getId());
-		assertNull(deleted);
+		assertNull(entityManager.find(VaccineEntity.class, entity.getId()));
 	}
 
 	@Test
-	void testDeleteVaccineWithoutVaccinationRecord() throws EntityNotFoundException, IllegalOperationException {
-		VaccineEntity orphan = factory.manufacturePojo(VaccineEntity.class);
-		orphan.setAdministrationDate(pastDate(5));
-		orphan.setStatus(true);
-		orphan.setVaccinationRecord(null);
-		entityManager.persist(orphan);
+	void testDeleteVaccineWhenOnlyAnotherPetWasAdopted() throws EntityNotFoundException, IllegalOperationException {
+		VaccineEntity entity = vaccineList.get(0);
+		persistAdoption(otherPet, "FINALIZED");
 
-		vaccineService.deleteVaccine(orphan.getId());
+		vaccineService.deleteVaccine(vaccinationRecord.getId(), entity.getId());
 
-		VaccineEntity deleted = entityManager.find(VaccineEntity.class, orphan.getId());
-		assertNull(deleted);
+		assertNull(entityManager.find(VaccineEntity.class, entity.getId()));
+	}
+
+	@Test
+	void testDeleteVaccineOfRecordWithoutPet() throws EntityNotFoundException, IllegalOperationException {
+		VaccinationRecordEntity recordNoPet = factory.manufacturePojo(VaccinationRecordEntity.class);
+		recordNoPet.setPet(null);
+		entityManager.persist(recordNoPet);
+
+		VaccineEntity vaccine = newValidVaccine();
+		vaccine.setVaccinationRecord(recordNoPet);
+		entityManager.persist(vaccine);
+
+		vaccineService.deleteVaccine(recordNoPet.getId(), vaccine.getId());
+
+		assertNull(entityManager.find(VaccineEntity.class, vaccine.getId()));
 	}
 }

@@ -12,4 +12,6 @@ public class EventDTO {
     private String time;
     private String description;
     private String location;
+
+    private ShelterDTO shelter;
 }

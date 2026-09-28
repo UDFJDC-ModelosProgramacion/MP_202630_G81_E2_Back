@@ -23,8 +23,4 @@ public class VeterinarianEntity extends UserEntity {
     @PodamExclude
     @OneToMany(mappedBy = "veterinarian")
     private List<MedicalEventEntity> medicalEvents = new ArrayList<>();
-
-    @PodamExclude 
-    @ManyToOne
-    private ShelterEntity shelter;
 }

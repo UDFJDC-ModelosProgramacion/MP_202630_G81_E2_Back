@@ -22,4 +22,7 @@ public class PetDTO {
 	private Boolean compatibilityOtherPets;
 	private String activityLevel;
 	private String requiredSpace;
+	
+	private VaccinationRecordDTO vaccinationRecord;
+	private ShelterDTO shelter;
 }

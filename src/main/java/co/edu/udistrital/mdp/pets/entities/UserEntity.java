@@ -36,6 +36,5 @@ public class UserEntity extends BaseEntity {
     @PodamExclude
     @OneToMany(mappedBy = "user")
     private List<NotificationEntity> notifications = new ArrayList<>();
-
     
 }
