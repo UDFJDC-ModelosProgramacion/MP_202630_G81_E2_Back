@@ -7,7 +7,7 @@ import lombok.Data;
 
 @Data
 public class PetDetailDTO extends PetDTO{
-    // Photos
+    private List<PhotoDTO> photos = new ArrayList<>();
     // AdoptionRequests
     // Adoptions
     private List<ReviewDTO> reviews = new ArrayList<>();
