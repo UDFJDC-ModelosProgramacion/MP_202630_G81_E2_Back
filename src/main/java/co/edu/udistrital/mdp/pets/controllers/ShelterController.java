@@ -51,7 +51,7 @@ public class ShelterController {
     // create method
     @PostMapping
     @ResponseStatus(code = HttpStatus.CREATED)
-    public ShelterDTO create(@RequestBody ShelterDTO shelterDTO) throws IllegalOperationException, EntityNotFoundException {
+    public ShelterDTO create(@RequestBody ShelterDetailDTO shelterDTO) throws IllegalOperationException {
         ShelterEntity shelterEntity = shelterService.createShelter(modelMapper.map(shelterDTO, ShelterEntity.class));
         return modelMapper.map(shelterEntity, ShelterDTO.class);
     }

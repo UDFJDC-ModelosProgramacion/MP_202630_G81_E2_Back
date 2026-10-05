@@ -51,7 +51,7 @@ public class PetController {
     // create method
     @PostMapping
     @ResponseStatus(code = HttpStatus.CREATED)
-    public PetDTO create(@RequestBody PetDTO petDTO) throws IllegalOperationException, EntityNotFoundException {
+    public PetDTO create(@RequestBody PetDetailDTO petDTO) throws IllegalOperationException, EntityNotFoundException {
         PetEntity petEntity = petService.createPet(modelMapper.map(petDTO, PetEntity.class));
         return modelMapper.map(petEntity, PetDTO.class);
     }

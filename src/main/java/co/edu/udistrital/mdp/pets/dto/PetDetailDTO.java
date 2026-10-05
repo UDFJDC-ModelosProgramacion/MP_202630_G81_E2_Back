@@ -11,5 +11,5 @@ public class PetDetailDTO extends PetDTO{
     // AdoptionRequests
     // Adoptions
     private List<ReviewDTO> reviews = new ArrayList<>();
-    // MedicalEvents
+    private List<MedicalEventDTO> medicalEvents = new ArrayList<>();
 }

@@ -18,4 +18,5 @@ public class ShelterDetailDTO extends ShelterDTO {
     private List<EventDTO> events = new ArrayList<>();
     private List<AdopterDTO> adopters = new ArrayList<>();
     private List<VeterinarianDTO> veterinarians = new ArrayList<>();
+    private List<UserDTO> users = new ArrayList<>();
 }
