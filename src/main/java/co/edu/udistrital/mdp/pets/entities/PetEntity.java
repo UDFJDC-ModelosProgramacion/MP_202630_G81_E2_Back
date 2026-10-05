@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.ArrayList;
 import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.ManyToOne;
@@ -63,6 +64,6 @@ public class PetEntity extends BaseEntity {
 	private ShelterEntity shelter;
 
 	@PodamExclude
-	@OneToMany(mappedBy = "pet")
+	@OneToMany(mappedBy = "pet", cascade = CascadeType.REMOVE)
 	private List<MedicalEventEntity> medicalEvents = new ArrayList<>();
 }
