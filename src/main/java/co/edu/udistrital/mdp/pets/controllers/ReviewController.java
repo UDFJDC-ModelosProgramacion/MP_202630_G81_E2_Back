@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,16 +22,15 @@ import co.edu.udistrital.mdp.pets.exceptions.IllegalOperationException;
 import co.edu.udistrital.mdp.pets.services.ReviewService;
 import lombok.RequiredArgsConstructor;
 
+
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/reviews")
 public class ReviewController {
 
     private final ReviewService reviewService;
     private final ModelMapper modelMapper;
 
-    
-    @GetMapping
+    @GetMapping("/reviews")
     @ResponseStatus(code = HttpStatus.OK)
     public List<ReviewDTO> findAll(@RequestParam(required = false) Long petId,
             @RequestParam(required = false) Long adopterId) {
@@ -41,36 +39,36 @@ public class ReviewController {
         }.getType());
     }
 
-    
-    @GetMapping(value = "/{id}")
+    @GetMapping("/pets/{petId}/reviews/{reviewId}")
     @ResponseStatus(code = HttpStatus.OK)
-    public ReviewDTO findOne(@PathVariable Long id) throws EntityNotFoundException, IllegalOperationException {
-        ReviewEntity reviewEntity = reviewService.getReview(id);
+    public ReviewDTO findOne(@PathVariable Long petId, @PathVariable Long reviewId)
+            throws EntityNotFoundException, IllegalOperationException {
+        ReviewEntity reviewEntity = reviewService.getReview(petId, reviewId);
         return modelMapper.map(reviewEntity, ReviewDTO.class);
     }
 
-    
-    @PostMapping
+    @PostMapping("/pets/{petId}/reviews")
     @ResponseStatus(code = HttpStatus.CREATED)
-    public ReviewDTO create(@RequestBody ReviewDTO reviewDTO) throws EntityNotFoundException, IllegalOperationException {
-        ReviewEntity reviewEntity = reviewService.createReview(modelMapper.map(reviewDTO, ReviewEntity.class));
+    public ReviewDTO create(@PathVariable Long petId, @RequestBody ReviewDTO reviewDTO)
+            throws EntityNotFoundException, IllegalOperationException {
+        ReviewEntity reviewEntity = reviewService.createReview(petId, modelMapper.map(reviewDTO, ReviewEntity.class));
         return modelMapper.map(reviewEntity, ReviewDTO.class);
     }
 
-    
-    @PutMapping(value = "/{id}")
+    @PutMapping("/pets/{petId}/reviews/{reviewId}")
     @ResponseStatus(code = HttpStatus.OK)
-    public ReviewDTO update(@PathVariable Long id, @RequestBody ReviewDTO reviewDTO)
+    public ReviewDTO update(@PathVariable Long petId, @PathVariable Long reviewId,
+            @RequestParam Long adopterId, @RequestBody ReviewDTO reviewDTO)
             throws EntityNotFoundException, IllegalOperationException {
-        ReviewEntity reviewEntity = reviewService.updateReview(id, modelMapper.map(reviewDTO, ReviewEntity.class));
+        ReviewEntity reviewEntity = reviewService.updateReview(petId, reviewId, adopterId,
+                modelMapper.map(reviewDTO, ReviewEntity.class));
         return modelMapper.map(reviewEntity, ReviewDTO.class);
     }
 
-    
-    @DeleteMapping(value = "/{id}")
+    @DeleteMapping("/pets/{petId}/reviews/{reviewId}")
     @ResponseStatus(code = HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable Long id, @RequestParam Long adopterId)
+    public void delete(@PathVariable Long petId, @PathVariable Long reviewId, @RequestParam Long adopterId)
             throws EntityNotFoundException, IllegalOperationException {
-        reviewService.deleteReview(id, adopterId);
+        reviewService.deleteReview(petId, reviewId, adopterId);
     }
 }

@@ -7,4 +7,6 @@ import co.edu.udistrital.mdp.pets.entities.ReviewEntity;
 
 @Repository
 public interface ReviewRepository extends JpaRepository<ReviewEntity, Long> {
+
+	boolean existsByPetIdAndAdoptionAdopterId(Long petId, Long adopterId);
 }

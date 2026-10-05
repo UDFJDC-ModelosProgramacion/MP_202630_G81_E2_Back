@@ -27,53 +27,53 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/notifications")
+@RequestMapping("/users/{userId}/notifications")
 public class NotificationController {
 
     private final NotificationService notificationService;
     private final ModelMapper modelMapper;
 
-    
     @GetMapping
     @ResponseStatus(code = HttpStatus.OK)
-    public List<NotificationDTO> findAll(@RequestParam(required = false) Long userId,
+    public List<NotificationDTO> getNotifications(@PathVariable Long userId,
             @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date startDate,
-            @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date endDate) {
+            @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date endDate)
+            throws EntityNotFoundException {
         List<NotificationEntity> notifications = notificationService.getNotifications(userId, startDate, endDate);
         return modelMapper.map(notifications, new TypeToken<List<NotificationDTO>>() {
         }.getType());
     }
 
-    
-    @GetMapping(value = "/{id}")
+    @GetMapping(value = "/{notificationId}")
     @ResponseStatus(code = HttpStatus.OK)
-    public NotificationDTO findOne(@PathVariable Long id) throws EntityNotFoundException, IllegalOperationException {
-        NotificationEntity entity = notificationService.getNotification(id);
+    public NotificationDTO getNotification(@PathVariable Long userId, @PathVariable Long notificationId)
+            throws EntityNotFoundException, IllegalOperationException {
+        NotificationEntity entity = notificationService.getNotification(userId, notificationId);
         return modelMapper.map(entity, NotificationDTO.class);
     }
 
-    
     @PostMapping
     @ResponseStatus(code = HttpStatus.CREATED)
-    public NotificationDTO create(@RequestBody NotificationDTO dto) throws IllegalOperationException {
-        NotificationEntity entity = notificationService.createNotification(modelMapper.map(dto, NotificationEntity.class));
-        return modelMapper.map(entity, NotificationDTO.class);
-    }
-
-    
-    @PutMapping(value = "/{id}")
-    @ResponseStatus(code = HttpStatus.OK)
-    public NotificationDTO update(@PathVariable Long id, @RequestBody NotificationDTO dto)
+    public NotificationDTO createNotification(@PathVariable Long userId, @RequestBody NotificationDTO dto)
             throws EntityNotFoundException, IllegalOperationException {
-        NotificationEntity entity = notificationService.updateNotification(id,
+        NotificationEntity entity = notificationService.createNotification(userId,
                 modelMapper.map(dto, NotificationEntity.class));
         return modelMapper.map(entity, NotificationDTO.class);
     }
 
-    
-    @DeleteMapping(value = "/{id}")
+    @PutMapping(value = "/{notificationId}")
+    @ResponseStatus(code = HttpStatus.OK)
+    public NotificationDTO updateNotification(@PathVariable Long userId, @PathVariable Long notificationId,
+            @RequestBody NotificationDTO dto) throws EntityNotFoundException, IllegalOperationException {
+        NotificationEntity entity = notificationService.updateNotification(userId, notificationId,
+                modelMapper.map(dto, NotificationEntity.class));
+        return modelMapper.map(entity, NotificationDTO.class);
+    }
+
+    @DeleteMapping(value = "/{notificationId}")
     @ResponseStatus(code = HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable Long id) throws EntityNotFoundException, IllegalOperationException {
-        notificationService.deleteNotification(id);
+    public void deleteNotification(@PathVariable Long userId, @PathVariable Long notificationId)
+            throws EntityNotFoundException, IllegalOperationException {
+        notificationService.deleteNotification(userId, notificationId);
     }
 }

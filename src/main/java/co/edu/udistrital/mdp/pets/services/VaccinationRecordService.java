@@ -41,9 +41,7 @@ public class VaccinationRecordService {
 		if (pet.isEmpty())
 			throw new EntityNotFoundException("Pet not found");
 
-		boolean petAlreadyHasRecord = vaccinationRecordRepository.findAll().stream()
-				.anyMatch(r -> r.getPet() != null && r.getPet().getId().equals(pet.get().getId()));
-		if (petAlreadyHasRecord)
+		if (vaccinationRecordRepository.findByPetId(pet.get().getId()).isPresent())
 			throw new IllegalOperationException("This pet already has a vaccination record");
 
 		vaccinationRecord.setPet(pet.get());
@@ -64,9 +62,7 @@ public class VaccinationRecordService {
 	@Transactional
 	public VaccinationRecordEntity getVaccinationRecordByPet(Long petId) throws EntityNotFoundException {
 		log.info("Starting process to consult vaccination record for pet with id = {}", petId);
-		Optional<VaccinationRecordEntity> vaccinationRecord = vaccinationRecordRepository.findAll().stream()
-				.filter(r -> r.getPet() != null && r.getPet().getId().equals(petId))
-				.findFirst();
+		Optional<VaccinationRecordEntity> vaccinationRecord = vaccinationRecordRepository.findByPetId(petId);
 		if (vaccinationRecord.isEmpty())
 			throw new EntityNotFoundException("Vaccination record not found for that pet");
 		return vaccinationRecord.get();
@@ -99,15 +95,15 @@ public class VaccinationRecordService {
 
 		VaccinationRecordEntity current = existing.get();
 
+		
 		if (vaccinationRecord.getPet() != null && current.getPet() != null
-				&& !vaccinationRecord.getPet().getId().equals(current.getPet().getId()))
+				&& (vaccinationRecord.getPet().getId() == null
+						|| !vaccinationRecord.getPet().getId().equals(current.getPet().getId())))
 			throw new IllegalOperationException("The vaccination record cannot be reassigned to a different pet");
 
-		vaccinationRecord.setId(recordId);
-		vaccinationRecord.setPet(current.getPet());
-
+		
 		log.info("Ending process to update vaccination record with id = {}", recordId);
-		return vaccinationRecordRepository.save(vaccinationRecord);
+		return vaccinationRecordRepository.save(current);
 	}
 
 	@Transactional
