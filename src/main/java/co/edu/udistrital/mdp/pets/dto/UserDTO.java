@@ -25,4 +25,6 @@ public class UserDTO {
     
     // Phone number of the user
     private String phone;
+
+    private ShelterDTO shelter;
 }
