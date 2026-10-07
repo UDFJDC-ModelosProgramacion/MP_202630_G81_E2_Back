@@ -10,4 +10,10 @@ public class TrialCohabitationDTO {
 	private Date endDate;
 	private String status;
 	private String observations;
+
+	private ShelterDTO shelter;
+	private AdopterDTO adopter;
+	// TrialCohabitationRequest
+	// Return
+	// AdoptionRequest
 }
