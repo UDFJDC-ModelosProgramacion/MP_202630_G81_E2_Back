@@ -8,4 +8,7 @@ public class PhotoDTO {
 	private String url;
 	private String type;
 	private String description;
+
+	private PetDTO pet;
+	private ShelterDTO shelter;
 }
