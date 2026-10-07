@@ -214,6 +214,26 @@ class PhotoServiceTest {
 	}
 
 	@Test
+	void testGetPhotosByInvalidPetId() {
+		assertThrows(EntityNotFoundException.class, () -> {
+			photoService.getPhotos(0L, null);
+		});
+	}
+
+	@Test
+	void testGetPhotosByShelterOnly() throws EntityNotFoundException, IllegalOperationException {
+		ShelterEntity shelter = shelterList.get(0);
+		PhotoEntity shelterPhoto = buildValidPhoto();
+		shelterPhoto.setShelter(shelter);
+		shelter.getPhotos().add(shelterPhoto);
+		entityManager.persist(shelterPhoto);
+
+		List<PhotoEntity> list = photoService.getPhotos(null, shelter.getId());
+		assertEquals(1, list.size());
+		assertEquals(shelterPhoto.getId(), list.get(0).getId());
+	}
+
+	@Test
 	void testGetPhotosByInvalidShelter() {
 		assertThrows(EntityNotFoundException.class, () -> {
 			photoService.getPhotos(null, 0L);

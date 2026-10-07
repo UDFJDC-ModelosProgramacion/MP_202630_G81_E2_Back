@@ -274,6 +274,14 @@ class FollowUpServiceTest {
 	}
 
 	@Test
+	void testGetFollowUpWithNullRequesterAndAdminRole() throws EntityNotFoundException, IllegalOperationException {
+		FollowUpEntity entity = followUpList.get(0);
+		FollowUpEntity resultEntity = followUpService.getFollowUp(entity.getId(), null, "ADMIN");
+		assertNotNull(resultEntity);
+		assertEquals(entity.getId(), resultEntity.getId());
+	}
+
+	@Test
 	void testUpdateFollowUp() throws EntityNotFoundException, IllegalOperationException {
 		FollowUpEntity entity = followUpList.get(0);
 		FollowUpEntity pojoEntity = factory.manufacturePojo(FollowUpEntity.class);
