@@ -8,6 +8,8 @@ import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 import uk.co.jemos.podam.common.PodamExclude;
 
 @Data
@@ -19,13 +21,17 @@ public class ReviewEntity extends BaseEntity {
     @Temporal(TemporalType.DATE)
     private Date date;
     @Temporal(TemporalType.TIMESTAMP)
-	private Date time;
+    private Date time;
     
     @PodamExclude
     @ManyToOne
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     private PetEntity pet;
 
     @PodamExclude 
     @ManyToOne
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     private AdoptionEntity adoption;
 }

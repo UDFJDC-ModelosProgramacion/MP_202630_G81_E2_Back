@@ -6,9 +6,12 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import co.edu.udistrital.mdp.pets.entities.ShelterEntity;
 import co.edu.udistrital.mdp.pets.entities.VeterinarianEntity;
 import co.edu.udistrital.mdp.pets.exceptions.EntityNotFoundException;
 import co.edu.udistrital.mdp.pets.exceptions.IllegalOperationException;
+import co.edu.udistrital.mdp.pets.repositories.MessageRepository;
+import co.edu.udistrital.mdp.pets.repositories.ShelterRepository;
 import co.edu.udistrital.mdp.pets.repositories.UserRepository;
 import co.edu.udistrital.mdp.pets.repositories.VeterinarianRepository;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +27,8 @@ public class VeterinarianService {
 
 	private final VeterinarianRepository veterinarianRepository;
 	private final UserRepository userRepository;
+	private final ShelterRepository shelterRepository;
+	private final MessageRepository messageRepository;
 
 	@Transactional
 	public VeterinarianEntity createVeterinarian(VeterinarianEntity veterinarian)
@@ -48,6 +53,16 @@ public class VeterinarianService {
 		if (emailAlreadyUsed)
 			throw new IllegalOperationException(
 					"Two veterinarians cannot be associated with the same user; this user already exists");
+
+		
+		if (veterinarian.getShelter() != null) {
+			Long shelterId = veterinarian.getShelter().getId();
+			Optional<ShelterEntity> shelter = shelterId == null ? Optional.empty()
+					: shelterRepository.findById(shelterId);
+			if (shelter.isEmpty())
+				throw new IllegalOperationException("The shelter must be an existing shelter");
+			veterinarian.setShelter(shelter.get());
+		}
 
 		log.info("Ending process to create a veterinarian");
 		return veterinarianRepository.save(veterinarian);
@@ -88,6 +103,7 @@ public class VeterinarianService {
 		return veterinarian.get();
 	}
 
+	
 	@Transactional
 	public VeterinarianEntity updateVeterinarian(Long veterinarianId, VeterinarianEntity veterinarian)
 			throws EntityNotFoundException, IllegalOperationException {
@@ -125,6 +141,12 @@ public class VeterinarianService {
 		if (!current.getMedicalEvents().isEmpty() || !current.getFollowUps().isEmpty())
 			throw new IllegalOperationException(
 					"A veterinarian with active or past medical events or follow-ups cannot be deleted");
+
+		
+		if (!current.getNotifications().isEmpty()
+				|| !messageRepository.findBySendUserIdOrReceivesUserId(veterinarianId, veterinarianId).isEmpty())
+			throw new IllegalOperationException(
+					"A veterinarian with notifications or messages cannot be deleted");
 
 		veterinarianRepository.deleteById(veterinarianId);
 		log.info("Ending process to delete a veterinarian");
