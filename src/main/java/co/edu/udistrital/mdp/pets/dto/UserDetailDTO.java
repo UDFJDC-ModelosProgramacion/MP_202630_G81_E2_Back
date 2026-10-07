@@ -11,9 +11,6 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class UserDetailDTO extends UserDTO {
-
-    // Shelter associated with the user
-    private ShelterDTO shelter;
     
     // Messages sent by the user
     private List<MessageDTO> sendMessages = new ArrayList<>();
