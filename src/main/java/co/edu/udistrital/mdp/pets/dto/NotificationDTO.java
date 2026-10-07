@@ -13,4 +13,6 @@ public class NotificationDTO {
 	private String content;
 	private String channel;
 	private Boolean sent;
+
+	private UserDTO user;
 }
