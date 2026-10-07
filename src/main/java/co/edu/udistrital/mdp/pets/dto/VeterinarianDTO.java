@@ -8,5 +8,4 @@ import lombok.EqualsAndHashCode;
 public class VeterinarianDTO extends UserDTO {
 	private String specialization;
 	private String availability;
-	private ShelterDTO shelter;
 }
