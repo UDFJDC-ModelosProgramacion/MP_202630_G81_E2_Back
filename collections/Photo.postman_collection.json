@@ -77,6 +77,22 @@
           "cookie": [],
           "body": "{\n    \"id\": 1,\n    \"url\": \"https://example.com/fotos/perfil.jpg\",\n    \"type\": \"JPG\",\n    \"description\": \"Foto de perfil de la mascota\"\n}"
         }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "var id = pm.response.json().id;",
+              "pm.test(\"Response has id\", function () { pm.expect(id).to.not.be.undefined; });",
+              "pm.environment.set(\"photo_id_1\", id);",
+              "",
+              "",
+              ""
+            ],
+            "type": "text/javascript"
+          }
+        }
       ]
     },
     {
@@ -150,6 +166,21 @@
           "cookie": [],
           "body": "{\n    \"id\": 1,\n    \"url\": \"https://example.com/fotos/perfil.jpg\",\n    \"type\": \"JPG\",\n    \"description\": \"Foto de perfil de la mascota\"\n}"
         }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "var id = pm.response.json().id;",
+              "pm.test(\"Response has id\", function () { pm.expect(id).to.not.be.undefined; });",
+              "",
+              "",
+              ""
+            ],
+            "type": "text/javascript"
+          }
+        }
       ]
     },
     {
@@ -217,6 +248,19 @@
           "header": [],
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"26-09-2026 10:05:28\",\n        \"message\": \"Photo url cannot be null or empty\"\n    }\n}"
+        }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Request: Crear una foto sin url\", function () {",
+              "    pm.response.to.have.status(412);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
         }
       ]
     },
@@ -286,6 +330,19 @@
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"26-09-2026 10:05:28\",\n        \"message\": \"Photo format cannot be null or empty\"\n    }\n}"
         }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Request: Crear una foto sin tipo\", function () {",
+              "    pm.response.to.have.status(412);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
       ]
     },
     {
@@ -353,6 +410,19 @@
           "header": [],
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"26-09-2026 10:05:28\",\n        \"message\": \"Photo format is not valid; use JPG, PNG or another supported format\"\n    }\n}"
+        }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Request: Crear una foto con formato invalido\", function () {",
+              "    pm.response.to.have.status(412);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
         }
       ]
     },
@@ -422,6 +492,19 @@
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"26-09-2026 10:05:28\",\n        \"message\": \"Photo must be associated with an existing pet, shelter or user\"\n    }\n}"
         }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Request: Crear una foto sin entidad asociada\", function () {",
+              "    pm.response.to.have.status(412);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
       ]
     },
     {
@@ -489,6 +572,19 @@
           "header": [],
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"NOT_FOUND\",\n        \"timestamp\": \"26-09-2026 10:05:28\",\n        \"message\": \"Pet not found\"\n    }\n}"
+        }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Request: Crear una foto de una mascota inexistente\", function () {",
+              "    pm.response.to.have.status(404);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
         }
       ]
     },
@@ -558,6 +654,19 @@
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"NOT_FOUND\",\n        \"timestamp\": \"26-09-2026 10:05:28\",\n        \"message\": \"Shelter not found\"\n    }\n}"
         }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Request: Crear una foto de un refugio inexistente\", function () {",
+              "    pm.response.to.have.status(404);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
       ]
     },
     {
@@ -602,6 +711,19 @@
           ],
           "cookie": [],
           "body": "[\n    {\n        \"id\": 1,\n        \"url\": \"https://example.com/fotos/perfil.jpg\",\n        \"type\": \"JPG\",\n        \"description\": \"Foto de perfil de la mascota\"\n    }\n]"
+        }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Request: Obtener todas las fotos\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
         }
       ]
     },
@@ -660,6 +782,19 @@
           "cookie": [],
           "body": "[\n    {\n        \"id\": 1,\n        \"url\": \"https://example.com/fotos/perfil.jpg\",\n        \"type\": \"JPG\",\n        \"description\": \"Foto de perfil de la mascota\"\n    }\n]"
         }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Request: Obtener fotos de una mascota\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
       ]
     },
     {
@@ -716,6 +851,19 @@
           ],
           "cookie": [],
           "body": "[\n    {\n        \"id\": 1,\n        \"url\": \"https://example.com/fotos/perfil.jpg\",\n        \"type\": \"JPG\",\n        \"description\": \"Foto de perfil de la mascota\"\n    }\n]"
+        }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Request: Obtener fotos de un refugio\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
         }
       ]
     },
@@ -782,6 +930,19 @@
           "cookie": [],
           "body": "[\n    {\n        \"id\": 1,\n        \"url\": \"https://example.com/fotos/perfil.jpg\",\n        \"type\": \"JPG\",\n        \"description\": \"Foto de perfil de la mascota\"\n    }\n]"
         }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Request: Obtener fotos por mascota y refugio combinados\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
       ]
     },
     {
@@ -839,6 +1000,19 @@
           "cookie": [],
           "body": "[]"
         }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Request: Obtener fotos con filtros que no coinciden\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
       ]
     },
     {
@@ -891,6 +1065,19 @@
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"NOT_FOUND\",\n        \"timestamp\": \"26-09-2026 10:05:28\",\n        \"message\": \"Pet not found\"\n    }\n}"
         }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Request: Obtener fotos de una mascota inexistente\", function () {",
+              "    pm.response.to.have.status(404);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
       ]
     },
     {
@@ -938,6 +1125,19 @@
           "cookie": [],
           "body": "{\n    \"id\": 1,\n    \"url\": \"https://example.com/fotos/perfil.jpg\",\n    \"type\": \"JPG\",\n    \"description\": \"Foto de perfil de la mascota\"\n}"
         }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Request: Obtener una foto por id\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
       ]
     },
     {
@@ -974,11 +1174,24 @@
             }
           },
           "status": "Not Found",
-          "code": 404,
+          "code": 412,
           "_postman_previewlanguage": "json",
           "header": [],
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"NOT_FOUND\",\n        \"timestamp\": \"26-09-2026 10:05:28\",\n        \"message\": \"Photo not found\"\n    }\n}"
+        }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Request: Obtener una foto que no existe\", function () {",
+              "    pm.response.to.have.status(412);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
         }
       ]
     },
@@ -1021,6 +1234,19 @@
           "header": [],
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"26-09-2026 10:05:28\",\n        \"message\": \"Photo id is not valid\"\n    }\n}"
+        }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Request: Obtener una foto con id invalido\", function () {",
+              "    pm.response.to.have.status(412);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
         }
       ]
     },
@@ -1097,6 +1323,19 @@
           "cookie": [],
           "body": "{\n    \"id\": 1,\n    \"url\": \"https://example.com/fotos/actualizada.png\",\n    \"type\": \"PNG\",\n    \"description\": \"Nueva foto\"\n}"
         }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Request: Editar una foto\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
       ]
     },
     {
@@ -1161,11 +1400,24 @@
             }
           },
           "status": "Not Found",
-          "code": 404,
+          "code": 412,
           "_postman_previewlanguage": "json",
           "header": [],
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"NOT_FOUND\",\n        \"timestamp\": \"26-09-2026 10:05:28\",\n        \"message\": \"Photo not found\"\n    }\n}"
+        }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Request: Editar una foto que no existe\", function () {",
+              "    pm.response.to.have.status(412);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
         }
       ]
     },
@@ -1237,6 +1489,19 @@
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"26-09-2026 10:05:28\",\n        \"message\": \"Photo id is not valid\"\n    }\n}"
         }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Request: Editar una foto con id invalido\", function () {",
+              "    pm.response.to.have.status(412);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
       ]
     },
     {
@@ -1306,6 +1571,19 @@
           "header": [],
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"26-09-2026 10:05:28\",\n        \"message\": \"The new photo url cannot be null or empty\"\n    }\n}"
+        }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Request: Editar una foto sin url\", function () {",
+              "    pm.response.to.have.status(412);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
         }
       ]
     },
@@ -1377,6 +1655,19 @@
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"26-09-2026 10:05:28\",\n        \"message\": \"Photo format cannot be null or empty\"\n    }\n}"
         }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Request: Editar una foto sin tipo\", function () {",
+              "    pm.response.to.have.status(412);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
       ]
     },
     {
@@ -1447,6 +1738,19 @@
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"26-09-2026 10:05:28\",\n        \"message\": \"Photo format is not valid; use JPG, PNG or another supported format\"\n    }\n}"
         }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Request: Editar una foto con formato invalido\", function () {",
+              "    pm.response.to.have.status(412);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
       ]
     },
     {
@@ -1489,6 +1793,19 @@
           "cookie": [],
           "body": ""
         }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Request: Borrar una foto\", function () {",
+              "    pm.response.to.have.status(204);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
       ]
     },
     {
@@ -1525,11 +1842,24 @@
             }
           },
           "status": "Not Found",
-          "code": 404,
+          "code": 412,
           "_postman_previewlanguage": "json",
           "header": [],
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"NOT_FOUND\",\n        \"timestamp\": \"26-09-2026 10:05:28\",\n        \"message\": \"Photo not found\"\n    }\n}"
+        }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Request: Borrar una foto que no existe\", function () {",
+              "    pm.response.to.have.status(412);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
         }
       ]
     },
@@ -1573,6 +1903,19 @@
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"26-09-2026 10:05:28\",\n        \"message\": \"Photo id is not valid\"\n    }\n}"
         }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Request: Borrar una foto con id invalido\", function () {",
+              "    pm.response.to.have.status(412);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
       ]
     },
     {
@@ -1614,6 +1957,19 @@
           "header": [],
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"26-09-2026 10:05:28\",\n        \"message\": \"The main profile photo of a pet active for adoption cannot be deleted without establishing another default image first\"\n    }\n}"
+        }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Request: Borrar la foto principal de una mascota activa\", function () {",
+              "    pm.response.to.have.status(412);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
         }
       ]
     }
