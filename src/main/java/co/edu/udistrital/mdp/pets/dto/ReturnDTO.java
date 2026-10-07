@@ -7,17 +7,15 @@ import lombok.Data;
  * Data Transfer Object for Return.
  */
 @Data
-public class ReturnDTO {
+public class ReturnDTO{
 
-    // Unique identifier
     private Long id;
-    
-    // Date of the return
     private Date date;
-    
-    // Reason for the return
-    private String reason;
-    
-    // Status of the return
+    private String reazon;
     private String status;
+    
+    // This
+   private TrialCohabitationDTO trialCohabitation;
+   private AdoptionDTO adoption;
+   private ShelterDTO shelter;
 }
