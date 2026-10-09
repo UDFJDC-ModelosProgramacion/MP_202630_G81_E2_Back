@@ -1,8 +1,10 @@
 package co.edu.udistrital.mdp.pets.dto;
 
+import java.util.ArrayList;
 import java.util.Date;
-import lombok.Data;
+import java.util.List;
 
+import lombok.Data;
 
 @Data
 public class PetDTO {
@@ -25,4 +27,5 @@ public class PetDTO {
 	
 	private VaccinationRecordDTO vaccinationRecord;
 	private ShelterDTO shelter;
+	private List<PetMedicalEventDTO> medicalEvents = new ArrayList<>();
 }

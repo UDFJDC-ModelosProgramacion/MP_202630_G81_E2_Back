@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -34,8 +35,16 @@ public class PetController {
     // FindAll method
     @GetMapping 
     @ResponseStatus(code = HttpStatus.OK)
-    public List<PetDetailDTO> findAll() {
-        List<PetEntity> pets = petService.getPets();
+    public List<PetDetailDTO> findAll(
+            @RequestParam(name = "species", required = false) String species,
+            @RequestParam(name = "age", required = false) Integer age,
+            @RequestParam(name = "size", required = false) String size,
+            @RequestParam(name = "requiredSpace", required = false) String requiredSpace,
+            @RequestParam(name = "compatibilityChildren", required = false) Boolean compatibilityChildren,
+            @RequestParam(name = "compatibilityOtherPets", required = false) Boolean compatibilityOtherPets,
+            @RequestParam(name = "activityLevel", required = false) String activityLevel) {
+        List<PetEntity> pets = petService.getPets(species, age, size, requiredSpace, compatibilityChildren,
+                compatibilityOtherPets, activityLevel);
         return modelMapper.map(pets, new TypeToken<List<PetDetailDTO>>() {
         }.getType());
     }

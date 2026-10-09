@@ -8,6 +8,131 @@
   },
   "item": [
     {
+      "name": "Preparacion",
+      "description": "Crea los datos que necesita esta coleccion para correr sola, sin depender de otras colecciones ni de datos sembrados. Ejecutar siempre primero (el Runner ya la corre de primera).",
+      "item": [
+        {
+          "name": "Crear usuario responsable",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "var uniq = Date.now().toString() + Math.floor(Math.random() * 1000);",
+                  "pm.variables.set(\"uniq\", uniq);",
+                  "pm.variables.set(\"nit\", \"9\" + uniq.slice(-8) + \"-\" + Math.floor(Math.random() * 10));"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Preparacion: Crear usuario responsable\", function () {",
+                  "    pm.response.to.have.status(201);",
+                  "    var data = pm.response.json();",
+                  "    pm.expect(data.id).to.be.a(\"number\");",
+                  "    pm.collectionVariables.set(\"user_id_1\", data.id);",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/postman/users",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "postman",
+                "users"
+              ]
+            },
+            "description": "Crea un usuario responsable. Ajustar el body a los atributos de UserEntity si el API pide otros.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\": \"Usuario Prueba {{uniq}}\",\n    \"email\": \"prep{{uniq}}@example.com\",\n    \"phone\": \"3001234567\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Crear refugio",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "var uniq = Date.now().toString() + Math.floor(Math.random() * 1000);",
+                  "pm.variables.set(\"uniq\", uniq);",
+                  "pm.variables.set(\"nit\", \"9\" + uniq.slice(-8) + \"-\" + Math.floor(Math.random() * 10));"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Preparacion: Crear refugio\", function () {",
+                  "    pm.response.to.have.status(201);",
+                  "    var data = pm.response.json();",
+                  "    pm.expect(data.id).to.be.a(\"number\");",
+                  "    pm.collectionVariables.set(\"shelter_id\", data.id);",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/shelters",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "shelters"
+              ]
+            },
+            "description": "Crea un refugio con nit unico asociado al usuario {{user_id_1}}.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\": \"Refugio Event Test {{uniq}}\",\n    \"city\": \"Bogota\",\n    \"nit\": \"{{nit}}\",\n    \"location\": \"Chapinero\",\n    \"users\": [\n        {\n            \"id\": {{user_id_1}}\n        }\n    ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
       "name": "Crear un evento",
       "request": {
         "method": "POST",
@@ -78,6 +203,32 @@
           ],
           "cookie": [],
           "body": "{\n    \"id\": 1,\n    \"name\": \"Jornada de adopcion\",\n    \"type\": \"Adopcion\",\n    \"date\": \"2027-03-20T05:00:00.000+00:00\",\n    \"time\": \"10:00\",\n    \"description\": \"Jornada abierta para conocer y adoptar mascotas del refugio.\",\n    \"location\": \"Parque El Virrey\"\n}"
+        }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "var data = pm.response.json();",
+              "if (data.id) {",
+              "    pm.collectionVariables.set(\"event_id_1\", data.id);",
+              "}",
+              "",
+              "pm.test(\"Status code is 201\", function () {",
+              "    pm.response.to.have.status(201);",
+              "});",
+              "",
+              "pm.test(\"Event created with the sent data\", function () {",
+              "    var data = pm.response.json();",
+              "    pm.expect(data.id).to.be.a(\"number\");",
+              "    pm.expect(data.name).to.eql(\"Jornada de adopcion\");",
+              "    pm.expect(data.type).to.eql(\"Adopcion\");",
+              "    pm.expect(data.location).to.eql(\"Parque El Virrey\");",
+              "});"
+            ]
+          }
         }
       ]
     },
@@ -153,6 +304,30 @@
           "cookie": [],
           "body": "{\n    \"id\": 2,\n    \"name\": \"Campana de vacunacion\",\n    \"type\": null,\n    \"date\": \"2027-04-10T05:00:00.000+00:00\",\n    \"time\": \"09:00\",\n    \"description\": \"Vacunacion gratuita para mascotas de la comunidad.\",\n    \"location\": \"Salon comunal Chapinero\"\n}"
         }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "var data = pm.response.json();",
+              "if (data.id) {",
+              "    pm.collectionVariables.set(\"event_id_2\", data.id);",
+              "}",
+              "",
+              "pm.test(\"Status code is 201\", function () {",
+              "    pm.response.to.have.status(201);",
+              "});",
+              "",
+              "pm.test(\"Event created without type\", function () {",
+              "    var data = pm.response.json();",
+              "    pm.expect(data.name).to.eql(\"Campana de vacunacion\");",
+              "    pm.expect(data.type).to.be.null;",
+              "});"
+            ]
+          }
+        }
       ]
     },
     {
@@ -226,6 +401,24 @@
           ],
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"20-09-2026 10:01:46\",\n        \"message\": \"Event name cannot be null or empty\"\n    }\n}"
+        }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 412\", function () {",
+              "    pm.response.to.have.status(412);",
+              "});",
+              "",
+              "pm.test(\"Get expected error message\", function () {",
+              "    var data = pm.response.json();",
+              "    pm.expect(data.apierror.message).to.eql(\"Event name cannot be null or empty\");",
+              "});"
+            ]
+          }
         }
       ]
     },
@@ -301,6 +494,24 @@
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"20-09-2026 10:02:23\",\n        \"message\": \"An event with the same shelter, name, location and date already exists\"\n    }\n}"
         }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 412\", function () {",
+              "    pm.response.to.have.status(412);",
+              "});",
+              "",
+              "pm.test(\"Get expected error message\", function () {",
+              "    var data = pm.response.json();",
+              "    pm.expect(data.apierror.message).to.eql(\"An event with the same shelter, name, location and date already exists\");",
+              "});"
+            ]
+          }
+        }
       ]
     },
     {
@@ -374,6 +585,24 @@
           ],
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"20-09-2026 10:03:00\",\n        \"message\": \"Event date cannot be earlier than the current date\"\n    }\n}"
+        }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 412\", function () {",
+              "    pm.response.to.have.status(412);",
+              "});",
+              "",
+              "pm.test(\"Get expected error message\", function () {",
+              "    var data = pm.response.json();",
+              "    pm.expect(data.apierror.message).to.eql(\"Event date cannot be earlier than the current date\");",
+              "});"
+            ]
+          }
         }
       ]
     },
@@ -449,6 +678,24 @@
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"NOT_FOUND\",\n        \"timestamp\": \"20-09-2026 10:03:37\",\n        \"message\": \"The shelter with the given id was not found\"\n    }\n}"
         }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 404\", function () {",
+              "    pm.response.to.have.status(404);",
+              "});",
+              "",
+              "pm.test(\"Get expected error message\", function () {",
+              "    var data = pm.response.json();",
+              "    pm.expect(data.apierror.message).to.eql(\"The shelter with the given id was not found\");",
+              "});"
+            ]
+          }
+        }
       ]
     },
     {
@@ -494,6 +741,24 @@
           ],
           "cookie": [],
           "body": "[\n    {\n        \"id\": 1,\n        \"name\": \"Jornada de adopcion\",\n        \"type\": \"Adopcion\",\n        \"date\": \"2027-03-20\",\n        \"time\": \"10:00\",\n        \"description\": \"Jornada abierta para conocer y adoptar mascotas del refugio.\",\n        \"location\": \"Parque El Virrey\"\n    },\n    {\n        \"id\": 2,\n        \"name\": \"Campana de vacunacion\",\n        \"type\": null,\n        \"date\": \"2027-04-10\",\n        \"time\": \"09:00\",\n        \"description\": \"Vacunacion gratuita para mascotas de la comunidad.\",\n        \"location\": \"Salon comunal Chapinero\"\n    }\n]"
+        }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test(\"Number of events >= 2\", function () {",
+              "    var data = pm.response.json();",
+              "    pm.expect(data.length).to.be.at.least(2);",
+              "});"
+            ]
+          }
         }
       ]
     },
@@ -542,6 +807,25 @@
           ],
           "cookie": [],
           "body": "{\n    \"id\": 1,\n    \"name\": \"Jornada de adopcion\",\n    \"type\": \"Adopcion\",\n    \"date\": \"2027-03-20\",\n    \"time\": \"10:00\",\n    \"description\": \"Jornada abierta para conocer y adoptar mascotas del refugio.\",\n    \"location\": \"Parque El Virrey\"\n}"
+        }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test(\"Returns the requested event\", function () {",
+              "    var data = pm.response.json();",
+              "    pm.expect(data.id).to.eql(parseInt(pm.collectionVariables.get(\"event_id_1\")));",
+              "    pm.expect(data.name).to.eql(\"Jornada de adopcion\");",
+              "});"
+            ]
+          }
         }
       ]
     },
@@ -601,6 +885,27 @@
           "cookie": [],
           "body": "[\n    {\n        \"id\": 1,\n        \"name\": \"Jornada de adopcion\",\n        \"type\": \"Adopcion\",\n        \"date\": \"2027-03-20\",\n        \"time\": \"10:00\",\n        \"description\": \"Jornada abierta para conocer y adoptar mascotas del refugio.\",\n        \"location\": \"Parque El Virrey\"\n    }\n]"
         }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test(\"All events have the requested name\", function () {",
+              "    var data = pm.response.json();",
+              "    pm.expect(data.length).to.be.greaterThan(0);",
+              "    data.forEach(function (x) {",
+              "        pm.expect(x.name).to.eql(\"Jornada de adopcion\");",
+              "    });",
+              "});"
+            ]
+          }
+        }
       ]
     },
     {
@@ -658,6 +963,27 @@
           ],
           "cookie": [],
           "body": "[\n    {\n        \"id\": 1,\n        \"name\": \"Jornada de adopcion\",\n        \"type\": \"Adopcion\",\n        \"date\": \"2027-03-20\",\n        \"time\": \"10:00\",\n        \"description\": \"Jornada abierta para conocer y adoptar mascotas del refugio.\",\n        \"location\": \"Parque El Virrey\"\n    }\n]"
+        }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test(\"All events have the requested date\", function () {",
+              "    var data = pm.response.json();",
+              "    pm.expect(data.length).to.be.greaterThan(0);",
+              "    data.forEach(function (x) {",
+              "        pm.expect(x.date).to.eql(\"2027-03-20\");",
+              "    });",
+              "});"
+            ]
+          }
         }
       ]
     },
@@ -733,6 +1059,29 @@
           "cookie": [],
           "body": "[\n    {\n        \"id\": 1,\n        \"name\": \"Jornada de adopcion\",\n        \"type\": \"Adopcion\",\n        \"date\": \"2027-03-20\",\n        \"time\": \"10:00\",\n        \"description\": \"Jornada abierta para conocer y adoptar mascotas del refugio.\",\n        \"location\": \"Parque El Virrey\"\n    }\n]"
         }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test(\"Exactly one event matches id, name and date\", function () {",
+              "    var data = pm.response.json();",
+              "    pm.expect(data.length).to.eql(1);",
+              "    data.forEach(function (x) {",
+              "        pm.expect(x.name).to.eql(\"Jornada de adopcion\");",
+              "        pm.expect(x.date).to.eql(\"2027-03-20\");",
+              "        pm.expect(x.id).to.eql(parseInt(pm.collectionVariables.get(\"event_id_1\")));",
+              "    });",
+              "});"
+            ]
+          }
+        }
       ]
     },
     {
@@ -798,6 +1147,23 @@
           ],
           "cookie": [],
           "body": "[]"
+        }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test(\"Result is empty\", function () {",
+              "    pm.expect(pm.response.json()).to.be.an(\"array\").that.is.empty;",
+              "});"
+            ]
+          }
         }
       ]
     },
@@ -865,6 +1231,23 @@
           "cookie": [],
           "body": "[]"
         }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test(\"Result is empty\", function () {",
+              "    pm.expect(pm.response.json()).to.be.an(\"array\").that.is.empty;",
+              "});"
+            ]
+          }
+        }
       ]
     },
     {
@@ -913,6 +1296,24 @@
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"NOT_FOUND\",\n        \"timestamp\": \"20-09-2026 10:04:14\",\n        \"message\": \"The event with the given id was not found\"\n    }\n}"
         }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 404\", function () {",
+              "    pm.response.to.have.status(404);",
+              "});",
+              "",
+              "pm.test(\"Get expected error message\", function () {",
+              "    var data = pm.response.json();",
+              "    pm.expect(data.apierror.message).to.eql(\"The event with the given id was not found\");",
+              "});"
+            ]
+          }
+        }
       ]
     },
     {
@@ -960,6 +1361,24 @@
           ],
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"20-09-2026 10:04:51\",\n        \"message\": \"Event id is not valid\"\n    }\n}"
+        }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 412\", function () {",
+              "    pm.response.to.have.status(412);",
+              "});",
+              "",
+              "pm.test(\"Get expected error message\", function () {",
+              "    var data = pm.response.json();",
+              "    pm.expect(data.apierror.message).to.eql(\"Event id is not valid\");",
+              "});"
+            ]
+          }
         }
       ]
     },
@@ -1037,6 +1456,25 @@
           "cookie": [],
           "body": "{\n    \"id\": 1,\n    \"name\": \"Jornada de adopcion\",\n    \"type\": \"Adopcion\",\n    \"date\": \"2027-03-20T05:00:00.000+00:00\",\n    \"time\": \"10:00\",\n    \"description\": \"Jornada abierta para conocer y adoptar mascotas del refugio. Habra musica en vivo.\",\n    \"location\": \"Parque El Virrey\"\n}"
         }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test(\"Description was updated\", function () {",
+              "    var data = pm.response.json();",
+              "    pm.expect(data.description).to.eql(\"Jornada abierta para conocer y adoptar mascotas del refugio. Habra musica en vivo.\");",
+              "    pm.expect(data.name).to.eql(\"Jornada de adopcion\");",
+              "});"
+            ]
+          }
+        }
       ]
     },
     {
@@ -1112,6 +1550,24 @@
           ],
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"NOT_FOUND\",\n        \"timestamp\": \"20-09-2026 10:05:28\",\n        \"message\": \"The event with the given id was not found\"\n    }\n}"
+        }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 404\", function () {",
+              "    pm.response.to.have.status(404);",
+              "});",
+              "",
+              "pm.test(\"Get expected error message\", function () {",
+              "    var data = pm.response.json();",
+              "    pm.expect(data.apierror.message).to.eql(\"The event with the given id was not found\");",
+              "});"
+            ]
+          }
         }
       ]
     },
@@ -1189,6 +1645,24 @@
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"20-09-2026 10:06:05\",\n        \"message\": \"Event id is not valid\"\n    }\n}"
         }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 412\", function () {",
+              "    pm.response.to.have.status(412);",
+              "});",
+              "",
+              "pm.test(\"Get expected error message\", function () {",
+              "    var data = pm.response.json();",
+              "    pm.expect(data.apierror.message).to.eql(\"Event id is not valid\");",
+              "});"
+            ]
+          }
+        }
       ]
     },
     {
@@ -1264,6 +1738,24 @@
           ],
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"20-09-2026 10:06:42\",\n        \"message\": \"Event name cannot be null or empty\"\n    }\n}"
+        }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 412\", function () {",
+              "    pm.response.to.have.status(412);",
+              "});",
+              "",
+              "pm.test(\"Get expected error message\", function () {",
+              "    var data = pm.response.json();",
+              "    pm.expect(data.apierror.message).to.eql(\"Event name cannot be null or empty\");",
+              "});"
+            ]
+          }
         }
       ]
     },
@@ -1341,6 +1833,24 @@
           "cookie": [],
           "body": "{\n    \"id\": 1,\n    \"name\": \"Jornada de adopcion\",\n    \"type\": null,\n    \"date\": \"2027-03-20T05:00:00.000+00:00\",\n    \"time\": \"10:00\",\n    \"description\": \"Jornada abierta para conocer y adoptar mascotas del refugio. Habra musica en vivo.\",\n    \"location\": \"Parque El Virrey\"\n}"
         }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test(\"Type was removed\", function () {",
+              "    var data = pm.response.json();",
+              "    pm.expect(data.type).to.be.null;",
+              "});"
+            ]
+          }
+        }
       ]
     },
     {
@@ -1416,6 +1926,24 @@
           ],
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"20-09-2026 10:07:19\",\n        \"message\": \"Event date cannot be earlier than the current date\"\n    }\n}"
+        }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 412\", function () {",
+              "    pm.response.to.have.status(412);",
+              "});",
+              "",
+              "pm.test(\"Get expected error message\", function () {",
+              "    var data = pm.response.json();",
+              "    pm.expect(data.apierror.message).to.eql(\"Event date cannot be earlier than the current date\");",
+              "});"
+            ]
+          }
         }
       ]
     },
@@ -1493,6 +2021,24 @@
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"20-09-2026 10:07:56\",\n        \"message\": \"An event with the same shelter, name, location and date already exists\"\n    }\n}"
         }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 412\", function () {",
+              "    pm.response.to.have.status(412);",
+              "});",
+              "",
+              "pm.test(\"Get expected error message\", function () {",
+              "    var data = pm.response.json();",
+              "    pm.expect(data.apierror.message).to.eql(\"An event with the same shelter, name, location and date already exists\");",
+              "});"
+            ]
+          }
+        }
       ]
     },
     {
@@ -1535,6 +2081,19 @@
           "header": [],
           "cookie": [],
           "body": ""
+        }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 204\", function () {",
+              "    pm.response.to.have.status(204);",
+              "});"
+            ]
+          }
         }
       ]
     },
@@ -1584,6 +2143,24 @@
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"NOT_FOUND\",\n        \"timestamp\": \"20-09-2026 10:08:33\",\n        \"message\": \"The event with the given id was not found\"\n    }\n}"
         }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 404\", function () {",
+              "    pm.response.to.have.status(404);",
+              "});",
+              "",
+              "pm.test(\"Get expected error message\", function () {",
+              "    var data = pm.response.json();",
+              "    pm.expect(data.apierror.message).to.eql(\"The event with the given id was not found\");",
+              "});"
+            ]
+          }
+        }
       ]
     },
     {
@@ -1631,6 +2208,24 @@
           ],
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"20-09-2026 10:09:10\",\n        \"message\": \"Event id is not valid\"\n    }\n}"
+        }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 412\", function () {",
+              "    pm.response.to.have.status(412);",
+              "});",
+              "",
+              "pm.test(\"Get expected error message\", function () {",
+              "    var data = pm.response.json();",
+              "    pm.expect(data.apierror.message).to.eql(\"Event id is not valid\");",
+              "});"
+            ]
+          }
         }
       ]
     },
@@ -1680,6 +2275,24 @@
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"20-09-2026 10:09:47\",\n        \"message\": \"An event whose date has already passed cannot be deleted\"\n    }\n}"
         }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 412\", function () {",
+              "    pm.response.to.have.status(412);",
+              "});",
+              "",
+              "pm.test(\"Get expected error message\", function () {",
+              "    var data = pm.response.json();",
+              "    pm.expect(data.apierror.message).to.eql(\"An event whose date has already passed cannot be deleted\");",
+              "});"
+            ]
+          }
+        }
       ]
     }
   ],
@@ -1699,6 +2312,10 @@
     {
       "key": "event_id_past",
       "value": "3"
+    },
+    {
+      "key": "user_id_1",
+      "value": ""
     }
   ]
 }

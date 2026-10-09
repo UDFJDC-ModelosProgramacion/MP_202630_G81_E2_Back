@@ -8,6 +8,227 @@
   },
   "item": [
     {
+      "name": "Preparacion",
+      "description": "Crea los datos que necesita esta coleccion para correr sola, sin depender de otras colecciones ni de datos sembrados. Ejecutar siempre primero (el Runner ya la corre de primera).",
+      "item": [
+        {
+          "name": "Crear usuario responsable",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "var uniq = Date.now().toString() + Math.floor(Math.random() * 1000);",
+                  "pm.variables.set(\"uniq\", uniq);",
+                  "pm.variables.set(\"nit\", \"9\" + uniq.slice(-8) + \"-\" + Math.floor(Math.random() * 10));"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Preparacion: Crear usuario responsable\", function () {",
+                  "    pm.response.to.have.status(201);",
+                  "    var data = pm.response.json();",
+                  "    pm.expect(data.id).to.be.a(\"number\");",
+                  "    pm.collectionVariables.set(\"user_id_1\", data.id);",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/postman/users",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "postman",
+                "users"
+              ]
+            },
+            "description": "Crea un usuario responsable. Ajustar el body a los atributos de UserEntity si el API pide otros.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\": \"Usuario Prueba {{uniq}}\",\n    \"email\": \"prep{{uniq}}@example.com\",\n    \"phone\": \"3001234567\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Crear refugio",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "var uniq = Date.now().toString() + Math.floor(Math.random() * 1000);",
+                  "pm.variables.set(\"uniq\", uniq);",
+                  "pm.variables.set(\"nit\", \"9\" + uniq.slice(-8) + \"-\" + Math.floor(Math.random() * 10));"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Preparacion: Crear refugio\", function () {",
+                  "    pm.response.to.have.status(201);",
+                  "    var data = pm.response.json();",
+                  "    pm.expect(data.id).to.be.a(\"number\");",
+                  "    pm.collectionVariables.set(\"shelter_id\", data.id);",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/shelters",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "shelters"
+              ]
+            },
+            "description": "Crea un refugio con nit unico asociado al usuario {{user_id_1}}.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\": \"Refugio Vaccine Test {{uniq}}\",\n    \"city\": \"Bogota\",\n    \"nit\": \"{{nit}}\",\n    \"location\": \"Chapinero\",\n    \"users\": [\n        {\n            \"id\": {{user_id_1}}\n        }\n    ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Crear mascota",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Preparacion: Crear mascota\", function () {",
+                  "    pm.response.to.have.status(201);",
+                  "    var data = pm.response.json();",
+                  "    pm.expect(data.id).to.be.a(\"number\");",
+                  "    pm.collectionVariables.set(\"pet_id_1\", data.id);",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/pets",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "pets"
+              ]
+            },
+            "description": "Crea una mascota con su evento de llegada en el refugio {{shelter_id}}.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\": \"Luna\",\n    \"species\": \"Perro\",\n    \"breed\": \"Criollo\",\n    \"age\": 3,\n    \"sex\": \"Hembra\",\n    \"size\": \"Mediano\",\n    \"healthStatus\": \"Saludable\",\n    \"description\": \"Mascota de preparacion.\",\n    \"admissionDate\": \"2026-03-10T00:00:00-05:00\",\n    \"temperament\": \"Amigable\",\n    \"specificNeeds\": \"Ninguna\",\n    \"compatibilityChildren\": true,\n    \"compatibilityOtherPets\": true,\n    \"activityLevel\": \"Alto\",\n    \"requiredSpace\": \"Casa\",\n    \"shelter\": {\n        \"id\": {{shelter_id}}\n    },\n    \"medicalEvents\": [\n        {\n            \"date\": \"2026-03-10T00:00:00-05:00\",\n            \"type\": \"Llegada al refugio\",\n            \"description\": \"Rescatada de la calle en el barrio Chapinero.\"\n        }\n    ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Crear registro de vacunacion",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Preparacion: Crear registro de vacunacion\", function () {",
+                  "    pm.response.to.have.status(201);",
+                  "    var data = pm.response.json();",
+                  "    pm.expect(data.id).to.be.a(\"number\");",
+                  "    pm.collectionVariables.set(\"vaccination_record_id\", data.id);",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/vaccinationrecords",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "vaccinationrecords"
+              ]
+            },
+            "description": "Crea el registro de vacunacion de la mascota {{pet_id_1}}. Ajustar ruta/body si se crea de otra forma.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"pet\": {\n        \"id\": {{pet_id_1}}\n    }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
       "name": "Crear una vacuna",
       "request": {
         "method": "POST",
@@ -78,6 +299,32 @@
           ],
           "cookie": [],
           "body": "{\n    \"id\": 1,\n    \"name\": \"Rabia\",\n    \"administrationDate\": \"2026-02-15T05:00:00.000+00:00\",\n    \"nextAdministration\": \"2027-02-15T05:00:00.000+00:00\",\n    \"status\": true\n}"
+        }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "var data = pm.response.json();",
+              "if (data.id) {",
+              "    pm.collectionVariables.set(\"vaccine_id_1\", data.id);",
+              "}",
+              "",
+              "pm.test(\"Status code is 201\", function () {",
+              "    pm.response.to.have.status(201);",
+              "});",
+              "",
+              "pm.test(\"Vaccine created with the sent data\", function () {",
+              "    var data = pm.response.json();",
+              "    pm.expect(data.id).to.be.a(\"number\");",
+              "    pm.expect(data.name).to.eql(\"Rabia\");",
+              "    pm.expect(data.status).to.be.true;",
+              "    pm.expect(data.nextAdministration).to.include(\"2027-02-15\");",
+              "});"
+            ]
+          }
         }
       ]
     },
@@ -153,6 +400,31 @@
           "cookie": [],
           "body": "{\n    \"id\": 2,\n    \"name\": \"Parvovirus\",\n    \"administrationDate\": \"2026-01-20T05:00:00.000+00:00\",\n    \"nextAdministration\": null,\n    \"status\": true\n}"
         }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "var data = pm.response.json();",
+              "if (data.id) {",
+              "    pm.collectionVariables.set(\"vaccine_id_2\", data.id);",
+              "}",
+              "",
+              "pm.test(\"Status code is 201\", function () {",
+              "    pm.response.to.have.status(201);",
+              "});",
+              "",
+              "pm.test(\"Vaccine created without booster date\", function () {",
+              "    var data = pm.response.json();",
+              "    pm.expect(data.name).to.eql(\"Parvovirus\");",
+              "    pm.expect(data.nextAdministration).to.be.null;",
+              "    pm.expect(data.status).to.be.true;",
+              "});"
+            ]
+          }
+        }
       ]
     },
     {
@@ -226,6 +498,30 @@
           ],
           "cookie": [],
           "body": "{\n    \"id\": 3,\n    \"name\": \"Moquillo\",\n    \"administrationDate\": \"2025-01-10T05:00:00.000+00:00\",\n    \"nextAdministration\": \"2025-07-10T05:00:00.000+00:00\",\n    \"status\": false\n}"
+        }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "var data = pm.response.json();",
+              "if (data.id) {",
+              "    pm.collectionVariables.set(\"vaccine_id_3\", data.id);",
+              "}",
+              "",
+              "pm.test(\"Status code is 201\", function () {",
+              "    pm.response.to.have.status(201);",
+              "});",
+              "",
+              "pm.test(\"Expired vaccine is created with status false\", function () {",
+              "    var data = pm.response.json();",
+              "    pm.expect(data.name).to.eql(\"Moquillo\");",
+              "    pm.expect(data.status).to.be.false;",
+              "});"
+            ]
+          }
         }
       ]
     },
@@ -301,6 +597,24 @@
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"20-09-2026 10:01:46\",\n        \"message\": \"Vaccine name cannot be null or empty\"\n    }\n}"
         }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 412\", function () {",
+              "    pm.response.to.have.status(412);",
+              "});",
+              "",
+              "pm.test(\"Get expected error message\", function () {",
+              "    var data = pm.response.json();",
+              "    pm.expect(data.apierror.message).to.eql(\"Vaccine name cannot be null or empty\");",
+              "});"
+            ]
+          }
+        }
       ]
     },
     {
@@ -374,6 +688,24 @@
           ],
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"20-09-2026 10:02:23\",\n        \"message\": \"Vaccine status must be explicitly initialized\"\n    }\n}"
+        }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 412\", function () {",
+              "    pm.response.to.have.status(412);",
+              "});",
+              "",
+              "pm.test(\"Get expected error message\", function () {",
+              "    var data = pm.response.json();",
+              "    pm.expect(data.apierror.message).to.eql(\"Vaccine status must be explicitly initialized\");",
+              "});"
+            ]
+          }
         }
       ]
     },
@@ -449,6 +781,24 @@
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"20-09-2026 10:03:00\",\n        \"message\": \"Administration date cannot be a future date\"\n    }\n}"
         }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 412\", function () {",
+              "    pm.response.to.have.status(412);",
+              "});",
+              "",
+              "pm.test(\"Get expected error message\", function () {",
+              "    var data = pm.response.json();",
+              "    pm.expect(data.apierror.message).to.eql(\"Administration date cannot be a future date\");",
+              "});"
+            ]
+          }
+        }
       ]
     },
     {
@@ -522,6 +872,24 @@
           ],
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"20-09-2026 10:03:37\",\n        \"message\": \"Next administration must be later than administration date\"\n    }\n}"
+        }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 412\", function () {",
+              "    pm.response.to.have.status(412);",
+              "});",
+              "",
+              "pm.test(\"Get expected error message\", function () {",
+              "    var data = pm.response.json();",
+              "    pm.expect(data.apierror.message).to.eql(\"Next administration must be later than administration date\");",
+              "});"
+            ]
+          }
         }
       ]
     },
@@ -597,6 +965,24 @@
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"20-09-2026 10:04:14\",\n        \"message\": \"A vaccine with the same name and administration date already exists in this vaccination record\"\n    }\n}"
         }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 412\", function () {",
+              "    pm.response.to.have.status(412);",
+              "});",
+              "",
+              "pm.test(\"Get expected error message\", function () {",
+              "    var data = pm.response.json();",
+              "    pm.expect(data.apierror.message).to.eql(\"A vaccine with the same name and administration date already exists in this vaccination record\");",
+              "});"
+            ]
+          }
+        }
       ]
     },
     {
@@ -671,6 +1057,24 @@
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"NOT_FOUND\",\n        \"timestamp\": \"20-09-2026 10:04:51\",\n        \"message\": \"The vaccination record with the given id was not found\"\n    }\n}"
         }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 404\", function () {",
+              "    pm.response.to.have.status(404);",
+              "});",
+              "",
+              "pm.test(\"Get expected error message\", function () {",
+              "    var data = pm.response.json();",
+              "    pm.expect(data.apierror.message).to.eql(\"The vaccination record with the given id was not found\");",
+              "});"
+            ]
+          }
+        }
       ]
     },
     {
@@ -716,6 +1120,24 @@
           ],
           "cookie": [],
           "body": "[\n    {\n        \"id\": 1,\n        \"name\": \"Rabia\",\n        \"administrationDate\": \"2026-02-15\",\n        \"nextAdministration\": \"2027-02-15\",\n        \"status\": true\n    },\n    {\n        \"id\": 2,\n        \"name\": \"Parvovirus\",\n        \"administrationDate\": \"2026-01-20\",\n        \"nextAdministration\": null,\n        \"status\": true\n    },\n    {\n        \"id\": 3,\n        \"name\": \"Moquillo\",\n        \"administrationDate\": \"2025-01-10\",\n        \"nextAdministration\": \"2025-07-10\",\n        \"status\": false\n    }\n]"
+        }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test(\"Number of vaccines >= 3\", function () {",
+              "    var data = pm.response.json();",
+              "    pm.expect(data.length).to.be.at.least(3);",
+              "});"
+            ]
+          }
         }
       ]
     },
@@ -775,6 +1197,27 @@
           "cookie": [],
           "body": "[\n    {\n        \"id\": 1,\n        \"name\": \"Rabia\",\n        \"administrationDate\": \"2026-02-15\",\n        \"nextAdministration\": \"2027-02-15\",\n        \"status\": true\n    },\n    {\n        \"id\": 2,\n        \"name\": \"Parvovirus\",\n        \"administrationDate\": \"2026-01-20\",\n        \"nextAdministration\": null,\n        \"status\": true\n    },\n    {\n        \"id\": 3,\n        \"name\": \"Moquillo\",\n        \"administrationDate\": \"2025-01-10\",\n        \"nextAdministration\": \"2025-07-10\",\n        \"status\": false\n    }\n]"
         }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test(\"List contains the vaccines of the vaccination record\", function () {",
+              "    var data = pm.response.json();",
+              "    var ids = data.map(function (e) { return e.id; });",
+              "    pm.expect(ids).to.include(parseInt(pm.collectionVariables.get(\"vaccine_id_1\")));",
+              "    pm.expect(ids).to.include(parseInt(pm.collectionVariables.get(\"vaccine_id_2\")));",
+              "    pm.expect(ids).to.include(parseInt(pm.collectionVariables.get(\"vaccine_id_3\")));",
+              "});"
+            ]
+          }
+        }
       ]
     },
     {
@@ -832,6 +1275,27 @@
           ],
           "cookie": [],
           "body": "[\n    {\n        \"id\": 1,\n        \"name\": \"Rabia\",\n        \"administrationDate\": \"2026-02-15\",\n        \"nextAdministration\": \"2027-02-15\",\n        \"status\": true\n    },\n    {\n        \"id\": 2,\n        \"name\": \"Parvovirus\",\n        \"administrationDate\": \"2026-01-20\",\n        \"nextAdministration\": null,\n        \"status\": true\n    },\n    {\n        \"id\": 3,\n        \"name\": \"Moquillo\",\n        \"administrationDate\": \"2025-01-10\",\n        \"nextAdministration\": \"2025-07-10\",\n        \"status\": false\n    }\n]"
+        }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test(\"List contains the vaccines of the pet\", function () {",
+              "    var data = pm.response.json();",
+              "    var ids = data.map(function (e) { return e.id; });",
+              "    pm.expect(ids).to.include(parseInt(pm.collectionVariables.get(\"vaccine_id_1\")));",
+              "    pm.expect(ids).to.include(parseInt(pm.collectionVariables.get(\"vaccine_id_2\")));",
+              "    pm.expect(ids).to.include(parseInt(pm.collectionVariables.get(\"vaccine_id_3\")));",
+              "});"
+            ]
+          }
         }
       ]
     },
@@ -891,6 +1355,35 @@
           "cookie": [],
           "body": "[\n    {\n        \"id\": 1,\n        \"name\": \"Rabia\",\n        \"administrationDate\": \"2026-02-15\",\n        \"nextAdministration\": \"2027-02-15\",\n        \"status\": true\n    },\n    {\n        \"id\": 2,\n        \"name\": \"Parvovirus\",\n        \"administrationDate\": \"2026-01-20\",\n        \"nextAdministration\": null,\n        \"status\": true\n    }\n]"
         }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test(\"All vaccines are current (status true)\", function () {",
+              "    var data = pm.response.json();",
+              "    pm.expect(data.length).to.be.greaterThan(0);",
+              "    data.forEach(function (x) {",
+              "        pm.expect(x.status).to.eql(true);",
+              "    });",
+              "});",
+              "",
+              "pm.test(\"Current vaccines are included\", function () {",
+              "    var data = pm.response.json();",
+              "    var ids = data.map(function (e) { return e.id; });",
+              "    pm.expect(ids).to.include(parseInt(pm.collectionVariables.get(\"vaccine_id_1\")));",
+              "    pm.expect(ids).to.include(parseInt(pm.collectionVariables.get(\"vaccine_id_2\")));",
+              "    pm.expect(ids).to.not.include(parseInt(pm.collectionVariables.get(\"vaccine_id_3\")));",
+              "});"
+            ]
+          }
+        }
       ]
     },
     {
@@ -948,6 +1441,33 @@
           ],
           "cookie": [],
           "body": "[\n    {\n        \"id\": 3,\n        \"name\": \"Moquillo\",\n        \"administrationDate\": \"2025-01-10\",\n        \"nextAdministration\": \"2025-07-10\",\n        \"status\": false\n    }\n]"
+        }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test(\"All vaccines are expired (status false)\", function () {",
+              "    var data = pm.response.json();",
+              "    pm.expect(data.length).to.be.greaterThan(0);",
+              "    data.forEach(function (x) {",
+              "        pm.expect(x.status).to.eql(false);",
+              "    });",
+              "});",
+              "",
+              "pm.test(\"Expired vaccine is included\", function () {",
+              "    var data = pm.response.json();",
+              "    var ids = data.map(function (e) { return e.id; });",
+              "    pm.expect(ids).to.include(parseInt(pm.collectionVariables.get(\"vaccine_id_3\")));",
+              "});"
+            ]
+          }
         }
       ]
     },
@@ -1015,6 +1535,34 @@
           "cookie": [],
           "body": "[\n    {\n        \"id\": 3,\n        \"name\": \"Moquillo\",\n        \"administrationDate\": \"2025-01-10\",\n        \"nextAdministration\": \"2025-07-10\",\n        \"status\": false\n    }\n]"
         }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test(\"All vaccines of the record are expired\", function () {",
+              "    var data = pm.response.json();",
+              "    pm.expect(data.length).to.be.greaterThan(0);",
+              "    data.forEach(function (x) {",
+              "        pm.expect(x.status).to.eql(false);",
+              "    });",
+              "});",
+              "",
+              "pm.test(\"Expired vaccine is included\", function () {",
+              "    var data = pm.response.json();",
+              "    var ids = data.map(function (e) { return e.id; });",
+              "    pm.expect(ids).to.include(parseInt(pm.collectionVariables.get(\"vaccine_id_3\")));",
+              "    pm.expect(ids).to.not.include(parseInt(pm.collectionVariables.get(\"vaccine_id_1\")));",
+              "});"
+            ]
+          }
+        }
       ]
     },
     {
@@ -1080,6 +1628,27 @@
           ],
           "cookie": [],
           "body": "[\n    {\n        \"id\": 1,\n        \"name\": \"Rabia\",\n        \"administrationDate\": \"2026-02-15\",\n        \"nextAdministration\": \"2027-02-15\",\n        \"status\": true\n    }\n]"
+        }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test(\"Exactly one vaccine named Rabia in the record\", function () {",
+              "    var data = pm.response.json();",
+              "    pm.expect(data.length).to.eql(1);",
+              "    data.forEach(function (x) {",
+              "        pm.expect(x.name).to.eql(\"Rabia\");",
+              "    });",
+              "});"
+            ]
+          }
         }
       ]
     },
@@ -1147,6 +1716,23 @@
           "cookie": [],
           "body": "[]"
         }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test(\"Result is empty\", function () {",
+              "    pm.expect(pm.response.json()).to.be.an(\"array\").that.is.empty;",
+              "});"
+            ]
+          }
+        }
       ]
     },
     {
@@ -1194,6 +1780,26 @@
           ],
           "cookie": [],
           "body": "{\n    \"id\": 1,\n    \"name\": \"Rabia\",\n    \"administrationDate\": \"2026-02-15\",\n    \"nextAdministration\": \"2027-02-15\",\n    \"status\": true\n}"
+        }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test(\"Returns the requested vaccine\", function () {",
+              "    var data = pm.response.json();",
+              "    pm.expect(data.id).to.eql(parseInt(pm.collectionVariables.get(\"vaccine_id_1\")));",
+              "    pm.expect(data.name).to.eql(\"Rabia\");",
+              "    pm.expect(data.status).to.be.true;",
+              "});"
+            ]
+          }
         }
       ]
     },
@@ -1243,6 +1849,24 @@
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"NOT_FOUND\",\n        \"timestamp\": \"20-09-2026 10:05:28\",\n        \"message\": \"The vaccine with the given id was not found\"\n    }\n}"
         }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 404\", function () {",
+              "    pm.response.to.have.status(404);",
+              "});",
+              "",
+              "pm.test(\"Get expected error message\", function () {",
+              "    var data = pm.response.json();",
+              "    pm.expect(data.apierror.message).to.eql(\"The vaccine with the given id was not found\");",
+              "});"
+            ]
+          }
+        }
       ]
     },
     {
@@ -1290,6 +1914,24 @@
           ],
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"20-09-2026 10:06:05\",\n        \"message\": \"Vaccine id is not valid\"\n    }\n}"
+        }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 412\", function () {",
+              "    pm.response.to.have.status(412);",
+              "});",
+              "",
+              "pm.test(\"Get expected error message\", function () {",
+              "    var data = pm.response.json();",
+              "    pm.expect(data.apierror.message).to.eql(\"Vaccine id is not valid\");",
+              "});"
+            ]
+          }
         }
       ]
     },
@@ -1367,6 +2009,25 @@
           "cookie": [],
           "body": "{\n    \"id\": 1,\n    \"name\": \"Rabia\",\n    \"administrationDate\": \"2026-02-15T05:00:00.000+00:00\",\n    \"nextAdministration\": \"2027-03-15T05:00:00.000+00:00\",\n    \"status\": true\n}"
         }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test(\"Booster date was rescheduled\", function () {",
+              "    var data = pm.response.json();",
+              "    pm.expect(data.nextAdministration).to.include(\"2027-03-15\");",
+              "    pm.expect(data.name).to.eql(\"Rabia\");",
+              "});"
+            ]
+          }
+        }
       ]
     },
     {
@@ -1442,6 +2103,24 @@
           ],
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"NOT_FOUND\",\n        \"timestamp\": \"20-09-2026 10:06:42\",\n        \"message\": \"The vaccine with the given id was not found\"\n    }\n}"
+        }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 404\", function () {",
+              "    pm.response.to.have.status(404);",
+              "});",
+              "",
+              "pm.test(\"Get expected error message\", function () {",
+              "    var data = pm.response.json();",
+              "    pm.expect(data.apierror.message).to.eql(\"The vaccine with the given id was not found\");",
+              "});"
+            ]
+          }
         }
       ]
     },
@@ -1519,6 +2198,24 @@
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"20-09-2026 10:07:19\",\n        \"message\": \"Vaccine id is not valid\"\n    }\n}"
         }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 412\", function () {",
+              "    pm.response.to.have.status(412);",
+              "});",
+              "",
+              "pm.test(\"Get expected error message\", function () {",
+              "    var data = pm.response.json();",
+              "    pm.expect(data.apierror.message).to.eql(\"Vaccine id is not valid\");",
+              "});"
+            ]
+          }
+        }
       ]
     },
     {
@@ -1594,6 +2291,24 @@
           ],
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"20-09-2026 10:07:56\",\n        \"message\": \"Vaccine name cannot be null or empty\"\n    }\n}"
+        }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 412\", function () {",
+              "    pm.response.to.have.status(412);",
+              "});",
+              "",
+              "pm.test(\"Get expected error message\", function () {",
+              "    var data = pm.response.json();",
+              "    pm.expect(data.apierror.message).to.eql(\"Vaccine name cannot be null or empty\");",
+              "});"
+            ]
+          }
         }
       ]
     },
@@ -1671,6 +2386,25 @@
           "cookie": [],
           "body": "{\n    \"id\": 2,\n    \"name\": \"Parvovirus canino\",\n    \"administrationDate\": \"2026-01-20T05:00:00.000+00:00\",\n    \"nextAdministration\": null,\n    \"status\": true\n}"
         }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test(\"Name updated and booster date removed\", function () {",
+              "    var data = pm.response.json();",
+              "    pm.expect(data.name).to.eql(\"Parvovirus canino\");",
+              "    pm.expect(data.nextAdministration).to.be.null;",
+              "});"
+            ]
+          }
+        }
       ]
     },
     {
@@ -1746,6 +2480,24 @@
           ],
           "cookie": [],
           "body": "{\n    \"id\": 2,\n    \"name\": \"Parvovirus canino\",\n    \"administrationDate\": \"2026-01-20T05:00:00.000+00:00\",\n    \"nextAdministration\": \"2026-06-01T05:00:00.000+00:00\",\n    \"status\": false\n}"
+        }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test(\"Status is automatically set to false for an overdue booster\", function () {",
+              "    var data = pm.response.json();",
+              "    pm.expect(data.status).to.be.false;",
+              "});"
+            ]
+          }
         }
       ]
     },
@@ -1823,6 +2575,24 @@
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"20-09-2026 10:08:33\",\n        \"message\": \"Administration date cannot be modified\"\n    }\n}"
         }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 412\", function () {",
+              "    pm.response.to.have.status(412);",
+              "});",
+              "",
+              "pm.test(\"Get expected error message\", function () {",
+              "    var data = pm.response.json();",
+              "    pm.expect(data.apierror.message).to.eql(\"Administration date cannot be modified\");",
+              "});"
+            ]
+          }
+        }
       ]
     },
     {
@@ -1899,6 +2669,24 @@
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"20-09-2026 10:09:10\",\n        \"message\": \"Next administration must be later than administration date\"\n    }\n}"
         }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 412\", function () {",
+              "    pm.response.to.have.status(412);",
+              "});",
+              "",
+              "pm.test(\"Get expected error message\", function () {",
+              "    var data = pm.response.json();",
+              "    pm.expect(data.apierror.message).to.eql(\"Next administration must be later than administration date\");",
+              "});"
+            ]
+          }
+        }
       ]
     },
     {
@@ -1941,6 +2729,19 @@
           "header": [],
           "cookie": [],
           "body": ""
+        }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 204\", function () {",
+              "    pm.response.to.have.status(204);",
+              "});"
+            ]
+          }
         }
       ]
     },
@@ -1990,6 +2791,24 @@
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"NOT_FOUND\",\n        \"timestamp\": \"20-09-2026 10:09:47\",\n        \"message\": \"The vaccine with the given id was not found\"\n    }\n}"
         }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 404\", function () {",
+              "    pm.response.to.have.status(404);",
+              "});",
+              "",
+              "pm.test(\"Get expected error message\", function () {",
+              "    var data = pm.response.json();",
+              "    pm.expect(data.apierror.message).to.eql(\"The vaccine with the given id was not found\");",
+              "});"
+            ]
+          }
+        }
       ]
     },
     {
@@ -2037,6 +2856,24 @@
           ],
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"20-09-2026 10:10:24\",\n        \"message\": \"Vaccine id is not valid\"\n    }\n}"
+        }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 412\", function () {",
+              "    pm.response.to.have.status(412);",
+              "});",
+              "",
+              "pm.test(\"Get expected error message\", function () {",
+              "    var data = pm.response.json();",
+              "    pm.expect(data.apierror.message).to.eql(\"Vaccine id is not valid\");",
+              "});"
+            ]
+          }
         }
       ]
     },
@@ -2086,6 +2923,24 @@
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"20-09-2026 10:11:01\",\n        \"message\": \"A vaccine that is part of the medical history of an adopted pet cannot be deleted\"\n    }\n}"
         }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 412\", function () {",
+              "    pm.response.to.have.status(412);",
+              "});",
+              "",
+              "pm.test(\"Get expected error message\", function () {",
+              "    var data = pm.response.json();",
+              "    pm.expect(data.apierror.message).to.eql(\"A vaccine that is part of the medical history of an adopted pet cannot be deleted\");",
+              "});"
+            ]
+          }
+        }
       ]
     }
   ],
@@ -2113,6 +2968,14 @@
     {
       "key": "vaccine_id_adopted",
       "value": "4"
+    },
+    {
+      "key": "user_id_1",
+      "value": ""
+    },
+    {
+      "key": "shelter_id",
+      "value": ""
     }
   ]
 }
