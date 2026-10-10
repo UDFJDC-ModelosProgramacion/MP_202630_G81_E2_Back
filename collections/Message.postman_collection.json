@@ -1,8 +1,8 @@
 {
 	"info": {
 		"_postman_id": "a1b2c3d4-e5f6-4789-a012-messagecoll01",
-		"name": "Message Collection",
-		"description": "Collection of requests for managing Message resources",
+		"name": "Message Collection ",
+		"description": "PENDING",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [

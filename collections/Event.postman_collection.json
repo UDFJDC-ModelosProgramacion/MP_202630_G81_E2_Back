@@ -99,7 +99,7 @@
 							"script": {
 								"type": "text/javascript",
 								"exec": [
-									"const data = pm.response.json();",
+									"var data = pm.response.json();",
 									"pm.collectionVariables.set(\"shelter_id\", data.id);",
 									"pm.test(\"Status code is 201\", function () {",
 									"   pm.response.to.have.status(201);",
@@ -187,7 +187,7 @@
 							"script": {
 								"type": "text/javascript",
 								"exec": [
-									"const data = pm.response.json();",
+									"var data = pm.response.json();",
 									"pm.collectionVariables.set(\"shelter_id_2\", data.id);",
 									"pm.test(\"Status code is 201\", function () {",
 									"   pm.response.to.have.status(201);",
@@ -279,7 +279,7 @@
 							"script": {
 								"type": "text/javascript",
 								"exec": [
-									"const data = pm.response.json();",
+									"var data = pm.response.json();",
 									"pm.collectionVariables.set(\"event_id\", data.id);",
 									"pm.test(\"Status code is 201\", function () {",
 									"   pm.response.to.have.status(201);",
@@ -371,7 +371,7 @@
 							"script": {
 								"type": "text/javascript",
 								"exec": [
-									"const data = pm.response.json();",
+									"var data = pm.response.json();",
 									"pm.collectionVariables.set(\"event_id_2\", data.id);",
 									"pm.test(\"Status code is 201\", function () {",
 									"   pm.response.to.have.status(201);",
@@ -463,7 +463,7 @@
 							"script": {
 								"type": "text/javascript",
 								"exec": [
-									"const data = pm.response.json();",
+									"var data = pm.response.json();",
 									"pm.collectionVariables.set(\"event_id_3\", data.id);",
 									"pm.test(\"Status code is 201\", function () {",
 									"   pm.response.to.have.status(201);",
@@ -533,7 +533,7 @@
 									"   pm.response.to.have.status(200);",
 									"});",
 									"pm.test(\"List contains the three events created here\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data).to.be.an(\"array\");",
 									"   const ids = data.map(e => e.id);",
 									"   pm.expect(ids).to.include(Number(pm.collectionVariables.get(\"event_id\")));",
@@ -601,7 +601,7 @@
 									"   pm.response.to.have.status(200);",
 									"});",
 									"pm.test(\"The requested event with its shelter\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data.id).to.eql(Number(pm.collectionVariables.get(\"event_id\")));",
 									"   pm.expect(data.name).to.eql(\"Jornada-adopcion-\" + pm.collectionVariables.get(\"run_id\"));",
 									"   pm.expect(data.shelter.id).to.eql(Number(pm.collectionVariables.get(\"shelter_id\")));",
@@ -667,7 +667,7 @@
 									"   pm.response.to.have.status(404);",
 									"});",
 									"pm.test(\"Get expected error message\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"NOT_FOUND\");",
 									"   pm.expect(data.apierror.message).to.eql(\"Event not found\");",
 									"});"
@@ -732,7 +732,7 @@
 									"   pm.response.to.have.status(412);",
 									"});",
 									"pm.test(\"Get expected error message\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"PRECONDITION_FAILED\");",
 									"   pm.expect(data.apierror.message).to.eql(\"Event id is not valid\");",
 									"});"
@@ -813,7 +813,7 @@
 									"   pm.response.to.have.status(200);",
 									"});",
 									"pm.test(\"Every result matches the filter(s)\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data).to.be.an(\"array\");",
 									"   pm.expect(data).to.have.lengthOf(2);",
 									"   pm.expect(data.every(e => e.name === \"Jornada-adopcion-\" + pm.collectionVariables.get(\"run_id\"))).to.be.true;",
@@ -894,7 +894,7 @@
 									"   pm.response.to.have.status(200);",
 									"});",
 									"pm.test(\"Every result matches the filter(s)\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data).to.be.an(\"array\");",
 									"   pm.expect(data).to.have.lengthOf(2);",
 									"   pm.expect(data.every(e => e.name === \"Jornada-adopcion-\" + pm.collectionVariables.get(\"run_id\"))).to.be.true;",
@@ -970,7 +970,7 @@
 									"   pm.response.to.have.status(200);",
 									"});",
 									"pm.test(\"Every result matches the filter(s)\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data).to.be.an(\"array\");",
 									"   pm.expect(data.every(e => String(e.date).substring(0, 10) === pm.collectionVariables.get(\"day_future_30\"))).to.be.true;",
 									"   const ids = data.map(e => e.id);",
@@ -1049,7 +1049,7 @@
 									"   pm.response.to.have.status(200);",
 									"});",
 									"pm.test(\"Every result matches the filter(s)\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data).to.be.an(\"array\");",
 									"   pm.expect(data).to.have.lengthOf(1);",
 									"   pm.expect(data[0].id).to.eql(Number(pm.collectionVariables.get(\"event_id\")));",
@@ -1141,7 +1141,7 @@
 									"   pm.response.to.have.status(200);",
 									"});",
 									"pm.test(\"Every result matches the filter(s)\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data).to.be.an(\"array\");",
 									"   pm.expect(data).to.have.lengthOf(1);",
 									"   pm.expect(data[0].id).to.eql(Number(pm.collectionVariables.get(\"event_id\")));",
@@ -1225,7 +1225,7 @@
 									"   pm.response.to.have.status(200);",
 									"});",
 									"pm.test(\"Every result matches the filter(s)\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data).to.be.an(\"array\");",
 									"   pm.expect(data).to.have.lengthOf(0);",
 									"});"
@@ -1308,7 +1308,7 @@
 									"   pm.response.to.have.status(200);",
 									"});",
 									"pm.test(\"Every result matches the filter(s)\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data).to.be.an(\"array\");",
 									"   pm.expect(data).to.have.lengthOf(0);",
 									"});"
@@ -1383,7 +1383,7 @@
 									"   pm.response.to.have.status(200);",
 									"});",
 									"pm.test(\"Every result matches the filter(s)\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data).to.be.an(\"array\");",
 									"   pm.expect(data).to.have.lengthOf(0);",
 									"});"
@@ -1458,7 +1458,7 @@
 									"   pm.response.to.have.status(412);",
 									"});",
 									"pm.test(\"Get expected error message\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"PRECONDITION_FAILED\");",
 									"   pm.expect(data.apierror.message).to.eql(\"Event id is not valid\");",
 									"});"

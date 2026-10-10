@@ -99,7 +99,7 @@
 							"script": {
 								"type": "text/javascript",
 								"exec": [
-									"const data = pm.response.json();",
+									"var data = pm.response.json();",
 									"pm.collectionVariables.set(\"shelter_id\", data.id);",
 									"pm.test(\"Status code is 201\", function () {",
 									"   pm.response.to.have.status(201);",
@@ -187,7 +187,7 @@
 							"script": {
 								"type": "text/javascript",
 								"exec": [
-									"const data = pm.response.json();",
+									"var data = pm.response.json();",
 									"pm.collectionVariables.set(\"shelter_id_2\", data.id);",
 									"pm.test(\"Status code is 201\", function () {",
 									"   pm.response.to.have.status(201);",
@@ -281,13 +281,13 @@
 							"script": {
 								"type": "text/javascript",
 								"exec": [
-									"const data = pm.response.json();",
+									"var data = pm.response.json();",
 									"pm.collectionVariables.set(\"pet_id\", data.id);",
 									"pm.test(\"Status code is 201\", function () {",
 									"   pm.response.to.have.status(201);",
 									"});",
 									"pm.test(\"Pet is assigned to shelter A\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data.shelter.id).to.eql(Number(pm.collectionVariables.get(\"shelter_id\")));",
 									"});"
 								]
@@ -373,13 +373,13 @@
 							"script": {
 								"type": "text/javascript",
 								"exec": [
-									"const data = pm.response.json();",
+									"var data = pm.response.json();",
 									"pm.collectionVariables.set(\"pet_id_2\", data.id);",
 									"pm.test(\"Status code is 201\", function () {",
 									"   pm.response.to.have.status(201);",
 									"});",
 									"pm.test(\"The duplicate rule only applies inside a shelter\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data.shelter.id).to.eql(Number(pm.collectionVariables.get(\"shelter_id_2\")));",
 									"});"
 								]
@@ -448,7 +448,7 @@
 									"   pm.response.to.have.status(200);",
 									"});",
 									"pm.test(\"ShelterDetail.pets has only the pet of shelter A\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   const ids = data.pets.map(p => p.id);",
 									"   pm.expect(ids).to.include(Number(pm.collectionVariables.get(\"pet_id\")));",
 									"   pm.expect(ids).to.not.include(Number(pm.collectionVariables.get(\"pet_id_2\")));",
@@ -514,7 +514,7 @@
 									"   pm.response.to.have.status(200);",
 									"});",
 									"pm.test(\"PetDetail.shelter is shelter A\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data.shelter.id).to.eql(Number(pm.collectionVariables.get(\"shelter_id\")));",
 									"});"
 								]
@@ -611,7 +611,7 @@
 									"   pm.response.to.have.status(412);",
 									"});",
 									"pm.test(\"Get expected error message\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"PRECONDITION_FAILED\");",
 									"   pm.expect(data.apierror.message).to.eql(\"A pet with the same shelter, name, species and admission date already exists\");",
 									"});"
@@ -704,7 +704,7 @@
 									"   pm.response.to.have.status(404);",
 									"});",
 									"pm.test(\"Get expected error message\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"NOT_FOUND\");",
 									"   pm.expect(data.apierror.message).to.eql(\"The shelter with the given id was not found\");",
 									"});"
@@ -797,7 +797,7 @@
 									"   pm.response.to.have.status(200);",
 									"});",
 									"pm.test(\"The pet now belongs to shelter B\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data.shelter.id).to.eql(Number(pm.collectionVariables.get(\"shelter_id_2\")));",
 									"   pm.expect(data.name).to.eql(\"Firulais Viajero\");",
 									"});"
@@ -868,7 +868,7 @@
 									"   pm.response.to.have.status(200);",
 									"});",
 									"pm.test(\"Shelter A has no pets\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data.pets).to.have.lengthOf(0);",
 									"});"
 								]
@@ -932,7 +932,7 @@
 									"   pm.response.to.have.status(200);",
 									"});",
 									"pm.test(\"Shelter B has both pets\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   const ids = data.pets.map(p => p.id);",
 									"   pm.expect(ids).to.include(Number(pm.collectionVariables.get(\"pet_id\")));",
 									"   pm.expect(ids).to.include(Number(pm.collectionVariables.get(\"pet_id_2\")));",
@@ -1003,7 +1003,7 @@
 									"   pm.response.to.have.status(412);",
 									"});",
 									"pm.test(\"Get expected error message\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"PRECONDITION_FAILED\");",
 									"   pm.expect(data.apierror.message).to.eql(\"A shelter with pets currently under its care cannot be deleted\");",
 									"});"
@@ -1178,7 +1178,7 @@
 									"   pm.response.to.have.status(200);",
 									"});",
 									"pm.test(\"Shelter B has no pets\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data.pets).to.have.lengthOf(0);",
 									"});"
 								]
