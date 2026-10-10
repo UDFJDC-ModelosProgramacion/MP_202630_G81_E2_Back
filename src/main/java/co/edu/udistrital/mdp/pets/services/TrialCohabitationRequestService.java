@@ -33,9 +33,13 @@ public class TrialCohabitationRequestService {
 
 	private static final String REQUEST_ID_NOT_VALID = "Trial cohabitation request id is not valid";
 	private static final String REQUEST_NOT_VALID = "Trial cohabitation request is not valid";
-	private static final String REQUEST_NOT_FOUND = "Trial cohabitation request was not found";
-	private static final String STATUS_NOT_VALID = "Status is not valid";
-	private static final String DATE_NOT_VALID = "Date is not valid";
+	private static final String REQUEST_NOT_FOUND = "The trial cohabitation request with the given id was not found";
+	private static final String STATUS_NOT_VALID = "Trial cohabitation request status cannot be null or empty";
+	private static final String DATE_NOT_VALID = "Trial cohabitation request date cannot be null or empty";
+	private static final String DESCRIPTION_NOT_VALID =
+			"Trial cohabitation request description cannot be null or empty";
+	private static final String DUPLICATE_REQUEST =
+			"The adopter already has an active trial cohabitation request for this pet";
 	private static final String PERIOD_NOT_DEFINED =
 			"The trial cohabitation period must be defined with a start date and an end date";
 	private static final String START_DATE_IN_PAST = "The start date cannot be earlier than the current date";
@@ -75,8 +79,7 @@ public class TrialCohabitationRequestService {
 		PetEntity pet = findReference(request.getPet(), petRepository, PET_LABEL);
 
 		if (hasPendingRequestForPet(adopter, pet.getId()))
-			throw new IllegalOperationException(
-					"Unable to create request because the adopter already has a pending request for this pet");
+			throw new IllegalOperationException(DUPLICATE_REQUEST);
 
 		request.setShelter(shelter);
 		request.setAdopter(adopter);
@@ -176,6 +179,8 @@ public class TrialCohabitationRequestService {
 			throw new IllegalOperationException(REQUEST_NOT_VALID);
 		if (request.getStatus() == null || request.getStatus().isBlank())
 			throw new IllegalOperationException(STATUS_NOT_VALID);
+		if (request.getDescription() == null || request.getDescription().isBlank())
+			throw new IllegalOperationException(DESCRIPTION_NOT_VALID);
 	}
 
 	/**
@@ -200,13 +205,16 @@ public class TrialCohabitationRequestService {
 		return Instant.ofEpochMilli(date.getTime()).atZone(ZoneId.systemDefault()).toLocalDate();
 	}
 
-	/** Resuelve una entidad relacionada: la referencia y su id son obligatorios y debe existir. */
+	/**
+	 * Resuelve una entidad relacionada: la referencia y su id son obligatorios y debe existir.
+	 * El mensaje de "no encontrado" sigue el formato "The {label} with the given id was not found".
+	 */
 	private <T extends BaseEntity> T findReference(T reference, JpaRepository<T, Long> repository, String label)
 			throws EntityNotFoundException, IllegalOperationException {
 		if (reference == null || reference.getId() == null)
 			throw new IllegalOperationException(label + " is not valid");
-		return repository.findById(reference.getId())
-				.orElseThrow(() -> new EntityNotFoundException(label + " was not found"));
+		return repository.findById(reference.getId()).orElseThrow(
+				() -> new EntityNotFoundException("The " + label.toLowerCase() + " with the given id was not found"));
 	}
 
 	private boolean hasPendingRequestForPet(AdopterEntity adopter, Long petId) {

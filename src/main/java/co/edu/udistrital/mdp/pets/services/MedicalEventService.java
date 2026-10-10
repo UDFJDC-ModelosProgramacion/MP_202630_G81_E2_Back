@@ -1,12 +1,15 @@
 package co.edu.udistrital.mdp.pets.services;
-
+ 
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
-
+ 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
+ 
 import co.edu.udistrital.mdp.pets.entities.BaseEntity;
 import co.edu.udistrital.mdp.pets.entities.MedicalEventEntity;
 import co.edu.udistrital.mdp.pets.entities.PetEntity;
@@ -18,25 +21,29 @@ import co.edu.udistrital.mdp.pets.repositories.PetRepository;
 import co.edu.udistrital.mdp.pets.repositories.VeterinarianRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-
+ 
 @Slf4j
 @Service
 @RequiredArgsConstructor
 public class MedicalEventService {
-
+ 
 	private static final String MEDICAL_EVENT_ID_NOT_VALID = "Medical event id is not valid";
 	private static final String MEDICAL_EVENT_NOT_VALID = "Medical event is not valid";
-	private static final String MEDICAL_EVENT_NOT_FOUND = "Medical event was not found";
-	private static final String DATE_NOT_VALID = "Date is not valid";
-	private static final String DATE_IN_FUTURE = "Date cannot be in the future";
-	private static final String TYPE_NOT_VALID = "Type is not valid";
+	private static final String MEDICAL_EVENT_NOT_FOUND = "The medical event with the given id was not found";
+	private static final String DATE_NOT_VALID = "Medical event date cannot be null or empty";
+	private static final String DATE_IN_FUTURE = "Medical event date cannot be a future date";
+	private static final String TYPE_NOT_VALID = "Medical event type cannot be null or empty";
+	private static final String DESCRIPTION_NOT_VALID = "Medical event description cannot be null or empty";
+	private static final String PET_CANNOT_BE_MODIFIED = "The pet of a medical event cannot be modified";
+	private static final String DUPLICATE_MEDICAL_EVENT =
+			"A medical event with the same pet, type and date already exists";
 	private static final String PET_LABEL = "Pet";
 	private static final String VETERINARIAN_LABEL = "Veterinarian";
-
+ 
 	private final MedicalEventRepository medicalEventRepository;
 	private final PetRepository petRepository;
 	private final VeterinarianRepository veterinarianRepository;
-
+ 
 	/**
 	 * Crea un nuevo evento médico.
 	 *
@@ -45,31 +52,35 @@ public class MedicalEventService {
 	 * 2. La mascota (pet) debe existir.
 	 * 3. El veterinario debe existir.
 	 * 4. La fecha del evento no puede ser posterior a la fecha actual.
+	 * 5. No se puede registrar un evento médico duplicado (misma mascota, tipo y fecha).
 	 */
 	@Transactional
 	public MedicalEventEntity createMedicalEvent(MedicalEventEntity medicalEvent)
 			throws EntityNotFoundException, IllegalOperationException {
 		log.info("Inicia proceso de creación del evento médico");
-
+ 
 		validateMedicalEvent(medicalEvent);
-
+ 
 		PetEntity pet = findReference(medicalEvent.getPet(), petRepository, PET_LABEL);
 		VeterinarianEntity veterinarian = findReference(medicalEvent.getVeterinarian(), veterinarianRepository,
 				VETERINARIAN_LABEL);
-
+ 
+		if (isDuplicate(medicalEvent, pet))
+			throw new IllegalOperationException(DUPLICATE_MEDICAL_EVENT);
+ 
 		medicalEvent.setPet(pet);
 		medicalEvent.setVeterinarian(veterinarian);
-
+ 
 		log.info("Termina proceso de creación del evento médico");
 		return medicalEventRepository.save(medicalEvent);
 	}
-
+ 
 	@Transactional(readOnly = true)
 	public List<MedicalEventEntity> getMedicalEvents() {
 		log.info("Inicia proceso de consultar todos los eventos médicos");
 		return medicalEventRepository.findAll();
 	}
-
+ 
 	@Transactional(readOnly = true)
 	public MedicalEventEntity getMedicalEvent(Long medicalEventId)
 			throws EntityNotFoundException, IllegalOperationException {
@@ -78,7 +89,7 @@ public class MedicalEventService {
 		log.info("Termina proceso de consultar el evento médico con id = {}", medicalEventId);
 		return medicalEvent;
 	}
-
+ 
 	/**
 	 * Actualiza un evento médico.
 	 *
@@ -92,22 +103,26 @@ public class MedicalEventService {
 	public MedicalEventEntity updateMedicalEvent(Long medicalEventId, MedicalEventEntity medicalEventUpdate)
 			throws EntityNotFoundException, IllegalOperationException {
 		log.info("Inicia proceso de actualizar el evento médico con id = {}", medicalEventId);
-
+ 
 		MedicalEventEntity current = findMedicalEvent(medicalEventId);
 		validateMedicalEvent(medicalEventUpdate);
-
+ 
+		if (medicalEventUpdate.getPet() != null
+				&& !current.getPet().getId().equals(medicalEventUpdate.getPet().getId()))
+			throw new IllegalOperationException(PET_CANNOT_BE_MODIFIED);
+ 
 		if (medicalEventUpdate.getVeterinarian() != null)
 			current.setVeterinarian(
 					findReference(medicalEventUpdate.getVeterinarian(), veterinarianRepository, VETERINARIAN_LABEL));
-
+ 
 		current.setDate(medicalEventUpdate.getDate());
 		current.setType(medicalEventUpdate.getType());
 		current.setDescription(medicalEventUpdate.getDescription());
-
+ 
 		log.info("Termina proceso de actualizar el evento médico con id = {}", medicalEventId);
 		return medicalEventRepository.save(current);
 	}
-
+ 
 	/**
 	 * Elimina un evento médico.
 	 *
@@ -118,12 +133,12 @@ public class MedicalEventService {
 	@Transactional
 	public void deleteMedicalEvent(Long medicalEventId) throws EntityNotFoundException, IllegalOperationException {
 		log.info("Inicia proceso de borrar el evento médico con id = {}", medicalEventId);
-
+ 
 		medicalEventRepository.delete(findMedicalEvent(medicalEventId));
-
+ 
 		log.info("Termina proceso de borrar el evento médico con id = {}", medicalEventId);
 	}
-
+ 
 	private MedicalEventEntity findMedicalEvent(Long medicalEventId)
 			throws EntityNotFoundException, IllegalOperationException {
 		if (medicalEventId == null || medicalEventId <= 0)
@@ -131,25 +146,45 @@ public class MedicalEventService {
 		return medicalEventRepository.findById(medicalEventId)
 				.orElseThrow(() -> new EntityNotFoundException(MEDICAL_EVENT_NOT_FOUND));
 	}
-
+ 
 	/** Reglas de datos comunes a la creación y a la actualización. */
 	private void validateMedicalEvent(MedicalEventEntity medicalEvent) throws IllegalOperationException {
 		if (medicalEvent == null)
 			throw new IllegalOperationException(MEDICAL_EVENT_NOT_VALID);
 		if (medicalEvent.getDate() == null)
 			throw new IllegalOperationException(DATE_NOT_VALID);
-		if (medicalEvent.getDate().after(new Date()))
+		if (toLocalDate(medicalEvent.getDate()).isAfter(LocalDate.now()))
 			throw new IllegalOperationException(DATE_IN_FUTURE);
 		if (medicalEvent.getType() == null || medicalEvent.getType().isBlank())
 			throw new IllegalOperationException(TYPE_NOT_VALID);
+		if (medicalEvent.getDescription() == null || medicalEvent.getDescription().isBlank())
+			throw new IllegalOperationException(DESCRIPTION_NOT_VALID);
 	}
-
-	/** Resuelve una entidad relacionada: la referencia y su id son obligatorios y debe existir. */
+ 
+	/**
+	 * Resuelve una entidad relacionada: la referencia y su id son obligatorios y debe existir.
+	 * El mensaje de "no encontrado" sigue el formato "The {label} with the given id was not found".
+	 */
 	private <T extends BaseEntity> T findReference(T reference, JpaRepository<T, Long> repository, String label)
 			throws EntityNotFoundException, IllegalOperationException {
 		if (reference == null || reference.getId() == null)
 			throw new IllegalOperationException(label + " is not valid");
-		return repository.findById(reference.getId())
-				.orElseThrow(() -> new EntityNotFoundException(label + " was not found"));
+		return repository.findById(reference.getId()).orElseThrow(
+				() -> new EntityNotFoundException("The " + label.toLowerCase() + " with the given id was not found"));
+	}
+ 
+	/** Dos eventos médicos de la misma mascota son duplicados si comparten tipo y fecha (día exacto). */
+	private boolean isDuplicate(MedicalEventEntity medicalEvent, PetEntity pet) {
+		if (pet.getMedicalEvents() == null)
+			return false;
+		LocalDate newDate = toLocalDate(medicalEvent.getDate());
+		return pet.getMedicalEvents().stream()
+				.anyMatch(existing -> medicalEvent.getType().equalsIgnoreCase(existing.getType())
+						&& newDate.equals(toLocalDate(existing.getDate())));
+	}
+ 
+	/** Se usa getTime() porque las fechas leídas de la base de datos pueden ser java.sql.Date. */
+	private LocalDate toLocalDate(Date date) {
+		return Instant.ofEpochMilli(date.getTime()).atZone(ZoneId.systemDefault()).toLocalDate();
 	}
 }

@@ -1496,7 +1496,7 @@
             }
           ],
           "cookie": [],
-          "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"23-09-2026 10:10:24\",\n        \"message\": \"A medical event cannot be moved to a future date without justification\"\n    }\n}"
+          "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"23-09-2026 10:10:24\",\n        \"message\": \"Medical event date cannot be a future date\"\n    }\n}"
         }
       ]
     },

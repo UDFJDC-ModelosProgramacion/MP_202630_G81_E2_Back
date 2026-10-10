@@ -33,9 +33,10 @@ public class AdoptionService {
 
 	private static final String ADOPTION_ID_NOT_VALID = "Adoption id is not valid";
 	private static final String ADOPTION_NOT_VALID = "Adoption is not valid";
-	private static final String ADOPTION_NOT_FOUND = "Adoption was not found";
-	private static final String STATUS_NOT_VALID = "Status is not valid";
-	private static final String DATE_NOT_VALID = "Date is not valid";
+	private static final String ADOPTION_NOT_FOUND = "The adoption with the given id was not found";
+	private static final String STATUS_NOT_VALID = "Adoption status cannot be null or empty";
+	private static final String DATE_NOT_VALID = "Adoption date cannot be null or empty";
+	private static final String NOTES_NOT_VALID = "Adoption important notes cannot be null or empty";
 	private static final String PET_LABEL = "Pet";
 	private static final String SHELTER_LABEL = "Shelter";
 	private static final String ADOPTER_LABEL = "Adopter";
@@ -73,13 +74,13 @@ public class AdoptionService {
 				adoptionRequestRepository, ADOPTION_REQUEST_LABEL);
 
 		if (!AdoptionRequestService.APPROVED_STATUS.equalsIgnoreCase(adoptionRequest.getStatus()))
-			throw new IllegalOperationException("Unable to create adoption because the request is not approved");
+			throw new IllegalOperationException("An adoption can only be created from an approved adoption request");
 
 		if (adoptionRequest.getAdoption() != null)
 			throw new IllegalOperationException("Unable to create adoption because the request already has one");
 
 		if (hasActiveAdoption(pet))
-			throw new IllegalOperationException("Unable to create adoption because the pet is already adopted");
+			throw new IllegalOperationException("An adoption already exists for this pet");
 
 		adoption.setPet(pet);
 		adoption.setShelter(shelter);
@@ -121,7 +122,7 @@ public class AdoptionService {
 		validateAdoption(adoptionUpdate);
 
 		if (isClosed(current))
-			throw new IllegalOperationException("Unable to update an adoption that is finished or cancelled");
+			throw new IllegalOperationException("A finalized or cancelled adoption cannot be modified");
 
 		current.setStatus(adoptionUpdate.getStatus());
 		current.setImportantNotes(adoptionUpdate.getImportantNotes());
@@ -169,15 +170,20 @@ public class AdoptionService {
 			throw new IllegalOperationException(ADOPTION_NOT_VALID);
 		if (adoption.getStatus() == null || adoption.getStatus().isBlank())
 			throw new IllegalOperationException(STATUS_NOT_VALID);
+		if (adoption.getImportantNotes() == null || adoption.getImportantNotes().isBlank())
+			throw new IllegalOperationException(NOTES_NOT_VALID);
 	}
 
-	/** Resuelve una entidad relacionada: la referencia y su id son obligatorios y debe existir. */
+	/**
+	 * Resuelve una entidad relacionada: la referencia y su id son obligatorios y debe existir.
+	 * El mensaje de "no encontrado" sigue el formato "The {label} with the given id was not found".
+	 */
 	private <T extends BaseEntity> T findReference(T reference, JpaRepository<T, Long> repository, String label)
 			throws EntityNotFoundException, IllegalOperationException {
 		if (reference == null || reference.getId() == null)
 			throw new IllegalOperationException(label + " is not valid");
-		return repository.findById(reference.getId())
-				.orElseThrow(() -> new EntityNotFoundException(label + " was not found"));
+		return repository.findById(reference.getId()).orElseThrow(
+				() -> new EntityNotFoundException("The " + label.toLowerCase() + " with the given id was not found"));
 	}
 
 	/** Una mascota ya está adoptada mientras tenga una adopción que no haya sido cancelada. */
