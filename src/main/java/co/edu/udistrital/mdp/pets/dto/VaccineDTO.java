@@ -7,7 +7,7 @@ import lombok.Data;
 public class VaccineDTO {
     private Long id;
     private String name;
-    private Date addministrationDate;
+    private Date administrationDate;
     private Date nextAdministration;
     private Boolean status;
 
