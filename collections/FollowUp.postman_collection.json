@@ -27,7 +27,7 @@
         },
         "body": {
           "mode": "raw",
-          "raw": "{\n    \"date\": \"2026-10-10T00:00:00-05:00\",\n    \"observation\": \"El adoptante reporta buena adaptacion\",\n    \"adoption\": {\n        \"id\": \"{{adoption_id_2}}\"\n    },\n    \"veterinarian\": {\n        \"id\": \"{{veterinarian_id}}\"\n    }\n}",
+          "raw": "{\n    \"date\": \"2026-10-10T00:00:00-05:00\",\n    \"observation\": \"El adoptante reporta buena adaptacion\",\n    \"adoption\": {\n        \"id\": \"{{adoption_id}}\"\n    },\n    \"veterinarian\": {\n        \"id\": \"{{veterinarian_id}}\"\n    }\n}",
           "options": {
             "raw": {
               "language": "json"

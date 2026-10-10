@@ -961,7 +961,7 @@
           "query": [
             {
               "key": "petId",
-              "value": "9999"
+              "value": "{{pet_id_empty}}"
             }
           ]
         }
