@@ -3,6 +3,7 @@ package co.edu.udistrital.mdp.pets.controllers;
 import java.util.Date;
 import java.util.List;
 
+import org.modelmapper.Converter;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -19,10 +20,13 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import co.edu.udistrital.mdp.pets.dto.TrialCohabitationDTO;
+import co.edu.udistrital.mdp.pets.dto.TrialCohabitationRequestDTO;
 import co.edu.udistrital.mdp.pets.entities.TrialCohabitationEntity;
+import co.edu.udistrital.mdp.pets.entities.TrialCohabitationRequestEntity;
 import co.edu.udistrital.mdp.pets.exceptions.EntityNotFoundException;
 import co.edu.udistrital.mdp.pets.exceptions.IllegalOperationException;
 import co.edu.udistrital.mdp.pets.services.TrialCohabitationService;
+import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
@@ -32,6 +36,19 @@ public class TrialCohabitationController {
 
     private final TrialCohabitationService trialCohabitationService;
     private final ModelMapper modelMapper;
+
+    @PostConstruct
+    public void configureModelMapper() {
+        Converter<TrialCohabitationRequestEntity, TrialCohabitationRequestDTO> requestToDto = context -> {
+            TrialCohabitationRequestEntity source = context.getSource();
+            if (source == null)
+                return null;
+            TrialCohabitationRequestDTO dto = new TrialCohabitationRequestDTO();
+            dto.setId(source.getId());
+            return dto;
+        };
+        modelMapper.addConverter(requestToDto, TrialCohabitationRequestEntity.class, TrialCohabitationRequestDTO.class);
+    }
 
     // FindAll method with optional status/date filters
     @GetMapping
