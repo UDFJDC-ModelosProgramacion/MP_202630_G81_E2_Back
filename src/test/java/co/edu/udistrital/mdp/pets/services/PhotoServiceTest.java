@@ -214,6 +214,26 @@ class PhotoServiceTest {
 	}
 
 	@Test
+	void testGetPhotosByInvalidPetId() {
+		assertThrows(EntityNotFoundException.class, () -> {
+			photoService.getPhotos(0L, null);
+		});
+	}
+
+	@Test
+	void testGetPhotosByShelterOnly() throws EntityNotFoundException, IllegalOperationException {
+		ShelterEntity shelter = shelterList.get(0);
+		PhotoEntity shelterPhoto = buildValidPhoto();
+		shelterPhoto.setShelter(shelter);
+		shelter.getPhotos().add(shelterPhoto);
+		entityManager.persist(shelterPhoto);
+
+		List<PhotoEntity> list = photoService.getPhotos(null, shelter.getId());
+		assertEquals(1, list.size());
+		assertEquals(shelterPhoto.getId(), list.get(0).getId());
+	}
+
+	@Test
 	void testGetPhotosByInvalidShelter() {
 		assertThrows(EntityNotFoundException.class, () -> {
 			photoService.getPhotos(null, 0L);
@@ -401,5 +421,45 @@ class PhotoServiceTest {
 
 		PhotoEntity deleted = entityManager.find(PhotoEntity.class, photo.getId());
 		assertNull(deleted);
+	}
+
+	@Test
+	void testCreatePhotoWithEmptyType() {
+		assertThrows(IllegalOperationException.class, () -> {
+			PhotoEntity newEntity = buildValidPhoto();
+			newEntity.setPet(petList.get(0));
+			newEntity.setType("");
+			photoService.createPhoto(newEntity);
+		});
+	}
+
+	@Test
+	void testCreatePhotoWithPetNullId() {
+		assertThrows(IllegalOperationException.class, () -> {
+			PhotoEntity newEntity = buildValidPhoto();
+			newEntity.setPet(new PetEntity());
+			photoService.createPhoto(newEntity);
+		});
+	}
+
+	@Test
+	void testCreatePhotoWithShelterNullId() {
+		assertThrows(IllegalOperationException.class, () -> {
+			PhotoEntity newEntity = buildValidPhoto();
+			newEntity.setShelter(new ShelterEntity());
+			photoService.createPhoto(newEntity);
+		});
+	}
+
+	@Test
+	void testUpdatePhotoWithEmptyType() {
+		assertThrows(IllegalOperationException.class, () -> {
+			PhotoEntity entity = photoList.get(0);
+			PhotoEntity pojoEntity = factory.manufacturePojo(PhotoEntity.class);
+			pojoEntity.setId(entity.getId());
+			pojoEntity.setUrl("https://shelter.example.com/photos/updated");
+			pojoEntity.setType("");
+			photoService.updatePhoto(entity.getId(), pojoEntity);
+		});
 	}
 }

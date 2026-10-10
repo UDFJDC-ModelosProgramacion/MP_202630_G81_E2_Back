@@ -274,6 +274,14 @@ class FollowUpServiceTest {
 	}
 
 	@Test
+	void testGetFollowUpWithNullRequesterAndAdminRole() throws EntityNotFoundException, IllegalOperationException {
+		FollowUpEntity entity = followUpList.get(0);
+		FollowUpEntity resultEntity = followUpService.getFollowUp(entity.getId(), null, "ADMIN");
+		assertNotNull(resultEntity);
+		assertEquals(entity.getId(), resultEntity.getId());
+	}
+
+	@Test
 	void testUpdateFollowUp() throws EntityNotFoundException, IllegalOperationException {
 		FollowUpEntity entity = followUpList.get(0);
 		FollowUpEntity pojoEntity = factory.manufacturePojo(FollowUpEntity.class);
@@ -427,5 +435,41 @@ class FollowUpServiceTest {
 		FollowUpEntity resp = entityManager.find(FollowUpEntity.class, entity.getId());
 		assertEquals("Observacion tras update con adoption nula", resp.getObservation());
 		assertEquals(entity.getAdoption().getId(), resp.getAdoption().getId());
+	}
+
+	@Test
+	void testCreateFollowUpWithVeterinarianNullId() {
+		assertThrows(IllegalOperationException.class, () -> {
+			FollowUpEntity newEntity = buildValidFollowUp(adoptionList.get(0), veterinarianList.get(0));
+			newEntity.setVeterinarian(new VeterinarianEntity());
+			followUpService.createFollowUp(newEntity);
+		});
+	}
+
+	@Test
+	void testCreateFollowUpWithAdoptionNullId() {
+		assertThrows(IllegalOperationException.class, () -> {
+			FollowUpEntity newEntity = buildValidFollowUp(adoptionList.get(0), veterinarianList.get(0));
+			newEntity.setAdoption(new AdoptionEntity());
+			followUpService.createFollowUp(newEntity);
+		});
+	}
+
+	@Test
+	void testUpdateFollowUpWithInvalidId() {
+		assertThrows(IllegalOperationException.class, () -> {
+			FollowUpEntity pojoEntity = factory.manufacturePojo(FollowUpEntity.class);
+			pojoEntity.setId(0L);
+			pojoEntity.setDate(futureDate());
+			pojoEntity.setObservation("Nueva observacion");
+			followUpService.updateFollowUp(0L, pojoEntity);
+		});
+	}
+
+	@Test
+	void testDeleteFollowUpWithInvalidId() {
+		assertThrows(IllegalOperationException.class, () -> {
+			followUpService.deleteFollowUp(0L);
+		});
 	}
 }

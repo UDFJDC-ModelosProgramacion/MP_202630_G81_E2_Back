@@ -77,6 +77,22 @@
           "cookie": [],
           "body": "{\n    \"id\": 1,\n    \"firstName\": \"Carlos\",\n    \"lastName\": \"Perez\",\n    \"email\": \"adopter9d7b62@mail.com\",\n    \"password\": \"secret123\",\n    \"phone\": \"3001234567\",\n    \"address\": \"Calle 123 # 45-67\",\n    \"nationalId\": \"CC-607e2b9c\",\n    \"occupation\": \"Ingeniero\",\n    \"earnings\": 2500000.0,\n    \"housingType\": \"Casa\",\n    \"allergies\": \"Ninguna\",\n    \"hasChildren\": false,\n    \"hasOtherPets\": true\n}"
         }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "var id = pm.response.json().id;",
+              "pm.test(\"Response has id\", function () { pm.expect(id).to.not.be.undefined; });",
+              "pm.environment.set(\"adopter_id_1\", id);",
+              "",
+              "",
+              ""
+            ],
+            "type": "text/javascript"
+          }
+        }
       ]
     },
     {
@@ -144,6 +160,19 @@
           "header": [],
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"26-09-2026 10:05:28\",\n        \"message\": \"First name cannot be null or empty\"\n    }\n}"
+        }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Request: Crear un adoptante sin firstName\", function () {",
+              "    pm.response.to.have.status(412);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
         }
       ]
     },
@@ -213,6 +242,19 @@
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"26-09-2026 10:05:28\",\n        \"message\": \"Last name cannot be null or empty\"\n    }\n}"
         }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Request: Crear un adoptante sin lastName\", function () {",
+              "    pm.response.to.have.status(412);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
       ]
     },
     {
@@ -280,6 +322,19 @@
           "header": [],
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"26-09-2026 10:05:28\",\n        \"message\": \"Email cannot be null or empty\"\n    }\n}"
+        }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Request: Crear un adoptante sin email\", function () {",
+              "    pm.response.to.have.status(412);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
         }
       ]
     },
@@ -349,6 +404,19 @@
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"26-09-2026 10:05:28\",\n        \"message\": \"Password cannot be null or empty\"\n    }\n}"
         }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Request: Crear un adoptante sin password\", function () {",
+              "    pm.response.to.have.status(412);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
       ]
     },
     {
@@ -416,6 +484,19 @@
           "header": [],
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"26-09-2026 10:05:28\",\n        \"message\": \"Phone cannot be null or empty\"\n    }\n}"
+        }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Request: Crear un adoptante sin phone\", function () {",
+              "    pm.response.to.have.status(412);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
         }
       ]
     },
@@ -485,6 +566,19 @@
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"26-09-2026 10:05:28\",\n        \"message\": \"Address cannot be null or empty\"\n    }\n}"
         }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Request: Crear un adoptante sin address\", function () {",
+              "    pm.response.to.have.status(412);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
       ]
     },
     {
@@ -552,6 +646,19 @@
           "header": [],
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"26-09-2026 10:05:28\",\n        \"message\": \"National id cannot be null or empty\"\n    }\n}"
+        }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Request: Crear un adoptante sin nationalId\", function () {",
+              "    pm.response.to.have.status(412);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
         }
       ]
     },
@@ -621,6 +728,19 @@
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"26-09-2026 10:05:28\",\n        \"message\": \"Occupation cannot be null or empty\"\n    }\n}"
         }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Request: Crear un adoptante sin occupation\", function () {",
+              "    pm.response.to.have.status(412);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
       ]
     },
     {
@@ -688,6 +808,19 @@
           "header": [],
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"26-09-2026 10:05:28\",\n        \"message\": \"Earnings cannot be null\"\n    }\n}"
+        }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Request: Crear un adoptante sin earnings\", function () {",
+              "    pm.response.to.have.status(412);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
         }
       ]
     },
@@ -757,6 +890,19 @@
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"26-09-2026 10:05:28\",\n        \"message\": \"Housing type cannot be null or empty\"\n    }\n}"
         }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Request: Crear un adoptante sin housingType\", function () {",
+              "    pm.response.to.have.status(412);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
       ]
     },
     {
@@ -824,6 +970,19 @@
           "header": [],
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"26-09-2026 10:05:28\",\n        \"message\": \"Allergies cannot be null or empty\"\n    }\n}"
+        }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Request: Crear un adoptante sin allergies\", function () {",
+              "    pm.response.to.have.status(412);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
         }
       ]
     },
@@ -893,6 +1052,19 @@
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"26-09-2026 10:05:28\",\n        \"message\": \"Has children cannot be null\"\n    }\n}"
         }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Request: Crear un adoptante sin hasChildren\", function () {",
+              "    pm.response.to.have.status(412);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
       ]
     },
     {
@@ -960,6 +1132,19 @@
           "header": [],
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"26-09-2026 10:05:28\",\n        \"message\": \"Has other pets cannot be null\"\n    }\n}"
+        }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Request: Crear un adoptante sin hasOtherPets\", function () {",
+              "    pm.response.to.have.status(412);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
         }
       ]
     },
@@ -1029,6 +1214,19 @@
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"26-09-2026 10:05:28\",\n        \"message\": \"The user associated with this adopter already exists; this email is already registered\"\n    }\n}"
         }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Request: Crear un adoptante con correo ya registrado\", function () {",
+              "    pm.response.to.have.status(412);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
       ]
     },
     {
@@ -1097,6 +1295,19 @@
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"26-09-2026 10:05:28\",\n        \"message\": \"An adopter with the same national id already exists\"\n    }\n}"
         }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Request: Crear un adoptante con documento repetido\", function () {",
+              "    pm.response.to.have.status(412);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
       ]
     },
     {
@@ -1141,6 +1352,19 @@
           ],
           "cookie": [],
           "body": "[\n    {\n        \"id\": 1,\n        \"firstName\": \"Carlos\",\n        \"lastName\": \"Perez\",\n        \"email\": \"carlos.perez@mail.com\",\n        \"phone\": \"3001234567\",\n        \"address\": \"Calle 123 # 45-67\",\n        \"nationalId\": \"CC-1020304050\",\n        \"occupation\": \"Ingeniero\",\n        \"earnings\": 2500000.0,\n        \"housingType\": \"Casa\",\n        \"allergies\": \"Ninguna\",\n        \"hasChildren\": false,\n        \"hasOtherPets\": true\n    }\n]"
+        }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Request: Obtener todos los adoptantes\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
         }
       ]
     },
@@ -1199,6 +1423,19 @@
           "cookie": [],
           "body": "[\n    {\n        \"id\": 1,\n        \"firstName\": \"Carlos\",\n        \"lastName\": \"Perez\",\n        \"email\": \"carlos.perez@mail.com\",\n        \"phone\": \"3001234567\",\n        \"address\": \"Calle 123 # 45-67\",\n        \"nationalId\": \"CC-1020304050\",\n        \"occupation\": \"Ingeniero\",\n        \"earnings\": 2500000.0,\n        \"housingType\": \"Casa\",\n        \"allergies\": \"Ninguna\",\n        \"hasChildren\": false,\n        \"hasOtherPets\": true\n    }\n]"
         }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Request: Obtener adoptantes por documento\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
       ]
     },
     {
@@ -1256,6 +1493,19 @@
           "cookie": [],
           "body": "[\n    {\n        \"id\": 1,\n        \"firstName\": \"Carlos\",\n        \"lastName\": \"Perez\",\n        \"email\": \"carlos.perez@mail.com\",\n        \"phone\": \"3001234567\",\n        \"address\": \"Calle 123 # 45-67\",\n        \"nationalId\": \"CC-1020304050\",\n        \"occupation\": \"Ingeniero\",\n        \"earnings\": 2500000.0,\n        \"housingType\": \"Casa\",\n        \"allergies\": \"Ninguna\",\n        \"hasChildren\": false,\n        \"hasOtherPets\": true\n    }\n]"
         }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Request: Obtener adoptantes por tipo de vivienda\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
       ]
     },
     {
@@ -1312,6 +1562,19 @@
           ],
           "cookie": [],
           "body": "[\n    {\n        \"id\": 1,\n        \"firstName\": \"Carlos\",\n        \"lastName\": \"Perez\",\n        \"email\": \"carlos.perez@mail.com\",\n        \"phone\": \"3001234567\",\n        \"address\": \"Calle 123 # 45-67\",\n        \"nationalId\": \"CC-1020304050\",\n        \"occupation\": \"Ingeniero\",\n        \"earnings\": 2500000.0,\n        \"housingType\": \"Casa\",\n        \"allergies\": \"Ninguna\",\n        \"hasChildren\": false,\n        \"hasOtherPets\": true\n    }\n]"
+        }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Request: Obtener adoptantes por ocupacion\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
         }
       ]
     },
@@ -1386,6 +1649,19 @@
           "cookie": [],
           "body": "[\n    {\n        \"id\": 1,\n        \"firstName\": \"Carlos\",\n        \"lastName\": \"Perez\",\n        \"email\": \"carlos.perez@mail.com\",\n        \"phone\": \"3001234567\",\n        \"address\": \"Calle 123 # 45-67\",\n        \"nationalId\": \"CC-1020304050\",\n        \"occupation\": \"Ingeniero\",\n        \"earnings\": 2500000.0,\n        \"housingType\": \"Casa\",\n        \"allergies\": \"Ninguna\",\n        \"hasChildren\": false,\n        \"hasOtherPets\": true\n    }\n]"
         }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Request: Obtener adoptantes con todos los filtros combinados\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
       ]
     },
     {
@@ -1443,6 +1719,19 @@
           "cookie": [],
           "body": "[]"
         }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Request: Obtener adoptantes con filtros que no coinciden\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
       ]
     },
     {
@@ -1495,6 +1784,19 @@
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"26-09-2026 10:05:28\",\n        \"message\": \"Search filters cannot be empty\"\n    }\n}"
         }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Request: Obtener adoptantes con filtros vacios\", function () {",
+              "    pm.response.to.have.status(412);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
       ]
     },
     {
@@ -1542,6 +1844,19 @@
           "cookie": [],
           "body": "{\n    \"id\": 1,\n    \"firstName\": \"Carlos\",\n    \"lastName\": \"Perez\",\n    \"email\": \"carlos.perez@mail.com\",\n    \"phone\": \"3001234567\",\n    \"address\": \"Calle 123 # 45-67\",\n    \"nationalId\": \"CC-1020304050\",\n    \"occupation\": \"Ingeniero\",\n    \"earnings\": 2500000.0,\n    \"housingType\": \"Casa\",\n    \"allergies\": \"Ninguna\",\n    \"hasChildren\": false,\n    \"hasOtherPets\": true\n}"
         }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Request: Obtener un adoptante por id\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
       ]
     },
     {
@@ -1578,11 +1893,24 @@
             }
           },
           "status": "Not Found",
-          "code": 404,
+          "code": 412,
           "_postman_previewlanguage": "json",
           "header": [],
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"NOT_FOUND\",\n        \"timestamp\": \"26-09-2026 10:05:28\",\n        \"message\": \"Adopter not found\"\n    }\n}"
+        }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Request: Obtener un adoptante que no existe\", function () {",
+              "    pm.response.to.have.status(412);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
         }
       ]
     },
@@ -1625,6 +1953,19 @@
           "header": [],
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"26-09-2026 10:05:28\",\n        \"message\": \"Adopter id is not valid\"\n    }\n}"
+        }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Request: Obtener un adoptante con id invalido\", function () {",
+              "    pm.response.to.have.status(412);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
         }
       ]
     },
@@ -1701,6 +2042,19 @@
           "cookie": [],
           "body": "{\n    \"id\": 1,\n    \"address\": \"Avenida 9\",\n    \"occupation\": \"Medico\",\n    \"earnings\": 3500000.0,\n    \"housingType\": \"Apartamento\",\n    \"allergies\": \"Polen\",\n    \"hasChildren\": true,\n    \"hasOtherPets\": false\n}"
         }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Request: Editar un adoptante\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
       ]
     },
     {
@@ -1765,11 +2119,24 @@
             }
           },
           "status": "Not Found",
-          "code": 404,
+          "code": 412,
           "_postman_previewlanguage": "json",
           "header": [],
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"NOT_FOUND\",\n        \"timestamp\": \"26-09-2026 10:05:28\",\n        \"message\": \"Adopter not found\"\n    }\n}"
+        }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Request: Editar un adoptante que no existe\", function () {",
+              "    pm.response.to.have.status(412);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
         }
       ]
     },
@@ -1841,6 +2208,19 @@
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"26-09-2026 10:05:28\",\n        \"message\": \"Adopter id is not valid\"\n    }\n}"
         }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Request: Editar un adoptante con id invalido\", function () {",
+              "    pm.response.to.have.status(412);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
       ]
     },
     {
@@ -1910,6 +2290,19 @@
           "header": [],
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"26-09-2026 10:05:28\",\n        \"message\": \"Address cannot be null or empty\"\n    }\n}"
+        }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Request: Editar un adoptante sin address\", function () {",
+              "    pm.response.to.have.status(412);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
         }
       ]
     },
@@ -1981,6 +2374,19 @@
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"26-09-2026 10:05:28\",\n        \"message\": \"Occupation cannot be null or empty\"\n    }\n}"
         }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Request: Editar un adoptante sin occupation\", function () {",
+              "    pm.response.to.have.status(412);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
       ]
     },
     {
@@ -2050,6 +2456,19 @@
           "header": [],
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"26-09-2026 10:05:28\",\n        \"message\": \"Earnings cannot be null\"\n    }\n}"
+        }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Request: Editar un adoptante sin earnings\", function () {",
+              "    pm.response.to.have.status(412);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
         }
       ]
     },
@@ -2121,6 +2540,19 @@
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"26-09-2026 10:05:28\",\n        \"message\": \"Housing type cannot be null or empty\"\n    }\n}"
         }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Request: Editar un adoptante sin housingType\", function () {",
+              "    pm.response.to.have.status(412);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
       ]
     },
     {
@@ -2190,6 +2622,19 @@
           "header": [],
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"26-09-2026 10:05:28\",\n        \"message\": \"Allergies cannot be null or empty\"\n    }\n}"
+        }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Request: Editar un adoptante sin allergies\", function () {",
+              "    pm.response.to.have.status(412);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
         }
       ]
     },
@@ -2261,6 +2706,19 @@
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"26-09-2026 10:05:28\",\n        \"message\": \"Has children cannot be null\"\n    }\n}"
         }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Request: Editar un adoptante sin hasChildren\", function () {",
+              "    pm.response.to.have.status(412);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
       ]
     },
     {
@@ -2331,6 +2789,19 @@
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"26-09-2026 10:05:28\",\n        \"message\": \"Has other pets cannot be null\"\n    }\n}"
         }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Request: Editar un adoptante sin hasOtherPets\", function () {",
+              "    pm.response.to.have.status(412);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
       ]
     },
     {
@@ -2373,6 +2844,19 @@
           "cookie": [],
           "body": ""
         }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Request: Borrar un adoptante\", function () {",
+              "    pm.response.to.have.status(204);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
       ]
     },
     {
@@ -2409,11 +2893,24 @@
             }
           },
           "status": "Not Found",
-          "code": 404,
+          "code": 412,
           "_postman_previewlanguage": "json",
           "header": [],
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"NOT_FOUND\",\n        \"timestamp\": \"26-09-2026 10:05:28\",\n        \"message\": \"Adopter not found\"\n    }\n}"
+        }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Request: Borrar un adoptante que no existe\", function () {",
+              "    pm.response.to.have.status(412);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
         }
       ]
     },
@@ -2457,6 +2954,19 @@
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"26-09-2026 10:05:28\",\n        \"message\": \"Adopter id is not valid\"\n    }\n}"
         }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Request: Borrar un adoptante con id invalido\", function () {",
+              "    pm.response.to.have.status(412);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
       ]
     },
     {
@@ -2465,30 +2975,30 @@
         "method": "DELETE",
         "header": [],
         "url": {
-          "raw": "{{baseUrl}}/adopters/{{adopter_id_1}}",
+          "raw": "{{baseUrl}}/adopters/{{adopter_id_2}}",
           "host": [
             "{{baseUrl}}"
           ],
           "path": [
             "adopters",
-            "{{adopter_id_1}}"
+            "{{adopter_id_2}}"
           ]
         }
       },
       "response": [
         {
-          "name": "DELETE adopters/{{adopter_id_1}}",
+          "name": "DELETE adopters/{{adopter_id_2}}",
           "originalRequest": {
             "method": "DELETE",
             "header": [],
             "url": {
-              "raw": "{{baseUrl}}/adopters/{{adopter_id_1}}",
+              "raw": "{{baseUrl}}/adopters/{{adopter_id_2}}",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
                 "adopters",
-                "{{adopter_id_1}}"
+                "{{adopter_id_2}}"
               ]
             }
           },
@@ -2498,6 +3008,19 @@
           "header": [],
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"26-09-2026 10:05:28\",\n        \"message\": \"An adopter with approved or in-progress adoption requests cannot be deleted; deactivate it instead\"\n    }\n}"
+        }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Request: Borrar un adoptante con solicitudes de adopcion activas\", function () {",
+              "    pm.response.to.have.status(412);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
         }
       ]
     }
