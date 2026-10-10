@@ -74,13 +74,29 @@ public class MedicalEventService {
 		log.info("Termina proceso de creación del evento médico");
 		return medicalEventRepository.save(medicalEvent);
 	}
- 
+
+	@Transactional
+	public MedicalEventEntity createMedicalEvent(Long petId, MedicalEventEntity medicalEvent)
+			throws EntityNotFoundException, IllegalOperationException {
+		medicalEvent.setPet(findPetOrThrow(petId));
+		return createMedicalEvent(medicalEvent);
+	}
+
 	@Transactional(readOnly = true)
 	public List<MedicalEventEntity> getMedicalEvents() {
 		log.info("Inicia proceso de consultar todos los eventos médicos");
 		return medicalEventRepository.findAll();
 	}
  
+	@Transactional(readOnly = true)
+	public List<MedicalEventEntity> getMedicalEvents(Long petId)
+			throws EntityNotFoundException, IllegalOperationException {
+		findPetOrThrow(petId);
+		return medicalEventRepository.findAll().stream()
+				.filter(event -> event.getPet() != null && petId.equals(event.getPet().getId()))
+				.toList();
+	}
+
 	@Transactional(readOnly = true)
 	public MedicalEventEntity getMedicalEvent(Long medicalEventId)
 			throws EntityNotFoundException, IllegalOperationException {
@@ -89,7 +105,16 @@ public class MedicalEventService {
 		log.info("Termina proceso de consultar el evento médico con id = {}", medicalEventId);
 		return medicalEvent;
 	}
- 
+
+	@Transactional(readOnly = true)
+	public MedicalEventEntity getMedicalEvent(Long petId, Long medicalEventId)
+			throws EntityNotFoundException, IllegalOperationException {
+		findPetOrThrow(petId);
+		MedicalEventEntity medicalEvent = getMedicalEvent(medicalEventId);
+		validateEventBelongsToPet(medicalEvent, petId);
+		return medicalEvent;
+	}
+
 	/**
 	 * Actualiza un evento médico.
 	 *
@@ -122,7 +147,17 @@ public class MedicalEventService {
 		log.info("Termina proceso de actualizar el evento médico con id = {}", medicalEventId);
 		return medicalEventRepository.save(current);
 	}
- 
+
+	@Transactional
+	public MedicalEventEntity updateMedicalEvent(Long petId, Long medicalEventId,
+			MedicalEventEntity medicalEventUpdate)
+			throws EntityNotFoundException, IllegalOperationException {
+		findPetOrThrow(petId);
+		MedicalEventEntity current = getMedicalEvent(medicalEventId);
+		validateEventBelongsToPet(current, petId);
+		return updateMedicalEvent(medicalEventId, medicalEventUpdate);
+	}
+
 	/**
 	 * Elimina un evento médico.
 	 *
@@ -138,7 +173,29 @@ public class MedicalEventService {
  
 		log.info("Termina proceso de borrar el evento médico con id = {}", medicalEventId);
 	}
- 
+
+	@Transactional
+	public void deleteMedicalEvent(Long petId, Long medicalEventId)
+			throws EntityNotFoundException, IllegalOperationException {
+		findPetOrThrow(petId);
+		MedicalEventEntity medicalEvent = getMedicalEvent(medicalEventId);
+		validateEventBelongsToPet(medicalEvent, petId);
+		deleteMedicalEvent(medicalEventId);
+	}
+
+	private PetEntity findPetOrThrow(Long petId) throws EntityNotFoundException, IllegalOperationException {
+		if (petId == null || petId <= 0)
+			throw new IllegalOperationException("Pet id is not valid");
+		return petRepository.findById(petId)
+				.orElseThrow(() -> new EntityNotFoundException("Pet was not found"));
+	}
+
+	private void validateEventBelongsToPet(MedicalEventEntity medicalEvent, Long petId)
+			throws IllegalOperationException {
+		if (medicalEvent.getPet() == null || !petId.equals(medicalEvent.getPet().getId()))
+			throw new IllegalOperationException("The medical event is not associated with the pet");
+	}
+
 	private MedicalEventEntity findMedicalEvent(Long medicalEventId)
 			throws EntityNotFoundException, IllegalOperationException {
 		if (medicalEventId == null || medicalEventId <= 0)

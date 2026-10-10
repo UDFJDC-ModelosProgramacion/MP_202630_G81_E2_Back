@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -34,8 +35,10 @@ public class ShelterController {
     // FindAll method
     @GetMapping 
     @ResponseStatus(code = HttpStatus.OK)
-    public List<ShelterDetailDTO> findAll() {
-        List<ShelterEntity> shelters = shelterService.getShelters();
+    public List<ShelterDetailDTO> findAll(
+            @RequestParam(required = false) String city,
+            @RequestParam(required = false) String location) {
+        List<ShelterEntity> shelters = shelterService.getShelters(city, location);
         return modelMapper.map(shelters, new TypeToken<List<ShelterDetailDTO>>() {
         }.getType());
     }
