@@ -1,0 +1,397 @@
+{
+	"info": {
+		"_postman_id": "d1e2f3a4-b5c6-4789-d012-returncoll01",
+		"name": "Return Collection",
+		"description": "Collection of requests for managing Return resources",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Create a Return",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {",
+							"    pm.response.to.have.status(201);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"reazon\": \"Allergy complications in the household.\",\n    \"status\": \"PENDING\",\n    \"adoption\": {\n        \"id\": 1\n    }\n}"
+				},
+				"url": {
+					"raw": "{{baseUrl}}/returns",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"returns"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Return Created Successfully",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"reazon\": \"Allergy complications in the household.\",\n    \"status\": \"PENDING\",\n    \"adoption\": {\n        \"id\": 1\n    }\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/returns",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"returns"
+							]
+						}
+					},
+					"status": "Created",
+					"code": 201,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"id\": 1,\n    \"reazon\": \"Allergy complications in the household.\",\n    \"status\": \"PENDING\",\n    \"date\": \"2026-10-09\",\n    \"adoption\": {\n        \"id\": 1\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "Get All Returns",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/returns",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"returns"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "List of Returns",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/returns",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"returns"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						}
+					],
+					"cookie": [],
+					"body": "[\n    {\n        \"id\": 1,\n        \"reazon\": \"Allergy complications in the household.\",\n        \"status\": \"PENDING\",\n        \"date\": \"2026-10-09\",\n        \"adoption\": {\n            \"id\": 1\n        }\n    }\n]"
+				}
+			]
+		},
+		{
+			"name": "Get Return by ID",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/returns/1",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"returns",
+						"1"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Return Details",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/returns/1",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"returns",
+								"1"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"id\": 1,\n    \"reazon\": \"Allergy complications in the household.\",\n    \"status\": \"PENDING\",\n    \"date\": \"2026-10-09\",\n    \"adoption\": {\n        \"id\": 1\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "Get Non-Existent Return (404 Error)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 404\", function () {",
+							"    pm.response.to.have.status(404);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/returns/9999",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"returns",
+						"9999"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Return Not Found",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/returns/9999",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"returns",
+								"9999"
+							]
+						}
+					},
+					"status": "Not Found",
+					"code": 404,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"error\": \"Return not found\"\n}"
+				}
+			]
+		},
+		{
+			"name": "Update Return",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"reazon\": \"Updated reason for the return of the pet.\",\n    \"status\": \"FINALIZED\"\n}"
+				},
+				"url": {
+					"raw": "{{baseUrl}}/returns/1",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"returns",
+						"1"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Return Updated Successfully",
+					"originalRequest": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"reazon\": \"Updated reason for the return of the pet.\",\n    \"status\": \"FINALIZED\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/returns/1",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"returns",
+								"1"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"id\": 1,\n    \"reazon\": \"Updated reason for the return of the pet.\",\n    \"status\": \"FINALIZED\",\n    \"date\": \"2026-10-09\"\n}"
+				}
+			]
+		},
+		{
+			"name": "Delete Return",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 204\", function () {",
+							"    pm.response.to.have.status(204);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/returns/1",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"returns",
+						"1"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Return Deleted Successfully",
+					"originalRequest": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/returns/1",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"returns",
+								"1"
+							]
+						}
+					},
+					"status": "No Content",
+					"code": 204,
+					"_postman_previewlanguage": "",
+					"header": [],
+					"cookie": [],
+					"body": null
+				}
+			]
+		}
+	]
+}
