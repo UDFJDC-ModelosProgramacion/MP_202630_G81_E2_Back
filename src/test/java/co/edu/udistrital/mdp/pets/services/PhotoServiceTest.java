@@ -422,4 +422,44 @@ class PhotoServiceTest {
 		PhotoEntity deleted = entityManager.find(PhotoEntity.class, photo.getId());
 		assertNull(deleted);
 	}
+
+	@Test
+	void testCreatePhotoWithEmptyType() {
+		assertThrows(IllegalOperationException.class, () -> {
+			PhotoEntity newEntity = buildValidPhoto();
+			newEntity.setPet(petList.get(0));
+			newEntity.setType("");
+			photoService.createPhoto(newEntity);
+		});
+	}
+
+	@Test
+	void testCreatePhotoWithPetNullId() {
+		assertThrows(IllegalOperationException.class, () -> {
+			PhotoEntity newEntity = buildValidPhoto();
+			newEntity.setPet(new PetEntity());
+			photoService.createPhoto(newEntity);
+		});
+	}
+
+	@Test
+	void testCreatePhotoWithShelterNullId() {
+		assertThrows(IllegalOperationException.class, () -> {
+			PhotoEntity newEntity = buildValidPhoto();
+			newEntity.setShelter(new ShelterEntity());
+			photoService.createPhoto(newEntity);
+		});
+	}
+
+	@Test
+	void testUpdatePhotoWithEmptyType() {
+		assertThrows(IllegalOperationException.class, () -> {
+			PhotoEntity entity = photoList.get(0);
+			PhotoEntity pojoEntity = factory.manufacturePojo(PhotoEntity.class);
+			pojoEntity.setId(entity.getId());
+			pojoEntity.setUrl("https://shelter.example.com/photos/updated");
+			pojoEntity.setType("");
+			photoService.updatePhoto(entity.getId(), pojoEntity);
+		});
+	}
 }

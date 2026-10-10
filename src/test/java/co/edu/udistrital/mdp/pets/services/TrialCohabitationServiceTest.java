@@ -478,4 +478,72 @@ class TrialCohabitationServiceTest {
 			trialCohabitationService.deleteTrial(entity.getId());
 		});
 	}
+
+	@Test
+	void testCreateTrialWithNullAdopter() {
+		assertThrows(IllegalOperationException.class, () -> {
+			AdopterEntity adopter = factory.manufacturePojo(AdopterEntity.class);
+			entityManager.persist(adopter);
+			ShelterEntity shelter = factory.manufacturePojo(ShelterEntity.class);
+			entityManager.persist(shelter);
+			PetEntity pet = factory.manufacturePojo(PetEntity.class);
+			entityManager.persist(pet);
+
+			TrialCohabitationRequestEntity request = buildFreshRequest(pet, adopter, shelter);
+			TrialCohabitationEntity newTrial = buildTrial(request, adopter, shelter, "PENDING");
+			newTrial.setAdopter(null);
+			trialCohabitationService.createTrial(newTrial);
+		});
+	}
+
+	@Test
+	void testCreateTrialWithAdopterNullId() {
+		assertThrows(IllegalOperationException.class, () -> {
+			AdopterEntity adopter = factory.manufacturePojo(AdopterEntity.class);
+			entityManager.persist(adopter);
+			ShelterEntity shelter = factory.manufacturePojo(ShelterEntity.class);
+			entityManager.persist(shelter);
+			PetEntity pet = factory.manufacturePojo(PetEntity.class);
+			entityManager.persist(pet);
+
+			TrialCohabitationRequestEntity request = buildFreshRequest(pet, adopter, shelter);
+			TrialCohabitationEntity newTrial = buildTrial(request, adopter, shelter, "PENDING");
+			newTrial.setAdopter(new AdopterEntity());
+			trialCohabitationService.createTrial(newTrial);
+		});
+	}
+
+	@Test
+	void testCreateTrialWithNullShelter() {
+		assertThrows(IllegalOperationException.class, () -> {
+			AdopterEntity adopter = factory.manufacturePojo(AdopterEntity.class);
+			entityManager.persist(adopter);
+			ShelterEntity shelter = factory.manufacturePojo(ShelterEntity.class);
+			entityManager.persist(shelter);
+			PetEntity pet = factory.manufacturePojo(PetEntity.class);
+			entityManager.persist(pet);
+
+			TrialCohabitationRequestEntity request = buildFreshRequest(pet, adopter, shelter);
+			TrialCohabitationEntity newTrial = buildTrial(request, adopter, shelter, "PENDING");
+			newTrial.setShelter(null);
+			trialCohabitationService.createTrial(newTrial);
+		});
+	}
+
+	@Test
+	void testCreateTrialWithShelterNullId() {
+		assertThrows(IllegalOperationException.class, () -> {
+			AdopterEntity adopter = factory.manufacturePojo(AdopterEntity.class);
+			entityManager.persist(adopter);
+			ShelterEntity shelter = factory.manufacturePojo(ShelterEntity.class);
+			entityManager.persist(shelter);
+			PetEntity pet = factory.manufacturePojo(PetEntity.class);
+			entityManager.persist(pet);
+
+			TrialCohabitationRequestEntity request = buildFreshRequest(pet, adopter, shelter);
+			TrialCohabitationEntity newTrial = buildTrial(request, adopter, shelter, "PENDING");
+			newTrial.setShelter(new ShelterEntity());
+			trialCohabitationService.createTrial(newTrial);
+		});
+	}
 }
