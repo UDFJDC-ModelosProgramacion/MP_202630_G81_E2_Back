@@ -1,8 +1,6 @@
 {
 	"info": {
-		"_postman_id": "38ae7903-5ff4-5040-8780-50bdc2dfe2cd",
-		"name": "VaccinationRecordVaccines",
-		"description": "Vaccines for a vaccination record (/vaccinationRecords/{id}/vaccines). SELF-CONTAINED COLLECTION: Folder 00 creates its own shelter, pets, and vaccination records. The vaccination record is created using POST /vaccinationRecords for SETUP PURPOSES ONLY (it is not tested here). Requires VaccinationRecordController (branch feat/LunaSandoval) and the administrationDate field in VaccineDTO (see PRERREQUISITOS_BACKEND.md).",
+
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [

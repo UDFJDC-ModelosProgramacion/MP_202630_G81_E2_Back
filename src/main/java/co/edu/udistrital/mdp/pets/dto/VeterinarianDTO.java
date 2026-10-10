@@ -1,14 +1,11 @@
 package co.edu.udistrital.mdp.pets.dto;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+
 @Data
-public class VeterinarianDTO {
-	private Long id;
-	private String firstName;
-	private String lastName;
-	private String email;
-	private String password;
-	private String phone;
+@EqualsAndHashCode(callSuper = true)
+public class VeterinarianDTO extends UserDTO {
 	private String specialization;
 	private String availability;
 }

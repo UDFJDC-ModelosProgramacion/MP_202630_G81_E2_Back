@@ -8,6 +8,8 @@ import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 import uk.co.jemos.podam.common.PodamExclude;
 
 
@@ -26,5 +28,7 @@ public class NotificationEntity extends BaseEntity {
 
 	@PodamExclude 
 	@ManyToOne
+	@ToString.Exclude
+	@EqualsAndHashCode.Exclude
 	private UserEntity user;
 }

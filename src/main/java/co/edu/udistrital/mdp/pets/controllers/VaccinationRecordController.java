@@ -15,12 +15,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import co.edu.udistrital.mdp.pets.dto.VaccinationRecordDTO;
 import co.edu.udistrital.mdp.pets.dto.VaccinationRecordDetailDTO;
 import co.edu.udistrital.mdp.pets.entities.VaccinationRecordEntity;
 import co.edu.udistrital.mdp.pets.exceptions.EntityNotFoundException;
 import co.edu.udistrital.mdp.pets.exceptions.IllegalOperationException;
 import co.edu.udistrital.mdp.pets.services.VaccinationRecordService;
 import lombok.RequiredArgsConstructor;
+
 
 @RequiredArgsConstructor
 @RestController
@@ -30,6 +32,7 @@ public class VaccinationRecordController {
     private final VaccinationRecordService vaccinationRecordService;
     private final ModelMapper modelMapper;
 
+    
     @GetMapping
     @ResponseStatus(code = HttpStatus.OK)
     public List<VaccinationRecordDetailDTO> findAll() {
@@ -38,33 +41,45 @@ public class VaccinationRecordController {
         }.getType());
     }
 
-    @GetMapping("/{id}")
+    
+    @GetMapping(value = "/{id}")
     @ResponseStatus(code = HttpStatus.OK)
     public VaccinationRecordDetailDTO findOne(@PathVariable Long id)
             throws EntityNotFoundException, IllegalOperationException {
-        VaccinationRecordEntity record = vaccinationRecordService.getVaccinationRecord(id);
-        return modelMapper.map(record, VaccinationRecordDetailDTO.class);
+        VaccinationRecordEntity entity = vaccinationRecordService.getVaccinationRecord(id);
+        return modelMapper.map(entity, VaccinationRecordDetailDTO.class);
     }
 
+    
+    @GetMapping(value = "/pet/{petId}")
+    @ResponseStatus(code = HttpStatus.OK)
+    public VaccinationRecordDetailDTO findByPet(@PathVariable Long petId) throws EntityNotFoundException {
+        VaccinationRecordEntity entity = vaccinationRecordService.getVaccinationRecordByPet(petId);
+        return modelMapper.map(entity, VaccinationRecordDetailDTO.class);
+    }
+
+    
     @PostMapping
     @ResponseStatus(code = HttpStatus.CREATED)
-    public VaccinationRecordDetailDTO create(@RequestBody VaccinationRecordDetailDTO recordDTO)
+    public VaccinationRecordDTO create(@RequestBody VaccinationRecordDTO dto)
             throws EntityNotFoundException, IllegalOperationException {
-        VaccinationRecordEntity record = vaccinationRecordService
-                .createVaccinationRecord(modelMapper.map(recordDTO, VaccinationRecordEntity.class));
-        return modelMapper.map(record, VaccinationRecordDetailDTO.class);
+        VaccinationRecordEntity entity = vaccinationRecordService
+                .createVaccinationRecord(modelMapper.map(dto, VaccinationRecordEntity.class));
+        return modelMapper.map(entity, VaccinationRecordDTO.class);
     }
 
-    @PutMapping("/{id}")
+    
+    @PutMapping(value = "/{id}")
     @ResponseStatus(code = HttpStatus.OK)
-    public VaccinationRecordDetailDTO update(@PathVariable Long id, @RequestBody VaccinationRecordDetailDTO recordDTO)
+    public VaccinationRecordDTO update(@PathVariable Long id, @RequestBody VaccinationRecordDTO dto)
             throws EntityNotFoundException, IllegalOperationException {
-        VaccinationRecordEntity record = vaccinationRecordService
-                .updateVaccinationRecord(id, modelMapper.map(recordDTO, VaccinationRecordEntity.class));
-        return modelMapper.map(record, VaccinationRecordDetailDTO.class);
+        VaccinationRecordEntity entity = vaccinationRecordService.updateVaccinationRecord(id,
+                modelMapper.map(dto, VaccinationRecordEntity.class));
+        return modelMapper.map(entity, VaccinationRecordDTO.class);
     }
 
-    @DeleteMapping("/{id}")
+    
+    @DeleteMapping(value = "/{id}")
     @ResponseStatus(code = HttpStatus.NO_CONTENT)
     public void delete(@PathVariable Long id) throws EntityNotFoundException, IllegalOperationException {
         vaccinationRecordService.deleteVaccinationRecord(id);

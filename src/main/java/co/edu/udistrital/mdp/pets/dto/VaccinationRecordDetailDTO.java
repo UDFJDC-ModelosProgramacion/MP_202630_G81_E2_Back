@@ -7,6 +7,5 @@ import lombok.Data;
 
 @Data
 public class VaccinationRecordDetailDTO extends VaccinationRecordDTO {
-    private PetDTO pet;
-    private List<VaccineDTO> vaccines = new ArrayList<>();
+	private List<VaccineDTO> vaccines = new ArrayList<>();
 }
