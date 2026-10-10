@@ -78,6 +78,27 @@
           "cookie": [],
           "body": "{\n    \"id\": 1,\n    \"date\": \"2026-09-23T05:00:00.000+00:00\",\n    \"status\": \"PENDING\",\n    \"description\": \"Quisiera conocer a la mascota y convivir con ella antes de adoptarla\",\n    \"startDate\": \"2026-10-05T05:00:00.000+00:00\",\n    \"endDate\": \"2026-10-19T05:00:00.000+00:00\"\n}"
         }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "var data = pm.response.json();",
+              "pm.collectionVariables.set(\"request_id_1\", data.id);",
+              "",
+              "pm.test(\"Status code is 201\", function () {",
+              "    pm.response.to.have.status(201);",
+              "});",
+              "",
+              "pm.test(\"Response has the created request data\", function () {",
+              "    pm.expect(data.status).to.eql(\"PENDING\");",
+              "    pm.expect(data.description).to.eql(\"Quisiera conocer a la mascota y convivir con ella antes de adoptarla\");",
+              "});"
+            ]
+          }
+        }
       ]
     },
     {
@@ -151,6 +172,24 @@
           ],
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"23-09-2026 10:01:46\",\n        \"message\": \"Trial cohabitation request status cannot be null or empty\"\n    }\n}"
+        }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 412\", function () {",
+              "    pm.response.to.have.status(412);",
+              "});",
+              "",
+              "pm.test(\"Get expected error message\", function () {",
+              "    var data = pm.response.json();",
+              "    pm.expect(data.apierror.message).to.eql(\"Trial cohabitation request status cannot be null or empty\");",
+              "});"
+            ]
+          }
         }
       ]
     },
@@ -226,6 +265,24 @@
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"23-09-2026 10:02:23\",\n        \"message\": \"Trial cohabitation request date cannot be null or empty\"\n    }\n}"
         }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 412\", function () {",
+              "    pm.response.to.have.status(412);",
+              "});",
+              "",
+              "pm.test(\"Get expected error message\", function () {",
+              "    var data = pm.response.json();",
+              "    pm.expect(data.apierror.message).to.eql(\"Trial cohabitation request date cannot be null or empty\");",
+              "});"
+            ]
+          }
+        }
       ]
     },
     {
@@ -299,6 +356,24 @@
           ],
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"23-09-2026 10:03:00\",\n        \"message\": \"Trial cohabitation request description cannot be null or empty\"\n    }\n}"
+        }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 412\", function () {",
+              "    pm.response.to.have.status(412);",
+              "});",
+              "",
+              "pm.test(\"Get expected error message\", function () {",
+              "    var data = pm.response.json();",
+              "    pm.expect(data.apierror.message).to.eql(\"Trial cohabitation request description cannot be null or empty\");",
+              "});"
+            ]
+          }
         }
       ]
     },
@@ -374,6 +449,24 @@
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"NOT_FOUND\",\n        \"timestamp\": \"23-09-2026 10:03:37\",\n        \"message\": \"The adopter with the given id was not found\"\n    }\n}"
         }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 404\", function () {",
+              "    pm.response.to.have.status(404);",
+              "});",
+              "",
+              "pm.test(\"Get expected error message\", function () {",
+              "    var data = pm.response.json();",
+              "    pm.expect(data.apierror.message).to.eql(\"The adopter with the given id was not found\");",
+              "});"
+            ]
+          }
+        }
       ]
     },
     {
@@ -447,6 +540,24 @@
           ],
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"23-09-2026 10:04:14\",\n        \"message\": \"The adopter is not active in the system\"\n    }\n}"
+        }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 412\", function () {",
+              "    pm.response.to.have.status(412);",
+              "});",
+              "",
+              "pm.test(\"Get expected error message\", function () {",
+              "    var data = pm.response.json();",
+              "    pm.expect(data.apierror.message).to.eql(\"The adopter is not active in the system\");",
+              "});"
+            ]
+          }
         }
       ]
     },
@@ -522,6 +633,24 @@
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"NOT_FOUND\",\n        \"timestamp\": \"23-09-2026 10:04:51\",\n        \"message\": \"The pet with the given id was not found\"\n    }\n}"
         }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 404\", function () {",
+              "    pm.response.to.have.status(404);",
+              "});",
+              "",
+              "pm.test(\"Get expected error message\", function () {",
+              "    var data = pm.response.json();",
+              "    pm.expect(data.apierror.message).to.eql(\"The pet with the given id was not found\");",
+              "});"
+            ]
+          }
+        }
       ]
     },
     {
@@ -595,6 +724,24 @@
           ],
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"23-09-2026 10:05:28\",\n        \"message\": \"The pet is not active in the system\"\n    }\n}"
+        }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 412\", function () {",
+              "    pm.response.to.have.status(412);",
+              "});",
+              "",
+              "pm.test(\"Get expected error message\", function () {",
+              "    var data = pm.response.json();",
+              "    pm.expect(data.apierror.message).to.eql(\"The pet is not active in the system\");",
+              "});"
+            ]
+          }
         }
       ]
     },
@@ -670,6 +817,24 @@
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"23-09-2026 10:06:05\",\n        \"message\": \"The pet is not available for trial cohabitation\"\n    }\n}"
         }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 412\", function () {",
+              "    pm.response.to.have.status(412);",
+              "});",
+              "",
+              "pm.test(\"Get expected error message\", function () {",
+              "    var data = pm.response.json();",
+              "    pm.expect(data.apierror.message).to.eql(\"The pet is not available for trial cohabitation\");",
+              "});"
+            ]
+          }
+        }
       ]
     },
     {
@@ -743,6 +908,24 @@
           ],
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"23-09-2026 10:06:42\",\n        \"message\": \"The adopter already has an active trial cohabitation request for this pet\"\n    }\n}"
+        }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 412\", function () {",
+              "    pm.response.to.have.status(412);",
+              "});",
+              "",
+              "pm.test(\"Get expected error message\", function () {",
+              "    var data = pm.response.json();",
+              "    pm.expect(data.apierror.message).to.eql(\"The adopter already has an active trial cohabitation request for this pet\");",
+              "});"
+            ]
+          }
         }
       ]
     },
@@ -818,6 +1001,24 @@
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"23-09-2026 10:07:19\",\n        \"message\": \"The trial cohabitation period must be defined with a start date and an end date\"\n    }\n}"
         }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 412\", function () {",
+              "    pm.response.to.have.status(412);",
+              "});",
+              "",
+              "pm.test(\"Get expected error message\", function () {",
+              "    var data = pm.response.json();",
+              "    pm.expect(data.apierror.message).to.eql(\"The trial cohabitation period must be defined with a start date and an end date\");",
+              "});"
+            ]
+          }
+        }
       ]
     },
     {
@@ -891,6 +1092,24 @@
           ],
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"23-09-2026 10:07:56\",\n        \"message\": \"The start date cannot be earlier than the current date\"\n    }\n}"
+        }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 412\", function () {",
+              "    pm.response.to.have.status(412);",
+              "});",
+              "",
+              "pm.test(\"Get expected error message\", function () {",
+              "    var data = pm.response.json();",
+              "    pm.expect(data.apierror.message).to.eql(\"The start date cannot be earlier than the current date\");",
+              "});"
+            ]
+          }
         }
       ]
     },
@@ -966,6 +1185,24 @@
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"23-09-2026 10:08:33\",\n        \"message\": \"The end date cannot be earlier than the start date\"\n    }\n}"
         }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 412\", function () {",
+              "    pm.response.to.have.status(412);",
+              "});",
+              "",
+              "pm.test(\"Get expected error message\", function () {",
+              "    var data = pm.response.json();",
+              "    pm.expect(data.apierror.message).to.eql(\"The end date cannot be earlier than the start date\");",
+              "});"
+            ]
+          }
+        }
       ]
     },
     {
@@ -1011,6 +1248,24 @@
           ],
           "cookie": [],
           "body": "[\n    {\n        \"id\": 1,\n        \"date\": \"2026-09-23\",\n        \"status\": \"PENDING\",\n        \"description\": \"Quisiera conocer a la mascota y convivir con ella antes de adoptarla\",\n        \"startDate\": \"2026-10-05\",\n        \"endDate\": \"2026-10-19\"\n    },\n    {\n        \"id\": 2,\n        \"date\": \"2026-08-01\",\n        \"status\": \"APPROVED\",\n        \"description\": \"Convivencia de prueba con un gato adulto\",\n        \"startDate\": \"2026-08-10\",\n        \"endDate\": \"2026-08-24\"\n    }\n]"
+        }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test('Number of trial cohabitation requests > 0', function () {",
+              "    var data = pm.response.json();",
+              "    pm.expect(data.length).to.greaterThan(0);",
+              "});"
+            ]
+          }
         }
       ]
     },
@@ -1069,6 +1324,27 @@
           ],
           "cookie": [],
           "body": "[\n    {\n        \"id\": 1,\n        \"date\": \"2026-09-23\",\n        \"status\": \"PENDING\",\n        \"description\": \"Quisiera conocer a la mascota y convivir con ella antes de adoptarla\",\n        \"startDate\": \"2026-10-05\",\n        \"endDate\": \"2026-10-19\"\n    }\n]"
+        }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test('All requests match the status filter', function () {",
+              "    var data = pm.response.json();",
+              "    pm.expect(data.length).to.greaterThan(0);",
+              "    data.forEach(function (r) {",
+              "        pm.expect(r.status).to.eql(\"PENDING\");",
+              "    });",
+              "});"
+            ]
+          }
         }
       ]
     },
@@ -1144,6 +1420,27 @@
           "cookie": [],
           "body": "[\n    {\n        \"id\": 1,\n        \"date\": \"2026-09-23\",\n        \"status\": \"PENDING\",\n        \"description\": \"Quisiera conocer a la mascota y convivir con ella antes de adoptarla\",\n        \"startDate\": \"2026-10-05\",\n        \"endDate\": \"2026-10-19\"\n    }\n]"
         }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test('All requests match every filter', function () {",
+              "    var data = pm.response.json();",
+              "    pm.expect(data.length).to.greaterThan(0);",
+              "    data.forEach(function (r) {",
+              "        pm.expect(r.status).to.eql(\"PENDING\");",
+              "    });",
+              "});"
+            ]
+          }
+        }
       ]
     },
     {
@@ -1218,6 +1515,24 @@
           "cookie": [],
           "body": "[]"
         }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test('No requests are returned when a filter does not match', function () {",
+              "    var data = pm.response.json();",
+              "    pm.expect(data.length).to.eql(0);",
+              "});"
+            ]
+          }
+        }
       ]
     },
     {
@@ -1276,6 +1591,24 @@
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"23-09-2026 10:09:10\",\n        \"message\": \"Adopter id is not valid\"\n    }\n}"
         }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 412\", function () {",
+              "    pm.response.to.have.status(412);",
+              "});",
+              "",
+              "pm.test(\"Get expected error message\", function () {",
+              "    var data = pm.response.json();",
+              "    pm.expect(data.apierror.message).to.eql(\"Adopter id is not valid\");",
+              "});"
+            ]
+          }
+        }
       ]
     },
     {
@@ -1323,6 +1656,24 @@
           ],
           "cookie": [],
           "body": "{\n    \"id\": 1,\n    \"date\": \"2026-09-23\",\n    \"status\": \"PENDING\",\n    \"description\": \"Quisiera conocer a la mascota y convivir con ella antes de adoptarla\",\n    \"startDate\": \"2026-10-05\",\n    \"endDate\": \"2026-10-19\"\n}"
+        }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test('Get the requested trial cohabitation request', function () {",
+              "    var data = pm.response.json();",
+              "    pm.expect(data.id).to.eql(parseInt(pm.collectionVariables.get(\"request_id_1\")));",
+              "});"
+            ]
+          }
         }
       ]
     },
@@ -1372,6 +1723,24 @@
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"NOT_FOUND\",\n        \"timestamp\": \"23-09-2026 10:09:47\",\n        \"message\": \"The trial cohabitation request with the given id was not found\"\n    }\n}"
         }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 404\", function () {",
+              "    pm.response.to.have.status(404);",
+              "});",
+              "",
+              "pm.test(\"Get expected error message\", function () {",
+              "    var data = pm.response.json();",
+              "    pm.expect(data.apierror.message).to.eql(\"The trial cohabitation request with the given id was not found\");",
+              "});"
+            ]
+          }
+        }
       ]
     },
     {
@@ -1419,6 +1788,24 @@
           ],
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"23-09-2026 10:10:24\",\n        \"message\": \"Trial cohabitation request id is not valid\"\n    }\n}"
+        }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 412\", function () {",
+              "    pm.response.to.have.status(412);",
+              "});",
+              "",
+              "pm.test(\"Get expected error message\", function () {",
+              "    var data = pm.response.json();",
+              "    pm.expect(data.apierror.message).to.eql(\"Trial cohabitation request id is not valid\");",
+              "});"
+            ]
+          }
         }
       ]
     },
@@ -1496,6 +1883,24 @@
           "cookie": [],
           "body": "{\n    \"id\": 1,\n    \"date\": \"2026-09-23T05:00:00.000+00:00\",\n    \"status\": \"PENDING\",\n    \"description\": \"Quisiera conocer a la mascota y convivir con ella dos semanas antes de adoptarla\",\n    \"startDate\": \"2026-10-05T05:00:00.000+00:00\",\n    \"endDate\": \"2026-10-19T05:00:00.000+00:00\"\n}"
         }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test(\"Description was updated\", function () {",
+              "    var data = pm.response.json();",
+              "    pm.expect(data.description).to.eql(\"Quisiera conocer a la mascota y convivir con ella dos semanas antes de adoptarla\");",
+              "});"
+            ]
+          }
+        }
       ]
     },
     {
@@ -1571,6 +1976,24 @@
           ],
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"NOT_FOUND\",\n        \"timestamp\": \"23-09-2026 10:11:01\",\n        \"message\": \"The trial cohabitation request with the given id was not found\"\n    }\n}"
+        }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 404\", function () {",
+              "    pm.response.to.have.status(404);",
+              "});",
+              "",
+              "pm.test(\"Get expected error message\", function () {",
+              "    var data = pm.response.json();",
+              "    pm.expect(data.apierror.message).to.eql(\"The trial cohabitation request with the given id was not found\");",
+              "});"
+            ]
+          }
         }
       ]
     },
@@ -1648,6 +2071,24 @@
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"23-09-2026 10:11:38\",\n        \"message\": \"Trial cohabitation request id is not valid\"\n    }\n}"
         }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 412\", function () {",
+              "    pm.response.to.have.status(412);",
+              "});",
+              "",
+              "pm.test(\"Get expected error message\", function () {",
+              "    var data = pm.response.json();",
+              "    pm.expect(data.apierror.message).to.eql(\"Trial cohabitation request id is not valid\");",
+              "});"
+            ]
+          }
+        }
       ]
     },
     {
@@ -1723,6 +2164,24 @@
           ],
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"23-09-2026 10:12:15\",\n        \"message\": \"Trial cohabitation request status cannot be null or empty\"\n    }\n}"
+        }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 412\", function () {",
+              "    pm.response.to.have.status(412);",
+              "});",
+              "",
+              "pm.test(\"Get expected error message\", function () {",
+              "    var data = pm.response.json();",
+              "    pm.expect(data.apierror.message).to.eql(\"Trial cohabitation request status cannot be null or empty\");",
+              "});"
+            ]
+          }
         }
       ]
     },
@@ -1800,6 +2259,24 @@
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"23-09-2026 10:12:52\",\n        \"message\": \"The adopter and the pet of a trial cohabitation request cannot be modified\"\n    }\n}"
         }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 412\", function () {",
+              "    pm.response.to.have.status(412);",
+              "});",
+              "",
+              "pm.test(\"Get expected error message\", function () {",
+              "    var data = pm.response.json();",
+              "    pm.expect(data.apierror.message).to.eql(\"The adopter and the pet of a trial cohabitation request cannot be modified\");",
+              "});"
+            ]
+          }
+        }
       ]
     },
     {
@@ -1875,6 +2352,24 @@
           ],
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"23-09-2026 10:13:29\",\n        \"message\": \"The adopter and the pet of a trial cohabitation request cannot be modified\"\n    }\n}"
+        }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 412\", function () {",
+              "    pm.response.to.have.status(412);",
+              "});",
+              "",
+              "pm.test(\"Get expected error message\", function () {",
+              "    var data = pm.response.json();",
+              "    pm.expect(data.apierror.message).to.eql(\"The adopter and the pet of a trial cohabitation request cannot be modified\");",
+              "});"
+            ]
+          }
         }
       ]
     },
@@ -1952,6 +2447,24 @@
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"23-09-2026 10:14:06\",\n        \"message\": \"A finalized request (approved, rejected or cancelled) cannot be modified\"\n    }\n}"
         }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 412\", function () {",
+              "    pm.response.to.have.status(412);",
+              "});",
+              "",
+              "pm.test(\"Get expected error message\", function () {",
+              "    var data = pm.response.json();",
+              "    pm.expect(data.apierror.message).to.eql(\"A finalized request (approved, rejected or cancelled) cannot be modified\");",
+              "});"
+            ]
+          }
+        }
       ]
     },
     {
@@ -1994,6 +2507,19 @@
           "header": [],
           "cookie": [],
           "body": ""
+        }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 204\", function () {",
+              "    pm.response.to.have.status(204);",
+              "});"
+            ]
+          }
         }
       ]
     },
@@ -2043,6 +2569,24 @@
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"NOT_FOUND\",\n        \"timestamp\": \"23-09-2026 10:14:43\",\n        \"message\": \"The trial cohabitation request with the given id was not found\"\n    }\n}"
         }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 404\", function () {",
+              "    pm.response.to.have.status(404);",
+              "});",
+              "",
+              "pm.test(\"Get expected error message\", function () {",
+              "    var data = pm.response.json();",
+              "    pm.expect(data.apierror.message).to.eql(\"The trial cohabitation request with the given id was not found\");",
+              "});"
+            ]
+          }
+        }
       ]
     },
     {
@@ -2091,6 +2635,24 @@
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"23-09-2026 10:15:20\",\n        \"message\": \"Trial cohabitation request id is not valid\"\n    }\n}"
         }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 412\", function () {",
+              "    pm.response.to.have.status(412);",
+              "});",
+              "",
+              "pm.test(\"Get expected error message\", function () {",
+              "    var data = pm.response.json();",
+              "    pm.expect(data.apierror.message).to.eql(\"Trial cohabitation request id is not valid\");",
+              "});"
+            ]
+          }
+        }
       ]
     },
     {
@@ -2138,6 +2700,24 @@
           ],
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"23-09-2026 10:15:57\",\n        \"message\": \"A request in progress cannot be deleted\"\n    }\n}"
+        }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 412\", function () {",
+              "    pm.response.to.have.status(412);",
+              "});",
+              "",
+              "pm.test(\"Get expected error message\", function () {",
+              "    var data = pm.response.json();",
+              "    pm.expect(data.apierror.message).to.eql(\"A request in progress cannot be deleted\");",
+              "});"
+            ]
+          }
         }
       ]
     }

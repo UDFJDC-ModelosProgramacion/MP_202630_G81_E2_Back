@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
@@ -30,6 +31,11 @@ import lombok.extern.slf4j.Slf4j;
 public class TrialCohabitationRequestService {
 
 	public static final String PENDING_STATUS = "PENDING";
+	public static final String APPROVED_STATUS = "APPROVED";
+	public static final String REJECTED_STATUS = "REJECTED";
+	public static final String CANCELLED_STATUS = "CANCELLED";
+
+	private static final Set<String> FINALIZED_STATUSES = Set.of(APPROVED_STATUS, REJECTED_STATUS, CANCELLED_STATUS);
 
 	private static final String REQUEST_ID_NOT_VALID = "Trial cohabitation request id is not valid";
 	private static final String REQUEST_NOT_VALID = "Trial cohabitation request is not valid";
@@ -44,6 +50,11 @@ public class TrialCohabitationRequestService {
 			"The trial cohabitation period must be defined with a start date and an end date";
 	private static final String START_DATE_IN_PAST = "The start date cannot be earlier than the current date";
 	private static final String END_DATE_BEFORE_START = "The end date cannot be earlier than the start date";
+	private static final String ADOPTER_PET_CANNOT_BE_MODIFIED =
+			"The adopter and the pet of a trial cohabitation request cannot be modified";
+	private static final String FINALIZED_REQUEST_CANNOT_BE_MODIFIED =
+			"A finalized request (approved, rejected or cancelled) cannot be modified";
+	private static final String IN_PROGRESS_REQUEST_CANNOT_BE_DELETED = "A request in progress cannot be deleted";
 	private static final String SHELTER_LABEL = "Shelter";
 	private static final String ADOPTER_LABEL = "Adopter";
 	private static final String PET_LABEL = "Pet";
@@ -109,8 +120,9 @@ public class TrialCohabitationRequestService {
 	 *
 	 * Reglas de negocio:
 	 * 1. No se aceptan identificadores inválidos ni atributos nulos.
-	 * 2. El refugio, el adoptante y la mascota no pueden modificarse tras la creación.
-	 * 3. No se puede modificar una solicitud que ya generó una convivencia de prueba (trialCohabitation != null).
+	 * 2. El adoptante y la mascota no pueden modificarse tras la creación.
+	 * 3. No se puede modificar una solicitud que ya generó una convivencia de prueba, ni una que
+	 *    esté finalizada (aprobada, rechazada o cancelada).
 	 * 4. Si se envían startDate o endDate, el periodo resultante debe ser válido: la fecha de fin no puede
 	 *    ser anterior a la de inicio. Si no se envían, se conservan las actuales.
 	 */
@@ -122,9 +134,15 @@ public class TrialCohabitationRequestService {
 		TrialCohabitationRequestEntity current = findRequest(requestId);
 		validateRequest(requestUpdate);
 
-		if (current.getTrialCohabitation() != null)
-			throw new IllegalOperationException(
-					"Unable to update request because it already generated a trial cohabitation");
+		if (current.getTrialCohabitation() != null || isFinalized(current))
+			throw new IllegalOperationException(FINALIZED_REQUEST_CANNOT_BE_MODIFIED);
+
+		if (requestUpdate.getAdopter() != null
+				&& !current.getAdopter().getId().equals(requestUpdate.getAdopter().getId()))
+			throw new IllegalOperationException(ADOPTER_PET_CANNOT_BE_MODIFIED);
+
+		if (requestUpdate.getPet() != null && !current.getPet().getId().equals(requestUpdate.getPet().getId()))
+			throw new IllegalOperationException(ADOPTER_PET_CANNOT_BE_MODIFIED);
 
 		Date startDate = requestUpdate.getStartDate() != null ? requestUpdate.getStartDate() : current.getStartDate();
 		Date endDate = requestUpdate.getEndDate() != null ? requestUpdate.getEndDate() : current.getEndDate();
@@ -149,6 +167,7 @@ public class TrialCohabitationRequestService {
 	 * 1. No se aceptan identificadores inválidos.
 	 * 2. Si el identificador no existe, se lanza una excepción.
 	 * 3. No se puede eliminar una solicitud que ya generó una convivencia de prueba.
+	 * 4. No se puede eliminar una solicitud en curso (status = "PENDING").
 	 */
 	@Transactional
 	public void deleteTrialCohabitationRequest(Long requestId)
@@ -160,6 +179,9 @@ public class TrialCohabitationRequestService {
 		if (current.getTrialCohabitation() != null)
 			throw new IllegalOperationException(
 					"Unable to delete request because it already generated a trial cohabitation");
+
+		if (PENDING_STATUS.equals(current.getStatus()))
+			throw new IllegalOperationException(IN_PROGRESS_REQUEST_CANNOT_BE_DELETED);
 
 		trialCohabitationRequestRepository.delete(current);
 		log.info("Termina proceso de borrar la solicitud de convivencia de prueba con id = {}", requestId);
@@ -181,6 +203,10 @@ public class TrialCohabitationRequestService {
 			throw new IllegalOperationException(STATUS_NOT_VALID);
 		if (request.getDescription() == null || request.getDescription().isBlank())
 			throw new IllegalOperationException(DESCRIPTION_NOT_VALID);
+	}
+
+	private boolean isFinalized(TrialCohabitationRequestEntity request) {
+		return FINALIZED_STATUSES.contains(request.getStatus());
 	}
 
 	/**

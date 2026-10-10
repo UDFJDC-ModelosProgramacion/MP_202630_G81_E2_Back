@@ -7,6 +7,194 @@
   },
   "item": [
     {
+      "name": "Preparar una adopcion para finalizar (setup)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/adoptions",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "adoptions"
+          ]
+        },
+        "description": "Request de preparacion (setup), no es un caso de prueba de la actividad. Crea un dato que varios tests mas adelante necesitan encontrar ya en ese estado.",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"date\": \"2026-08-01T00:00:00-05:00\",\n    \"status\": \"IN_PROGRESS\",\n    \"importantNotes\": \"Adopcion de prueba para el escenario de edicion bloqueada\",\n    \"pet\": {\n        \"id\": \"{{pet_id_3}}\"\n    },\n    \"shelter\": {\n        \"id\": \"{{shelter_id}}\"\n    },\n    \"adopter\": {\n        \"id\": \"{{adopter_id}}\"\n    },\n    \"adoptionRequest\": {\n        \"id\": \"{{adoption_request_id_3}}\"\n    }\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "var data = pm.response.json();",
+              "pm.collectionVariables.set(\"adoption_id_finalized\", data.id);",
+              "",
+              "pm.test(\"Status code is 201\", function () {",
+              "    pm.response.to.have.status(201);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Finalizar la adopcion de prueba (setup)",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/adoptions/{{adoption_id_finalized}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "adoptions",
+            "{{adoption_id_finalized}}"
+          ]
+        },
+        "description": "Request de preparacion (setup), no es un caso de prueba de la actividad. Crea un dato que varios tests mas adelante necesitan encontrar ya en ese estado.",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"date\": \"2026-08-01T00:00:00-05:00\",\n    \"status\": \"FINALIZED\",\n    \"importantNotes\": \"Adopcion completada sin novedades\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Preparar una adopcion para cancelar (setup)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/adoptions",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "adoptions"
+          ]
+        },
+        "description": "Request de preparacion (setup), no es un caso de prueba de la actividad. Crea un dato que varios tests mas adelante necesitan encontrar ya en ese estado.",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"date\": \"2026-08-01T00:00:00-05:00\",\n    \"status\": \"IN_PROGRESS\",\n    \"importantNotes\": \"Adopcion de prueba para el escenario de borrado exitoso\",\n    \"pet\": {\n        \"id\": \"{{pet_id_4}}\"\n    },\n    \"shelter\": {\n        \"id\": \"{{shelter_id}}\"\n    },\n    \"adopter\": {\n        \"id\": \"{{adopter_id}}\"\n    },\n    \"adoptionRequest\": {\n        \"id\": \"{{adoption_request_id_4}}\"\n    }\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "var data = pm.response.json();",
+              "pm.collectionVariables.set(\"adoption_id_cancelled\", data.id);",
+              "",
+              "pm.test(\"Status code is 201\", function () {",
+              "    pm.response.to.have.status(201);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Cancelar la adopcion de prueba (setup)",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/adoptions/{{adoption_id_cancelled}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "adoptions",
+            "{{adoption_id_cancelled}}"
+          ]
+        },
+        "description": "Request de preparacion (setup), no es un caso de prueba de la actividad. Crea un dato que varios tests mas adelante necesitan encontrar ya en ese estado.",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"date\": \"2026-08-01T00:00:00-05:00\",\n    \"status\": \"CANCELLED\",\n    \"importantNotes\": \"El adoptante desistio antes de completar el proceso\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
       "name": "Crear una adopcion",
       "request": {
         "method": "POST",
@@ -77,6 +265,20 @@
           ],
           "cookie": [],
           "body": "{\n    \"id\": 1,\n    \"date\": \"2026-09-10T05:00:00.000+00:00\",\n    \"status\": \"IN_PROGRESS\",\n    \"importantNotes\": \"El adoptante cuenta con espacio adecuado para la mascota\"\n}"
+        }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "var data = pm.response.json();",
+              "pm.globals.set(\"adoption_id_1\", data.id);",
+              "",
+              "pm.test(\"Status code is 201\", function () {\n    pm.response.to.have.status(201);\n});"
+            ]
+          }
         }
       ]
     },
@@ -152,6 +354,19 @@
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"23-09-2026 10:01:46\",\n        \"message\": \"Adoption status cannot be null or empty\"\n    }\n}"
         }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 412\", function () {\n    pm.response.to.have.status(412);\n});",
+              "",
+              "pm.test(\"Get expected error message\", function () {\n    var data = pm.response.json();\n    pm.expect(data.apierror.message).to.eql(\"Adoption status cannot be null or empty\");\n});"
+            ]
+          }
+        }
       ]
     },
     {
@@ -225,6 +440,19 @@
           ],
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"23-09-2026 10:02:23\",\n        \"message\": \"Adoption date cannot be null or empty\"\n    }\n}"
+        }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 412\", function () {\n    pm.response.to.have.status(412);\n});",
+              "",
+              "pm.test(\"Get expected error message\", function () {\n    var data = pm.response.json();\n    pm.expect(data.apierror.message).to.eql(\"Adoption date cannot be null or empty\");\n});"
+            ]
+          }
         }
       ]
     },
@@ -300,6 +528,19 @@
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"23-09-2026 10:03:00\",\n        \"message\": \"Adoption important notes cannot be null or empty\"\n    }\n}"
         }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 412\", function () {\n    pm.response.to.have.status(412);\n});",
+              "",
+              "pm.test(\"Get expected error message\", function () {\n    var data = pm.response.json();\n    pm.expect(data.apierror.message).to.eql(\"Adoption important notes cannot be null or empty\");\n});"
+            ]
+          }
+        }
       ]
     },
     {
@@ -374,6 +615,19 @@
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"NOT_FOUND\",\n        \"timestamp\": \"23-09-2026 10:03:37\",\n        \"message\": \"The adopter with the given id was not found\"\n    }\n}"
         }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 404\", function () {\n    pm.response.to.have.status(404);\n});",
+              "",
+              "pm.test(\"Get expected error message\", function () {\n    var data = pm.response.json();\n    pm.expect(data.apierror.message).to.eql(\"The adopter with the given id was not found\");\n});"
+            ]
+          }
+        }
       ]
     },
     {
@@ -404,7 +658,7 @@
             "adoptions"
           ]
         },
-        "description": "createAdoption regla 2: el adoptante debe estar activo. adopter_id_inactive es un adoptante que existe pero esta inactivo."
+        "description": "createAdoption regla 2: el adoptante debe estar activo. adopter_id_inactive es un adoptante que existe pero esta inactivo.\n\nNOTA: sin pm.test todavia -- la regla de negocio que prueba este request aun no esta implementada en el servicio."
       },
       "response": [
         {
@@ -522,6 +776,19 @@
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"NOT_FOUND\",\n        \"timestamp\": \"23-09-2026 10:04:51\",\n        \"message\": \"The pet with the given id was not found\"\n    }\n}"
         }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 404\", function () {\n    pm.response.to.have.status(404);\n});",
+              "",
+              "pm.test(\"Get expected error message\", function () {\n    var data = pm.response.json();\n    pm.expect(data.apierror.message).to.eql(\"The pet with the given id was not found\");\n});"
+            ]
+          }
+        }
       ]
     },
     {
@@ -552,7 +819,7 @@
             "adoptions"
           ]
         },
-        "description": "createAdoption regla 3: la mascota debe estar disponible para adopcion. pet_id_unavailable es una mascota que existe pero no esta disponible (por ejemplo, en convivencia de prueba)."
+        "description": "createAdoption regla 3: la mascota debe estar disponible para adopcion. pet_id_unavailable es una mascota que existe pero no esta disponible (por ejemplo, en convivencia de prueba).\n\nNOTA: sin pm.test todavia -- la regla de negocio que prueba este request aun no esta implementada en el servicio."
       },
       "response": [
         {
@@ -670,6 +937,19 @@
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"NOT_FOUND\",\n        \"timestamp\": \"23-09-2026 10:06:05\",\n        \"message\": \"The adoption request with the given id was not found\"\n    }\n}"
         }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 404\", function () {\n    pm.response.to.have.status(404);\n});",
+              "",
+              "pm.test(\"Get expected error message\", function () {\n    var data = pm.response.json();\n    pm.expect(data.apierror.message).to.eql(\"The adoption request with the given id was not found\");\n});"
+            ]
+          }
+        }
       ]
     },
     {
@@ -743,6 +1023,19 @@
           ],
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"23-09-2026 10:06:42\",\n        \"message\": \"An adoption can only be created from an approved adoption request\"\n    }\n}"
+        }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 412\", function () {\n    pm.response.to.have.status(412);\n});",
+              "",
+              "pm.test(\"Get expected error message\", function () {\n    var data = pm.response.json();\n    pm.expect(data.apierror.message).to.eql(\"An adoption can only be created from an approved adoption request\");\n});"
+            ]
+          }
         }
       ]
     },
@@ -818,6 +1111,19 @@
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"23-09-2026 10:07:19\",\n        \"message\": \"An adoption already exists for this pet\"\n    }\n}"
         }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 412\", function () {\n    pm.response.to.have.status(412);\n});",
+              "",
+              "pm.test(\"Get expected error message\", function () {\n    var data = pm.response.json();\n    pm.expect(data.apierror.message).to.eql(\"An adoption already exists for this pet\");\n});"
+            ]
+          }
+        }
       ]
     },
     {
@@ -864,6 +1170,22 @@
           "cookie": [],
           "body": "[\n    {\n        \"id\": 1,\n        \"date\": \"2026-09-10\",\n        \"status\": \"IN_PROGRESS\",\n        \"importantNotes\": \"El adoptante cuenta con espacio adecuado para la mascota\",\n        \"reviews\": [],\n        \"followUps\": [\n            {\n                \"id\": 1,\n                \"date\": \"2026-09-20\",\n                \"observation\": \"La mascota se adapto bien al nuevo hogar.\"\n            }\n        ]\n    },\n    {\n        \"id\": 2,\n        \"date\": \"2026-08-15\",\n        \"status\": \"FINALIZED\",\n        \"importantNotes\": \"Adopcion completada sin novedades\",\n        \"reviews\": [],\n        \"followUps\": []\n    }\n]"
         }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {\n    pm.response.to.have.status(200);\n});",
+              "",
+              "pm.test('Number of adoptions > 0', function () {",
+              "    var data = pm.response.json();",
+              "    pm.expect(data.length).to.greaterThan(0);",
+              "});"
+            ]
+          }
+        }
       ]
     },
     {
@@ -886,7 +1208,7 @@
             }
           ]
         },
-        "description": "getAdoptions regla 2: filtro simple por status."
+        "description": "getAdoptions regla 2: filtro simple por status.\n\nNOTA: sin pm.test todavia -- la regla de negocio que prueba este request aun no esta implementada en el servicio."
       },
       "response": [
         {
@@ -952,7 +1274,7 @@
             }
           ]
         },
-        "description": "getAdoptions reglas 1 y 2: filtros petId, adopterId y status. Deben cumplirse todos."
+        "description": "getAdoptions reglas 1 y 2: filtros petId, adopterId y status. Deben cumplirse todos.\n\nNOTA: sin pm.test todavia -- la regla de negocio que prueba este request aun no esta implementada en el servicio."
       },
       "response": [
         {
@@ -1022,7 +1344,7 @@
             }
           ]
         },
-        "description": "getAdoptions regla 2: la mascota tiene una adopcion pero no esta cancelada; si algun filtro no se cumple no se retorna nada."
+        "description": "getAdoptions regla 2: la mascota tiene una adopcion pero no esta cancelada; si algun filtro no se cumple no se retorna nada.\n\nNOTA: sin pm.test todavia -- la regla de negocio que prueba este request aun no esta implementada en el servicio."
       },
       "response": [
         {
@@ -1084,7 +1406,7 @@
             }
           ]
         },
-        "description": "getAdoptions regla 1: no se permiten identificadores invalidos en los parametros de busqueda."
+        "description": "getAdoptions regla 1: no se permiten identificadores invalidos en los parametros de busqueda.\n\nNOTA: sin pm.test todavia -- la regla de negocio que prueba este request aun no esta implementada en el servicio."
       },
       "response": [
         {
@@ -1168,6 +1490,17 @@
           "cookie": [],
           "body": "{\n    \"id\": 1,\n    \"date\": \"2026-09-10\",\n    \"status\": \"IN_PROGRESS\",\n    \"importantNotes\": \"El adoptante cuenta con espacio adecuado para la mascota\",\n    \"reviews\": [],\n    \"followUps\": [\n        {\n            \"id\": 1,\n            \"date\": \"2026-09-20\",\n            \"observation\": \"La mascota se adapto bien al nuevo hogar.\"\n        }\n    ]\n}"
         }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {\n    pm.response.to.have.status(200);\n});"
+            ]
+          }
+        }
       ]
     },
     {
@@ -1216,6 +1549,19 @@
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"NOT_FOUND\",\n        \"timestamp\": \"23-09-2026 10:08:33\",\n        \"message\": \"The adoption with the given id was not found\"\n    }\n}"
         }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 404\", function () {\n    pm.response.to.have.status(404);\n});",
+              "",
+              "pm.test(\"Get expected error message\", function () {\n    var data = pm.response.json();\n    pm.expect(data.apierror.message).to.eql(\"The adoption with the given id was not found\");\n});"
+            ]
+          }
+        }
       ]
     },
     {
@@ -1263,6 +1609,19 @@
           ],
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"23-09-2026 10:09:10\",\n        \"message\": \"Adoption id is not valid\"\n    }\n}"
+        }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 412\", function () {\n    pm.response.to.have.status(412);\n});",
+              "",
+              "pm.test(\"Get expected error message\", function () {\n    var data = pm.response.json();\n    pm.expect(data.apierror.message).to.eql(\"Adoption id is not valid\");\n});"
+            ]
+          }
         }
       ]
     },
@@ -1340,6 +1699,17 @@
           "cookie": [],
           "body": "{\n    \"id\": 1,\n    \"date\": \"2026-09-10T05:00:00.000+00:00\",\n    \"status\": \"IN_PROGRESS\",\n    \"importantNotes\": \"El adoptante cuenta con espacio adecuado y ya visito a la mascota dos veces\"\n}"
         }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {\n    pm.response.to.have.status(200);\n});"
+            ]
+          }
+        }
       ]
     },
     {
@@ -1415,6 +1785,19 @@
           ],
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"NOT_FOUND\",\n        \"timestamp\": \"23-09-2026 10:09:47\",\n        \"message\": \"The adoption with the given id was not found\"\n    }\n}"
+        }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 404\", function () {\n    pm.response.to.have.status(404);\n});",
+              "",
+              "pm.test(\"Get expected error message\", function () {\n    var data = pm.response.json();\n    pm.expect(data.apierror.message).to.eql(\"The adoption with the given id was not found\");\n});"
+            ]
+          }
         }
       ]
     },
@@ -1492,6 +1875,19 @@
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"23-09-2026 10:10:24\",\n        \"message\": \"Adoption id is not valid\"\n    }\n}"
         }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 412\", function () {\n    pm.response.to.have.status(412);\n});",
+              "",
+              "pm.test(\"Get expected error message\", function () {\n    var data = pm.response.json();\n    pm.expect(data.apierror.message).to.eql(\"Adoption id is not valid\");\n});"
+            ]
+          }
+        }
       ]
     },
     {
@@ -1568,6 +1964,19 @@
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"23-09-2026 10:11:01\",\n        \"message\": \"Adoption status cannot be null or empty\"\n    }\n}"
         }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 412\", function () {\n    pm.response.to.have.status(412);\n});",
+              "",
+              "pm.test(\"Get expected error message\", function () {\n    var data = pm.response.json();\n    pm.expect(data.apierror.message).to.eql(\"Adoption status cannot be null or empty\");\n});"
+            ]
+          }
+        }
       ]
     },
     {
@@ -1599,7 +2008,7 @@
             "{{adoption_id_1}}"
           ]
         },
-        "description": "updateAdoption regla 2: la mascota no se puede modificar despues de crear la adopcion, solo el estado y las observaciones."
+        "description": "updateAdoption regla 2: la mascota no se puede modificar despues de crear la adopcion, solo el estado y las observaciones.\n\nNOTA: sin pm.test todavia -- la regla de negocio que prueba este request aun no esta implementada en el servicio."
       },
       "response": [
         {
@@ -1675,7 +2084,7 @@
             "{{adoption_id_1}}"
           ]
         },
-        "description": "updateAdoption regla 2: el adoptante no se puede modificar despues de crear la adopcion."
+        "description": "updateAdoption regla 2: el adoptante no se puede modificar despues de crear la adopcion.\n\nNOTA: sin pm.test todavia -- la regla de negocio que prueba este request aun no esta implementada en el servicio."
       },
       "response": [
         {
@@ -1796,6 +2205,19 @@
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"23-09-2026 10:12:52\",\n        \"message\": \"A finalized or cancelled adoption cannot be modified\"\n    }\n}"
         }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 412\", function () {\n    pm.response.to.have.status(412);\n});",
+              "",
+              "pm.test(\"Get expected error message\", function () {\n    var data = pm.response.json();\n    pm.expect(data.apierror.message).to.eql(\"A finalized or cancelled adoption cannot be modified\");\n});"
+            ]
+          }
+        }
       ]
     },
     {
@@ -1838,6 +2260,17 @@
           "header": [],
           "cookie": [],
           "body": ""
+        }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 204\", function () {\n    pm.response.to.have.status(204);\n});"
+            ]
+          }
         }
       ]
     },
@@ -1887,6 +2320,19 @@
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"NOT_FOUND\",\n        \"timestamp\": \"23-09-2026 10:13:29\",\n        \"message\": \"The adoption with the given id was not found\"\n    }\n}"
         }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 404\", function () {\n    pm.response.to.have.status(404);\n});",
+              "",
+              "pm.test(\"Get expected error message\", function () {\n    var data = pm.response.json();\n    pm.expect(data.apierror.message).to.eql(\"The adoption with the given id was not found\");\n});"
+            ]
+          }
+        }
       ]
     },
     {
@@ -1935,6 +2381,19 @@
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"23-09-2026 10:14:06\",\n        \"message\": \"Adoption id is not valid\"\n    }\n}"
         }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 412\", function () {\n    pm.response.to.have.status(412);\n});",
+              "",
+              "pm.test(\"Get expected error message\", function () {\n    var data = pm.response.json();\n    pm.expect(data.apierror.message).to.eql(\"Adoption id is not valid\");\n});"
+            ]
+          }
+        }
       ]
     },
     {
@@ -1952,7 +2411,7 @@
             "{{adoption_id_1}}"
           ]
         },
-        "description": "deleteAdoption regla 3: adoption_id_1 esta en estado IN_PROGRESS; primero tiene que ser cancelada."
+        "description": "deleteAdoption regla 3: adoption_id_1 esta en estado IN_PROGRESS; primero tiene que ser cancelada.\n\nNOTA: sin pm.test todavia -- la regla de negocio que prueba este request aun no esta implementada en el servicio."
       },
       "response": [
         {
@@ -2030,5 +2489,22 @@
     {
       "key": "adoption_id_cancelled",
       "value": "3"
+    },
+    {
+      "key": "pet_id_3",
+      "value": "5"
+    },
+    {
+      "key": "adoption_request_id_3",
+      "value": "3"
+    },
+    {
+      "key": "pet_id_4",
+      "value": "6"
+    },
+    {
+      "key": "adoption_request_id_4",
+      "value": "4"
     }
   ]
+}
