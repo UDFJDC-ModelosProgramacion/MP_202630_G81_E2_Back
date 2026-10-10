@@ -1,1704 +1,1513 @@
 {
-  "info": {
-    "_postman_id": "698724d5-94a7-4600-b662-8cce0a5d7f70",
-    "name": "Event",
-    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-    "_exporter_id": "49510484",
-    "_collection_link": "https://go.postman.co/collection/49510484-698724d5-94a7-4600-b662-8cce0a5d7f70?source=collection_link"
-  },
-  "item": [
-    {
-      "name": "Crear un evento",
-      "request": {
-        "method": "POST",
-        "header": [
-          {
-            "key": "Content-Type",
-            "value": "application/json"
-          }
-        ],
-        "body": {
-          "mode": "raw",
-          "raw": "{\n    \"name\": \"Jornada de adopcion\",\n    \"type\": \"Adopcion\",\n    \"date\": \"2027-03-20T00:00:00-05:00\",\n    \"time\": \"10:00\",\n    \"description\": \"Jornada abierta para conocer y adoptar mascotas del refugio.\",\n    \"location\": \"Parque El Virrey\",\n    \"shelter\": {\n        \"id\": {{shelter_id}}\n    }\n}",
-          "options": {
-            "raw": {
-              "language": "json"
-            }
-          }
-        },
-        "url": {
-          "raw": "{{baseUrl}}/events",
-          "host": [
-            "{{baseUrl}}"
-          ],
-          "path": [
-            "events"
-          ]
-        },
-        "description": "createEvent: caso exitoso, evento futuro organizado por el refugio {{shelter_id}}."
-      },
-      "response": [
-        {
-          "name": "Crear un evento",
-          "originalRequest": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n    \"name\": \"Jornada de adopcion\",\n    \"type\": \"Adopcion\",\n    \"date\": \"2027-03-20T00:00:00-05:00\",\n    \"time\": \"10:00\",\n    \"description\": \"Jornada abierta para conocer y adoptar mascotas del refugio.\",\n    \"location\": \"Parque El Virrey\",\n    \"shelter\": {\n        \"id\": {{shelter_id}}\n    }\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            },
-            "url": {
-              "raw": "{{baseUrl}}/events",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "events"
-              ]
-            }
-          },
-          "status": "Created",
-          "code": 201,
-          "_postman_previewlanguage": "json",
-          "header": [
-            {
-              "key": "Content-Type",
-              "value": "application/json"
-            }
-          ],
-          "cookie": [],
-          "body": "{\n    \"id\": 1,\n    \"name\": \"Jornada de adopcion\",\n    \"type\": \"Adopcion\",\n    \"date\": \"2027-03-20T05:00:00.000+00:00\",\n    \"time\": \"10:00\",\n    \"description\": \"Jornada abierta para conocer y adoptar mascotas del refugio.\",\n    \"location\": \"Parque El Virrey\"\n}"
-        }
-      ]
-    },
-    {
-      "name": "Crear un evento sin tipo",
-      "request": {
-        "method": "POST",
-        "header": [
-          {
-            "key": "Content-Type",
-            "value": "application/json"
-          }
-        ],
-        "body": {
-          "mode": "raw",
-          "raw": "{\n    \"name\": \"Campana de vacunacion\",\n    \"date\": \"2027-04-10T00:00:00-05:00\",\n    \"time\": \"09:00\",\n    \"description\": \"Vacunacion gratuita para mascotas de la comunidad.\",\n    \"location\": \"Salon comunal Chapinero\",\n    \"shelter\": {\n        \"id\": {{shelter_id}}\n    }\n}",
-          "options": {
-            "raw": {
-              "language": "json"
-            }
-          }
-        },
-        "url": {
-          "raw": "{{baseUrl}}/events",
-          "host": [
-            "{{baseUrl}}"
-          ],
-          "path": [
-            "events"
-          ]
-        },
-        "description": "createEvent regla 1 (excepcion): type es el unico atributo que puede omitirse."
-      },
-      "response": [
-        {
-          "name": "Crear un evento sin tipo",
-          "originalRequest": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n    \"name\": \"Campana de vacunacion\",\n    \"date\": \"2027-04-10T00:00:00-05:00\",\n    \"time\": \"09:00\",\n    \"description\": \"Vacunacion gratuita para mascotas de la comunidad.\",\n    \"location\": \"Salon comunal Chapinero\",\n    \"shelter\": {\n        \"id\": {{shelter_id}}\n    }\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            },
-            "url": {
-              "raw": "{{baseUrl}}/events",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "events"
-              ]
-            }
-          },
-          "status": "Created",
-          "code": 201,
-          "_postman_previewlanguage": "json",
-          "header": [
-            {
-              "key": "Content-Type",
-              "value": "application/json"
-            }
-          ],
-          "cookie": [],
-          "body": "{\n    \"id\": 2,\n    \"name\": \"Campana de vacunacion\",\n    \"type\": null,\n    \"date\": \"2027-04-10T05:00:00.000+00:00\",\n    \"time\": \"09:00\",\n    \"description\": \"Vacunacion gratuita para mascotas de la comunidad.\",\n    \"location\": \"Salon comunal Chapinero\"\n}"
-        }
-      ]
-    },
-    {
-      "name": "Crear un evento sin nombre",
-      "request": {
-        "method": "POST",
-        "header": [
-          {
-            "key": "Content-Type",
-            "value": "application/json"
-          }
-        ],
-        "body": {
-          "mode": "raw",
-          "raw": "{\n    \"name\": \"\",\n    \"type\": \"Adopcion\",\n    \"date\": \"2027-03-20T00:00:00-05:00\",\n    \"time\": \"10:00\",\n    \"description\": \"Jornada abierta para conocer y adoptar mascotas del refugio.\",\n    \"location\": \"Plaza de Bolivar\",\n    \"shelter\": {\n        \"id\": {{shelter_id}}\n    }\n}",
-          "options": {
-            "raw": {
-              "language": "json"
-            }
-          }
-        },
-        "url": {
-          "raw": "{{baseUrl}}/events",
-          "host": [
-            "{{baseUrl}}"
-          ],
-          "path": [
-            "events"
-          ]
-        },
-        "description": "createEvent regla 1: ningun atributo puede ser nulo o vacio (salvo type)."
-      },
-      "response": [
-        {
-          "name": "Crear un evento sin nombre",
-          "originalRequest": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n    \"name\": \"\",\n    \"type\": \"Adopcion\",\n    \"date\": \"2027-03-20T00:00:00-05:00\",\n    \"time\": \"10:00\",\n    \"description\": \"Jornada abierta para conocer y adoptar mascotas del refugio.\",\n    \"location\": \"Plaza de Bolivar\",\n    \"shelter\": {\n        \"id\": {{shelter_id}}\n    }\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            },
-            "url": {
-              "raw": "{{baseUrl}}/events",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "events"
-              ]
-            }
-          },
-          "status": "Precondition Failed",
-          "code": 412,
-          "_postman_previewlanguage": "json",
-          "header": [
-            {
-              "key": "Content-Type",
-              "value": "application/json"
-            }
-          ],
-          "cookie": [],
-          "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"20-09-2026 10:01:46\",\n        \"message\": \"Event name cannot be null or empty\"\n    }\n}"
-        }
-      ]
-    },
-    {
-      "name": "Crear un evento duplicado",
-      "request": {
-        "method": "POST",
-        "header": [
-          {
-            "key": "Content-Type",
-            "value": "application/json"
-          }
-        ],
-        "body": {
-          "mode": "raw",
-          "raw": "{\n    \"name\": \"Jornada de adopcion\",\n    \"type\": \"Adopcion\",\n    \"date\": \"2027-03-20T00:00:00-05:00\",\n    \"time\": \"10:00\",\n    \"description\": \"Jornada abierta para conocer y adoptar mascotas del refugio.\",\n    \"location\": \"Parque El Virrey\",\n    \"shelter\": {\n        \"id\": {{shelter_id}}\n    }\n}",
-          "options": {
-            "raw": {
-              "language": "json"
-            }
-          }
-        },
-        "url": {
-          "raw": "{{baseUrl}}/events",
-          "host": [
-            "{{baseUrl}}"
-          ],
-          "path": [
-            "events"
-          ]
-        },
-        "description": "createEvent regla 2: duplicado = mismo shelterId, name, location y date."
-      },
-      "response": [
-        {
-          "name": "Crear un evento duplicado",
-          "originalRequest": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n    \"name\": \"Jornada de adopcion\",\n    \"type\": \"Adopcion\",\n    \"date\": \"2027-03-20T00:00:00-05:00\",\n    \"time\": \"10:00\",\n    \"description\": \"Jornada abierta para conocer y adoptar mascotas del refugio.\",\n    \"location\": \"Parque El Virrey\",\n    \"shelter\": {\n        \"id\": {{shelter_id}}\n    }\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            },
-            "url": {
-              "raw": "{{baseUrl}}/events",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "events"
-              ]
-            }
-          },
-          "status": "Precondition Failed",
-          "code": 412,
-          "_postman_previewlanguage": "json",
-          "header": [
-            {
-              "key": "Content-Type",
-              "value": "application/json"
-            }
-          ],
-          "cookie": [],
-          "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"20-09-2026 10:02:23\",\n        \"message\": \"An event with the same shelter, name, location and date already exists\"\n    }\n}"
-        }
-      ]
-    },
-    {
-      "name": "Crear un evento con fecha pasada",
-      "request": {
-        "method": "POST",
-        "header": [
-          {
-            "key": "Content-Type",
-            "value": "application/json"
-          }
-        ],
-        "body": {
-          "mode": "raw",
-          "raw": "{\n    \"name\": \"Feria de mascotas\",\n    \"type\": \"Adopcion\",\n    \"date\": \"2026-03-15T00:00:00-05:00\",\n    \"time\": \"10:00\",\n    \"description\": \"Jornada abierta para conocer y adoptar mascotas del refugio.\",\n    \"location\": \"Parque El Virrey\",\n    \"shelter\": {\n        \"id\": {{shelter_id}}\n    }\n}",
-          "options": {
-            "raw": {
-              "language": "json"
-            }
-          }
-        },
-        "url": {
-          "raw": "{{baseUrl}}/events",
-          "host": [
-            "{{baseUrl}}"
-          ],
-          "path": [
-            "events"
-          ]
-        },
-        "description": "createEvent regla 3: la fecha no puede ser anterior a la fecha actual."
-      },
-      "response": [
-        {
-          "name": "Crear un evento con fecha pasada",
-          "originalRequest": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n    \"name\": \"Feria de mascotas\",\n    \"type\": \"Adopcion\",\n    \"date\": \"2026-03-15T00:00:00-05:00\",\n    \"time\": \"10:00\",\n    \"description\": \"Jornada abierta para conocer y adoptar mascotas del refugio.\",\n    \"location\": \"Parque El Virrey\",\n    \"shelter\": {\n        \"id\": {{shelter_id}}\n    }\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            },
-            "url": {
-              "raw": "{{baseUrl}}/events",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "events"
-              ]
-            }
-          },
-          "status": "Precondition Failed",
-          "code": 412,
-          "_postman_previewlanguage": "json",
-          "header": [
-            {
-              "key": "Content-Type",
-              "value": "application/json"
-            }
-          ],
-          "cookie": [],
-          "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"20-09-2026 10:03:00\",\n        \"message\": \"Event date cannot be earlier than the current date\"\n    }\n}"
-        }
-      ]
-    },
-    {
-      "name": "Crear un evento en un refugio que no existe",
-      "request": {
-        "method": "POST",
-        "header": [
-          {
-            "key": "Content-Type",
-            "value": "application/json"
-          }
-        ],
-        "body": {
-          "mode": "raw",
-          "raw": "{\n    \"name\": \"Feria de mascotas\",\n    \"type\": \"Adopcion\",\n    \"date\": \"2027-03-20T00:00:00-05:00\",\n    \"time\": \"10:00\",\n    \"description\": \"Jornada abierta para conocer y adoptar mascotas del refugio.\",\n    \"location\": \"Parque El Virrey\",\n    \"shelter\": {\n        \"id\": 0\n    }\n}",
-          "options": {
-            "raw": {
-              "language": "json"
-            }
-          }
-        },
-        "url": {
-          "raw": "{{baseUrl}}/events",
-          "host": [
-            "{{baseUrl}}"
-          ],
-          "path": [
-            "events"
-          ]
-        },
-        "description": "createEvent regla 4: el shelterId debe corresponder a un refugio existente."
-      },
-      "response": [
-        {
-          "name": "Crear un evento en un refugio que no existe",
-          "originalRequest": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n    \"name\": \"Feria de mascotas\",\n    \"type\": \"Adopcion\",\n    \"date\": \"2027-03-20T00:00:00-05:00\",\n    \"time\": \"10:00\",\n    \"description\": \"Jornada abierta para conocer y adoptar mascotas del refugio.\",\n    \"location\": \"Parque El Virrey\",\n    \"shelter\": {\n        \"id\": 0\n    }\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            },
-            "url": {
-              "raw": "{{baseUrl}}/events",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "events"
-              ]
-            }
-          },
-          "status": "Not Found",
-          "code": 404,
-          "_postman_previewlanguage": "json",
-          "header": [
-            {
-              "key": "Content-Type",
-              "value": "application/json"
-            }
-          ],
-          "cookie": [],
-          "body": "{\n    \"apierror\": {\n        \"status\": \"NOT_FOUND\",\n        \"timestamp\": \"20-09-2026 10:03:37\",\n        \"message\": \"The shelter with the given id was not found\"\n    }\n}"
-        }
-      ]
-    },
-    {
-      "name": "Obtener todos los eventos",
-      "request": {
-        "method": "GET",
-        "header": [],
-        "url": {
-          "raw": "{{baseUrl}}/events",
-          "host": [
-            "{{baseUrl}}"
-          ],
-          "path": [
-            "events"
-          ]
-        },
-        "description": "getEvents: lista sin filtros. Event no tiene asociaciones de cardinalidad muchos, asi que la representacion detallada coincide con los atributos (fecha en formato corto)."
-      },
-      "response": [
-        {
-          "name": "Obtener todos los eventos",
-          "originalRequest": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "{{baseUrl}}/events",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "events"
-              ]
-            }
-          },
-          "status": "OK",
-          "code": 200,
-          "_postman_previewlanguage": "json",
-          "header": [
-            {
-              "key": "Content-Type",
-              "value": "application/json"
-            }
-          ],
-          "cookie": [],
-          "body": "[\n    {\n        \"id\": 1,\n        \"name\": \"Jornada de adopcion\",\n        \"type\": \"Adopcion\",\n        \"date\": \"2027-03-20\",\n        \"time\": \"10:00\",\n        \"description\": \"Jornada abierta para conocer y adoptar mascotas del refugio.\",\n        \"location\": \"Parque El Virrey\"\n    },\n    {\n        \"id\": 2,\n        \"name\": \"Campana de vacunacion\",\n        \"type\": null,\n        \"date\": \"2027-04-10\",\n        \"time\": \"09:00\",\n        \"description\": \"Vacunacion gratuita para mascotas de la comunidad.\",\n        \"location\": \"Salon comunal Chapinero\"\n    }\n]"
-        }
-      ]
-    },
-    {
-      "name": "Obtener un evento por id",
-      "request": {
-        "method": "GET",
-        "header": [],
-        "url": {
-          "raw": "{{baseUrl}}/events/{{event_id_1}}",
-          "host": [
-            "{{baseUrl}}"
-          ],
-          "path": [
-            "events",
-            "{{event_id_1}}"
-          ]
-        },
-        "description": "getEvent regla 1: consulta por id."
-      },
-      "response": [
-        {
-          "name": "Obtener un evento por id",
-          "originalRequest": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "{{baseUrl}}/events/{{event_id_1}}",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "events",
-                "{{event_id_1}}"
-              ]
-            }
-          },
-          "status": "OK",
-          "code": 200,
-          "_postman_previewlanguage": "json",
-          "header": [
-            {
-              "key": "Content-Type",
-              "value": "application/json"
-            }
-          ],
-          "cookie": [],
-          "body": "{\n    \"id\": 1,\n    \"name\": \"Jornada de adopcion\",\n    \"type\": \"Adopcion\",\n    \"date\": \"2027-03-20\",\n    \"time\": \"10:00\",\n    \"description\": \"Jornada abierta para conocer y adoptar mascotas del refugio.\",\n    \"location\": \"Parque El Virrey\"\n}"
-        }
-      ]
-    },
-    {
-      "name": "Obtener un evento por nombre",
-      "request": {
-        "method": "GET",
-        "header": [],
-        "url": {
-          "raw": "{{baseUrl}}/events?name=Jornada de adopcion",
-          "host": [
-            "{{baseUrl}}"
-          ],
-          "path": [
-            "events"
-          ],
-          "query": [
-            {
-              "key": "name",
-              "value": "Jornada de adopcion"
-            }
-          ]
-        },
-        "description": "getEvent regla 1: consulta por name, usado de forma independiente."
-      },
-      "response": [
-        {
-          "name": "Obtener un evento por nombre",
-          "originalRequest": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "{{baseUrl}}/events?name=Jornada de adopcion",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "events"
-              ],
-              "query": [
-                {
-                  "key": "name",
-                  "value": "Jornada de adopcion"
-                }
-              ]
-            }
-          },
-          "status": "OK",
-          "code": 200,
-          "_postman_previewlanguage": "json",
-          "header": [
-            {
-              "key": "Content-Type",
-              "value": "application/json"
-            }
-          ],
-          "cookie": [],
-          "body": "[\n    {\n        \"id\": 1,\n        \"name\": \"Jornada de adopcion\",\n        \"type\": \"Adopcion\",\n        \"date\": \"2027-03-20\",\n        \"time\": \"10:00\",\n        \"description\": \"Jornada abierta para conocer y adoptar mascotas del refugio.\",\n        \"location\": \"Parque El Virrey\"\n    }\n]"
-        }
-      ]
-    },
-    {
-      "name": "Obtener un evento por fecha",
-      "request": {
-        "method": "GET",
-        "header": [],
-        "url": {
-          "raw": "{{baseUrl}}/events?date=2027-03-20",
-          "host": [
-            "{{baseUrl}}"
-          ],
-          "path": [
-            "events"
-          ],
-          "query": [
-            {
-              "key": "date",
-              "value": "2027-03-20"
-            }
-          ]
-        },
-        "description": "getEvent regla 1: consulta por date (yyyy-MM-dd), usada de forma independiente."
-      },
-      "response": [
-        {
-          "name": "Obtener un evento por fecha",
-          "originalRequest": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "{{baseUrl}}/events?date=2027-03-20",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "events"
-              ],
-              "query": [
-                {
-                  "key": "date",
-                  "value": "2027-03-20"
-                }
-              ]
-            }
-          },
-          "status": "OK",
-          "code": 200,
-          "_postman_previewlanguage": "json",
-          "header": [
-            {
-              "key": "Content-Type",
-              "value": "application/json"
-            }
-          ],
-          "cookie": [],
-          "body": "[\n    {\n        \"id\": 1,\n        \"name\": \"Jornada de adopcion\",\n        \"type\": \"Adopcion\",\n        \"date\": \"2027-03-20\",\n        \"time\": \"10:00\",\n        \"description\": \"Jornada abierta para conocer y adoptar mascotas del refugio.\",\n        \"location\": \"Parque El Virrey\"\n    }\n]"
-        }
-      ]
-    },
-    {
-      "name": "Obtener un evento con id, nombre y fecha que coinciden",
-      "request": {
-        "method": "GET",
-        "header": [],
-        "url": {
-          "raw": "{{baseUrl}}/events?id={{event_id_1}}&name=Jornada de adopcion&date=2027-03-20",
-          "host": [
-            "{{baseUrl}}"
-          ],
-          "path": [
-            "events"
-          ],
-          "query": [
-            {
-              "key": "id",
-              "value": "{{event_id_1}}"
-            },
-            {
-              "key": "name",
-              "value": "Jornada de adopcion"
-            },
-            {
-              "key": "date",
-              "value": "2027-03-20"
-            }
-          ]
-        },
-        "description": "getEvent regla 3: filtros combinados; se devuelve el evento porque cumple todos. Aqui el id va como query param para poder combinarlo."
-      },
-      "response": [
-        {
-          "name": "Obtener un evento con id, nombre y fecha que coinciden",
-          "originalRequest": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "{{baseUrl}}/events?id={{event_id_1}}&name=Jornada de adopcion&date=2027-03-20",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "events"
-              ],
-              "query": [
-                {
-                  "key": "id",
-                  "value": "{{event_id_1}}"
-                },
-                {
-                  "key": "name",
-                  "value": "Jornada de adopcion"
-                },
-                {
-                  "key": "date",
-                  "value": "2027-03-20"
-                }
-              ]
-            }
-          },
-          "status": "OK",
-          "code": 200,
-          "_postman_previewlanguage": "json",
-          "header": [
-            {
-              "key": "Content-Type",
-              "value": "application/json"
-            }
-          ],
-          "cookie": [],
-          "body": "[\n    {\n        \"id\": 1,\n        \"name\": \"Jornada de adopcion\",\n        \"type\": \"Adopcion\",\n        \"date\": \"2027-03-20\",\n        \"time\": \"10:00\",\n        \"description\": \"Jornada abierta para conocer y adoptar mascotas del refugio.\",\n        \"location\": \"Parque El Virrey\"\n    }\n]"
-        }
-      ]
-    },
-    {
-      "name": "Obtener un evento con nombre y fecha que no coinciden",
-      "request": {
-        "method": "GET",
-        "header": [],
-        "url": {
-          "raw": "{{baseUrl}}/events?name=Jornada de adopcion&date=2027-04-10",
-          "host": [
-            "{{baseUrl}}"
-          ],
-          "path": [
-            "events"
-          ],
-          "query": [
-            {
-              "key": "name",
-              "value": "Jornada de adopcion"
-            },
-            {
-              "key": "date",
-              "value": "2027-04-10"
-            }
-          ]
-        },
-        "description": "getEvent regla 3: el nombre es del evento 1 y la fecha del evento 2; si algun filtro no coincide no se devuelve resultado."
-      },
-      "response": [
-        {
-          "name": "Obtener un evento con nombre y fecha que no coinciden",
-          "originalRequest": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "{{baseUrl}}/events?name=Jornada de adopcion&date=2027-04-10",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "events"
-              ],
-              "query": [
-                {
-                  "key": "name",
-                  "value": "Jornada de adopcion"
-                },
-                {
-                  "key": "date",
-                  "value": "2027-04-10"
-                }
-              ]
-            }
-          },
-          "status": "OK",
-          "code": 200,
-          "_postman_previewlanguage": "json",
-          "header": [
-            {
-              "key": "Content-Type",
-              "value": "application/json"
-            }
-          ],
-          "cookie": [],
-          "body": "[]"
-        }
-      ]
-    },
-    {
-      "name": "Obtener un evento con id y nombre que no coinciden",
-      "request": {
-        "method": "GET",
-        "header": [],
-        "url": {
-          "raw": "{{baseUrl}}/events?id={{event_id_1}}&name=Campana de vacunacion",
-          "host": [
-            "{{baseUrl}}"
-          ],
-          "path": [
-            "events"
-          ],
-          "query": [
-            {
-              "key": "id",
-              "value": "{{event_id_1}}"
-            },
-            {
-              "key": "name",
-              "value": "Campana de vacunacion"
-            }
-          ]
-        },
-        "description": "getEvent regla 3: el id es valido pero el nombre pertenece a otro evento; no se devuelve resultado aunque el id exista."
-      },
-      "response": [
-        {
-          "name": "Obtener un evento con id y nombre que no coinciden",
-          "originalRequest": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "{{baseUrl}}/events?id={{event_id_1}}&name=Campana de vacunacion",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "events"
-              ],
-              "query": [
-                {
-                  "key": "id",
-                  "value": "{{event_id_1}}"
-                },
-                {
-                  "key": "name",
-                  "value": "Campana de vacunacion"
-                }
-              ]
-            }
-          },
-          "status": "OK",
-          "code": 200,
-          "_postman_previewlanguage": "json",
-          "header": [
-            {
-              "key": "Content-Type",
-              "value": "application/json"
-            }
-          ],
-          "cookie": [],
-          "body": "[]"
-        }
-      ]
-    },
-    {
-      "name": "Obtener un evento que no existe",
-      "request": {
-        "method": "GET",
-        "header": [],
-        "url": {
-          "raw": "{{baseUrl}}/events/0",
-          "host": [
-            "{{baseUrl}}"
-          ],
-          "path": [
-            "events",
-            "0"
-          ]
-        },
-        "description": "El id 0 no existe por convencion."
-      },
-      "response": [
-        {
-          "name": "Obtener un evento que no existe",
-          "originalRequest": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "{{baseUrl}}/events/0",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "events",
-                "0"
-              ]
-            }
-          },
-          "status": "Not Found",
-          "code": 404,
-          "_postman_previewlanguage": "json",
-          "header": [
-            {
-              "key": "Content-Type",
-              "value": "application/json"
-            }
-          ],
-          "cookie": [],
-          "body": "{\n    \"apierror\": {\n        \"status\": \"NOT_FOUND\",\n        \"timestamp\": \"20-09-2026 10:04:14\",\n        \"message\": \"The event with the given id was not found\"\n    }\n}"
-        }
-      ]
-    },
-    {
-      "name": "Obtener un evento con un id invalido",
-      "request": {
-        "method": "GET",
-        "header": [],
-        "url": {
-          "raw": "{{baseUrl}}/events/-1",
-          "host": [
-            "{{baseUrl}}"
-          ],
-          "path": [
-            "events",
-            "-1"
-          ]
-        },
-        "description": "getEvent regla 2: no se aceptan ids invalidos."
-      },
-      "response": [
-        {
-          "name": "Obtener un evento con un id invalido",
-          "originalRequest": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "{{baseUrl}}/events/-1",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "events",
-                "-1"
-              ]
-            }
-          },
-          "status": "Precondition Failed",
-          "code": 412,
-          "_postman_previewlanguage": "json",
-          "header": [
-            {
-              "key": "Content-Type",
-              "value": "application/json"
-            }
-          ],
-          "cookie": [],
-          "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"20-09-2026 10:04:51\",\n        \"message\": \"Event id is not valid\"\n    }\n}"
-        }
-      ]
-    },
-    {
-      "name": "Editar un evento",
-      "request": {
-        "method": "PUT",
-        "header": [
-          {
-            "key": "Content-Type",
-            "value": "application/json"
-          }
-        ],
-        "body": {
-          "mode": "raw",
-          "raw": "{\n    \"name\": \"Jornada de adopcion\",\n    \"type\": \"Adopcion\",\n    \"date\": \"2027-03-20T00:00:00-05:00\",\n    \"time\": \"10:00\",\n    \"description\": \"Jornada abierta para conocer y adoptar mascotas del refugio. Habra musica en vivo.\",\n    \"location\": \"Parque El Virrey\",\n    \"shelter\": {\n        \"id\": {{shelter_id}}\n    }\n}",
-          "options": {
-            "raw": {
-              "language": "json"
-            }
-          }
-        },
-        "url": {
-          "raw": "{{baseUrl}}/events/{{event_id_1}}",
-          "host": [
-            "{{baseUrl}}"
-          ],
-          "path": [
-            "events",
-            "{{event_id_1}}"
-          ]
-        },
-        "description": "updateEvent: caso exitoso, se modifica description. Conserva el mismo name, location y date, y no cuenta como duplicado de si mismo (regla 3)."
-      },
-      "response": [
-        {
-          "name": "Editar un evento",
-          "originalRequest": {
-            "method": "PUT",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n    \"name\": \"Jornada de adopcion\",\n    \"type\": \"Adopcion\",\n    \"date\": \"2027-03-20T00:00:00-05:00\",\n    \"time\": \"10:00\",\n    \"description\": \"Jornada abierta para conocer y adoptar mascotas del refugio. Habra musica en vivo.\",\n    \"location\": \"Parque El Virrey\",\n    \"shelter\": {\n        \"id\": {{shelter_id}}\n    }\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            },
-            "url": {
-              "raw": "{{baseUrl}}/events/{{event_id_1}}",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "events",
-                "{{event_id_1}}"
-              ]
-            }
-          },
-          "status": "OK",
-          "code": 200,
-          "_postman_previewlanguage": "json",
-          "header": [
-            {
-              "key": "Content-Type",
-              "value": "application/json"
-            }
-          ],
-          "cookie": [],
-          "body": "{\n    \"id\": 1,\n    \"name\": \"Jornada de adopcion\",\n    \"type\": \"Adopcion\",\n    \"date\": \"2027-03-20T05:00:00.000+00:00\",\n    \"time\": \"10:00\",\n    \"description\": \"Jornada abierta para conocer y adoptar mascotas del refugio. Habra musica en vivo.\",\n    \"location\": \"Parque El Virrey\"\n}"
-        }
-      ]
-    },
-    {
-      "name": "Editar un evento que no existe",
-      "request": {
-        "method": "PUT",
-        "header": [
-          {
-            "key": "Content-Type",
-            "value": "application/json"
-          }
-        ],
-        "body": {
-          "mode": "raw",
-          "raw": "{\n    \"name\": \"Jornada de adopcion\",\n    \"type\": \"Adopcion\",\n    \"date\": \"2027-03-20T00:00:00-05:00\",\n    \"time\": \"10:00\",\n    \"description\": \"Jornada abierta para conocer y adoptar mascotas del refugio. Habra musica en vivo.\",\n    \"location\": \"Parque El Virrey\",\n    \"shelter\": {\n        \"id\": {{shelter_id}}\n    }\n}",
-          "options": {
-            "raw": {
-              "language": "json"
-            }
-          }
-        },
-        "url": {
-          "raw": "{{baseUrl}}/events/0",
-          "host": [
-            "{{baseUrl}}"
-          ],
-          "path": [
-            "events",
-            "0"
-          ]
-        },
-        "description": "updateEvent: id inexistente."
-      },
-      "response": [
-        {
-          "name": "Editar un evento que no existe",
-          "originalRequest": {
-            "method": "PUT",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n    \"name\": \"Jornada de adopcion\",\n    \"type\": \"Adopcion\",\n    \"date\": \"2027-03-20T00:00:00-05:00\",\n    \"time\": \"10:00\",\n    \"description\": \"Jornada abierta para conocer y adoptar mascotas del refugio. Habra musica en vivo.\",\n    \"location\": \"Parque El Virrey\",\n    \"shelter\": {\n        \"id\": {{shelter_id}}\n    }\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            },
-            "url": {
-              "raw": "{{baseUrl}}/events/0",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "events",
-                "0"
-              ]
-            }
-          },
-          "status": "Not Found",
-          "code": 404,
-          "_postman_previewlanguage": "json",
-          "header": [
-            {
-              "key": "Content-Type",
-              "value": "application/json"
-            }
-          ],
-          "cookie": [],
-          "body": "{\n    \"apierror\": {\n        \"status\": \"NOT_FOUND\",\n        \"timestamp\": \"20-09-2026 10:05:28\",\n        \"message\": \"The event with the given id was not found\"\n    }\n}"
-        }
-      ]
-    },
-    {
-      "name": "Editar un evento con un id invalido",
-      "request": {
-        "method": "PUT",
-        "header": [
-          {
-            "key": "Content-Type",
-            "value": "application/json"
-          }
-        ],
-        "body": {
-          "mode": "raw",
-          "raw": "{\n    \"name\": \"Jornada de adopcion\",\n    \"type\": \"Adopcion\",\n    \"date\": \"2027-03-20T00:00:00-05:00\",\n    \"time\": \"10:00\",\n    \"description\": \"Jornada abierta para conocer y adoptar mascotas del refugio. Habra musica en vivo.\",\n    \"location\": \"Parque El Virrey\",\n    \"shelter\": {\n        \"id\": {{shelter_id}}\n    }\n}",
-          "options": {
-            "raw": {
-              "language": "json"
-            }
-          }
-        },
-        "url": {
-          "raw": "{{baseUrl}}/events/-1",
-          "host": [
-            "{{baseUrl}}"
-          ],
-          "path": [
-            "events",
-            "-1"
-          ]
-        },
-        "description": "updateEvent regla 1: no se aceptan ids invalidos."
-      },
-      "response": [
-        {
-          "name": "Editar un evento con un id invalido",
-          "originalRequest": {
-            "method": "PUT",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n    \"name\": \"Jornada de adopcion\",\n    \"type\": \"Adopcion\",\n    \"date\": \"2027-03-20T00:00:00-05:00\",\n    \"time\": \"10:00\",\n    \"description\": \"Jornada abierta para conocer y adoptar mascotas del refugio. Habra musica en vivo.\",\n    \"location\": \"Parque El Virrey\",\n    \"shelter\": {\n        \"id\": {{shelter_id}}\n    }\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            },
-            "url": {
-              "raw": "{{baseUrl}}/events/-1",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "events",
-                "-1"
-              ]
-            }
-          },
-          "status": "Precondition Failed",
-          "code": 412,
-          "_postman_previewlanguage": "json",
-          "header": [
-            {
-              "key": "Content-Type",
-              "value": "application/json"
-            }
-          ],
-          "cookie": [],
-          "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"20-09-2026 10:06:05\",\n        \"message\": \"Event id is not valid\"\n    }\n}"
-        }
-      ]
-    },
-    {
-      "name": "Editar un evento sin nombre",
-      "request": {
-        "method": "PUT",
-        "header": [
-          {
-            "key": "Content-Type",
-            "value": "application/json"
-          }
-        ],
-        "body": {
-          "mode": "raw",
-          "raw": "{\n    \"name\": null,\n    \"type\": \"Adopcion\",\n    \"date\": \"2027-03-20T00:00:00-05:00\",\n    \"time\": \"10:00\",\n    \"description\": \"Jornada abierta para conocer y adoptar mascotas del refugio. Habra musica en vivo.\",\n    \"location\": \"Parque El Virrey\",\n    \"shelter\": {\n        \"id\": {{shelter_id}}\n    }\n}",
-          "options": {
-            "raw": {
-              "language": "json"
-            }
-          }
-        },
-        "url": {
-          "raw": "{{baseUrl}}/events/{{event_id_1}}",
-          "host": [
-            "{{baseUrl}}"
-          ],
-          "path": [
-            "events",
-            "{{event_id_1}}"
-          ]
-        },
-        "description": "updateEvent regla 2: no se aceptan parametros nulos ni vacios (salvo type)."
-      },
-      "response": [
-        {
-          "name": "Editar un evento sin nombre",
-          "originalRequest": {
-            "method": "PUT",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n    \"name\": null,\n    \"type\": \"Adopcion\",\n    \"date\": \"2027-03-20T00:00:00-05:00\",\n    \"time\": \"10:00\",\n    \"description\": \"Jornada abierta para conocer y adoptar mascotas del refugio. Habra musica en vivo.\",\n    \"location\": \"Parque El Virrey\",\n    \"shelter\": {\n        \"id\": {{shelter_id}}\n    }\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            },
-            "url": {
-              "raw": "{{baseUrl}}/events/{{event_id_1}}",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "events",
-                "{{event_id_1}}"
-              ]
-            }
-          },
-          "status": "Precondition Failed",
-          "code": 412,
-          "_postman_previewlanguage": "json",
-          "header": [
-            {
-              "key": "Content-Type",
-              "value": "application/json"
-            }
-          ],
-          "cookie": [],
-          "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"20-09-2026 10:06:42\",\n        \"message\": \"Event name cannot be null or empty\"\n    }\n}"
-        }
-      ]
-    },
-    {
-      "name": "Editar un evento quitando el tipo",
-      "request": {
-        "method": "PUT",
-        "header": [
-          {
-            "key": "Content-Type",
-            "value": "application/json"
-          }
-        ],
-        "body": {
-          "mode": "raw",
-          "raw": "{\n    \"name\": \"Jornada de adopcion\",\n    \"type\": null,\n    \"date\": \"2027-03-20T00:00:00-05:00\",\n    \"time\": \"10:00\",\n    \"description\": \"Jornada abierta para conocer y adoptar mascotas del refugio. Habra musica en vivo.\",\n    \"location\": \"Parque El Virrey\",\n    \"shelter\": {\n        \"id\": {{shelter_id}}\n    }\n}",
-          "options": {
-            "raw": {
-              "language": "json"
-            }
-          }
-        },
-        "url": {
-          "raw": "{{baseUrl}}/events/{{event_id_1}}",
-          "host": [
-            "{{baseUrl}}"
-          ],
-          "path": [
-            "events",
-            "{{event_id_1}}"
-          ]
-        },
-        "description": "updateEvent regla 2 (excepcion): type puede quedar nulo."
-      },
-      "response": [
-        {
-          "name": "Editar un evento quitando el tipo",
-          "originalRequest": {
-            "method": "PUT",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n    \"name\": \"Jornada de adopcion\",\n    \"type\": null,\n    \"date\": \"2027-03-20T00:00:00-05:00\",\n    \"time\": \"10:00\",\n    \"description\": \"Jornada abierta para conocer y adoptar mascotas del refugio. Habra musica en vivo.\",\n    \"location\": \"Parque El Virrey\",\n    \"shelter\": {\n        \"id\": {{shelter_id}}\n    }\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            },
-            "url": {
-              "raw": "{{baseUrl}}/events/{{event_id_1}}",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "events",
-                "{{event_id_1}}"
-              ]
-            }
-          },
-          "status": "OK",
-          "code": 200,
-          "_postman_previewlanguage": "json",
-          "header": [
-            {
-              "key": "Content-Type",
-              "value": "application/json"
-            }
-          ],
-          "cookie": [],
-          "body": "{\n    \"id\": 1,\n    \"name\": \"Jornada de adopcion\",\n    \"type\": null,\n    \"date\": \"2027-03-20T05:00:00.000+00:00\",\n    \"time\": \"10:00\",\n    \"description\": \"Jornada abierta para conocer y adoptar mascotas del refugio. Habra musica en vivo.\",\n    \"location\": \"Parque El Virrey\"\n}"
-        }
-      ]
-    },
-    {
-      "name": "Editar un evento con fecha pasada",
-      "request": {
-        "method": "PUT",
-        "header": [
-          {
-            "key": "Content-Type",
-            "value": "application/json"
-          }
-        ],
-        "body": {
-          "mode": "raw",
-          "raw": "{\n    \"name\": \"Jornada de adopcion\",\n    \"type\": \"Adopcion\",\n    \"date\": \"2026-03-15T00:00:00-05:00\",\n    \"time\": \"10:00\",\n    \"description\": \"Jornada abierta para conocer y adoptar mascotas del refugio. Habra musica en vivo.\",\n    \"location\": \"Parque El Virrey\",\n    \"shelter\": {\n        \"id\": {{shelter_id}}\n    }\n}",
-          "options": {
-            "raw": {
-              "language": "json"
-            }
-          }
-        },
-        "url": {
-          "raw": "{{baseUrl}}/events/{{event_id_1}}",
-          "host": [
-            "{{baseUrl}}"
-          ],
-          "path": [
-            "events",
-            "{{event_id_1}}"
-          ]
-        },
-        "description": "updateEvent regla 4: la fecha no puede actualizarse a una anterior a la fecha actual."
-      },
-      "response": [
-        {
-          "name": "Editar un evento con fecha pasada",
-          "originalRequest": {
-            "method": "PUT",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n    \"name\": \"Jornada de adopcion\",\n    \"type\": \"Adopcion\",\n    \"date\": \"2026-03-15T00:00:00-05:00\",\n    \"time\": \"10:00\",\n    \"description\": \"Jornada abierta para conocer y adoptar mascotas del refugio. Habra musica en vivo.\",\n    \"location\": \"Parque El Virrey\",\n    \"shelter\": {\n        \"id\": {{shelter_id}}\n    }\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            },
-            "url": {
-              "raw": "{{baseUrl}}/events/{{event_id_1}}",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "events",
-                "{{event_id_1}}"
-              ]
-            }
-          },
-          "status": "Precondition Failed",
-          "code": 412,
-          "_postman_previewlanguage": "json",
-          "header": [
-            {
-              "key": "Content-Type",
-              "value": "application/json"
-            }
-          ],
-          "cookie": [],
-          "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"20-09-2026 10:07:19\",\n        \"message\": \"Event date cannot be earlier than the current date\"\n    }\n}"
-        }
-      ]
-    },
-    {
-      "name": "Editar un evento generando un duplicado",
-      "request": {
-        "method": "PUT",
-        "header": [
-          {
-            "key": "Content-Type",
-            "value": "application/json"
-          }
-        ],
-        "body": {
-          "mode": "raw",
-          "raw": "{\n    \"name\": \"Jornada de adopcion\",\n    \"type\": null,\n    \"date\": \"2027-03-20T00:00:00-05:00\",\n    \"time\": \"09:00\",\n    \"description\": \"Vacunacion gratuita para mascotas de la comunidad.\",\n    \"location\": \"Parque El Virrey\",\n    \"shelter\": {\n        \"id\": {{shelter_id}}\n    }\n}",
-          "options": {
-            "raw": {
-              "language": "json"
-            }
-          }
-        },
-        "url": {
-          "raw": "{{baseUrl}}/events/{{event_id_2}}",
-          "host": [
-            "{{baseUrl}}"
-          ],
-          "path": [
-            "events",
-            "{{event_id_2}}"
-          ]
-        },
-        "description": "updateEvent regla 3: el evento 2 toma el name, location y date del evento 1 en el mismo refugio; se excluye a si mismo de la comparacion."
-      },
-      "response": [
-        {
-          "name": "Editar un evento generando un duplicado",
-          "originalRequest": {
-            "method": "PUT",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n    \"name\": \"Jornada de adopcion\",\n    \"type\": null,\n    \"date\": \"2027-03-20T00:00:00-05:00\",\n    \"time\": \"09:00\",\n    \"description\": \"Vacunacion gratuita para mascotas de la comunidad.\",\n    \"location\": \"Parque El Virrey\",\n    \"shelter\": {\n        \"id\": {{shelter_id}}\n    }\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            },
-            "url": {
-              "raw": "{{baseUrl}}/events/{{event_id_2}}",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "events",
-                "{{event_id_2}}"
-              ]
-            }
-          },
-          "status": "Precondition Failed",
-          "code": 412,
-          "_postman_previewlanguage": "json",
-          "header": [
-            {
-              "key": "Content-Type",
-              "value": "application/json"
-            }
-          ],
-          "cookie": [],
-          "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"20-09-2026 10:07:56\",\n        \"message\": \"An event with the same shelter, name, location and date already exists\"\n    }\n}"
-        }
-      ]
-    },
-    {
-      "name": "Borrar un evento",
-      "request": {
-        "method": "DELETE",
-        "header": [],
-        "url": {
-          "raw": "{{baseUrl}}/events/{{event_id_2}}",
-          "host": [
-            "{{baseUrl}}"
-          ],
-          "path": [
-            "events",
-            "{{event_id_2}}"
-          ]
-        },
-        "description": "deleteEvent: caso exitoso; el evento 2 tiene fecha futura."
-      },
-      "response": [
-        {
-          "name": "Borrar un evento",
-          "originalRequest": {
-            "method": "DELETE",
-            "header": [],
-            "url": {
-              "raw": "{{baseUrl}}/events/{{event_id_2}}",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "events",
-                "{{event_id_2}}"
-              ]
-            }
-          },
-          "status": "No Content",
-          "code": 204,
-          "_postman_previewlanguage": "text",
-          "header": [],
-          "cookie": [],
-          "body": ""
-        }
-      ]
-    },
-    {
-      "name": "Borrar un evento que no existe",
-      "request": {
-        "method": "DELETE",
-        "header": [],
-        "url": {
-          "raw": "{{baseUrl}}/events/0",
-          "host": [
-            "{{baseUrl}}"
-          ],
-          "path": [
-            "events",
-            "0"
-          ]
-        },
-        "description": "deleteEvent regla 2: id inexistente."
-      },
-      "response": [
-        {
-          "name": "Borrar un evento que no existe",
-          "originalRequest": {
-            "method": "DELETE",
-            "header": [],
-            "url": {
-              "raw": "{{baseUrl}}/events/0",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "events",
-                "0"
-              ]
-            }
-          },
-          "status": "Not Found",
-          "code": 404,
-          "_postman_previewlanguage": "json",
-          "header": [
-            {
-              "key": "Content-Type",
-              "value": "application/json"
-            }
-          ],
-          "cookie": [],
-          "body": "{\n    \"apierror\": {\n        \"status\": \"NOT_FOUND\",\n        \"timestamp\": \"20-09-2026 10:08:33\",\n        \"message\": \"The event with the given id was not found\"\n    }\n}"
-        }
-      ]
-    },
-    {
-      "name": "Borrar un evento con un id invalido",
-      "request": {
-        "method": "DELETE",
-        "header": [],
-        "url": {
-          "raw": "{{baseUrl}}/events/-1",
-          "host": [
-            "{{baseUrl}}"
-          ],
-          "path": [
-            "events",
-            "-1"
-          ]
-        },
-        "description": "deleteEvent regla 1: no se aceptan ids invalidos."
-      },
-      "response": [
-        {
-          "name": "Borrar un evento con un id invalido",
-          "originalRequest": {
-            "method": "DELETE",
-            "header": [],
-            "url": {
-              "raw": "{{baseUrl}}/events/-1",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "events",
-                "-1"
-              ]
-            }
-          },
-          "status": "Precondition Failed",
-          "code": 412,
-          "_postman_previewlanguage": "json",
-          "header": [
-            {
-              "key": "Content-Type",
-              "value": "application/json"
-            }
-          ],
-          "cookie": [],
-          "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"20-09-2026 10:09:10\",\n        \"message\": \"Event id is not valid\"\n    }\n}"
-        }
-      ]
-    },
-    {
-      "name": "Borrar un evento cuya fecha ya paso",
-      "request": {
-        "method": "DELETE",
-        "header": [],
-        "url": {
-          "raw": "{{baseUrl}}/events/{{event_id_past}}",
-          "host": [
-            "{{baseUrl}}"
-          ],
-          "path": [
-            "events",
-            "{{event_id_past}}"
-          ]
-        },
-        "description": "deleteEvent regla 3: event_id_past debe ser un evento con fecha anterior a hoy. No se puede crear por la API (createEvent rechaza fechas pasadas), asi que hay que insertarlo directamente en la base o con datos de prueba."
-      },
-      "response": [
-        {
-          "name": "Borrar un evento cuya fecha ya paso",
-          "originalRequest": {
-            "method": "DELETE",
-            "header": [],
-            "url": {
-              "raw": "{{baseUrl}}/events/{{event_id_past}}",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "events",
-                "{{event_id_past}}"
-              ]
-            }
-          },
-          "status": "Precondition Failed",
-          "code": 412,
-          "_postman_previewlanguage": "json",
-          "header": [
-            {
-              "key": "Content-Type",
-              "value": "application/json"
-            }
-          ],
-          "cookie": [],
-          "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"20-09-2026 10:09:47\",\n        \"message\": \"An event whose date has already passed cannot be deleted\"\n    }\n}"
-        }
-      ]
-    }
-  ],
-  "variable": [
-    {
-      "key": "shelter_id",
-      "value": "1"
-    },
-    {
-      "key": "event_id_1",
-      "value": "1"
-    },
-    {
-      "key": "event_id_2",
-      "value": "2"
-    },
-    {
-      "key": "event_id_past",
-      "value": "3"
-    }
-  ]
+	"info": {
+		"_postman_id": "4ce84df0-014b-5a5f-b5f1-148b89d24ee6",
+		"name": "Event",
+		"description": "Global event query (`/events`) with filters: `id`, `name`, and `date` (`YYYY-MM-DD`). When multiple filters are combined, **ALL** of them must match. PROPOSED DESIGN:These GET endpoints do not exist yet (see `PRERREQUISITOS_BACKEND.md`). Creating, editing, and deleting an event remains nested under `/shelters/{id}/events` (`ShelterEvents` collection); this endpoint is only used to prepare the data. SELF-CONTAINED COLLECTION: Creates its own shelters and events using unique names per execution (`{{run_id}}`), because `/events` is global and the in-memory database accumulates data from previous runs.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "00 Preparacion",
+			"item": [
+				{
+					"name": "Preparacion: crear refugio A",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/shelters",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"shelters"
+							]
+						},
+						"description": "Requiere que ShelterDTO acepte 'users'.",
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Refugio Pet A {{run_id}}\",\n    \"city\": \"Bogota\",\n    \"nit\": \"PETA-{{run_id}}\",\n    \"location\": \"PetA-{{run_id}}\",\n    \"users\": [\n        {\n            \"id\": {{responsible_user_id}}\n        }\n    ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						}
+					},
+					"response": [
+						{
+							"name": "Preparacion: crear refugio A",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/shelters",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"shelters"
+									]
+								},
+								"description": "Requiere que ShelterDTO acepte 'users'.",
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Refugio Pet A {{run_id}}\",\n    \"city\": \"Bogota\",\n    \"nit\": \"PETA-{{run_id}}\",\n    \"location\": \"PetA-{{run_id}}\",\n    \"users\": [\n        {\n            \"id\": {{responsible_user_id}}\n        }\n    ]\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": 1,\n    \"name\": \"Refugio Pet A k3x9a\",\n    \"city\": \"Bogota\",\n    \"nit\": \"PETA-k3x9a\",\n    \"location\": \"PetA-k3x9a\"\n}"
+						}
+					],
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"// Cada ejecucion usa datos unicos: la BD en memoria no se reinicia entre corridas",
+									"pm.collectionVariables.set(\"run_id\", Date.now().toString(36) + Math.floor(Math.random() * 1000).toString(36));"
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"const data = pm.response.json();",
+									"pm.collectionVariables.set(\"shelter_id\", data.id);",
+									"pm.test(\"Status code is 201\", function () {",
+									"   pm.response.to.have.status(201);",
+									"});"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "Preparacion: crear refugio B",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/shelters",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"shelters"
+							]
+						},
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Refugio Pet B {{run_id}}\",\n    \"city\": \"Medellin\",\n    \"nit\": \"PETB-{{run_id}}\",\n    \"location\": \"PetB-{{run_id}}\",\n    \"users\": [\n        {\n            \"id\": {{responsible_user_id}}\n        }\n    ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						}
+					},
+					"response": [
+						{
+							"name": "Preparacion: crear refugio B",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/shelters",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"shelters"
+									]
+								},
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Refugio Pet B {{run_id}}\",\n    \"city\": \"Medellin\",\n    \"nit\": \"PETB-{{run_id}}\",\n    \"location\": \"PetB-{{run_id}}\",\n    \"users\": [\n        {\n            \"id\": {{responsible_user_id}}\n        }\n    ]\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": 2,\n    \"name\": \"Refugio Pet B k3x9a\",\n    \"city\": \"Medellin\",\n    \"nit\": \"PETB-k3x9a\",\n    \"location\": \"PetB-k3x9a\"\n}"
+						}
+					],
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"const data = pm.response.json();",
+									"pm.collectionVariables.set(\"shelter_id_2\", data.id);",
+									"pm.test(\"Status code is 201\", function () {",
+									"   pm.response.to.have.status(201);",
+									"});"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "Preparacion: crear evento 1 en el refugio A",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/shelters/{{shelter_id}}/events",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"shelters",
+								"{{shelter_id}}",
+								"events"
+							]
+						},
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Jornada-adopcion-{{run_id}}\",\n    \"type\": \"Adopcion\",\n    \"date\": \"{{d_future_30}}\",\n    \"time\": \"10:00\",\n    \"description\": \"Jornada abierta al publico\",\n    \"location\": \"Parque Central\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						}
+					},
+					"response": [
+						{
+							"name": "Preparacion: crear evento 1 en el refugio A",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/shelters/{{shelter_id}}/events",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"shelters",
+										"{{shelter_id}}",
+										"events"
+									]
+								},
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Jornada-adopcion-{{run_id}}\",\n    \"type\": \"Adopcion\",\n    \"date\": \"{{d_future_30}}\",\n    \"time\": \"10:00\",\n    \"description\": \"Jornada abierta al publico\",\n    \"location\": \"Parque Central\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": 1,\n    \"name\": \"Jornada-adopcion-k3x9a\",\n    \"type\": \"Adopcion\",\n    \"date\": \"2026-11-09T12:00:00.000+00:00\",\n    \"time\": \"10:00\",\n    \"description\": \"Jornada abierta al publico\",\n    \"location\": \"Parque Central\",\n    \"shelter\": {\n        \"id\": 1,\n        \"name\": \"Refugio Pet A k3x9a\",\n        \"city\": \"Bogota\",\n        \"nit\": \"PETA-k3x9a\",\n        \"location\": \"PetA-k3x9a\"\n    }\n}"
+						}
+					],
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"const data = pm.response.json();",
+									"pm.collectionVariables.set(\"event_id\", data.id);",
+									"pm.test(\"Status code is 201\", function () {",
+									"   pm.response.to.have.status(201);",
+									"});"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "Preparacion: crear evento 2 en el refugio A",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/shelters/{{shelter_id}}/events",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"shelters",
+								"{{shelter_id}}",
+								"events"
+							]
+						},
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Vacunacion-masiva-{{run_id}}\",\n    \"type\": \"Salud\",\n    \"date\": \"{{d_future_60}}\",\n    \"time\": \"09:00\",\n    \"description\": \"Campana de vacunacion\",\n    \"location\": \"Sede principal\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						}
+					},
+					"response": [
+						{
+							"name": "Preparacion: crear evento 2 en el refugio A",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/shelters/{{shelter_id}}/events",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"shelters",
+										"{{shelter_id}}",
+										"events"
+									]
+								},
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Vacunacion-masiva-{{run_id}}\",\n    \"type\": \"Salud\",\n    \"date\": \"{{d_future_60}}\",\n    \"time\": \"09:00\",\n    \"description\": \"Campana de vacunacion\",\n    \"location\": \"Sede principal\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": 2,\n    \"name\": \"Vacunacion-masiva-k3x9a\",\n    \"type\": \"Salud\",\n    \"date\": \"2026-12-09T12:00:00.000+00:00\",\n    \"time\": \"09:00\",\n    \"description\": \"Campana de vacunacion\",\n    \"location\": \"Sede principal\",\n    \"shelter\": {\n        \"id\": 1,\n        \"name\": \"Refugio Pet A k3x9a\",\n        \"city\": \"Bogota\",\n        \"nit\": \"PETA-k3x9a\",\n        \"location\": \"PetA-k3x9a\"\n    }\n}"
+						}
+					],
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"const data = pm.response.json();",
+									"pm.collectionVariables.set(\"event_id_2\", data.id);",
+									"pm.test(\"Status code is 201\", function () {",
+									"   pm.response.to.have.status(201);",
+									"});"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "Preparacion: crear evento 3 en el refugio B",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/shelters/{{shelter_id_2}}/events",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"shelters",
+								"{{shelter_id_2}}",
+								"events"
+							]
+						},
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Jornada-adopcion-{{run_id}}\",\n    \"type\": \"Adopcion\",\n    \"date\": \"{{d_future_30}}\",\n    \"time\": \"10:00\",\n    \"description\": \"Jornada abierta al publico\",\n    \"location\": \"Parque Norte\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						}
+					},
+					"response": [
+						{
+							"name": "Preparacion: crear evento 3 en el refugio B",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/shelters/{{shelter_id_2}}/events",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"shelters",
+										"{{shelter_id_2}}",
+										"events"
+									]
+								},
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Jornada-adopcion-{{run_id}}\",\n    \"type\": \"Adopcion\",\n    \"date\": \"{{d_future_30}}\",\n    \"time\": \"10:00\",\n    \"description\": \"Jornada abierta al publico\",\n    \"location\": \"Parque Norte\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": 3,\n    \"name\": \"Jornada-adopcion-k3x9a\",\n    \"type\": \"Adopcion\",\n    \"date\": \"2026-11-09T12:00:00.000+00:00\",\n    \"time\": \"10:00\",\n    \"description\": \"Jornada abierta al publico\",\n    \"location\": \"Parque Norte\",\n    \"shelter\": {\n        \"id\": 2,\n        \"name\": \"Refugio Pet B k3x9a\",\n        \"city\": \"Medellin\",\n        \"nit\": \"PETB-k3x9a\",\n        \"location\": \"PetB-k3x9a\"\n    }\n}"
+						}
+					],
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"const data = pm.response.json();",
+									"pm.collectionVariables.set(\"event_id_3\", data.id);",
+									"pm.test(\"Status code is 201\", function () {",
+									"   pm.response.to.have.status(201);",
+									"});"
+								]
+							}
+						}
+					]
+				}
+			],
+			"description": "Evento 1 y 2 en el refugio A; evento 3 en el refugio B con el mismo nombre y fecha que el 1 (permitido: los duplicados se validan por refugio)."
+		},
+		{
+			"name": "01 Consultar",
+			"item": [
+				{
+					"name": "Obtener todos los eventos",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/events",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"events"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Obtener todos los eventos",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/events",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"events"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"id\": 1,\n        \"name\": \"Jornada-adopcion-k3x9a\",\n        \"type\": \"Adopcion\",\n        \"date\": \"2026-11-09T12:00:00.000+00:00\",\n        \"time\": \"10:00\",\n        \"description\": \"Jornada abierta al publico\",\n        \"location\": \"Parque Central\",\n        \"shelter\": {\n            \"id\": 1,\n            \"name\": \"Refugio Pet A k3x9a\",\n            \"city\": \"Bogota\",\n            \"nit\": \"PETA-k3x9a\",\n            \"location\": \"PetA-k3x9a\"\n        }\n    },\n    {\n        \"id\": 2,\n        \"name\": \"Vacunacion-masiva-k3x9a\",\n        \"type\": \"Salud\",\n        \"date\": \"2026-12-09T12:00:00.000+00:00\",\n        \"time\": \"09:00\",\n        \"description\": \"Campana de vacunacion\",\n        \"location\": \"Sede principal\",\n        \"shelter\": {\n            \"id\": 1,\n            \"name\": \"Refugio Pet A k3x9a\",\n            \"city\": \"Bogota\",\n            \"nit\": \"PETA-k3x9a\",\n            \"location\": \"PetA-k3x9a\"\n        }\n    },\n    {\n        \"id\": 3,\n        \"name\": \"Jornada-adopcion-k3x9a\",\n        \"type\": \"Adopcion\",\n        \"date\": \"2026-11-09T12:00:00.000+00:00\",\n        \"time\": \"10:00\",\n        \"description\": \"Jornada abierta al publico\",\n        \"location\": \"Parque Norte\",\n        \"shelter\": {\n            \"id\": 2,\n            \"name\": \"Refugio Pet B k3x9a\",\n            \"city\": \"Medellin\",\n            \"nit\": \"PETB-k3x9a\",\n            \"location\": \"PetB-k3x9a\"\n        }\n    }\n]"
+						}
+					],
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"   pm.response.to.have.status(200);",
+									"});",
+									"pm.test(\"List contains the three events created here\", function () {",
+									"   const data = pm.response.json();",
+									"   pm.expect(data).to.be.an(\"array\");",
+									"   const ids = data.map(e => e.id);",
+									"   pm.expect(ids).to.include(Number(pm.collectionVariables.get(\"event_id\")));",
+									"   pm.expect(ids).to.include(Number(pm.collectionVariables.get(\"event_id_2\")));",
+									"   pm.expect(ids).to.include(Number(pm.collectionVariables.get(\"event_id_3\")));",
+									"});"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "Obtener un evento por id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/events/{{event_id}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"events",
+								"{{event_id}}"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Obtener un evento por id",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/events/{{event_id}}",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"events",
+										"{{event_id}}"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": 1,\n    \"name\": \"Jornada-adopcion-k3x9a\",\n    \"type\": \"Adopcion\",\n    \"date\": \"2026-11-09T12:00:00.000+00:00\",\n    \"time\": \"10:00\",\n    \"description\": \"Jornada abierta al publico\",\n    \"location\": \"Parque Central\",\n    \"shelter\": {\n        \"id\": 1,\n        \"name\": \"Refugio Pet A k3x9a\",\n        \"city\": \"Bogota\",\n        \"nit\": \"PETA-k3x9a\",\n        \"location\": \"PetA-k3x9a\"\n    }\n}"
+						}
+					],
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"   pm.response.to.have.status(200);",
+									"});",
+									"pm.test(\"The requested event with its shelter\", function () {",
+									"   const data = pm.response.json();",
+									"   pm.expect(data.id).to.eql(Number(pm.collectionVariables.get(\"event_id\")));",
+									"   pm.expect(data.name).to.eql(\"Jornada-adopcion-\" + pm.collectionVariables.get(\"run_id\"));",
+									"   pm.expect(data.shelter.id).to.eql(Number(pm.collectionVariables.get(\"shelter_id\")));",
+									"});"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "Obtener un evento que no existe",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/events/999999",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"events",
+								"999999"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Obtener un evento que no existe",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/events/999999",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"events",
+										"999999"
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"apierror\": {\n        \"status\": \"NOT_FOUND\",\n        \"timestamp\": \"09-10-2026 10:00:00\",\n        \"message\": \"Event not found\"\n    }\n}"
+						}
+					],
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Status code is 404\", function () {",
+									"   pm.response.to.have.status(404);",
+									"});",
+									"pm.test(\"Get expected error message\", function () {",
+									"   const data = pm.response.json();",
+									"   pm.expect(data.apierror.status).to.eql(\"NOT_FOUND\");",
+									"   pm.expect(data.apierror.message).to.eql(\"Event not found\");",
+									"});"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "Obtener un evento con un id invalido",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/events/0",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"events",
+								"0"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Obtener un evento con un id invalido",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/events/0",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"events",
+										"0"
+									]
+								}
+							},
+							"status": "Precondition Failed",
+							"code": 412,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"09-10-2026 10:00:00\",\n        \"message\": \"Event id is not valid\"\n    }\n}"
+						}
+					],
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Status code is 412\", function () {",
+									"   pm.response.to.have.status(412);",
+									"});",
+									"pm.test(\"Get expected error message\", function () {",
+									"   const data = pm.response.json();",
+									"   pm.expect(data.apierror.status).to.eql(\"PRECONDITION_FAILED\");",
+									"   pm.expect(data.apierror.message).to.eql(\"Event id is not valid\");",
+									"});"
+								]
+							}
+						}
+					]
+				}
+			],
+			"description": "Reglas getEvents / getEvent. Id <= 0 invalido (412); id valido inexistente 404."
+		},
+		{
+			"name": "01b Filtros",
+			"item": [
+				{
+					"name": "Obtener eventos por nombre",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/events?name=Jornada-adopcion-{{run_id}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"events"
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "Jornada-adopcion-{{run_id}}"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Obtener eventos por nombre",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/events?name=Jornada-adopcion-{{run_id}}",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"events"
+									],
+									"query": [
+										{
+											"key": "name",
+											"value": "Jornada-adopcion-{{run_id}}"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"id\": 1,\n        \"name\": \"Jornada-adopcion-k3x9a\",\n        \"type\": \"Adopcion\",\n        \"date\": \"2026-11-09T12:00:00.000+00:00\",\n        \"time\": \"10:00\",\n        \"description\": \"Jornada abierta al publico\",\n        \"location\": \"Parque Central\",\n        \"shelter\": {\n            \"id\": 1,\n            \"name\": \"Refugio Pet A k3x9a\",\n            \"city\": \"Bogota\",\n            \"nit\": \"PETA-k3x9a\",\n            \"location\": \"PetA-k3x9a\"\n        }\n    },\n    {\n        \"id\": 3,\n        \"name\": \"Jornada-adopcion-k3x9a\",\n        \"type\": \"Adopcion\",\n        \"date\": \"2026-11-09T12:00:00.000+00:00\",\n        \"time\": \"10:00\",\n        \"description\": \"Jornada abierta al publico\",\n        \"location\": \"Parque Norte\",\n        \"shelter\": {\n            \"id\": 2,\n            \"name\": \"Refugio Pet B k3x9a\",\n            \"city\": \"Medellin\",\n            \"nit\": \"PETB-k3x9a\",\n            \"location\": \"PetB-k3x9a\"\n        }\n    }\n]"
+						}
+					],
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"   pm.response.to.have.status(200);",
+									"});",
+									"pm.test(\"Every result matches the filter(s)\", function () {",
+									"   const data = pm.response.json();",
+									"   pm.expect(data).to.be.an(\"array\");",
+									"   pm.expect(data).to.have.lengthOf(2);",
+									"   pm.expect(data.every(e => e.name === \"Jornada-adopcion-\" + pm.collectionVariables.get(\"run_id\"))).to.be.true;",
+									"   const ids = data.map(e => e.id);",
+									"   pm.expect(ids).to.include(Number(pm.collectionVariables.get(\"event_id\")));",
+									"   pm.expect(ids).to.include(Number(pm.collectionVariables.get(\"event_id_3\")));",
+									"   pm.expect(data.find(e => e.id === Number(pm.collectionVariables.get(\"event_id\"))).shelter.id).to.eql(Number(pm.collectionVariables.get(\"shelter_id\")));",
+									"   pm.expect(data.find(e => e.id === Number(pm.collectionVariables.get(\"event_id_3\"))).shelter.id).to.eql(Number(pm.collectionVariables.get(\"shelter_id_2\")));",
+									"});"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "Obtener eventos por nombre sin importar mayusculas",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/events?name=JORNADA-ADOPCION-{{run_id}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"events"
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "JORNADA-ADOPCION-{{run_id}}"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Obtener eventos por nombre sin importar mayusculas",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/events?name=JORNADA-ADOPCION-{{run_id}}",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"events"
+									],
+									"query": [
+										{
+											"key": "name",
+											"value": "JORNADA-ADOPCION-{{run_id}}"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"id\": 1,\n        \"name\": \"Jornada-adopcion-k3x9a\",\n        \"type\": \"Adopcion\",\n        \"date\": \"2026-11-09T12:00:00.000+00:00\",\n        \"time\": \"10:00\",\n        \"description\": \"Jornada abierta al publico\",\n        \"location\": \"Parque Central\",\n        \"shelter\": {\n            \"id\": 1,\n            \"name\": \"Refugio Pet A k3x9a\",\n            \"city\": \"Bogota\",\n            \"nit\": \"PETA-k3x9a\",\n            \"location\": \"PetA-k3x9a\"\n        }\n    },\n    {\n        \"id\": 3,\n        \"name\": \"Jornada-adopcion-k3x9a\",\n        \"type\": \"Adopcion\",\n        \"date\": \"2026-11-09T12:00:00.000+00:00\",\n        \"time\": \"10:00\",\n        \"description\": \"Jornada abierta al publico\",\n        \"location\": \"Parque Norte\",\n        \"shelter\": {\n            \"id\": 2,\n            \"name\": \"Refugio Pet B k3x9a\",\n            \"city\": \"Medellin\",\n            \"nit\": \"PETB-k3x9a\",\n            \"location\": \"PetB-k3x9a\"\n        }\n    }\n]"
+						}
+					],
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"   pm.response.to.have.status(200);",
+									"});",
+									"pm.test(\"Every result matches the filter(s)\", function () {",
+									"   const data = pm.response.json();",
+									"   pm.expect(data).to.be.an(\"array\");",
+									"   pm.expect(data).to.have.lengthOf(2);",
+									"   pm.expect(data.every(e => e.name === \"Jornada-adopcion-\" + pm.collectionVariables.get(\"run_id\"))).to.be.true;",
+									"});"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "Obtener eventos por fecha",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/events?date={{day_future_30}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"events"
+							],
+							"query": [
+								{
+									"key": "date",
+									"value": "{{day_future_30}}"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Obtener eventos por fecha",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/events?date={{day_future_30}}",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"events"
+									],
+									"query": [
+										{
+											"key": "date",
+											"value": "{{day_future_30}}"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"id\": 1,\n        \"name\": \"Jornada-adopcion-k3x9a\",\n        \"type\": \"Adopcion\",\n        \"date\": \"2026-11-09T12:00:00.000+00:00\",\n        \"time\": \"10:00\",\n        \"description\": \"Jornada abierta al publico\",\n        \"location\": \"Parque Central\",\n        \"shelter\": {\n            \"id\": 1,\n            \"name\": \"Refugio Pet A k3x9a\",\n            \"city\": \"Bogota\",\n            \"nit\": \"PETA-k3x9a\",\n            \"location\": \"PetA-k3x9a\"\n        }\n    },\n    {\n        \"id\": 3,\n        \"name\": \"Jornada-adopcion-k3x9a\",\n        \"type\": \"Adopcion\",\n        \"date\": \"2026-11-09T12:00:00.000+00:00\",\n        \"time\": \"10:00\",\n        \"description\": \"Jornada abierta al publico\",\n        \"location\": \"Parque Norte\",\n        \"shelter\": {\n            \"id\": 2,\n            \"name\": \"Refugio Pet B k3x9a\",\n            \"city\": \"Medellin\",\n            \"nit\": \"PETB-k3x9a\",\n            \"location\": \"PetB-k3x9a\"\n        }\n    }\n]"
+						}
+					],
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"   pm.response.to.have.status(200);",
+									"});",
+									"pm.test(\"Every result matches the filter(s)\", function () {",
+									"   const data = pm.response.json();",
+									"   pm.expect(data).to.be.an(\"array\");",
+									"   pm.expect(data.every(e => String(e.date).substring(0, 10) === pm.collectionVariables.get(\"day_future_30\"))).to.be.true;",
+									"   const ids = data.map(e => e.id);",
+									"   pm.expect(ids).to.include(Number(pm.collectionVariables.get(\"event_id\")));",
+									"   pm.expect(ids).to.include(Number(pm.collectionVariables.get(\"event_id_3\")));",
+									"   pm.expect(ids).to.not.include(Number(pm.collectionVariables.get(\"event_id_2\")));",
+									"});"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "Obtener un evento por id como filtro",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/events?id={{event_id}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"events"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "{{event_id}}"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Obtener un evento por id como filtro",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/events?id={{event_id}}",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"events"
+									],
+									"query": [
+										{
+											"key": "id",
+											"value": "{{event_id}}"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"id\": 1,\n        \"name\": \"Jornada-adopcion-k3x9a\",\n        \"type\": \"Adopcion\",\n        \"date\": \"2026-11-09T12:00:00.000+00:00\",\n        \"time\": \"10:00\",\n        \"description\": \"Jornada abierta al publico\",\n        \"location\": \"Parque Central\",\n        \"shelter\": {\n            \"id\": 1,\n            \"name\": \"Refugio Pet A k3x9a\",\n            \"city\": \"Bogota\",\n            \"nit\": \"PETA-k3x9a\",\n            \"location\": \"PetA-k3x9a\"\n        }\n    }\n]"
+						}
+					],
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"   pm.response.to.have.status(200);",
+									"});",
+									"pm.test(\"Every result matches the filter(s)\", function () {",
+									"   const data = pm.response.json();",
+									"   pm.expect(data).to.be.an(\"array\");",
+									"   pm.expect(data).to.have.lengthOf(1);",
+									"   pm.expect(data[0].id).to.eql(Number(pm.collectionVariables.get(\"event_id\")));",
+									"});"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "Obtener un evento con id, nombre y fecha que coinciden",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/events?id={{event_id}}&name=Jornada-adopcion-{{run_id}}&date={{day_future_30}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"events"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "{{event_id}}"
+								},
+								{
+									"key": "name",
+									"value": "Jornada-adopcion-{{run_id}}"
+								},
+								{
+									"key": "date",
+									"value": "{{day_future_30}}"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Obtener un evento con id, nombre y fecha que coinciden",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/events?id={{event_id}}&name=Jornada-adopcion-{{run_id}}&date={{day_future_30}}",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"events"
+									],
+									"query": [
+										{
+											"key": "id",
+											"value": "{{event_id}}"
+										},
+										{
+											"key": "name",
+											"value": "Jornada-adopcion-{{run_id}}"
+										},
+										{
+											"key": "date",
+											"value": "{{day_future_30}}"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"id\": 1,\n        \"name\": \"Jornada-adopcion-k3x9a\",\n        \"type\": \"Adopcion\",\n        \"date\": \"2026-11-09T12:00:00.000+00:00\",\n        \"time\": \"10:00\",\n        \"description\": \"Jornada abierta al publico\",\n        \"location\": \"Parque Central\",\n        \"shelter\": {\n            \"id\": 1,\n            \"name\": \"Refugio Pet A k3x9a\",\n            \"city\": \"Bogota\",\n            \"nit\": \"PETA-k3x9a\",\n            \"location\": \"PetA-k3x9a\"\n        }\n    }\n]"
+						}
+					],
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"   pm.response.to.have.status(200);",
+									"});",
+									"pm.test(\"Every result matches the filter(s)\", function () {",
+									"   const data = pm.response.json();",
+									"   pm.expect(data).to.be.an(\"array\");",
+									"   pm.expect(data).to.have.lengthOf(1);",
+									"   pm.expect(data[0].id).to.eql(Number(pm.collectionVariables.get(\"event_id\")));",
+									"});"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "Obtener un evento con nombre y fecha que no coinciden",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/events?name=Jornada-adopcion-{{run_id}}&date={{day_future_60}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"events"
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "Jornada-adopcion-{{run_id}}"
+								},
+								{
+									"key": "date",
+									"value": "{{day_future_60}}"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Obtener un evento con nombre y fecha que no coinciden",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/events?name=Jornada-adopcion-{{run_id}}&date={{day_future_60}}",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"events"
+									],
+									"query": [
+										{
+											"key": "name",
+											"value": "Jornada-adopcion-{{run_id}}"
+										},
+										{
+											"key": "date",
+											"value": "{{day_future_60}}"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "[]"
+						}
+					],
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"   pm.response.to.have.status(200);",
+									"});",
+									"pm.test(\"Every result matches the filter(s)\", function () {",
+									"   const data = pm.response.json();",
+									"   pm.expect(data).to.be.an(\"array\");",
+									"   pm.expect(data).to.have.lengthOf(0);",
+									"});"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "Obtener un evento con id y nombre que no coinciden",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/events?id={{event_id}}&name=Vacunacion-masiva-{{run_id}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"events"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "{{event_id}}"
+								},
+								{
+									"key": "name",
+									"value": "Vacunacion-masiva-{{run_id}}"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Obtener un evento con id y nombre que no coinciden",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/events?id={{event_id}}&name=Vacunacion-masiva-{{run_id}}",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"events"
+									],
+									"query": [
+										{
+											"key": "id",
+											"value": "{{event_id}}"
+										},
+										{
+											"key": "name",
+											"value": "Vacunacion-masiva-{{run_id}}"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "[]"
+						}
+					],
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"   pm.response.to.have.status(200);",
+									"});",
+									"pm.test(\"Every result matches the filter(s)\", function () {",
+									"   const data = pm.response.json();",
+									"   pm.expect(data).to.be.an(\"array\");",
+									"   pm.expect(data).to.have.lengthOf(0);",
+									"});"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "Obtener un evento con un id que no existe como filtro",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/events?id=999999",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"events"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "999999"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Obtener un evento con un id que no existe como filtro",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/events?id=999999",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"events"
+									],
+									"query": [
+										{
+											"key": "id",
+											"value": "999999"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "[]"
+						}
+					],
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"   pm.response.to.have.status(200);",
+									"});",
+									"pm.test(\"Every result matches the filter(s)\", function () {",
+									"   const data = pm.response.json();",
+									"   pm.expect(data).to.be.an(\"array\");",
+									"   pm.expect(data).to.have.lengthOf(0);",
+									"});"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "Obtener eventos con un id invalido como filtro",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/events?id=0",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"events"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "0"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Obtener eventos con un id invalido como filtro",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/events?id=0",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"events"
+									],
+									"query": [
+										{
+											"key": "id",
+											"value": "0"
+										}
+									]
+								}
+							},
+							"status": "Precondition Failed",
+							"code": 412,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"09-10-2026 10:00:00\",\n        \"message\": \"Event id is not valid\"\n    }\n}"
+						}
+					],
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Status code is 412\", function () {",
+									"   pm.response.to.have.status(412);",
+									"});",
+									"pm.test(\"Get expected error message\", function () {",
+									"   const data = pm.response.json();",
+									"   pm.expect(data.apierror.status).to.eql(\"PRECONDITION_FAILED\");",
+									"   pm.expect(data.apierror.message).to.eql(\"Event id is not valid\");",
+									"});"
+								]
+							}
+						}
+					]
+				}
+			],
+			"description": "id, name (sin distinguir mayusculas) y date (mismo dia). Cada filtro se usa solo o combinado; combinados deben coincidir todos."
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"// Fechas relativas a hoy (12:00 UTC para evitar cambios de dia por zona horaria)",
+					"function iso(days) {",
+					"   const n = new Date();",
+					"   return new Date(Date.UTC(n.getUTCFullYear(), n.getUTCMonth(), n.getUTCDate() + days, 12, 0, 0)).toISOString();",
+					"}",
+					"pm.collectionVariables.set(\"d_past_400\", iso(-400));",
+					"pm.collectionVariables.set(\"d_past_100\", iso(-100));",
+					"pm.collectionVariables.set(\"d_past_30\", iso(-30));",
+					"pm.collectionVariables.set(\"d_past_1\", iso(-1));",
+					"pm.collectionVariables.set(\"d_future_1\", iso(1));",
+					"pm.collectionVariables.set(\"d_future_30\", iso(30));",
+					"pm.collectionVariables.set(\"d_future_45\", iso(45));",
+					"pm.collectionVariables.set(\"d_future_60\", iso(60));",
+					"pm.collectionVariables.set(\"d_future_365\", iso(365));",
+					"if (!pm.collectionVariables.get(\"run_id\")) {",
+					"   pm.collectionVariables.set(\"run_id\", Date.now().toString(36));",
+					"}",
+					"pm.collectionVariables.set(\"day_future_30\", iso(30).substring(0, 10));",
+					"pm.collectionVariables.set(\"day_future_60\", iso(60).substring(0, 10));"
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "responsible_user_id",
+			"value": "1"
+		},
+		{
+			"key": "run_id",
+			"value": ""
+		}
+	]
 }

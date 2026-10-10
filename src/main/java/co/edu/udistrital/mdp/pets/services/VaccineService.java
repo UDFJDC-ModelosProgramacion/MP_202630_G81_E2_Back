@@ -13,6 +13,7 @@ import co.edu.udistrital.mdp.pets.entities.VaccineEntity;
 import co.edu.udistrital.mdp.pets.exceptions.EntityNotFoundException;
 import co.edu.udistrital.mdp.pets.exceptions.IllegalOperationException;
 import co.edu.udistrital.mdp.pets.repositories.AdoptionRepository;
+import co.edu.udistrital.mdp.pets.repositories.PetRepository;
 import co.edu.udistrital.mdp.pets.repositories.VaccinationRecordRepository;
 import co.edu.udistrital.mdp.pets.repositories.VaccineRepository;
 import lombok.RequiredArgsConstructor;
@@ -31,6 +32,7 @@ public class VaccineService {
 
 	private final VaccineRepository vaccineRepository;
 	private final VaccinationRecordRepository vaccinationRecordRepository;
+	private final PetRepository petRepository;
 	private final AdoptionRepository adoptionRepository;
 
 	@Transactional
@@ -82,6 +84,40 @@ public class VaccineService {
 			log.info("There are no registered vaccines for this vaccination record");
 
 		return vaccines;
+	}
+
+	@Transactional
+	public List<VaccineEntity> getVaccines(Long vaccinationRecordId, Long petId, Boolean status, String name)
+			throws EntityNotFoundException, IllegalOperationException {
+		if (vaccinationRecordId != null)
+			findVaccinationRecordOrThrow(vaccinationRecordId);
+
+		if (petId != null) {
+			if (petId <= 0)
+				throw new IllegalOperationException("Pet id is not valid");
+			if (petRepository.findById(petId).isEmpty())
+				throw new EntityNotFoundException("Pet not found");
+		}
+
+		List<VaccineEntity> vaccines = vaccineRepository.findAll();
+		vaccines.forEach(this::refreshStatus);
+
+		return vaccines.stream()
+				.filter(v -> vaccinationRecordId == null || (v.getVaccinationRecord() != null
+						&& vaccinationRecordId.equals(v.getVaccinationRecord().getId())))
+				.filter(v -> petId == null || (v.getVaccinationRecord() != null
+						&& v.getVaccinationRecord().getPet() != null
+						&& petId.equals(v.getVaccinationRecord().getPet().getId())))
+				.filter(v -> status == null || status.equals(v.getStatus()))
+				.filter(v -> name == null || (v.getName() != null && name.equalsIgnoreCase(v.getName())))
+				.toList();
+	}
+
+	@Transactional
+	public VaccineEntity getVaccine(Long vaccineId) throws EntityNotFoundException, IllegalOperationException {
+		VaccineEntity vaccine = findVaccineOrThrow(vaccineId);
+		refreshStatus(vaccine);
+		return vaccine;
 	}
 
 	@Transactional

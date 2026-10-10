@@ -34,7 +34,7 @@ public class PetService {
 	private final AdoptionRepository adoptionRepository;
 	
 	private static final String PET_ID_NOT_VALID = "Pet id is not valid";
-	private static final String PET_NOT_FOUND = "Pet not found";
+	private static final String PET_NOT_FOUND = "The pet with the given id was not found";
 
 	@Transactional
 	public PetEntity createPet(PetEntity pet) throws EntityNotFoundException, IllegalOperationException {
@@ -46,7 +46,7 @@ public class PetService {
 			throw new IllegalOperationException("Pet must be associated with an existing shelter");
 		Optional<ShelterEntity> shelter = shelterRepository.findById(pet.getShelter().getId());
 		if (shelter.isEmpty())
-			throw new EntityNotFoundException("Shelter not found");
+			throw new EntityNotFoundException("The shelter with the given id was not found");
 
 		if (pet.getAdmissionDate().after(new Date()))
 			throw new IllegalOperationException("Admission date cannot be a future date");
@@ -55,7 +55,7 @@ public class PetService {
 				: new ArrayList<>(pet.getMedicalEvents());
 		if (arrivalEvents.isEmpty())
 			throw new IllegalOperationException(
-					"A pet must be registered along with at least one medical event describing how it arrived at the shelter");
+					"A pet must be registered with at least one medical event describing its arrival at the shelter");
 
 		pet.setShelter(shelter.get());
 		pet.setMedicalEvents(new ArrayList<>());
@@ -63,7 +63,7 @@ public class PetService {
 		boolean duplicated = petRepository.findAll().stream().anyMatch(p -> isSamePet(p, pet));
 		if (duplicated)
 			throw new IllegalOperationException(
-					"A pet already exists for this shelter with the same name, species and admission date");
+					"A pet with the same shelter, name, species and admission date already exists");
 
 		PetEntity savedPet = petRepository.save(pet);
 
@@ -134,15 +134,14 @@ public class PetService {
 
 		if (pet.getAdmissionDate() != null && current.getAdmissionDate() != null
 				&& !sameDay(pet.getAdmissionDate(), current.getAdmissionDate()))
-			throw new IllegalOperationException(
-					"Admission date cannot be modified once the pet has been created");
+			throw new IllegalOperationException("Admission date cannot be modified");
 
 		ShelterEntity shelter = current.getShelter();
 		if (pet.getShelter() != null && pet.getShelter().getId() != null
 				&& (current.getShelter() == null || !pet.getShelter().getId().equals(current.getShelter().getId()))) {
 			Optional<ShelterEntity> newShelter = shelterRepository.findById(pet.getShelter().getId());
 			if (newShelter.isEmpty())
-				throw new EntityNotFoundException("Shelter not found");
+				throw new EntityNotFoundException("The shelter with the given id was not found");
 			shelter = newShelter.get();
 		}
 
@@ -153,7 +152,7 @@ public class PetService {
 				.filter(p -> !p.getId().equals(petId))
 				.anyMatch(p -> isSamePet(p, pet));
 		if (duplicated)
-			throw new IllegalOperationException("A pet already exists for this shelter with the same name, species and admission date");
+			throw new IllegalOperationException("A pet with the same shelter, name, species and admission date already exists");
 
 		pet.setId(petId);
 		pet.setMedicalEvents(current.getMedicalEvents());
@@ -183,7 +182,7 @@ public class PetService {
 			throw new IllegalOperationException("A pet with an active adoption or trial cohabitation cannot be deleted");
 
 		if (hasAssociatedHistory(petEntity))
-			throw new IllegalOperationException("A pet with associated history cannot be deleted, in order to maintain traceability");
+			throw new IllegalOperationException("A pet with associated history cannot be deleted");
 
 		petRepository.deleteById(petId);
 		log.info("Finish the process of deleting the pet with id = {}", petId);
@@ -227,7 +226,7 @@ public class PetService {
 
 	private void validateIdentity(PetEntity pet) throws IllegalOperationException {
 		if (pet.getName() == null || pet.getName().isBlank())
-			throw new IllegalOperationException("Name cannot be null or empty");
+			throw new IllegalOperationException("Pet name cannot be null or empty");
 		if (pet.getSpecies() == null || pet.getSpecies().isBlank())
 			throw new IllegalOperationException("Species cannot be null or empty");
 		if (pet.getBreed() == null || pet.getBreed().isBlank())
