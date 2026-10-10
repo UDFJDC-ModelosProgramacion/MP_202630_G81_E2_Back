@@ -29,7 +29,7 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/followUps")
+@RequestMapping("/adoptions/{adoptionId}/followUps")
 public class FollowUpController {
 
     private final FollowUpService followUpService;
@@ -48,55 +48,50 @@ public class FollowUpController {
         modelMapper.addConverter(adoptionToDto, AdoptionEntity.class, AdoptionDTO.class);
     }
 
-    // FindAll method with optional adoption filter
     @GetMapping
     @ResponseStatus(code = HttpStatus.OK)
-    public List<FollowUpDTO> findAll(@RequestParam(required = false) Long adoptionId) {
-        List<FollowUpEntity> followUps = (adoptionId == null) ? followUpService.getFollowUps()
-                : followUpService.getFollowUps(adoptionId);
+    public List<FollowUpDTO> getFollowUps(@PathVariable Long adoptionId)
+            throws EntityNotFoundException, IllegalOperationException {
+        List<FollowUpEntity> followUps = followUpService.getAdoptionFollowUps(adoptionId);
         return modelMapper.map(followUps, new TypeToken<List<FollowUpDTO>>() {
         }.getType());
     }
 
-    // findOne method with optional access-control parameters
-    @GetMapping(value = "/{id}")
+    @GetMapping(value = "/{followUpId}")
     @ResponseStatus(code = HttpStatus.OK)
-    public FollowUpDTO findOne(@PathVariable Long id, @RequestParam(required = false) Long requesterId,
-            @RequestParam(required = false) String role) throws EntityNotFoundException, IllegalOperationException {
-        FollowUpEntity followUpEntity;
+    public FollowUpDTO getFollowUp(@PathVariable Long adoptionId, @PathVariable Long followUpId,
+            @RequestParam(required = false) Long requesterId, @RequestParam(required = false) String role)
+            throws EntityNotFoundException, IllegalOperationException {
+        FollowUpEntity followUpEntity = followUpService.getAdoptionFollowUp(adoptionId, followUpId);
         if (role != null)
-            followUpEntity = followUpService.getFollowUp(id, requesterId, role);
+            followUpEntity = followUpService.getFollowUp(followUpId, requesterId, role);
         else if (requesterId != null)
-            followUpEntity = followUpService.getFollowUp(id, requesterId);
-        else
-            followUpEntity = followUpService.getFollowUp(id);
+            followUpEntity = followUpService.getFollowUp(followUpId, requesterId);
         return modelMapper.map(followUpEntity, FollowUpDTO.class);
     }
 
-    // create method
     @PostMapping
     @ResponseStatus(code = HttpStatus.CREATED)
-    public FollowUpDTO create(@RequestBody FollowUpDTO followUpDTO)
+    public FollowUpDTO createFollowUp(@PathVariable Long adoptionId, @RequestBody FollowUpDTO followUpDTO)
             throws EntityNotFoundException, IllegalOperationException {
-        FollowUpEntity followUpEntity = followUpService
-                .createFollowUp(modelMapper.map(followUpDTO, FollowUpEntity.class));
-        return modelMapper.map(followUpEntity, FollowUpDTO.class);
-    }
-
-    // update method
-    @PutMapping(value = "/{id}")
-    @ResponseStatus(code = HttpStatus.OK)
-    public FollowUpDTO update(@PathVariable Long id, @RequestBody FollowUpDTO followUpDTO)
-            throws EntityNotFoundException, IllegalOperationException {
-        FollowUpEntity followUpEntity = followUpService.updateFollowUp(id,
+        FollowUpEntity followUpEntity = followUpService.createAdoptionFollowUp(adoptionId,
                 modelMapper.map(followUpDTO, FollowUpEntity.class));
         return modelMapper.map(followUpEntity, FollowUpDTO.class);
     }
 
-    // delete method
-    @DeleteMapping(value = "/{id}")
+    @PutMapping(value = "/{followUpId}")
+    @ResponseStatus(code = HttpStatus.OK)
+    public FollowUpDTO updateFollowUp(@PathVariable Long adoptionId, @PathVariable Long followUpId,
+            @RequestBody FollowUpDTO followUpDTO) throws EntityNotFoundException, IllegalOperationException {
+        FollowUpEntity followUpEntity = followUpService.updateAdoptionFollowUp(adoptionId, followUpId,
+                modelMapper.map(followUpDTO, FollowUpEntity.class));
+        return modelMapper.map(followUpEntity, FollowUpDTO.class);
+    }
+
+    @DeleteMapping(value = "/{followUpId}")
     @ResponseStatus(code = HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable Long id) throws EntityNotFoundException, IllegalOperationException {
-        followUpService.deleteFollowUp(id);
+    public void deleteFollowUp(@PathVariable Long adoptionId, @PathVariable Long followUpId)
+            throws EntityNotFoundException, IllegalOperationException {
+        followUpService.deleteAdoptionFollowUp(adoptionId, followUpId);
     }
 }

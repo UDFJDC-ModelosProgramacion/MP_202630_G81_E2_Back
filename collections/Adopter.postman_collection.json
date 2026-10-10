@@ -85,7 +85,7 @@
             "exec": [
               "var id = pm.response.json().id;",
               "pm.test(\"Response has id\", function () { pm.expect(id).to.not.be.undefined; });",
-              "pm.environment.set(\"adopter_id_1\", id);",
+              "pm.collectionVariables.set(\"adopter_id_1\", id);",
               "",
               "",
               ""
@@ -3028,7 +3028,7 @@
   "variable": [
     {
       "key": "adopter_id_1",
-      "value": "1"
+      "value": "2"
     },
     {
       "key": "adopter_id_2",

@@ -27,7 +27,7 @@
         },
         "body": {
           "mode": "raw",
-          "raw": "{\n    \"startDate\": \"2026-10-20T00:00:00-05:00\",\n    \"endDate\": \"2026-12-20T00:00:00-05:00\",\n    \"status\": \"PENDING\",\n    \"observations\": \"Periodo de adaptacion\",\n    \"adopter\": {\n        \"id\": \"{{adopter_id_1}}\"\n    },\n    \"shelter\": {\n        \"id\": \"{{shelter_id_1}}\"\n    },\n    \"trialCohabitationRequest\": {\n        \"id\": \"{{trial_request_id_1}}\"\n    }\n}",
+          "raw": "{\n    \"startDate\": \"{{future_date}}\",\n    \"endDate\": \"2026-12-20T00:00:00-05:00\",\n    \"status\": \"PENDING\",\n    \"observations\": \"Periodo de adaptacion\",\n    \"adopter\": {\n        \"id\": \"{{adopter_id_1}}\"\n    },\n    \"shelter\": {\n        \"id\": \"{{shelter_id_1}}\"\n    },\n    \"trialCohabitationRequest\": {\n        \"id\": \"{{trial_request_id_1}}\"\n    }\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -57,7 +57,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"startDate\": \"2026-10-20T00:00:00-05:00\",\n    \"endDate\": \"2026-12-20T00:00:00-05:00\",\n    \"status\": \"PENDING\",\n    \"observations\": \"Periodo de adaptacion\",\n    \"adopter\": {\n        \"id\": \"{{adopter_id_1}}\"\n    },\n    \"shelter\": {\n        \"id\": \"{{shelter_id_1}}\"\n    },\n    \"trialCohabitationRequest\": {\n        \"id\": \"{{trial_request_id_1}}\"\n    }\n}",
+              "raw": "{\n    \"startDate\": \"{{future_date}}\",\n    \"endDate\": \"2026-12-20T00:00:00-05:00\",\n    \"status\": \"PENDING\",\n    \"observations\": \"Periodo de adaptacion\",\n    \"adopter\": {\n        \"id\": \"{{adopter_id_1}}\"\n    },\n    \"shelter\": {\n        \"id\": \"{{shelter_id_1}}\"\n    },\n    \"trialCohabitationRequest\": {\n        \"id\": \"{{trial_request_id_1}}\"\n    }\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -85,7 +85,7 @@
             "exec": [
               "var id = pm.response.json().id;",
               "pm.test(\"Response has id\", function () { pm.expect(id).to.not.be.undefined; });",
-              "pm.environment.set(\"trial_id_1\", id);",
+              "pm.collectionVariables.set(\"trial_id_1\", id);",
               "",
               "",
               ""
@@ -278,7 +278,7 @@
         },
         "body": {
           "mode": "raw",
-          "raw": "{\n    \"startDate\": \"2026-10-20T00:00:00-05:00\",\n    \"endDate\": \"2026-12-20T00:00:00-05:00\",\n    \"status\": \"PENDING\",\n    \"observations\": \"Periodo de adaptacion\",\n    \"adopter\": null,\n    \"shelter\": {\n        \"id\": \"{{shelter_id_1}}\"\n    },\n    \"trialCohabitationRequest\": {\n        \"id\": \"{{trial_request_id_1}}\"\n    }\n}",
+          "raw": "{\n    \"startDate\": \"{{future_date}}\",\n    \"endDate\": \"2026-12-20T00:00:00-05:00\",\n    \"status\": \"PENDING\",\n    \"observations\": \"Periodo de adaptacion\",\n    \"adopter\": null,\n    \"shelter\": {\n        \"id\": \"{{shelter_id_1}}\"\n    },\n    \"trialCohabitationRequest\": {\n        \"id\": \"{{trial_request_id_1}}\"\n    }\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -308,7 +308,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"startDate\": \"2026-10-20T00:00:00-05:00\",\n    \"endDate\": \"2026-12-20T00:00:00-05:00\",\n    \"status\": \"PENDING\",\n    \"observations\": \"Periodo de adaptacion\",\n    \"adopter\": null,\n    \"shelter\": {\n        \"id\": \"{{shelter_id_1}}\"\n    },\n    \"trialCohabitationRequest\": {\n        \"id\": \"{{trial_request_id_1}}\"\n    }\n}",
+              "raw": "{\n    \"startDate\": \"{{future_date}}\",\n    \"endDate\": \"2026-12-20T00:00:00-05:00\",\n    \"status\": \"PENDING\",\n    \"observations\": \"Periodo de adaptacion\",\n    \"adopter\": null,\n    \"shelter\": {\n        \"id\": \"{{shelter_id_1}}\"\n    },\n    \"trialCohabitationRequest\": {\n        \"id\": \"{{trial_request_id_1}}\"\n    }\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -359,7 +359,7 @@
         },
         "body": {
           "mode": "raw",
-          "raw": "{\n    \"startDate\": \"2026-10-20T00:00:00-05:00\",\n    \"endDate\": \"2026-12-20T00:00:00-05:00\",\n    \"status\": \"PENDING\",\n    \"observations\": \"Periodo de adaptacion\",\n    \"adopter\": {\n        \"id\": \"{{adopter_id_1}}\"\n    },\n    \"shelter\": null,\n    \"trialCohabitationRequest\": {\n        \"id\": \"{{trial_request_id_1}}\"\n    }\n}",
+          "raw": "{\n    \"startDate\": \"{{future_date}}\",\n    \"endDate\": \"2026-12-20T00:00:00-05:00\",\n    \"status\": \"PENDING\",\n    \"observations\": \"Periodo de adaptacion\",\n    \"adopter\": {\n        \"id\": \"{{adopter_id_1}}\"\n    },\n    \"shelter\": null,\n    \"trialCohabitationRequest\": {\n        \"id\": \"{{trial_request_id_1}}\"\n    }\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -389,7 +389,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"startDate\": \"2026-10-20T00:00:00-05:00\",\n    \"endDate\": \"2026-12-20T00:00:00-05:00\",\n    \"status\": \"PENDING\",\n    \"observations\": \"Periodo de adaptacion\",\n    \"adopter\": {\n        \"id\": \"{{adopter_id_1}}\"\n    },\n    \"shelter\": null,\n    \"trialCohabitationRequest\": {\n        \"id\": \"{{trial_request_id_1}}\"\n    }\n}",
+              "raw": "{\n    \"startDate\": \"{{future_date}}\",\n    \"endDate\": \"2026-12-20T00:00:00-05:00\",\n    \"status\": \"PENDING\",\n    \"observations\": \"Periodo de adaptacion\",\n    \"adopter\": {\n        \"id\": \"{{adopter_id_1}}\"\n    },\n    \"shelter\": null,\n    \"trialCohabitationRequest\": {\n        \"id\": \"{{trial_request_id_1}}\"\n    }\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -440,7 +440,7 @@
         },
         "body": {
           "mode": "raw",
-          "raw": "{\n    \"startDate\": \"2026-10-20T00:00:00-05:00\",\n    \"endDate\": \"2026-12-20T00:00:00-05:00\",\n    \"status\": \"PENDING\",\n    \"observations\": \"Periodo de adaptacion\",\n    \"adopter\": {\n        \"id\": \"{{adopter_id_1}}\"\n    },\n    \"shelter\": {\n        \"id\": \"{{shelter_id_1}}\"\n    },\n    \"trialCohabitationRequest\": null\n}",
+          "raw": "{\n    \"startDate\": \"{{future_date}}\",\n    \"endDate\": \"2026-12-20T00:00:00-05:00\",\n    \"status\": \"PENDING\",\n    \"observations\": \"Periodo de adaptacion\",\n    \"adopter\": {\n        \"id\": \"{{adopter_id_1}}\"\n    },\n    \"shelter\": {\n        \"id\": \"{{shelter_id_1}}\"\n    },\n    \"trialCohabitationRequest\": null\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -470,7 +470,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"startDate\": \"2026-10-20T00:00:00-05:00\",\n    \"endDate\": \"2026-12-20T00:00:00-05:00\",\n    \"status\": \"PENDING\",\n    \"observations\": \"Periodo de adaptacion\",\n    \"adopter\": {\n        \"id\": \"{{adopter_id_1}}\"\n    },\n    \"shelter\": {\n        \"id\": \"{{shelter_id_1}}\"\n    },\n    \"trialCohabitationRequest\": null\n}",
+              "raw": "{\n    \"startDate\": \"{{future_date}}\",\n    \"endDate\": \"2026-12-20T00:00:00-05:00\",\n    \"status\": \"PENDING\",\n    \"observations\": \"Periodo de adaptacion\",\n    \"adopter\": {\n        \"id\": \"{{adopter_id_1}}\"\n    },\n    \"shelter\": {\n        \"id\": \"{{shelter_id_1}}\"\n    },\n    \"trialCohabitationRequest\": null\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -521,7 +521,7 @@
         },
         "body": {
           "mode": "raw",
-          "raw": "{\n    \"startDate\": \"2026-10-20T00:00:00-05:00\",\n    \"endDate\": \"2026-12-20T00:00:00-05:00\",\n    \"status\": \"PENDING\",\n    \"observations\": \"Periodo de adaptacion\",\n    \"adopter\": {\n        \"id\": 0\n    },\n    \"shelter\": {\n        \"id\": \"{{shelter_id_1}}\"\n    },\n    \"trialCohabitationRequest\": {\n        \"id\": \"{{trial_request_id_1}}\"\n    }\n}",
+          "raw": "{\n    \"startDate\": \"{{future_date}}\",\n    \"endDate\": \"2026-12-20T00:00:00-05:00\",\n    \"status\": \"PENDING\",\n    \"observations\": \"Periodo de adaptacion\",\n    \"adopter\": {\n        \"id\": 0\n    },\n    \"shelter\": {\n        \"id\": \"{{shelter_id_1}}\"\n    },\n    \"trialCohabitationRequest\": {\n        \"id\": \"{{trial_request_id_1}}\"\n    }\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -551,7 +551,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"startDate\": \"2026-10-20T00:00:00-05:00\",\n    \"endDate\": \"2026-12-20T00:00:00-05:00\",\n    \"status\": \"PENDING\",\n    \"observations\": \"Periodo de adaptacion\",\n    \"adopter\": {\n        \"id\": 0\n    },\n    \"shelter\": {\n        \"id\": \"{{shelter_id_1}}\"\n    },\n    \"trialCohabitationRequest\": {\n        \"id\": \"{{trial_request_id_1}}\"\n    }\n}",
+              "raw": "{\n    \"startDate\": \"{{future_date}}\",\n    \"endDate\": \"2026-12-20T00:00:00-05:00\",\n    \"status\": \"PENDING\",\n    \"observations\": \"Periodo de adaptacion\",\n    \"adopter\": {\n        \"id\": 0\n    },\n    \"shelter\": {\n        \"id\": \"{{shelter_id_1}}\"\n    },\n    \"trialCohabitationRequest\": {\n        \"id\": \"{{trial_request_id_1}}\"\n    }\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -602,7 +602,7 @@
         },
         "body": {
           "mode": "raw",
-          "raw": "{\n    \"startDate\": \"2026-10-20T00:00:00-05:00\",\n    \"endDate\": \"2026-12-20T00:00:00-05:00\",\n    \"status\": \"PENDING\",\n    \"observations\": \"Periodo de adaptacion\",\n    \"adopter\": {\n        \"id\": \"{{adopter_id_1}}\"\n    },\n    \"shelter\": {\n        \"id\": 0\n    },\n    \"trialCohabitationRequest\": {\n        \"id\": \"{{trial_request_id_1}}\"\n    }\n}",
+          "raw": "{\n    \"startDate\": \"{{future_date}}\",\n    \"endDate\": \"2026-12-20T00:00:00-05:00\",\n    \"status\": \"PENDING\",\n    \"observations\": \"Periodo de adaptacion\",\n    \"adopter\": {\n        \"id\": \"{{adopter_id_1}}\"\n    },\n    \"shelter\": {\n        \"id\": 0\n    },\n    \"trialCohabitationRequest\": {\n        \"id\": \"{{trial_request_id_1}}\"\n    }\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -632,7 +632,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"startDate\": \"2026-10-20T00:00:00-05:00\",\n    \"endDate\": \"2026-12-20T00:00:00-05:00\",\n    \"status\": \"PENDING\",\n    \"observations\": \"Periodo de adaptacion\",\n    \"adopter\": {\n        \"id\": \"{{adopter_id_1}}\"\n    },\n    \"shelter\": {\n        \"id\": 0\n    },\n    \"trialCohabitationRequest\": {\n        \"id\": \"{{trial_request_id_1}}\"\n    }\n}",
+              "raw": "{\n    \"startDate\": \"{{future_date}}\",\n    \"endDate\": \"2026-12-20T00:00:00-05:00\",\n    \"status\": \"PENDING\",\n    \"observations\": \"Periodo de adaptacion\",\n    \"adopter\": {\n        \"id\": \"{{adopter_id_1}}\"\n    },\n    \"shelter\": {\n        \"id\": 0\n    },\n    \"trialCohabitationRequest\": {\n        \"id\": \"{{trial_request_id_1}}\"\n    }\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -683,7 +683,7 @@
         },
         "body": {
           "mode": "raw",
-          "raw": "{\n    \"startDate\": \"2026-10-20T00:00:00-05:00\",\n    \"endDate\": \"2026-12-20T00:00:00-05:00\",\n    \"status\": \"PENDING\",\n    \"observations\": \"Periodo de adaptacion\",\n    \"adopter\": {\n        \"id\": \"{{adopter_id_1}}\"\n    },\n    \"shelter\": {\n        \"id\": \"{{shelter_id_1}}\"\n    },\n    \"trialCohabitationRequest\": {\n        \"id\": 0\n    }\n}",
+          "raw": "{\n    \"startDate\": \"{{future_date}}\",\n    \"endDate\": \"2026-12-20T00:00:00-05:00\",\n    \"status\": \"PENDING\",\n    \"observations\": \"Periodo de adaptacion\",\n    \"adopter\": {\n        \"id\": \"{{adopter_id_1}}\"\n    },\n    \"shelter\": {\n        \"id\": \"{{shelter_id_1}}\"\n    },\n    \"trialCohabitationRequest\": {\n        \"id\": 0\n    }\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -713,7 +713,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"startDate\": \"2026-10-20T00:00:00-05:00\",\n    \"endDate\": \"2026-12-20T00:00:00-05:00\",\n    \"status\": \"PENDING\",\n    \"observations\": \"Periodo de adaptacion\",\n    \"adopter\": {\n        \"id\": \"{{adopter_id_1}}\"\n    },\n    \"shelter\": {\n        \"id\": \"{{shelter_id_1}}\"\n    },\n    \"trialCohabitationRequest\": {\n        \"id\": 0\n    }\n}",
+              "raw": "{\n    \"startDate\": \"{{future_date}}\",\n    \"endDate\": \"2026-12-20T00:00:00-05:00\",\n    \"status\": \"PENDING\",\n    \"observations\": \"Periodo de adaptacion\",\n    \"adopter\": {\n        \"id\": \"{{adopter_id_1}}\"\n    },\n    \"shelter\": {\n        \"id\": \"{{shelter_id_1}}\"\n    },\n    \"trialCohabitationRequest\": {\n        \"id\": 0\n    }\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -764,7 +764,7 @@
         },
         "body": {
           "mode": "raw",
-          "raw": "{\n    \"startDate\": \"2026-10-20T00:00:00-05:00\",\n    \"endDate\": \"2026-12-20T00:00:00-05:00\",\n    \"status\": \"IN_PROGRESS\",\n    \"observations\": \"Periodo de adaptacion\",\n    \"adopter\": {\n        \"id\": \"{{adopter_id_1}}\"\n    },\n    \"shelter\": {\n        \"id\": \"{{shelter_id_1}}\"\n    },\n    \"trialCohabitationRequest\": {\n        \"id\": \"{{trial_request_existing}}\"\n    }\n}",
+          "raw": "{\n    \"startDate\": \"{{future_date}}\",\n    \"endDate\": \"2026-12-20T00:00:00-05:00\",\n    \"status\": \"IN_PROGRESS\",\n    \"observations\": \"Periodo de adaptacion\",\n    \"adopter\": {\n        \"id\": \"{{adopter_id_1}}\"\n    },\n    \"shelter\": {\n        \"id\": \"{{shelter_id_1}}\"\n    },\n    \"trialCohabitationRequest\": {\n        \"id\": \"{{trial_request_existing}}\"\n    }\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -794,7 +794,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"startDate\": \"2026-10-20T00:00:00-05:00\",\n    \"endDate\": \"2026-12-20T00:00:00-05:00\",\n    \"status\": \"IN_PROGRESS\",\n    \"observations\": \"Periodo de adaptacion\",\n    \"adopter\": {\n        \"id\": \"{{adopter_id_1}}\"\n    },\n    \"shelter\": {\n        \"id\": \"{{shelter_id_1}}\"\n    },\n    \"trialCohabitationRequest\": {\n        \"id\": \"{{trial_request_existing}}\"\n    }\n}",
+              "raw": "{\n    \"startDate\": \"{{future_date}}\",\n    \"endDate\": \"2026-12-20T00:00:00-05:00\",\n    \"status\": \"IN_PROGRESS\",\n    \"observations\": \"Periodo de adaptacion\",\n    \"adopter\": {\n        \"id\": \"{{adopter_id_1}}\"\n    },\n    \"shelter\": {\n        \"id\": \"{{shelter_id_1}}\"\n    },\n    \"trialCohabitationRequest\": {\n        \"id\": \"{{trial_request_existing}}\"\n    }\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -994,7 +994,7 @@
               "query": [
                 {
                   "key": "startDate",
-                  "value": "2026-10-20T00:00:00-05:00"
+                  "value": "{{future_date}}"
                 },
                 {
                   "key": "endDate",
@@ -1080,7 +1080,7 @@
                 },
                 {
                   "key": "startDate",
-                  "value": "2026-10-20T00:00:00-05:00"
+                  "value": "{{future_date}}"
                 },
                 {
                   "key": "endDate",
@@ -1378,7 +1378,7 @@
         },
         "body": {
           "mode": "raw",
-          "raw": "{\n    \"startDate\": \"2026-10-20T00:00:00-05:00\",\n    \"endDate\": \"2026-12-20T00:00:00-05:00\",\n    \"status\": \"IN_PROGRESS\",\n    \"observations\": \"Observacion actualizada\",\n    \"adopter\": {\n        \"id\": \"{{adopter_id_1}}\"\n    },\n    \"shelter\": {\n        \"id\": \"{{shelter_id_1}}\"\n    },\n    \"trialCohabitationRequest\": {\n        \"id\": \"{{trial_request_id_1}}\"\n    }\n}",
+          "raw": "{\n    \"startDate\": \"{{future_date}}\",\n    \"endDate\": \"2026-12-20T00:00:00-05:00\",\n    \"status\": \"IN_PROGRESS\",\n    \"observations\": \"Observacion actualizada\",\n    \"adopter\": {\n        \"id\": \"{{adopter_id_1}}\"\n    },\n    \"shelter\": {\n        \"id\": \"{{shelter_id_1}}\"\n    },\n    \"trialCohabitationRequest\": {\n        \"id\": \"{{trial_request_id_1}}\"\n    }\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -1409,7 +1409,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"startDate\": \"2026-10-20T00:00:00-05:00\",\n    \"endDate\": \"2026-12-20T00:00:00-05:00\",\n    \"status\": \"IN_PROGRESS\",\n    \"observations\": \"Observacion actualizada\",\n    \"adopter\": {\n        \"id\": \"{{adopter_id_1}}\"\n    },\n    \"shelter\": {\n        \"id\": \"{{shelter_id_1}}\"\n    },\n    \"trialCohabitationRequest\": {\n        \"id\": \"{{trial_request_id_1}}\"\n    }\n}",
+              "raw": "{\n    \"startDate\": \"{{future_date}}\",\n    \"endDate\": \"2026-12-20T00:00:00-05:00\",\n    \"status\": \"IN_PROGRESS\",\n    \"observations\": \"Observacion actualizada\",\n    \"adopter\": {\n        \"id\": \"{{adopter_id_1}}\"\n    },\n    \"shelter\": {\n        \"id\": \"{{shelter_id_1}}\"\n    },\n    \"trialCohabitationRequest\": {\n        \"id\": \"{{trial_request_id_1}}\"\n    }\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -1466,7 +1466,7 @@
         },
         "body": {
           "mode": "raw",
-          "raw": "{\n    \"startDate\": \"2026-10-20T00:00:00-05:00\",\n    \"endDate\": \"2026-12-20T00:00:00-05:00\",\n    \"status\": \"PENDING\",\n    \"observations\": \"Periodo de adaptacion\",\n    \"adopter\": {\n        \"id\": \"{{adopter_id_1}}\"\n    },\n    \"shelter\": {\n        \"id\": \"{{shelter_id_1}}\"\n    },\n    \"trialCohabitationRequest\": {\n        \"id\": \"{{trial_request_id_1}}\"\n    }\n}",
+          "raw": "{\n    \"startDate\": \"{{future_date}}\",\n    \"endDate\": \"2026-12-20T00:00:00-05:00\",\n    \"status\": \"PENDING\",\n    \"observations\": \"Periodo de adaptacion\",\n    \"adopter\": {\n        \"id\": \"{{adopter_id_1}}\"\n    },\n    \"shelter\": {\n        \"id\": \"{{shelter_id_1}}\"\n    },\n    \"trialCohabitationRequest\": {\n        \"id\": \"{{trial_request_id_1}}\"\n    }\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -1497,7 +1497,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"startDate\": \"2026-10-20T00:00:00-05:00\",\n    \"endDate\": \"2026-12-20T00:00:00-05:00\",\n    \"status\": \"PENDING\",\n    \"observations\": \"Periodo de adaptacion\",\n    \"adopter\": {\n        \"id\": \"{{adopter_id_1}}\"\n    },\n    \"shelter\": {\n        \"id\": \"{{shelter_id_1}}\"\n    },\n    \"trialCohabitationRequest\": {\n        \"id\": \"{{trial_request_id_1}}\"\n    }\n}",
+              "raw": "{\n    \"startDate\": \"{{future_date}}\",\n    \"endDate\": \"2026-12-20T00:00:00-05:00\",\n    \"status\": \"PENDING\",\n    \"observations\": \"Periodo de adaptacion\",\n    \"adopter\": {\n        \"id\": \"{{adopter_id_1}}\"\n    },\n    \"shelter\": {\n        \"id\": \"{{shelter_id_1}}\"\n    },\n    \"trialCohabitationRequest\": {\n        \"id\": \"{{trial_request_id_1}}\"\n    }\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -1549,7 +1549,7 @@
         },
         "body": {
           "mode": "raw",
-          "raw": "{\n    \"startDate\": \"2026-10-20T00:00:00-05:00\",\n    \"endDate\": \"2026-12-20T00:00:00-05:00\",\n    \"status\": \"PENDING\",\n    \"observations\": \"Periodo de adaptacion\",\n    \"adopter\": {\n        \"id\": \"{{adopter_id_1}}\"\n    },\n    \"shelter\": {\n        \"id\": \"{{shelter_id_1}}\"\n    },\n    \"trialCohabitationRequest\": {\n        \"id\": \"{{trial_request_id_1}}\"\n    }\n}",
+          "raw": "{\n    \"startDate\": \"{{future_date}}\",\n    \"endDate\": \"2026-12-20T00:00:00-05:00\",\n    \"status\": \"PENDING\",\n    \"observations\": \"Periodo de adaptacion\",\n    \"adopter\": {\n        \"id\": \"{{adopter_id_1}}\"\n    },\n    \"shelter\": {\n        \"id\": \"{{shelter_id_1}}\"\n    },\n    \"trialCohabitationRequest\": {\n        \"id\": \"{{trial_request_id_1}}\"\n    }\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -1580,7 +1580,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"startDate\": \"2026-10-20T00:00:00-05:00\",\n    \"endDate\": \"2026-12-20T00:00:00-05:00\",\n    \"status\": \"PENDING\",\n    \"observations\": \"Periodo de adaptacion\",\n    \"adopter\": {\n        \"id\": \"{{adopter_id_1}}\"\n    },\n    \"shelter\": {\n        \"id\": \"{{shelter_id_1}}\"\n    },\n    \"trialCohabitationRequest\": {\n        \"id\": \"{{trial_request_id_1}}\"\n    }\n}",
+              "raw": "{\n    \"startDate\": \"{{future_date}}\",\n    \"endDate\": \"2026-12-20T00:00:00-05:00\",\n    \"status\": \"PENDING\",\n    \"observations\": \"Periodo de adaptacion\",\n    \"adopter\": {\n        \"id\": \"{{adopter_id_1}}\"\n    },\n    \"shelter\": {\n        \"id\": \"{{shelter_id_1}}\"\n    },\n    \"trialCohabitationRequest\": {\n        \"id\": \"{{trial_request_id_1}}\"\n    }\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -1632,7 +1632,7 @@
         },
         "body": {
           "mode": "raw",
-          "raw": "{\n    \"startDate\": \"2026-10-20T00:00:00-05:00\",\n    \"endDate\": \"2026-12-20T00:00:00-05:00\",\n    \"status\": \"IN_PROGRESS\",\n    \"observations\": \"Periodo de adaptacion\",\n    \"adopter\": {\n        \"id\": \"{{adopter_id_1}}\"\n    },\n    \"shelter\": {\n        \"id\": \"{{shelter_id_1}}\"\n    },\n    \"trialCohabitationRequest\": {\n        \"id\": \"{{trial_request_final}}\"\n    }\n}",
+          "raw": "{\n    \"startDate\": \"{{future_date}}\",\n    \"endDate\": \"2026-12-20T00:00:00-05:00\",\n    \"status\": \"IN_PROGRESS\",\n    \"observations\": \"Periodo de adaptacion\",\n    \"adopter\": {\n        \"id\": \"{{adopter_id_1}}\"\n    },\n    \"shelter\": {\n        \"id\": \"{{shelter_id_1}}\"\n    },\n    \"trialCohabitationRequest\": {\n        \"id\": \"{{trial_request_final}}\"\n    }\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -1663,7 +1663,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"startDate\": \"2026-10-20T00:00:00-05:00\",\n    \"endDate\": \"2026-12-20T00:00:00-05:00\",\n    \"status\": \"IN_PROGRESS\",\n    \"observations\": \"Periodo de adaptacion\",\n    \"adopter\": {\n        \"id\": \"{{adopter_id_1}}\"\n    },\n    \"shelter\": {\n        \"id\": \"{{shelter_id_1}}\"\n    },\n    \"trialCohabitationRequest\": {\n        \"id\": \"{{trial_request_final}}\"\n    }\n}",
+              "raw": "{\n    \"startDate\": \"{{future_date}}\",\n    \"endDate\": \"2026-12-20T00:00:00-05:00\",\n    \"status\": \"IN_PROGRESS\",\n    \"observations\": \"Periodo de adaptacion\",\n    \"adopter\": {\n        \"id\": \"{{adopter_id_1}}\"\n    },\n    \"shelter\": {\n        \"id\": \"{{shelter_id_1}}\"\n    },\n    \"trialCohabitationRequest\": {\n        \"id\": \"{{trial_request_final}}\"\n    }\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -1798,7 +1798,7 @@
         },
         "body": {
           "mode": "raw",
-          "raw": "{\n    \"startDate\": \"2026-10-20T00:00:00-05:00\",\n    \"endDate\": null,\n    \"status\": \"PENDING\",\n    \"observations\": \"Periodo de adaptacion\",\n    \"adopter\": {\n        \"id\": \"{{adopter_id_1}}\"\n    },\n    \"shelter\": {\n        \"id\": \"{{shelter_id_1}}\"\n    },\n    \"trialCohabitationRequest\": {\n        \"id\": \"{{trial_request_id_1}}\"\n    }\n}",
+          "raw": "{\n    \"startDate\": \"{{future_date}}\",\n    \"endDate\": null,\n    \"status\": \"PENDING\",\n    \"observations\": \"Periodo de adaptacion\",\n    \"adopter\": {\n        \"id\": \"{{adopter_id_1}}\"\n    },\n    \"shelter\": {\n        \"id\": \"{{shelter_id_1}}\"\n    },\n    \"trialCohabitationRequest\": {\n        \"id\": \"{{trial_request_id_1}}\"\n    }\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -1829,7 +1829,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"startDate\": \"2026-10-20T00:00:00-05:00\",\n    \"endDate\": null,\n    \"status\": \"PENDING\",\n    \"observations\": \"Periodo de adaptacion\",\n    \"adopter\": {\n        \"id\": \"{{adopter_id_1}}\"\n    },\n    \"shelter\": {\n        \"id\": \"{{shelter_id_1}}\"\n    },\n    \"trialCohabitationRequest\": {\n        \"id\": \"{{trial_request_id_1}}\"\n    }\n}",
+              "raw": "{\n    \"startDate\": \"{{future_date}}\",\n    \"endDate\": null,\n    \"status\": \"PENDING\",\n    \"observations\": \"Periodo de adaptacion\",\n    \"adopter\": {\n        \"id\": \"{{adopter_id_1}}\"\n    },\n    \"shelter\": {\n        \"id\": \"{{shelter_id_1}}\"\n    },\n    \"trialCohabitationRequest\": {\n        \"id\": \"{{trial_request_id_1}}\"\n    }\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -1881,7 +1881,7 @@
         },
         "body": {
           "mode": "raw",
-          "raw": "{\n    \"startDate\": \"2026-10-20T00:00:00-05:00\",\n    \"endDate\": \"2026-12-20T00:00:00-05:00\",\n    \"status\": null,\n    \"observations\": \"Periodo de adaptacion\",\n    \"adopter\": {\n        \"id\": \"{{adopter_id_1}}\"\n    },\n    \"shelter\": {\n        \"id\": \"{{shelter_id_1}}\"\n    },\n    \"trialCohabitationRequest\": {\n        \"id\": \"{{trial_request_id_1}}\"\n    }\n}",
+          "raw": "{\n    \"startDate\": \"{{future_date}}\",\n    \"endDate\": \"2026-12-20T00:00:00-05:00\",\n    \"status\": null,\n    \"observations\": \"Periodo de adaptacion\",\n    \"adopter\": {\n        \"id\": \"{{adopter_id_1}}\"\n    },\n    \"shelter\": {\n        \"id\": \"{{shelter_id_1}}\"\n    },\n    \"trialCohabitationRequest\": {\n        \"id\": \"{{trial_request_id_1}}\"\n    }\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -1912,7 +1912,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"startDate\": \"2026-10-20T00:00:00-05:00\",\n    \"endDate\": \"2026-12-20T00:00:00-05:00\",\n    \"status\": null,\n    \"observations\": \"Periodo de adaptacion\",\n    \"adopter\": {\n        \"id\": \"{{adopter_id_1}}\"\n    },\n    \"shelter\": {\n        \"id\": \"{{shelter_id_1}}\"\n    },\n    \"trialCohabitationRequest\": {\n        \"id\": \"{{trial_request_id_1}}\"\n    }\n}",
+              "raw": "{\n    \"startDate\": \"{{future_date}}\",\n    \"endDate\": \"2026-12-20T00:00:00-05:00\",\n    \"status\": null,\n    \"observations\": \"Periodo de adaptacion\",\n    \"adopter\": {\n        \"id\": \"{{adopter_id_1}}\"\n    },\n    \"shelter\": {\n        \"id\": \"{{shelter_id_1}}\"\n    },\n    \"trialCohabitationRequest\": {\n        \"id\": \"{{trial_request_id_1}}\"\n    }\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -1964,7 +1964,7 @@
         },
         "body": {
           "mode": "raw",
-          "raw": "{\n    \"startDate\": \"2026-10-20T00:00:00-05:00\",\n    \"endDate\": \"2026-12-20T00:00:00-05:00\",\n    \"status\": \"PENDING\",\n    \"observations\": null,\n    \"adopter\": {\n        \"id\": \"{{adopter_id_1}}\"\n    },\n    \"shelter\": {\n        \"id\": \"{{shelter_id_1}}\"\n    },\n    \"trialCohabitationRequest\": {\n        \"id\": \"{{trial_request_id_1}}\"\n    }\n}",
+          "raw": "{\n    \"startDate\": \"{{future_date}}\",\n    \"endDate\": \"2026-12-20T00:00:00-05:00\",\n    \"status\": \"PENDING\",\n    \"observations\": null,\n    \"adopter\": {\n        \"id\": \"{{adopter_id_1}}\"\n    },\n    \"shelter\": {\n        \"id\": \"{{shelter_id_1}}\"\n    },\n    \"trialCohabitationRequest\": {\n        \"id\": \"{{trial_request_id_1}}\"\n    }\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -1995,7 +1995,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"startDate\": \"2026-10-20T00:00:00-05:00\",\n    \"endDate\": \"2026-12-20T00:00:00-05:00\",\n    \"status\": \"PENDING\",\n    \"observations\": null,\n    \"adopter\": {\n        \"id\": \"{{adopter_id_1}}\"\n    },\n    \"shelter\": {\n        \"id\": \"{{shelter_id_1}}\"\n    },\n    \"trialCohabitationRequest\": {\n        \"id\": \"{{trial_request_id_1}}\"\n    }\n}",
+              "raw": "{\n    \"startDate\": \"{{future_date}}\",\n    \"endDate\": \"2026-12-20T00:00:00-05:00\",\n    \"status\": \"PENDING\",\n    \"observations\": null,\n    \"adopter\": {\n        \"id\": \"{{adopter_id_1}}\"\n    },\n    \"shelter\": {\n        \"id\": \"{{shelter_id_1}}\"\n    },\n    \"trialCohabitationRequest\": {\n        \"id\": \"{{trial_request_id_1}}\"\n    }\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -2320,7 +2320,7 @@
     },
     {
       "key": "adopter_id_1",
-      "value": "1"
+      "value": "2"
     },
     {
       "key": "shelter_id_1",
@@ -2337,6 +2337,21 @@
     {
       "key": "trial_request_final",
       "value": "3"
+    },
+    {
+      "key": "future_date",
+      "value": ""
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          "pm.collectionVariables.set('future_date', new Date(Date.now() + 3 * 86400000).toISOString());"
+        ]
+      }
     }
   ]
 }
