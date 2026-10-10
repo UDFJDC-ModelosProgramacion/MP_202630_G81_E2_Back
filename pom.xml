@@ -23,6 +23,8 @@
 		<sonar.language>java</sonar.language>
 		<sonar.coverage.exclusions>**/controllers/**,**/exceptions/**,**/podam/**,
 			**/dto/**</sonar.coverage.exclusions>
+		<lombok.version>1.18.32</lombok.version>
+		<start-class>co.edu.udistrital.mdp.pets.MainApplication</start-class>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -146,7 +148,6 @@
 							</commandlineArgs>
 						</configuration>
 					</execution>
-					<!-- Remover esta línea
 					<execution>
 						<id>integration-tests-composed-collection</id>
 						<phase>integration-test</phase>
@@ -162,8 +163,20 @@
 							</commandlineArgs>
 						</configuration>
 					</execution>
-					-->
 				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<annotationProcessorPaths>
+						<path>
+							<groupId>org.projectlombok</groupId>
+							<artifactId>lombok</artifactId>
+							<version>${lombok.version}</version>
+						</path>
+					</annotationProcessorPaths>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>
