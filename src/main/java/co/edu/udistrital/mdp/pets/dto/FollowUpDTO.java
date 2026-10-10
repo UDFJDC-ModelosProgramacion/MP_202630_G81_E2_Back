@@ -10,5 +10,5 @@ public class FollowUpDTO {
 	private String observation;
 
 	private VeterinarianDTO veterinarian;
-	// Adoption
+	private AdoptionDTO adoption;
 }

@@ -2,6 +2,7 @@ package co.edu.udistrital.mdp.pets.controllers;
 
 import java.util.List;
 
+import org.modelmapper.Converter;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.http.HttpStatus;
@@ -16,11 +17,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import co.edu.udistrital.mdp.pets.dto.AdoptionDTO;
 import co.edu.udistrital.mdp.pets.dto.FollowUpDTO;
+import co.edu.udistrital.mdp.pets.entities.AdoptionEntity;
 import co.edu.udistrital.mdp.pets.entities.FollowUpEntity;
 import co.edu.udistrital.mdp.pets.exceptions.EntityNotFoundException;
 import co.edu.udistrital.mdp.pets.exceptions.IllegalOperationException;
 import co.edu.udistrital.mdp.pets.services.FollowUpService;
+import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
@@ -30,6 +34,19 @@ public class FollowUpController {
 
     private final FollowUpService followUpService;
     private final ModelMapper modelMapper;
+
+    @PostConstruct
+    public void configureModelMapper() {
+        Converter<AdoptionEntity, AdoptionDTO> adoptionToDto = context -> {
+            AdoptionEntity source = context.getSource();
+            if (source == null)
+                return null;
+            AdoptionDTO dto = new AdoptionDTO();
+            dto.setId(source.getId());
+            return dto;
+        };
+        modelMapper.addConverter(adoptionToDto, AdoptionEntity.class, AdoptionDTO.class);
+    }
 
     // FindAll method with optional adoption filter
     @GetMapping

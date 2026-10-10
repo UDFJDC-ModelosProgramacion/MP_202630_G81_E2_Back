@@ -13,7 +13,7 @@ public class TrialCohabitationDTO {
 
 	private ShelterDTO shelter;
 	private AdopterDTO adopter;
-	// TrialCohabitationRequest
+	private TrialCohabitationRequestDTO trialCohabitationRequest;
 	// Return
 	// AdoptionRequest
 }
