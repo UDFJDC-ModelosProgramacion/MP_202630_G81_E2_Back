@@ -99,7 +99,7 @@
 							"script": {
 								"type": "text/javascript",
 								"exec": [
-									"const data = pm.response.json();",
+									"var data = pm.response.json();",
 									"pm.collectionVariables.set(\"shelter_id\", data.id);",
 									"pm.test(\"Status code is 201\", function () {",
 									"   pm.response.to.have.status(201);",
@@ -187,7 +187,7 @@
 							"script": {
 								"type": "text/javascript",
 								"exec": [
-									"const data = pm.response.json();",
+									"var data = pm.response.json();",
 									"pm.collectionVariables.set(\"pet_id\", data.id);",
 									"pm.test(\"Status code is 201\", function () {",
 									"   pm.response.to.have.status(201);",
@@ -275,7 +275,7 @@
 							"script": {
 								"type": "text/javascript",
 								"exec": [
-									"const data = pm.response.json();",
+									"var data = pm.response.json();",
 									"pm.collectionVariables.set(\"pet_id_2\", data.id);",
 									"pm.test(\"Status code is 201\", function () {",
 									"   pm.response.to.have.status(201);",
@@ -363,7 +363,7 @@
 							"script": {
 								"type": "text/javascript",
 								"exec": [
-									"const data = pm.response.json();",
+									"var data = pm.response.json();",
 									"pm.collectionVariables.set(\"pet_id_3\", data.id);",
 									"pm.test(\"Status code is 201\", function () {",
 									"   pm.response.to.have.status(201);",
@@ -451,7 +451,7 @@
 							"script": {
 								"type": "text/javascript",
 								"exec": [
-									"const data = pm.response.json();",
+									"var data = pm.response.json();",
 									"pm.collectionVariables.set(\"vaccination_record_id\", data.id);",
 									"pm.test(\"Status code is 201\", function () {",
 									"   pm.response.to.have.status(201);",
@@ -539,7 +539,7 @@
 							"script": {
 								"type": "text/javascript",
 								"exec": [
-									"const data = pm.response.json();",
+									"var data = pm.response.json();",
 									"pm.collectionVariables.set(\"vaccination_record_id_2\", data.id);",
 									"pm.test(\"Status code is 201\", function () {",
 									"   pm.response.to.have.status(201);",
@@ -631,7 +631,7 @@
 							"script": {
 								"type": "text/javascript",
 								"exec": [
-									"const data = pm.response.json();",
+									"var data = pm.response.json();",
 									"pm.collectionVariables.set(\"vaccine_id\", data.id);",
 									"pm.test(\"Status code is 201\", function () {",
 									"   pm.response.to.have.status(201);",
@@ -723,7 +723,7 @@
 							"script": {
 								"type": "text/javascript",
 								"exec": [
-									"const data = pm.response.json();",
+									"var data = pm.response.json();",
 									"pm.collectionVariables.set(\"vaccine_id_2\", data.id);",
 									"pm.test(\"Status code is 201\", function () {",
 									"   pm.response.to.have.status(201);",
@@ -815,7 +815,7 @@
 							"script": {
 								"type": "text/javascript",
 								"exec": [
-									"const data = pm.response.json();",
+									"var data = pm.response.json();",
 									"pm.collectionVariables.set(\"vaccine_id_3\", data.id);",
 									"pm.test(\"Status code is 201\", function () {",
 									"   pm.response.to.have.status(201);",
@@ -907,7 +907,7 @@
 							"script": {
 								"type": "text/javascript",
 								"exec": [
-									"const data = pm.response.json();",
+									"var data = pm.response.json();",
 									"pm.collectionVariables.set(\"vaccine_id_b\", data.id);",
 									"pm.test(\"Status code is 201\", function () {",
 									"   pm.response.to.have.status(201);",
@@ -977,7 +977,7 @@
 									"   pm.response.to.have.status(200);",
 									"});",
 									"pm.test(\"List contains every vaccine created here\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data).to.be.an(\"array\");",
 									"   const ids = data.map(v => v.id);",
 									"   pm.expect(ids).to.include(Number(pm.collectionVariables.get(\"vaccine_id\")));",
@@ -1046,7 +1046,7 @@
 									"   pm.response.to.have.status(200);",
 									"});",
 									"pm.test(\"The requested vaccine\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data.id).to.eql(Number(pm.collectionVariables.get(\"vaccine_id\")));",
 									"   pm.expect(data.name).to.eql(\"Rabia\");",
 									"   pm.expect(data.vaccinationRecord.id).to.eql(Number(pm.collectionVariables.get(\"vaccination_record_id\")));",
@@ -1112,7 +1112,7 @@
 									"   pm.response.to.have.status(200);",
 									"});",
 									"pm.test(\"status was automatically set to false\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data.status).to.be.false;",
 									"});"
 								]
@@ -1176,7 +1176,7 @@
 									"   pm.response.to.have.status(404);",
 									"});",
 									"pm.test(\"Get expected error message\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"NOT_FOUND\");",
 									"   pm.expect(data.apierror.message).to.eql(\"Vaccine not found\");",
 									"});"
@@ -1241,7 +1241,7 @@
 									"   pm.response.to.have.status(412);",
 									"});",
 									"pm.test(\"Get expected error message\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"PRECONDITION_FAILED\");",
 									"   pm.expect(data.apierror.message).to.eql(\"Vaccine id is not valid\");",
 									"});"
@@ -1322,7 +1322,7 @@
 									"   pm.response.to.have.status(200);",
 									"});",
 									"pm.test(\"Every result matches the filter(s)\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data).to.be.an(\"array\");",
 									"   pm.expect(data.every(v => v.vaccinationRecord.id === Number(pm.collectionVariables.get(\"vaccination_record_id\")))).to.be.true;",
 									"   pm.expect(data).to.have.lengthOf(3);",
@@ -1403,7 +1403,7 @@
 									"   pm.response.to.have.status(200);",
 									"});",
 									"pm.test(\"Every result matches the filter(s)\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data).to.be.an(\"array\");",
 									"   pm.expect(data.every(v => v.vaccinationRecord.id === Number(pm.collectionVariables.get(\"vaccination_record_id\")))).to.be.true;",
 									"   pm.expect(data).to.have.lengthOf(3);",
@@ -1484,7 +1484,7 @@
 									"   pm.response.to.have.status(200);",
 									"});",
 									"pm.test(\"Every result matches the filter(s)\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data).to.be.an(\"array\");",
 									"   pm.expect(data).to.have.lengthOf(1);",
 									"   const ids = data.map(v => v.id);",
@@ -1562,7 +1562,7 @@
 									"   pm.response.to.have.status(200);",
 									"});",
 									"pm.test(\"Every result matches the filter(s)\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data).to.be.an(\"array\");",
 									"   pm.expect(data.every(v => v.status === true)).to.be.true;",
 									"   const ids = data.map(v => v.id);",
@@ -1642,7 +1642,7 @@
 									"   pm.response.to.have.status(200);",
 									"});",
 									"pm.test(\"Every result matches the filter(s)\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data).to.be.an(\"array\");",
 									"   pm.expect(data.every(v => v.status === false)).to.be.true;",
 									"   const ids = data.map(v => v.id);",
@@ -1730,7 +1730,7 @@
 									"   pm.response.to.have.status(200);",
 									"});",
 									"pm.test(\"Every result matches the filter(s)\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data).to.be.an(\"array\");",
 									"   pm.expect(data.every(v => v.status === false)).to.be.true;",
 									"   pm.expect(data).to.have.lengthOf(1);",
@@ -1818,7 +1818,7 @@
 									"   pm.response.to.have.status(200);",
 									"});",
 									"pm.test(\"Every result matches the filter(s)\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data).to.be.an(\"array\");",
 									"   pm.expect(data.every(v => v.name === \"Rabia\")).to.be.true;",
 									"   pm.expect(data).to.have.lengthOf(1);",
@@ -1897,7 +1897,7 @@
 									"   pm.response.to.have.status(200);",
 									"});",
 									"pm.test(\"Every result matches the filter(s)\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data).to.be.an(\"array\");",
 									"   pm.expect(data.every(v => v.name.toLowerCase() === \"rabia\")).to.be.true;",
 									"   const ids = data.map(v => v.id);",
@@ -1992,7 +1992,7 @@
 									"   pm.response.to.have.status(200);",
 									"});",
 									"pm.test(\"All criteria must match: empty list\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data).to.have.lengthOf(0);",
 									"});"
 								]
@@ -2066,7 +2066,7 @@
 									"   pm.response.to.have.status(200);",
 									"});",
 									"pm.test(\"Empty list\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data).to.have.lengthOf(0);",
 									"});"
 								]
@@ -2140,7 +2140,7 @@
 									"   pm.response.to.have.status(404);",
 									"});",
 									"pm.test(\"Get expected error message\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"NOT_FOUND\");",
 									"   pm.expect(data.apierror.message).to.eql(\"Vaccination record not found\");",
 									"});"
@@ -2215,7 +2215,7 @@
 									"   pm.response.to.have.status(412);",
 									"});",
 									"pm.test(\"Get expected error message\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"PRECONDITION_FAILED\");",
 									"   pm.expect(data.apierror.message).to.eql(\"Vaccination record id is not valid\");",
 									"});"
@@ -2290,7 +2290,7 @@
 									"   pm.response.to.have.status(404);",
 									"});",
 									"pm.test(\"Get expected error message\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"NOT_FOUND\");",
 									"   pm.expect(data.apierror.message).to.eql(\"Pet not found\");",
 									"});"

@@ -99,7 +99,7 @@
 							"script": {
 								"type": "text/javascript",
 								"exec": [
-									"const data = pm.response.json();",
+									"var data = pm.response.json();",
 									"pm.collectionVariables.set(\"shelter_id\", data.id);",
 									"pm.test(\"Status code is 201\", function () {",
 									"   pm.response.to.have.status(201);",
@@ -187,7 +187,7 @@
 							"script": {
 								"type": "text/javascript",
 								"exec": [
-									"const data = pm.response.json();",
+									"var data = pm.response.json();",
 									"pm.collectionVariables.set(\"pet_id\", data.id);",
 									"pm.test(\"Status code is 201\", function () {",
 									"   pm.response.to.have.status(201);",
@@ -277,7 +277,7 @@
 							"script": {
 								"type": "text/javascript",
 								"exec": [
-									"const data = pm.response.json();",
+									"var data = pm.response.json();",
 									"pm.collectionVariables.set(\"pet_id_2\", data.id);",
 									"pm.test(\"Status code is 201\", function () {",
 									"   pm.response.to.have.status(201);",
@@ -382,13 +382,13 @@
 									"if (!(vet > 0)) {",
 									"   pm.test(\"SKIPPED: define veterinarian_id con un veterinario existente para ejecutar esta prueba\", function () { pm.expect(vet > 0).to.be.false; });",
 									"} else {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.collectionVariables.set(\"medical_event_id_new\", data.id);",
 									"   pm.test(\"Status code is 201\", function () {",
 									"      pm.response.to.have.status(201);",
 									"   });",
 									"   pm.test(\"Response echoes the medical event\", function () {",
-									"      const data = pm.response.json();",
+									"      var data = pm.response.json();",
 									"      pm.expect(data.type).to.eql(\"Vacunacion\");",
 									"      pm.expect(data.description).to.eql(\"Aplicacion de refuerzo\");",
 									"   });",
@@ -484,7 +484,7 @@
 									"   pm.response.to.have.status(412);",
 									"});",
 									"pm.test(\"Get expected error message\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"PRECONDITION_FAILED\");",
 									"   pm.expect(data.apierror.message).to.eql(\"Date is not valid\");",
 									"});"
@@ -579,7 +579,7 @@
 									"   pm.response.to.have.status(412);",
 									"});",
 									"pm.test(\"Get expected error message\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"PRECONDITION_FAILED\");",
 									"   pm.expect(data.apierror.message).to.eql(\"Date cannot be in the future\");",
 									"});"
@@ -674,7 +674,7 @@
 									"   pm.response.to.have.status(412);",
 									"});",
 									"pm.test(\"Get expected error message\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"PRECONDITION_FAILED\");",
 									"   pm.expect(data.apierror.message).to.eql(\"Type is not valid\");",
 									"});"
@@ -769,7 +769,7 @@
 									"   pm.response.to.have.status(412);",
 									"});",
 									"pm.test(\"Get expected error message\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"PRECONDITION_FAILED\");",
 									"   pm.expect(data.apierror.message).to.eql(\"Veterinarian is not valid\");",
 									"});"
@@ -864,7 +864,7 @@
 									"   pm.response.to.have.status(404);",
 									"});",
 									"pm.test(\"Get expected error message\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"NOT_FOUND\");",
 									"   pm.expect(data.apierror.message).to.eql(\"Veterinarian was not found\");",
 									"});"
@@ -959,7 +959,7 @@
 									"   pm.response.to.have.status(404);",
 									"});",
 									"pm.test(\"Get expected error message\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"NOT_FOUND\");",
 									"   pm.expect(data.apierror.message).to.eql(\"Pet was not found\");",
 									"});"
@@ -1032,7 +1032,7 @@
 									"   pm.response.to.have.status(200);",
 									"});",
 									"pm.test(\"Only the events of this pet\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data).to.be.an(\"array\");",
 									"   pm.expect(data.length).to.be.at.least(2);",
 									"   const ids = data.map(e => e.id);",
@@ -1105,7 +1105,7 @@
 									"   pm.response.to.have.status(200);",
 									"});",
 									"pm.test(\"The requested event\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data.id).to.eql(Number(pm.collectionVariables.get(\"medical_event_id\")));",
 									"   pm.expect(data.type).to.eql(\"Rescate\");",
 									"   pm.expect(String(data.date).substring(0, 10)).to.eql(pm.collectionVariables.get(\"d_past_30\").substring(0, 10));",
@@ -1175,7 +1175,7 @@
 									"   pm.response.to.have.status(404);",
 									"});",
 									"pm.test(\"Get expected error message\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"NOT_FOUND\");",
 									"   pm.expect(data.apierror.message).to.eql(\"Medical event was not found\");",
 									"});"
@@ -1244,7 +1244,7 @@
 									"   pm.response.to.have.status(412);",
 									"});",
 									"pm.test(\"Get expected error message\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"PRECONDITION_FAILED\");",
 									"   pm.expect(data.apierror.message).to.eql(\"Medical event id is not valid\");",
 									"});"
@@ -1313,7 +1313,7 @@
 									"   pm.response.to.have.status(404);",
 									"});",
 									"pm.test(\"Get expected error message\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"NOT_FOUND\");",
 									"   pm.expect(data.apierror.message).to.eql(\"Pet was not found\");",
 									"});"
@@ -1382,7 +1382,7 @@
 									"   pm.response.to.have.status(412);",
 									"});",
 									"pm.test(\"Get expected error message\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"PRECONDITION_FAILED\");",
 									"   pm.expect(data.apierror.message).to.eql(\"The medical event is not associated with the pet\");",
 									"});"
@@ -1485,7 +1485,7 @@
 									"   pm.response.to.have.status(200);",
 									"});",
 									"pm.test(\"Changed attributes are returned\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data.id).to.eql(Number(pm.collectionVariables.get(\"medical_event_id\")));",
 									"   pm.expect(data.type).to.eql(\"Control de seguimiento\");",
 									"   pm.expect(data.description).to.eql(\"Revisión de seguimiento\");",
@@ -1584,7 +1584,7 @@
 									"   pm.response.to.have.status(412);",
 									"});",
 									"pm.test(\"Get expected error message\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"PRECONDITION_FAILED\");",
 									"   pm.expect(data.apierror.message).to.eql(\"Date is not valid\");",
 									"});"
@@ -1681,7 +1681,7 @@
 									"   pm.response.to.have.status(412);",
 									"});",
 									"pm.test(\"Get expected error message\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"PRECONDITION_FAILED\");",
 									"   pm.expect(data.apierror.message).to.eql(\"Date cannot be in the future\");",
 									"});"
@@ -1778,7 +1778,7 @@
 									"   pm.response.to.have.status(412);",
 									"});",
 									"pm.test(\"Get expected error message\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"PRECONDITION_FAILED\");",
 									"   pm.expect(data.apierror.message).to.eql(\"Type is not valid\");",
 									"});"
@@ -1875,7 +1875,7 @@
 									"   pm.response.to.have.status(404);",
 									"});",
 									"pm.test(\"Get expected error message\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"NOT_FOUND\");",
 									"   pm.expect(data.apierror.message).to.eql(\"Medical event was not found\");",
 									"});"
@@ -1972,7 +1972,7 @@
 									"   pm.response.to.have.status(412);",
 									"});",
 									"pm.test(\"Get expected error message\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"PRECONDITION_FAILED\");",
 									"   pm.expect(data.apierror.message).to.eql(\"Medical event id is not valid\");",
 									"});"
@@ -2069,7 +2069,7 @@
 									"   pm.response.to.have.status(404);",
 									"});",
 									"pm.test(\"Get expected error message\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"NOT_FOUND\");",
 									"   pm.expect(data.apierror.message).to.eql(\"Pet was not found\");",
 									"});"
@@ -2166,7 +2166,7 @@
 									"   pm.response.to.have.status(412);",
 									"});",
 									"pm.test(\"Get expected error message\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"PRECONDITION_FAILED\");",
 									"   pm.expect(data.apierror.message).to.eql(\"The medical event is not associated with the pet\");",
 									"});"
@@ -2237,7 +2237,7 @@
 									"   pm.response.to.have.status(200);",
 									"});",
 									"pm.test(\"PetDetail.medicalEvents has the pet's events only\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   const ids = data.medicalEvents.map(e => e.id);",
 									"   pm.expect(ids).to.include(Number(pm.collectionVariables.get(\"medical_event_id\")));",
 									"   pm.expect(ids).to.include(Number(pm.collectionVariables.get(\"medical_event_id_2\")));",
@@ -2373,7 +2373,7 @@
 									"   pm.response.to.have.status(404);",
 									"});",
 									"pm.test(\"Get expected error message\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"NOT_FOUND\");",
 									"   pm.expect(data.apierror.message).to.eql(\"Medical event was not found\");",
 									"});"
@@ -2442,7 +2442,7 @@
 									"   pm.response.to.have.status(404);",
 									"});",
 									"pm.test(\"Get expected error message\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"NOT_FOUND\");",
 									"   pm.expect(data.apierror.message).to.eql(\"Medical event was not found\");",
 									"});"
@@ -2511,7 +2511,7 @@
 									"   pm.response.to.have.status(412);",
 									"});",
 									"pm.test(\"Get expected error message\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"PRECONDITION_FAILED\");",
 									"   pm.expect(data.apierror.message).to.eql(\"Medical event id is not valid\");",
 									"});"
@@ -2580,7 +2580,7 @@
 									"   pm.response.to.have.status(404);",
 									"});",
 									"pm.test(\"Get expected error message\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"NOT_FOUND\");",
 									"   pm.expect(data.apierror.message).to.eql(\"Pet was not found\");",
 									"});"
@@ -2649,7 +2649,7 @@
 									"   pm.response.to.have.status(412);",
 									"});",
 									"pm.test(\"Get expected error message\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"PRECONDITION_FAILED\");",
 									"   pm.expect(data.apierror.message).to.eql(\"The medical event is not associated with the pet\");",
 									"});"
@@ -2714,7 +2714,7 @@
 									"   pm.response.to.have.status(200);",
 									"});",
 									"pm.test(\"PetDetail.medicalEvents no longer has the deleted event\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   const ids = data.medicalEvents.map(e => e.id);",
 									"   pm.expect(ids).to.not.include(Number(pm.collectionVariables.get(\"medical_event_id_2\")));",
 									"   pm.expect(ids).to.have.lengthOf(1);",
