@@ -2,116 +2,16 @@
   "info": {
     "_postman_id": "0bf03370-92f1-45c5-91ce-e79b069b3274",
     "name": "VaccinationRecord",
-    "description": "Diseno del API para el recurso VaccinationRecord (carne de vacunacion de una mascota). Representacion basica: id. Representacion detallada: agrega pet y la lista de vaccines.",
+    "description": "Pruebas del API para el recurso VaccinationRecord: /vaccinationRecords. Representacion basica: id y pet. Representacion detallada: agrega la lista de vaccines.\nLas vacunas de un registro (/vaccinationRecords/{id}/vaccines) se prueban en la coleccion VaccinationRecordVaccines.\n\nLas rutas distinguen mayusculas: /vaccinationRecords (con R mayuscula). Los ids que no existen son 999999; los ids <= 0 responden 412.\n\nCarpeta A: no necesita datos previos (corre con el back recien levantado).\nCarpeta B: necesita mascotas. Hoy POST /pets y POST /shelters no pueden completarse con los DTO actuales (PetDTO no trae medicalEvents y ShelterDTO no trae users), asi que los ids de las mascotas deben definirse a mano en Globals antes de correr la carpeta B:\n  - pet_id_1: mascota activa en el refugio (sin adopcion FINALIZED y sin registro de vacunacion)\n  - pet_id_2: otra mascota activa (sin adopcion FINALIZED y sin registro de vacunacion)\n  - pet_id_adopted: mascota con una adopcion FINALIZED (sin registro de vacunacion)\n\nGUARDA POR PETICION: cada peticion de la carpeta B declara en su Pre-request que variables necesita y se OMITE (Skipped, no Failed) si falta alguna; asi las pruebas que si tienen sus datos se ejecutan igual.\nLa base de datos es en memoria: para volver a correr la carpeta B hay que reiniciar el back (un registro de una mascota activa no se puede borrar).\n\nDeja en globals: vaccination_record_id, vaccination_record_id_2 y vaccination_record_vaccine_id.",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "item": [
     {
-      "name": "Crear un registro de vacunacion",
-      "request": {
-        "method": "POST",
-        "header": [
-          {
-            "key": "Content-Type",
-            "value": "application/json"
-          }
-        ],
-        "url": {
-          "raw": "{{baseUrl}}/vaccinationrecords",
-          "host": [
-            "{{baseUrl}}"
-          ],
-          "path": [
-            "vaccinationrecords"
-          ]
-        },
-        "body": {
-          "mode": "raw",
-          "raw": "{\n    \"pet\": {\n        \"id\": 1\n    }\n}",
-          "options": {
-            "raw": {
-              "language": "json"
-            }
-          }
-        }
-      },
-      "response": [
-        {
-          "name": "Crear un registro de vacunacion",
-          "originalRequest": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
-            "url": {
-              "raw": "{{baseUrl}}/vaccinationrecords",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "vaccinationrecords"
-              ]
-            },
-            "body": {
-              "mode": "raw",
-              "raw": "{\n    \"pet\": {\n        \"id\": 1\n    }\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            }
-          },
-          "status": "Created",
-          "code": 201,
-          "_postman_previewlanguage": "json",
-          "header": [
-            {
-              "key": "Content-Type",
-              "value": "application/json"
-            }
-          ],
-          "cookie": [],
-          "body": "{\n    \"id\": 1\n}"
-        }
-      ]
-    },
-    {
-      "name": "Crear un registro de vacunacion sin mascota",
-      "request": {
-        "method": "POST",
-        "header": [
-          {
-            "key": "Content-Type",
-            "value": "application/json"
-          }
-        ],
-        "url": {
-          "raw": "{{baseUrl}}/vaccinationrecords",
-          "host": [
-            "{{baseUrl}}"
-          ],
-          "path": [
-            "vaccinationrecords"
-          ]
-        },
-        "body": {
-          "mode": "raw",
-          "raw": "{\n    \"pet\": null\n}",
-          "options": {
-            "raw": {
-              "language": "json"
-            }
-          }
-        }
-      },
-      "response": [
+      "name": "A. Sin dependencias (corren con el back recien levantado)",
+      "item": [
         {
           "name": "Crear un registro de vacunacion sin mascota",
-          "originalRequest": {
+          "request": {
             "method": "POST",
             "header": [
               {
@@ -120,17 +20,17 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/vaccinationrecords",
+              "raw": "{{baseUrl}}/vaccinationRecords",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
-                "vaccinationrecords"
+                "vaccinationRecords"
               ]
             },
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"pet\": null\n}",
+              "raw": "{}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -138,53 +38,130 @@
               }
             }
           },
-          "status": "Precondition Failed",
-          "code": 412,
-          "_postman_previewlanguage": "json",
-          "header": [
+          "response": [],
+          "event": [
             {
-              "key": "Content-Type",
-              "value": "application/json"
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code is 412\", function () {",
+                  "   pm.response.to.have.status(412);",
+                  "});",
+                  "",
+                  "pm.test(\"Get expected error message\", function () {",
+                  "   var data = pm.response.json();",
+                  "",
+                  "   pm.expect(data.apierror.message).to.eql(\"Vaccination record must be associated with an existing pet\");",
+                  "});"
+                ]
+              }
             }
-          ],
-          "cookie": [],
-          "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"20-09-2026 10:01:09\",\n        \"message\": \"Pet is not valid\"\n    }\n}"
-        }
-      ]
-    },
-    {
-      "name": "Crear un registro de vacunacion de una mascota que no existe",
-      "request": {
-        "method": "POST",
-        "header": [
-          {
-            "key": "Content-Type",
-            "value": "application/json"
-          }
-        ],
-        "url": {
-          "raw": "{{baseUrl}}/vaccinationrecords",
-          "host": [
-            "{{baseUrl}}"
-          ],
-          "path": [
-            "vaccinationrecords"
           ]
         },
-        "body": {
-          "mode": "raw",
-          "raw": "{\n    \"pet\": {\n        \"id\": 0\n    }\n}",
-          "options": {
-            "raw": {
-              "language": "json"
+        {
+          "name": "Crear un registro de vacunacion con mascota nula",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/vaccinationRecords",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "vaccinationRecords"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{ \"pet\": null }",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
             }
-          }
-        }
-      },
-      "response": [
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code is 412\", function () {",
+                  "   pm.response.to.have.status(412);",
+                  "});",
+                  "",
+                  "pm.test(\"Get expected error message\", function () {",
+                  "   var data = pm.response.json();",
+                  "",
+                  "   pm.expect(data.apierror.message).to.eql(\"Vaccination record must be associated with an existing pet\");",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Crear un registro de vacunacion con mascota sin id",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/vaccinationRecords",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "vaccinationRecords"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{ \"pet\": {} }",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code is 412\", function () {",
+                  "   pm.response.to.have.status(412);",
+                  "});",
+                  "",
+                  "pm.test(\"Get expected error message\", function () {",
+                  "   var data = pm.response.json();",
+                  "",
+                  "   pm.expect(data.apierror.message).to.eql(\"Vaccination record must be associated with an existing pet\");",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
         {
           "name": "Crear un registro de vacunacion de una mascota que no existe",
-          "originalRequest": {
+          "request": {
             "method": "POST",
             "header": [
               {
@@ -193,17 +170,17 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/vaccinationrecords",
+              "raw": "{{baseUrl}}/vaccinationRecords",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
-                "vaccinationrecords"
+                "vaccinationRecords"
               ]
             },
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"pet\": {\n        \"id\": 0\n    }\n}",
+              "raw": "{ \"pet\": { \"id\": 999999 } }",
               "options": {
                 "raw": {
                   "language": "json"
@@ -211,341 +188,178 @@
               }
             }
           },
-          "status": "Not Found",
-          "code": 404,
-          "_postman_previewlanguage": "json",
-          "header": [
+          "response": [],
+          "event": [
             {
-              "key": "Content-Type",
-              "value": "application/json"
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code is 404\", function () {",
+                  "   pm.response.to.have.status(404);",
+                  "});",
+                  "",
+                  "pm.test(\"Get expected error message\", function () {",
+                  "   var data = pm.response.json();",
+                  "",
+                  "   pm.expect(data.apierror.message).to.eql(\"Pet not found\");",
+                  "});"
+                ]
+              }
             }
-          ],
-          "cookie": [],
-          "body": "{\n    \"apierror\": {\n        \"status\": \"NOT_FOUND\",\n        \"timestamp\": \"20-09-2026 10:01:09\",\n        \"message\": \"The pet with the given id was not found\"\n    }\n}"
-        }
-      ]
-    },
-    {
-      "name": "Crear un registro de vacunacion para una mascota que ya tiene uno",
-      "request": {
-        "method": "POST",
-        "header": [
-          {
-            "key": "Content-Type",
-            "value": "application/json"
-          }
-        ],
-        "url": {
-          "raw": "{{baseUrl}}/vaccinationrecords",
-          "host": [
-            "{{baseUrl}}"
-          ],
-          "path": [
-            "vaccinationrecords"
           ]
         },
-        "body": {
-          "mode": "raw",
-          "raw": "{\n    \"pet\": {\n        \"id\": 1\n    }\n}",
-          "options": {
-            "raw": {
-              "language": "json"
-            }
-          }
-        }
-      },
-      "response": [
-        {
-          "name": "Crear un registro de vacunacion para una mascota que ya tiene uno",
-          "originalRequest": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
-            "url": {
-              "raw": "{{baseUrl}}/vaccinationrecords",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "vaccinationrecords"
-              ]
-            },
-            "body": {
-              "mode": "raw",
-              "raw": "{\n    \"pet\": {\n        \"id\": 1\n    }\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            }
-          },
-          "status": "Precondition Failed",
-          "code": 412,
-          "_postman_previewlanguage": "json",
-          "header": [
-            {
-              "key": "Content-Type",
-              "value": "application/json"
-            }
-          ],
-          "cookie": [],
-          "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"20-09-2026 10:01:09\",\n        \"message\": \"This pet already has a vaccination record\"\n    }\n}"
-        }
-      ]
-    },
-    {
-      "name": "Obtener todos los registros de vacunacion",
-      "request": {
-        "method": "GET",
-        "header": [],
-        "url": {
-          "raw": "{{baseUrl}}/vaccinationrecords",
-          "host": [
-            "{{baseUrl}}"
-          ],
-          "path": [
-            "vaccinationrecords"
-          ]
-        }
-      },
-      "response": [
         {
           "name": "Obtener todos los registros de vacunacion",
-          "originalRequest": {
+          "request": {
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{baseUrl}}/vaccinationrecords",
+              "raw": "{{baseUrl}}/vaccinationRecords",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
-                "vaccinationrecords"
+                "vaccinationRecords"
               ]
             }
           },
-          "status": "OK",
-          "code": 200,
-          "_postman_previewlanguage": "json",
-          "header": [
+          "response": [],
+          "event": [
             {
-              "key": "Content-Type",
-              "value": "application/json"
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Response is a list\", function () {",
+                  "   var data = pm.response.json();",
+                  "",
+                  "   pm.expect(data).to.be.an('array');",
+                  "});",
+                  "",
+                  "pm.test(\"Status code is 200\", function () {",
+                  "   pm.response.to.have.status(200);",
+                  "});"
+                ]
+              }
             }
-          ],
-          "cookie": [],
-          "body": "[\n    {\n        \"id\": 1,\n        \"pet\": {\n            \"id\": 1,\n            \"name\": \"Luna\",\n            \"species\": \"Perro\",\n            \"breed\": \"Criollo\",\n            \"age\": 3,\n            \"sex\": \"Hembra\",\n            \"size\": \"Mediano\",\n            \"healthStatus\": \"Saludable\"\n        },\n        \"vaccines\": [\n            {\n                \"id\": 1,\n                \"name\": \"Rabia\",\n                \"administrationDate\": \"2026-01-15\",\n                \"nextAdministration\": \"2027-01-15\",\n                \"status\": true\n            }\n        ]\n    }\n]"
-        }
-      ]
-    },
-    {
-      "name": "Obtener un registro de vacunacion",
-      "request": {
-        "method": "GET",
-        "header": [],
-        "url": {
-          "raw": "{{baseUrl}}/vaccinationrecords/{{vaccination_record_id}}",
-          "host": [
-            "{{baseUrl}}"
-          ],
-          "path": [
-            "vaccinationrecords",
-            "{{vaccination_record_id}}"
           ]
-        }
-      },
-      "response": [
-        {
-          "name": "Obtener un registro de vacunacion",
-          "originalRequest": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "{{baseUrl}}/vaccinationrecords/{{vaccination_record_id}}",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "vaccinationrecords",
-                "{{vaccination_record_id}}"
-              ]
-            }
-          },
-          "status": "OK",
-          "code": 200,
-          "_postman_previewlanguage": "json",
-          "header": [
-            {
-              "key": "Content-Type",
-              "value": "application/json"
-            }
-          ],
-          "cookie": [],
-          "body": "{\n    \"id\": 1,\n    \"pet\": {\n        \"id\": 1,\n        \"name\": \"Luna\",\n        \"species\": \"Perro\",\n        \"breed\": \"Criollo\",\n        \"age\": 3,\n        \"sex\": \"Hembra\",\n        \"size\": \"Mediano\",\n        \"healthStatus\": \"Saludable\"\n    },\n    \"vaccines\": [\n        {\n            \"id\": 1,\n            \"name\": \"Rabia\",\n            \"administrationDate\": \"2026-01-15\",\n            \"nextAdministration\": \"2027-01-15\",\n            \"status\": true\n        }\n    ]\n}"
-        }
-      ]
-    },
-    {
-      "name": "Obtener un registro de vacunacion que no existe",
-      "request": {
-        "method": "GET",
-        "header": [],
-        "url": {
-          "raw": "{{baseUrl}}/vaccinationrecords/0",
-          "host": [
-            "{{baseUrl}}"
-          ],
-          "path": [
-            "vaccinationrecords",
-            "0"
-          ]
-        }
-      },
-      "response": [
+        },
         {
           "name": "Obtener un registro de vacunacion que no existe",
-          "originalRequest": {
+          "request": {
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{baseUrl}}/vaccinationrecords/0",
+              "raw": "{{baseUrl}}/vaccinationRecords/999999",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
-                "vaccinationrecords",
+                "vaccinationRecords",
+                "999999"
+              ]
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code is 404\", function () {",
+                  "   pm.response.to.have.status(404);",
+                  "});",
+                  "",
+                  "pm.test(\"Get expected error message\", function () {",
+                  "   var data = pm.response.json();",
+                  "",
+                  "   pm.expect(data.apierror.message).to.eql(\"Vaccination record not found\");",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Obtener un registro de vacunacion con un id invalido",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/vaccinationRecords/0",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "vaccinationRecords",
                 "0"
               ]
             }
           },
-          "status": "Not Found",
-          "code": 404,
-          "_postman_previewlanguage": "json",
-          "header": [
+          "response": [],
+          "event": [
             {
-              "key": "Content-Type",
-              "value": "application/json"
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code is 412\", function () {",
+                  "   pm.response.to.have.status(412);",
+                  "});",
+                  "",
+                  "pm.test(\"Get expected error message\", function () {",
+                  "   var data = pm.response.json();",
+                  "",
+                  "   pm.expect(data.apierror.message).to.eql(\"Vaccination record id is not valid\");",
+                  "});"
+                ]
+              }
             }
-          ],
-          "cookie": [],
-          "body": "{\n    \"apierror\": {\n        \"status\": \"NOT_FOUND\",\n        \"timestamp\": \"20-09-2026 10:01:09\",\n        \"message\": \"The vaccination record with the given id was not found\"\n    }\n}"
-        }
-      ]
-    },
-    {
-      "name": "Editar un registro de vacunacion",
-      "request": {
-        "method": "PUT",
-        "header": [
-          {
-            "key": "Content-Type",
-            "value": "application/json"
-          }
-        ],
-        "url": {
-          "raw": "{{baseUrl}}/vaccinationrecords/{{vaccination_record_id}}",
-          "host": [
-            "{{baseUrl}}"
-          ],
-          "path": [
-            "vaccinationrecords",
-            "{{vaccination_record_id}}"
           ]
         },
-        "body": {
-          "mode": "raw",
-          "raw": "{\n    \"pet\": {\n        \"id\": 1\n    }\n}",
-          "options": {
-            "raw": {
-              "language": "json"
-            }
-          }
-        }
-      },
-      "response": [
         {
-          "name": "Editar un registro de vacunacion",
-          "originalRequest": {
-            "method": "PUT",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
+          "name": "Obtener el registro de vacunacion de una mascota que no tiene",
+          "request": {
+            "method": "GET",
+            "header": [],
             "url": {
-              "raw": "{{baseUrl}}/vaccinationrecords/{{vaccination_record_id}}",
+              "raw": "{{baseUrl}}/vaccinationRecords/pet/999999",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
-                "vaccinationrecords",
-                "{{vaccination_record_id}}"
+                "vaccinationRecords",
+                "pet",
+                "999999"
               ]
-            },
-            "body": {
-              "mode": "raw",
-              "raw": "{\n    \"pet\": {\n        \"id\": 1\n    }\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
             }
           },
-          "status": "OK",
-          "code": 200,
-          "_postman_previewlanguage": "json",
-          "header": [
+          "response": [],
+          "event": [
             {
-              "key": "Content-Type",
-              "value": "application/json"
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code is 404\", function () {",
+                  "   pm.response.to.have.status(404);",
+                  "});",
+                  "",
+                  "pm.test(\"Get expected error message\", function () {",
+                  "   var data = pm.response.json();",
+                  "",
+                  "   pm.expect(data.apierror.message).to.eql(\"Vaccination record not found for that pet\");",
+                  "});"
+                ]
+              }
             }
-          ],
-          "cookie": [],
-          "body": "{\n    \"id\": 1\n}"
-        }
-      ]
-    },
-    {
-      "name": "Editar un registro de vacunacion que no existe",
-      "request": {
-        "method": "PUT",
-        "header": [
-          {
-            "key": "Content-Type",
-            "value": "application/json"
-          }
-        ],
-        "url": {
-          "raw": "{{baseUrl}}/vaccinationrecords/0",
-          "host": [
-            "{{baseUrl}}"
-          ],
-          "path": [
-            "vaccinationrecords",
-            "0"
           ]
         },
-        "body": {
-          "mode": "raw",
-          "raw": "{\n    \"pet\": {\n        \"id\": 1\n    }\n}",
-          "options": {
-            "raw": {
-              "language": "json"
-            }
-          }
-        }
-      },
-      "response": [
         {
           "name": "Editar un registro de vacunacion que no existe",
-          "originalRequest": {
+          "request": {
             "method": "PUT",
             "header": [
               {
@@ -554,18 +368,18 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/vaccinationrecords/0",
+              "raw": "{{baseUrl}}/vaccinationRecords/999999",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
-                "vaccinationrecords",
-                "0"
+                "vaccinationRecords",
+                "999999"
               ]
             },
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"pet\": {\n        \"id\": 1\n    }\n}",
+              "raw": "{}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -573,158 +387,1231 @@
               }
             }
           },
-          "status": "Not Found",
-          "code": 404,
-          "_postman_previewlanguage": "json",
-          "header": [
+          "response": [],
+          "event": [
             {
-              "key": "Content-Type",
-              "value": "application/json"
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code is 404\", function () {",
+                  "   pm.response.to.have.status(404);",
+                  "});",
+                  "",
+                  "pm.test(\"Get expected error message\", function () {",
+                  "   var data = pm.response.json();",
+                  "",
+                  "   pm.expect(data.apierror.message).to.eql(\"Vaccination record not found\");",
+                  "});"
+                ]
+              }
             }
-          ],
-          "cookie": [],
-          "body": "{\n    \"apierror\": {\n        \"status\": \"NOT_FOUND\",\n        \"timestamp\": \"20-09-2026 10:01:09\",\n        \"message\": \"The vaccination record with the given id was not found\"\n    }\n}"
-        }
-      ]
-    },
-    {
-      "name": "Borrar un registro de vacunacion",
-      "request": {
-        "method": "DELETE",
-        "header": [],
-        "url": {
-          "raw": "{{baseUrl}}/vaccinationrecords/{{vaccination_record_id}}",
-          "host": [
-            "{{baseUrl}}"
-          ],
-          "path": [
-            "vaccinationrecords",
-            "{{vaccination_record_id}}"
           ]
-        }
-      },
-      "response": [
+        },
         {
-          "name": "Borrar un registro de vacunacion",
-          "originalRequest": {
-            "method": "DELETE",
-            "header": [],
+          "name": "Editar un registro de vacunacion con un id invalido",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
             "url": {
-              "raw": "{{baseUrl}}/vaccinationrecords/{{vaccination_record_id}}",
+              "raw": "{{baseUrl}}/vaccinationRecords/0",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
-                "vaccinationrecords",
-                "{{vaccination_record_id}}"
+                "vaccinationRecords",
+                "0"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code is 412\", function () {",
+                  "   pm.response.to.have.status(412);",
+                  "});",
+                  "",
+                  "pm.test(\"Get expected error message\", function () {",
+                  "   var data = pm.response.json();",
+                  "",
+                  "   pm.expect(data.apierror.message).to.eql(\"Vaccination record id is not valid\");",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Borrar un registro de vacunacion que no existe",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/vaccinationRecords/999999",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "vaccinationRecords",
+                "999999"
               ]
             }
           },
-          "status": "No Content",
-          "code": 204,
-          "_postman_previewlanguage": "json",
-          "header": [
+          "response": [],
+          "event": [
             {
-              "key": "Content-Type",
-              "value": "application/json"
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code is 404\", function () {",
+                  "   pm.response.to.have.status(404);",
+                  "});",
+                  "",
+                  "pm.test(\"Get expected error message\", function () {",
+                  "   var data = pm.response.json();",
+                  "",
+                  "   pm.expect(data.apierror.message).to.eql(\"Vaccination record not found\");",
+                  "});"
+                ]
+              }
             }
-          ],
-          "cookie": [],
-          "body": ""
-        }
-      ]
-    },
-    {
-      "name": "Borrar un registro de vacunacion que no existe",
-      "request": {
-        "method": "DELETE",
-        "header": [],
-        "url": {
-          "raw": "{{baseUrl}}/vaccinationrecords/0",
-          "host": [
-            "{{baseUrl}}"
-          ],
-          "path": [
-            "vaccinationrecords",
-            "0"
           ]
-        }
-      },
-      "response": [
+        },
         {
-          "name": "Borrar un registro de vacunacion que no existe",
-          "originalRequest": {
+          "name": "Borrar un registro de vacunacion con un id invalido",
+          "request": {
             "method": "DELETE",
             "header": [],
             "url": {
-              "raw": "{{baseUrl}}/vaccinationrecords/0",
+              "raw": "{{baseUrl}}/vaccinationRecords/0",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
-                "vaccinationrecords",
+                "vaccinationRecords",
                 "0"
               ]
             }
           },
-          "status": "Not Found",
-          "code": 404,
-          "_postman_previewlanguage": "json",
-          "header": [
+          "response": [],
+          "event": [
             {
-              "key": "Content-Type",
-              "value": "application/json"
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code is 412\", function () {",
+                  "   pm.response.to.have.status(412);",
+                  "});",
+                  "",
+                  "pm.test(\"Get expected error message\", function () {",
+                  "   var data = pm.response.json();",
+                  "",
+                  "   pm.expect(data.apierror.message).to.eql(\"Vaccination record id is not valid\");",
+                  "});"
+                ]
+              }
             }
-          ],
-          "cookie": [],
-          "body": "{\n    \"apierror\": {\n        \"status\": \"NOT_FOUND\",\n        \"timestamp\": \"20-09-2026 10:01:09\",\n        \"message\": \"The vaccination record with the given id was not found\"\n    }\n}"
+          ]
         }
       ]
     },
     {
-      "name": "Borrar un registro de vacunacion con vacunas asociadas",
-      "request": {
-        "method": "DELETE",
-        "header": [],
-        "url": {
-          "raw": "{{baseUrl}}/vaccinationrecords/{{vaccination_record_id}}",
-          "host": [
-            "{{baseUrl}}"
-          ],
-          "path": [
-            "vaccinationrecords",
-            "{{vaccination_record_id}}"
-          ]
-        }
-      },
-      "response": [
+      "name": "B. Requieren mascotas (se omiten si faltan sus variables)",
+      "item": [
         {
-          "name": "Borrar un registro de vacunacion con vacunas asociadas",
-          "originalRequest": {
-            "method": "DELETE",
-            "header": [],
+          "name": "Crear un registro de vacunacion",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
             "url": {
-              "raw": "{{baseUrl}}/vaccinationrecords/{{vaccination_record_id}}",
+              "raw": "{{baseUrl}}/vaccinationRecords",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
-                "vaccinationrecords",
+                "vaccinationRecords"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{ \"pet\": { \"id\": {{pet_id_1}} } }",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// Prerrequisitos de esta peticion: pet_id_1",
+                  "// Si falta alguno la peticion se omite (Skipped) en lugar de fallar.",
+                  "// Se limpian los ids de corridas anteriores para no reutilizar datos viejos.",
+                  "pm.globals.unset(\"vaccination_record_id\");",
+                  "pm.globals.unset(\"vaccination_record_id_2\");",
+                  "pm.globals.unset(\"vaccination_record_vaccine_id\");",
+                  "",
+                  "var needs = [\"pet_id_1\"];",
+                  "var missing = needs.filter(function (name) {",
+                  "   var value = pm.variables.get(name);",
+                  "   return value === undefined || value === null || value === \"\";",
+                  "});",
+                  "",
+                  "pm.variables.set(\"skip_request\", missing.length > 0 ? \"1\" : \"\");",
+                  "if (missing.length > 0) {",
+                  "   console.warn(\"Peticion omitida: faltan las variables \" + missing.join(\", \") + \" (ver descripcion de la coleccion).\");",
+                  "   if (pm.execution && pm.execution.skipRequest) {",
+                  "      pm.execution.skipRequest();",
+                  "   }",
+                  "}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "var skipped = !!pm.variables.get(\"skip_request\");",
+                  "",
+                  "if (!skipped) {",
+                  "   var data = pm.response.json();",
+                  "",
+                  "   if (pm.response.code === 201) {",
+                  "      pm.globals.set(\"vaccination_record_id\", data.id);",
+                  "   }",
+                  "",
+                  "   pm.test(\"Status code is 201\", function () {",
+                  "      pm.response.to.have.status(201);",
+                  "   });",
+                  "",
+                  "   pm.test(\"Record is linked to the pet\", function () {",
+                  "      var data = pm.response.json();",
+                  "",
+                  "      pm.expect(data.pet.id).to.eql(parseInt(pm.globals.get(\"pet_id_1\")));",
+                  "   });",
+                  "}"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Crear un registro de vacunacion de una mascota adoptada",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/vaccinationRecords",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "vaccinationRecords"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{ \"pet\": { \"id\": {{pet_id_adopted}} } }",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// Prerrequisitos de esta peticion: pet_id_adopted",
+                  "// Si falta alguno la peticion se omite (Skipped) en lugar de fallar.",
+                  "var needs = [\"pet_id_adopted\"];",
+                  "var missing = needs.filter(function (name) {",
+                  "   var value = pm.variables.get(name);",
+                  "   return value === undefined || value === null || value === \"\";",
+                  "});",
+                  "",
+                  "pm.variables.set(\"skip_request\", missing.length > 0 ? \"1\" : \"\");",
+                  "if (missing.length > 0) {",
+                  "   console.warn(\"Peticion omitida: faltan las variables \" + missing.join(\", \") + \" (ver descripcion de la coleccion).\");",
+                  "   if (pm.execution && pm.execution.skipRequest) {",
+                  "      pm.execution.skipRequest();",
+                  "   }",
+                  "}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "var skipped = !!pm.variables.get(\"skip_request\");",
+                  "",
+                  "if (!skipped) {",
+                  "   var data = pm.response.json();",
+                  "",
+                  "   if (pm.response.code === 201) {",
+                  "      pm.globals.set(\"vaccination_record_id_2\", data.id);",
+                  "   }",
+                  "",
+                  "   pm.test(\"Status code is 201\", function () {",
+                  "      pm.response.to.have.status(201);",
+                  "   });",
+                  "}"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Crear un registro de vacunacion para una mascota que ya tiene uno",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/vaccinationRecords",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "vaccinationRecords"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{ \"pet\": { \"id\": {{pet_id_1}} } }",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// Prerrequisitos de esta peticion: pet_id_1, vaccination_record_id",
+                  "// Si falta alguno la peticion se omite (Skipped) en lugar de fallar.",
+                  "var needs = [\"pet_id_1\", \"vaccination_record_id\"];",
+                  "var missing = needs.filter(function (name) {",
+                  "   var value = pm.variables.get(name);",
+                  "   return value === undefined || value === null || value === \"\";",
+                  "});",
+                  "",
+                  "pm.variables.set(\"skip_request\", missing.length > 0 ? \"1\" : \"\");",
+                  "if (missing.length > 0) {",
+                  "   console.warn(\"Peticion omitida: faltan las variables \" + missing.join(\", \") + \" (ver descripcion de la coleccion).\");",
+                  "   if (pm.execution && pm.execution.skipRequest) {",
+                  "      pm.execution.skipRequest();",
+                  "   }",
+                  "}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "var skipped = !!pm.variables.get(\"skip_request\");",
+                  "",
+                  "if (!skipped) {",
+                  "   pm.test(\"Status code is 412\", function () {",
+                  "      pm.response.to.have.status(412);",
+                  "   });",
+                  "",
+                  "   pm.test(\"Get expected error message\", function () {",
+                  "      var data = pm.response.json();",
+                  "",
+                  "      pm.expect(data.apierror.message).to.eql(\"This pet already has a vaccination record\");",
+                  "   });",
+                  "}"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Obtener todos los registros de vacunacion con datos",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/vaccinationRecords",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "vaccinationRecords"
+              ]
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// Prerrequisitos de esta peticion: vaccination_record_id",
+                  "// Si falta alguno la peticion se omite (Skipped) en lugar de fallar.",
+                  "var needs = [\"vaccination_record_id\"];",
+                  "var missing = needs.filter(function (name) {",
+                  "   var value = pm.variables.get(name);",
+                  "   return value === undefined || value === null || value === \"\";",
+                  "});",
+                  "",
+                  "pm.variables.set(\"skip_request\", missing.length > 0 ? \"1\" : \"\");",
+                  "if (missing.length > 0) {",
+                  "   console.warn(\"Peticion omitida: faltan las variables \" + missing.join(\", \") + \" (ver descripcion de la coleccion).\");",
+                  "   if (pm.execution && pm.execution.skipRequest) {",
+                  "      pm.execution.skipRequest();",
+                  "   }",
+                  "}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "var skipped = !!pm.variables.get(\"skip_request\");",
+                  "",
+                  "if (!skipped) {",
+                  "   pm.test(\"Number of items > 0\", function () {",
+                  "      var data = pm.response.json();",
+                  "",
+                  "      pm.expect(data.length).to.greaterThan(0);",
+                  "   });",
+                  "",
+                  "   pm.test(\"Status code is 200\", function () {",
+                  "      pm.response.to.have.status(200);",
+                  "   });",
+                  "}"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Obtener un registro de vacunacion",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/vaccinationRecords/{{vaccination_record_id}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "vaccinationRecords",
                 "{{vaccination_record_id}}"
               ]
             }
           },
-          "status": "Precondition Failed",
-          "code": 412,
-          "_postman_previewlanguage": "json",
-          "header": [
+          "response": [],
+          "event": [
             {
-              "key": "Content-Type",
-              "value": "application/json"
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// Prerrequisitos de esta peticion: vaccination_record_id",
+                  "// Si falta alguno la peticion se omite (Skipped) en lugar de fallar.",
+                  "var needs = [\"vaccination_record_id\"];",
+                  "var missing = needs.filter(function (name) {",
+                  "   var value = pm.variables.get(name);",
+                  "   return value === undefined || value === null || value === \"\";",
+                  "});",
+                  "",
+                  "pm.variables.set(\"skip_request\", missing.length > 0 ? \"1\" : \"\");",
+                  "if (missing.length > 0) {",
+                  "   console.warn(\"Peticion omitida: faltan las variables \" + missing.join(\", \") + \" (ver descripcion de la coleccion).\");",
+                  "   if (pm.execution && pm.execution.skipRequest) {",
+                  "      pm.execution.skipRequest();",
+                  "   }",
+                  "}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "var skipped = !!pm.variables.get(\"skip_request\");",
+                  "",
+                  "if (!skipped) {",
+                  "   pm.test(\"Status code is 200\", function () {",
+                  "      pm.response.to.have.status(200);",
+                  "   });",
+                  "",
+                  "   pm.test(\"Returned id matches vaccination_record_id\", function () {",
+                  "      var data = pm.response.json();",
+                  "",
+                  "      pm.expect(data.id).to.eql(parseInt(pm.globals.get(\"vaccination_record_id\")));",
+                  "   });",
+                  "",
+                  "   pm.test(\"Detail includes the vaccines list\", function () {",
+                  "      var data = pm.response.json();",
+                  "",
+                  "      pm.expect(data.vaccines).to.be.an(\"array\");",
+                  "   });",
+                  "}"
+                ]
+              }
             }
-          ],
-          "cookie": [],
-          "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"20-09-2026 10:01:09\",\n        \"message\": \"Unable to delete vaccination record because it has associated vaccines\"\n    }\n}"
+          ]
+        },
+        {
+          "name": "Obtener el registro de vacunacion de una mascota",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/vaccinationRecords/pet/{{pet_id_1}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "vaccinationRecords",
+                "pet",
+                "{{pet_id_1}}"
+              ]
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// Prerrequisitos de esta peticion: pet_id_1, vaccination_record_id",
+                  "// Si falta alguno la peticion se omite (Skipped) en lugar de fallar.",
+                  "var needs = [\"pet_id_1\", \"vaccination_record_id\"];",
+                  "var missing = needs.filter(function (name) {",
+                  "   var value = pm.variables.get(name);",
+                  "   return value === undefined || value === null || value === \"\";",
+                  "});",
+                  "",
+                  "pm.variables.set(\"skip_request\", missing.length > 0 ? \"1\" : \"\");",
+                  "if (missing.length > 0) {",
+                  "   console.warn(\"Peticion omitida: faltan las variables \" + missing.join(\", \") + \" (ver descripcion de la coleccion).\");",
+                  "   if (pm.execution && pm.execution.skipRequest) {",
+                  "      pm.execution.skipRequest();",
+                  "   }",
+                  "}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "var skipped = !!pm.variables.get(\"skip_request\");",
+                  "",
+                  "if (!skipped) {",
+                  "   pm.test(\"Status code is 200\", function () {",
+                  "      pm.response.to.have.status(200);",
+                  "   });",
+                  "",
+                  "   pm.test(\"Returned id matches vaccination_record_id\", function () {",
+                  "      var data = pm.response.json();",
+                  "",
+                  "      pm.expect(data.id).to.eql(parseInt(pm.globals.get(\"vaccination_record_id\")));",
+                  "   });",
+                  "}"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Editar un registro de vacunacion",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/vaccinationRecords/{{vaccination_record_id}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "vaccinationRecords",
+                "{{vaccination_record_id}}"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{ \"pet\": { \"id\": {{pet_id_1}} } }",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// Prerrequisitos de esta peticion: pet_id_1, vaccination_record_id",
+                  "// Si falta alguno la peticion se omite (Skipped) en lugar de fallar.",
+                  "var needs = [\"pet_id_1\", \"vaccination_record_id\"];",
+                  "var missing = needs.filter(function (name) {",
+                  "   var value = pm.variables.get(name);",
+                  "   return value === undefined || value === null || value === \"\";",
+                  "});",
+                  "",
+                  "pm.variables.set(\"skip_request\", missing.length > 0 ? \"1\" : \"\");",
+                  "if (missing.length > 0) {",
+                  "   console.warn(\"Peticion omitida: faltan las variables \" + missing.join(\", \") + \" (ver descripcion de la coleccion).\");",
+                  "   if (pm.execution && pm.execution.skipRequest) {",
+                  "      pm.execution.skipRequest();",
+                  "   }",
+                  "}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "var skipped = !!pm.variables.get(\"skip_request\");",
+                  "",
+                  "if (!skipped) {",
+                  "   pm.test(\"Status code is 200\", function () {",
+                  "      pm.response.to.have.status(200);",
+                  "   });",
+                  "",
+                  "   pm.test(\"Returned id matches vaccination_record_id\", function () {",
+                  "      var data = pm.response.json();",
+                  "",
+                  "      pm.expect(data.id).to.eql(parseInt(pm.globals.get(\"vaccination_record_id\")));",
+                  "   });",
+                  "}"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Editar un registro de vacunacion con una mascota sin id",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/vaccinationRecords/{{vaccination_record_id}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "vaccinationRecords",
+                "{{vaccination_record_id}}"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{ \"pet\": {} }",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// Prerrequisitos de esta peticion: vaccination_record_id",
+                  "// Si falta alguno la peticion se omite (Skipped) en lugar de fallar.",
+                  "var needs = [\"vaccination_record_id\"];",
+                  "var missing = needs.filter(function (name) {",
+                  "   var value = pm.variables.get(name);",
+                  "   return value === undefined || value === null || value === \"\";",
+                  "});",
+                  "",
+                  "pm.variables.set(\"skip_request\", missing.length > 0 ? \"1\" : \"\");",
+                  "if (missing.length > 0) {",
+                  "   console.warn(\"Peticion omitida: faltan las variables \" + missing.join(\", \") + \" (ver descripcion de la coleccion).\");",
+                  "   if (pm.execution && pm.execution.skipRequest) {",
+                  "      pm.execution.skipRequest();",
+                  "   }",
+                  "}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "var skipped = !!pm.variables.get(\"skip_request\");",
+                  "",
+                  "if (!skipped) {",
+                  "   pm.test(\"Status code is 412\", function () {",
+                  "      pm.response.to.have.status(412);",
+                  "   });",
+                  "",
+                  "   pm.test(\"Get expected error message\", function () {",
+                  "      var data = pm.response.json();",
+                  "",
+                  "      pm.expect(data.apierror.message).to.eql(\"The vaccination record cannot be reassigned to a different pet\");",
+                  "   });",
+                  "}"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Editar un registro de vacunacion reasignandolo a otra mascota",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/vaccinationRecords/{{vaccination_record_id}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "vaccinationRecords",
+                "{{vaccination_record_id}}"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{ \"pet\": { \"id\": {{pet_id_2}} } }",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// Prerrequisitos de esta peticion: pet_id_2, vaccination_record_id",
+                  "// Si falta alguno la peticion se omite (Skipped) en lugar de fallar.",
+                  "var needs = [\"pet_id_2\", \"vaccination_record_id\"];",
+                  "var missing = needs.filter(function (name) {",
+                  "   var value = pm.variables.get(name);",
+                  "   return value === undefined || value === null || value === \"\";",
+                  "});",
+                  "",
+                  "pm.variables.set(\"skip_request\", missing.length > 0 ? \"1\" : \"\");",
+                  "if (missing.length > 0) {",
+                  "   console.warn(\"Peticion omitida: faltan las variables \" + missing.join(\", \") + \" (ver descripcion de la coleccion).\");",
+                  "   if (pm.execution && pm.execution.skipRequest) {",
+                  "      pm.execution.skipRequest();",
+                  "   }",
+                  "}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "var skipped = !!pm.variables.get(\"skip_request\");",
+                  "",
+                  "if (!skipped) {",
+                  "   pm.test(\"Status code is 412\", function () {",
+                  "      pm.response.to.have.status(412);",
+                  "   });",
+                  "",
+                  "   pm.test(\"Get expected error message\", function () {",
+                  "      var data = pm.response.json();",
+                  "",
+                  "      pm.expect(data.apierror.message).to.eql(\"The vaccination record cannot be reassigned to a different pet\");",
+                  "   });",
+                  "}"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Agregar una vacuna al registro (preparacion de la prueba siguiente)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/vaccinationRecords/{{vaccination_record_id}}/vaccines",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "vaccinationRecords",
+                "{{vaccination_record_id}}",
+                "vaccines"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\": \"Rabia\",\n    \"administrationDate\": \"2026-01-15\",\n    \"nextAdministration\": \"2030-01-15\",\n    \"status\": true\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// Prerrequisitos de esta peticion: vaccination_record_id",
+                  "// Si falta alguno la peticion se omite (Skipped) en lugar de fallar.",
+                  "var needs = [\"vaccination_record_id\"];",
+                  "var missing = needs.filter(function (name) {",
+                  "   var value = pm.variables.get(name);",
+                  "   return value === undefined || value === null || value === \"\";",
+                  "});",
+                  "",
+                  "pm.variables.set(\"skip_request\", missing.length > 0 ? \"1\" : \"\");",
+                  "if (missing.length > 0) {",
+                  "   console.warn(\"Peticion omitida: faltan las variables \" + missing.join(\", \") + \" (ver descripcion de la coleccion).\");",
+                  "   if (pm.execution && pm.execution.skipRequest) {",
+                  "      pm.execution.skipRequest();",
+                  "   }",
+                  "}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "var skipped = !!pm.variables.get(\"skip_request\");",
+                  "",
+                  "if (!skipped) {",
+                  "   var data = pm.response.json();",
+                  "",
+                  "   if (pm.response.code === 201) {",
+                  "      pm.globals.set(\"vaccination_record_vaccine_id\", data.id);",
+                  "   }",
+                  "",
+                  "   pm.test(\"Status code is 201\", function () {",
+                  "      pm.response.to.have.status(201);",
+                  "   });",
+                  "}"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Editar un registro de vacunacion que ya tiene vacunas",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/vaccinationRecords/{{vaccination_record_id}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "vaccinationRecords",
+                "{{vaccination_record_id}}"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{ \"pet\": { \"id\": {{pet_id_1}} } }",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// Prerrequisitos de esta peticion: pet_id_1, vaccination_record_id",
+                  "// Si falta alguno la peticion se omite (Skipped) en lugar de fallar.",
+                  "var needs = [\"pet_id_1\", \"vaccination_record_id\"];",
+                  "var missing = needs.filter(function (name) {",
+                  "   var value = pm.variables.get(name);",
+                  "   return value === undefined || value === null || value === \"\";",
+                  "});",
+                  "",
+                  "pm.variables.set(\"skip_request\", missing.length > 0 ? \"1\" : \"\");",
+                  "if (missing.length > 0) {",
+                  "   console.warn(\"Peticion omitida: faltan las variables \" + missing.join(\", \") + \" (ver descripcion de la coleccion).\");",
+                  "   if (pm.execution && pm.execution.skipRequest) {",
+                  "      pm.execution.skipRequest();",
+                  "   }",
+                  "}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "var skipped = !!pm.variables.get(\"skip_request\");",
+                  "",
+                  "if (!skipped) {",
+                  "   pm.test(\"Status code is 200\", function () {",
+                  "      pm.response.to.have.status(200);",
+                  "   });",
+                  "}"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Obtener el registro editado conserva sus vacunas",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/vaccinationRecords/{{vaccination_record_id}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "vaccinationRecords",
+                "{{vaccination_record_id}}"
+              ]
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// Prerrequisitos de esta peticion: vaccination_record_id",
+                  "// Si falta alguno la peticion se omite (Skipped) en lugar de fallar.",
+                  "var needs = [\"vaccination_record_id\"];",
+                  "var missing = needs.filter(function (name) {",
+                  "   var value = pm.variables.get(name);",
+                  "   return value === undefined || value === null || value === \"\";",
+                  "});",
+                  "",
+                  "pm.variables.set(\"skip_request\", missing.length > 0 ? \"1\" : \"\");",
+                  "if (missing.length > 0) {",
+                  "   console.warn(\"Peticion omitida: faltan las variables \" + missing.join(\", \") + \" (ver descripcion de la coleccion).\");",
+                  "   if (pm.execution && pm.execution.skipRequest) {",
+                  "      pm.execution.skipRequest();",
+                  "   }",
+                  "}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "var skipped = !!pm.variables.get(\"skip_request\");",
+                  "",
+                  "if (!skipped) {",
+                  "   pm.test(\"Status code is 200\", function () {",
+                  "      pm.response.to.have.status(200);",
+                  "   });",
+                  "",
+                  "   pm.test(\"Vaccines are still there after the update\", function () {",
+                  "      var data = pm.response.json();",
+                  "",
+                  "      pm.expect(data.vaccines.length).to.greaterThan(0);",
+                  "   });",
+                  "}"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Borrar un registro de vacunacion de una mascota activa en el refugio",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/vaccinationRecords/{{vaccination_record_id}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "vaccinationRecords",
+                "{{vaccination_record_id}}"
+              ]
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// Prerrequisitos de esta peticion: vaccination_record_id",
+                  "// Si falta alguno la peticion se omite (Skipped) en lugar de fallar.",
+                  "var needs = [\"vaccination_record_id\"];",
+                  "var missing = needs.filter(function (name) {",
+                  "   var value = pm.variables.get(name);",
+                  "   return value === undefined || value === null || value === \"\";",
+                  "});",
+                  "",
+                  "pm.variables.set(\"skip_request\", missing.length > 0 ? \"1\" : \"\");",
+                  "if (missing.length > 0) {",
+                  "   console.warn(\"Peticion omitida: faltan las variables \" + missing.join(\", \") + \" (ver descripcion de la coleccion).\");",
+                  "   if (pm.execution && pm.execution.skipRequest) {",
+                  "      pm.execution.skipRequest();",
+                  "   }",
+                  "}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "var skipped = !!pm.variables.get(\"skip_request\");",
+                  "",
+                  "if (!skipped) {",
+                  "   pm.test(\"Status code is 412\", function () {",
+                  "      pm.response.to.have.status(412);",
+                  "   });",
+                  "",
+                  "   pm.test(\"Get expected error message\", function () {",
+                  "      var data = pm.response.json();",
+                  "",
+                  "      pm.expect(data.apierror.message).to.eql(\"Vaccination record cannot be deleted while the pet is still active in the shelter\");",
+                  "   });",
+                  "}"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Borrar un registro de vacunacion",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/vaccinationRecords/{{vaccination_record_id_2}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "vaccinationRecords",
+                "{{vaccination_record_id_2}}"
+              ]
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// Prerrequisitos de esta peticion: vaccination_record_id_2",
+                  "// Si falta alguno la peticion se omite (Skipped) en lugar de fallar.",
+                  "var needs = [\"vaccination_record_id_2\"];",
+                  "var missing = needs.filter(function (name) {",
+                  "   var value = pm.variables.get(name);",
+                  "   return value === undefined || value === null || value === \"\";",
+                  "});",
+                  "",
+                  "pm.variables.set(\"skip_request\", missing.length > 0 ? \"1\" : \"\");",
+                  "if (missing.length > 0) {",
+                  "   console.warn(\"Peticion omitida: faltan las variables \" + missing.join(\", \") + \" (ver descripcion de la coleccion).\");",
+                  "   if (pm.execution && pm.execution.skipRequest) {",
+                  "      pm.execution.skipRequest();",
+                  "   }",
+                  "}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "var skipped = !!pm.variables.get(\"skip_request\");",
+                  "",
+                  "if (!skipped) {",
+                  "   pm.test(\"Status code is 204\", function () {",
+                  "      pm.response.to.have.status(204);",
+                  "   });",
+                  "}"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Obtener un registro de vacunacion borrado",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/vaccinationRecords/{{vaccination_record_id_2}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "vaccinationRecords",
+                "{{vaccination_record_id_2}}"
+              ]
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// Prerrequisitos de esta peticion: vaccination_record_id_2",
+                  "// Si falta alguno la peticion se omite (Skipped) en lugar de fallar.",
+                  "var needs = [\"vaccination_record_id_2\"];",
+                  "var missing = needs.filter(function (name) {",
+                  "   var value = pm.variables.get(name);",
+                  "   return value === undefined || value === null || value === \"\";",
+                  "});",
+                  "",
+                  "pm.variables.set(\"skip_request\", missing.length > 0 ? \"1\" : \"\");",
+                  "if (missing.length > 0) {",
+                  "   console.warn(\"Peticion omitida: faltan las variables \" + missing.join(\", \") + \" (ver descripcion de la coleccion).\");",
+                  "   if (pm.execution && pm.execution.skipRequest) {",
+                  "      pm.execution.skipRequest();",
+                  "   }",
+                  "}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "var skipped = !!pm.variables.get(\"skip_request\");",
+                  "",
+                  "if (!skipped) {",
+                  "   pm.test(\"Status code is 404\", function () {",
+                  "      pm.response.to.have.status(404);",
+                  "   });",
+                  "",
+                  "   pm.test(\"Get expected error message\", function () {",
+                  "      var data = pm.response.json();",
+                  "",
+                  "      pm.expect(data.apierror.message).to.eql(\"Vaccination record not found\");",
+                  "   });",
+                  "}"
+                ]
+              }
+            }
+          ]
         }
       ]
     }

@@ -1742,7 +1742,29 @@
 					]
 				}
 			],
-			"description": "BLOQUEADAS HOY: crear una resena exige una Adoption FINALIZED con su Adopter, y no existen endpoints para crear Adoption/Adopter; ademas POST /pets y POST /shelters no pueden completarse con los DTO actuales (PetDTO no trae medicalEvents y ShelterDTO no trae users).\n\nCuando existan, definir en globals antes de ejecutar esta carpeta:\n- pet_id_adopted: mascota con una adopcion FINALIZED\n- adoption_id_1: esa adopcion\n- adopter_id_1: adoptante de esa adopcion\n- pet_id_1: otra mascota (sin esa adopcion)"
+			"description": "BLOQUEADAS HOY: crear una resena exige una Adoption FINALIZED con su Adopter, y no existen endpoints para crear Adoption/Adopter; ademas POST /pets y POST /shelters no pueden completarse con los DTO actuales (PetDTO no trae medicalEvents y ShelterDTO no trae users).\n\nCuando existan, definir en globals antes de ejecutar esta carpeta:\n- pet_id_adopted: mascota con una adopcion FINALIZED\n- adoption_id_1: esa adopcion\n- adopter_id_1: adoptante de esa adopcion\n- pet_id_1: otra mascota (sin esa adopcion)\n\nGUARDA AUTOMATICA: esta carpeta tiene un script Pre-request que OMITE (Skipped, no Failed) cada peticion mientras no existan en globals las variables: pet_id_1, pet_id_adopted, adoption_id_1, adopter_id_1. En cuanto se definan, las pruebas se ejecutan normalmente.",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"// Prerrequisitos de la carpeta B (ver la descripcion de la carpeta).",
+							"// Si faltan, la peticion se omite (Skipped) en lugar de fallar.",
+							"var required = [\"pet_id_1\", \"pet_id_adopted\", \"adoption_id_1\", \"adopter_id_1\"];",
+							"var missing = required.filter(function (name) {",
+							"   var value = pm.variables.get(name);",
+							"   return value === undefined || value === null || value === '';",
+							"});",
+							"",
+							"if (missing.length > 0) {",
+							"   console.warn('Peticion omitida: faltan las variables ' + missing.join(', ') + ' (ver descripcion de la carpeta B).');",
+							"   pm.execution.skipRequest();",
+							"}"
+						]
+					}
+				}
+			]
 		}
 	]
 }
