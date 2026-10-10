@@ -116,7 +116,7 @@
         },
         "body": {
           "mode": "raw",
-          "raw": "{\n    \"url\": \"https://example.com/fotos/perfil.jpg\",\n    \"type\": \"JPG\",\n    \"description\": \"Foto de perfil de la mascota\",\n    \"shelter\": {\n        \"id\": \"{{shelter_id_1}\"\n    }\n}",
+          "raw": "{\n    \"url\": \"https://example.com/fotos/perfil.jpg\",\n    \"type\": \"JPG\",\n    \"description\": \"Foto de perfil de la mascota\",\n    \"shelter\": {\n        \"id\": \"{{shelter_id_1}}\"\n    }\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -146,7 +146,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"url\": \"https://example.com/fotos/perfil.jpg\",\n    \"type\": \"JPG\",\n    \"description\": \"Foto de perfil de la mascota\",\n    \"shelter\": {\n        \"id\": \"{{shelter_id_1}\"\n    }\n}",
+              "raw": "{\n    \"url\": \"https://example.com/fotos/perfil.jpg\",\n    \"type\": \"JPG\",\n    \"description\": \"Foto de perfil de la mascota\",\n    \"shelter\": {\n        \"id\": \"{{shelter_id_1}}\"\n    }\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -951,7 +951,7 @@
         "method": "GET",
         "header": [],
         "url": {
-          "raw": "{{baseUrl}}/photos?petId=9999",
+          "raw": "{{baseUrl}}/photos?petId={{pet_id_empty}}",
           "host": [
             "{{baseUrl}}"
           ],
@@ -973,7 +973,7 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{baseUrl}}/photos?petId=9999",
+              "raw": "{{baseUrl}}/photos?petId={{pet_id_empty}}",
               "host": [
                 "{{baseUrl}}"
               ],
