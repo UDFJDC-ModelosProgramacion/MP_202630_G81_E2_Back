@@ -29,9 +29,6 @@ public class VaccinationRecordService {
 	private final VaccinationRecordRepository vaccinationRecordRepository;
 	private final PetRepository petRepository;
 
-	/**
-	 * Crea un nuevo registro de vacunación.
-	 */
 	@Transactional
 	public VaccinationRecordEntity createVaccinationRecord(VaccinationRecordEntity vaccinationRecord)
 			throws EntityNotFoundException, IllegalOperationException {
@@ -55,9 +52,6 @@ public class VaccinationRecordService {
 		return vaccinationRecordRepository.save(vaccinationRecord);
 	}
 
-	/**
-	 * Obtiene todos los registros de vacunación.
-	 */
 	@Transactional
 	public List<VaccinationRecordEntity> getVaccinationRecords() {
 		log.info("Starting process to consult all vaccination records");
@@ -67,9 +61,6 @@ public class VaccinationRecordService {
 		return records;
 	}
 
-	/**
-	 * Obtiene el registro de vacunación asociado a una mascota específica.
-	 */
 	@Transactional
 	public VaccinationRecordEntity getVaccinationRecordByPet(Long petId) throws EntityNotFoundException {
 		log.info("Starting process to consult vaccination record for pet with id = {}", petId);
@@ -81,9 +72,6 @@ public class VaccinationRecordService {
 		return vaccinationRecord.get();
 	}
 
-	/**
-	 * Obtiene un registro de vacunación a partir de su id.
-	 */
 	@Transactional
 	public VaccinationRecordEntity getVaccinationRecord(Long recordId) throws EntityNotFoundException, IllegalOperationException {
 		log.info("Starting process to consult vaccination record with id = {}", recordId);
@@ -98,9 +86,6 @@ public class VaccinationRecordService {
 		return vaccinationRecord.get();
 	}
 
-	/**
-	 * Actualiza un registro de vacunación existente.
-	 */
 	@Transactional
 	public VaccinationRecordEntity updateVaccinationRecord(Long recordId, VaccinationRecordEntity vaccinationRecord)
 			throws EntityNotFoundException, IllegalOperationException {
@@ -125,9 +110,6 @@ public class VaccinationRecordService {
 		return vaccinationRecordRepository.save(vaccinationRecord);
 	}
 
-	/**
-	 * Agrega una vacuna a un registro de vacunación existente.
-	 */
 	@Transactional
 	public VaccinationRecordEntity addVaccine(Long recordId, VaccineEntity vaccine)
 			throws EntityNotFoundException, IllegalOperationException {
@@ -150,9 +132,6 @@ public class VaccinationRecordService {
 		return vaccinationRecordRepository.save(current);
 	}
 
-	/**
-	 * Borra un registro de vacunación a partir de su id.
-	 */
 	@Transactional
 	public void deleteVaccinationRecord(Long recordId) throws EntityNotFoundException, IllegalOperationException {
 		log.info("Starting process to delete vaccination record with id = {}", recordId);
@@ -168,7 +147,6 @@ public class VaccinationRecordService {
 			throw new IllegalOperationException(
 					"Vaccination record cannot be deleted while the pet is still active in the shelter");
 
-		// relación vaccines, sus vacunas asociadas se borran en cascada.
 		vaccinationRecordRepository.deleteById(recordId);
 		log.info("Ending process to delete vaccination record with id = {}", recordId);
 	}

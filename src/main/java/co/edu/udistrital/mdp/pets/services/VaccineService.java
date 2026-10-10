@@ -26,21 +26,21 @@ public class VaccineService {
 	private static final String FINALIZED_STATUS = "FINALIZED";
 	private static final String VACCINE_ID_NOT_VALID = "Vaccine id is not valid";
 	private static final String VACCINE_NOT_FOUND = "Vaccine not found";
+	private static final String VACCINATION_RECORD_NOT_FOUND = "Vaccination record not found";
+	private static final String VACCINE_NOT_ASSOCIATED_TO_RECORD = "The vaccine is not associated with the vaccination record";
 
 	private final VaccineRepository vaccineRepository;
 	private final VaccinationRecordRepository vaccinationRecordRepository;
 	private final AdoptionRepository adoptionRepository;
 
 	@Transactional
-	public VaccineEntity createVaccine(VaccineEntity vaccine) throws EntityNotFoundException, IllegalOperationException {
-		log.info("Vaccine creation process begins");
+	public VaccineEntity createVaccine(Long vaccinationRecordId, VaccineEntity vaccine)
+			throws EntityNotFoundException, IllegalOperationException {
+		log.info("Vaccine creation process begins for vaccination record with id = {}", vaccinationRecordId);
 
-		if (vaccine.getName() == null || vaccine.getName().isBlank())
-			throw new IllegalOperationException("Name cannot be null or empty");
-		if (vaccine.getAdministrationDate() == null)
-			throw new IllegalOperationException("Administration date cannot be null");
-		if (vaccine.getStatus() == null)
-			throw new IllegalOperationException("Status must be explicitly initialized");
+		VaccinationRecordEntity vaccinationRecord = findVaccinationRecordOrThrow(vaccinationRecordId);
+
+		validateMandatoryAttributes(vaccine);
 
 		if (vaccine.getAdministrationDate().after(new Date()))
 			throw new IllegalOperationException("Administration date cannot be a future date");
@@ -49,18 +49,11 @@ public class VaccineService {
 				&& !vaccine.getNextAdministration().after(vaccine.getAdministrationDate()))
 			throw new IllegalOperationException("Next administration must be a date later than administration date");
 
-		if (vaccine.getVaccinationRecord() == null || vaccine.getVaccinationRecord().getId() == null)
-			throw new IllegalOperationException("Vaccine must be associated with an existing vaccination record");
-		Optional<VaccinationRecordEntity> vaccinationRecord = vaccinationRecordRepository
-				.findById(vaccine.getVaccinationRecord().getId());
-		if (vaccinationRecord.isEmpty())
-			throw new EntityNotFoundException("Vaccination record not found");
-
-		vaccine.setVaccinationRecord(vaccinationRecord.get());
+		vaccine.setVaccinationRecord(vaccinationRecord);
 
 		boolean duplicated = vaccineRepository.findAll().stream()
 				.filter(v -> v.getVaccinationRecord() != null
-						&& v.getVaccinationRecord().getId().equals(vaccinationRecord.get().getId()))
+						&& v.getVaccinationRecord().getId().equals(vaccinationRecordId))
 				.anyMatch(v -> v.getName() != null && v.getName().equalsIgnoreCase(vaccine.getName())
 						&& v.getAdministrationDate() != null
 						&& sameDay(v.getAdministrationDate(), vaccine.getAdministrationDate()));
@@ -73,86 +66,55 @@ public class VaccineService {
 	}
 
 	@Transactional
-	public List<VaccineEntity> getVaccines() {
-		log.info("The process of consulting all vaccines begins");
-		List<VaccineEntity> vaccines = vaccineRepository.findAll();
-		vaccines.forEach(this::refreshStatus);
-		if (vaccines.isEmpty())
-			log.info("There are no registered vaccines");
-		return vaccines;
-	}
+	public List<VaccineEntity> getVaccines(Long vaccinationRecordId) throws EntityNotFoundException, IllegalOperationException{
+		log.info("The process of consulting vaccines for vaccination record with id = {} begins", vaccinationRecordId);
 
-	@Transactional
-	public List<VaccineEntity> getVaccines(Long vaccinationRecordId, Long petId, Boolean status) {
-		log.info("Process of consulting leaked vaccines begins");
+		findVaccinationRecordOrThrow(vaccinationRecordId);
+
 		List<VaccineEntity> vaccines = vaccineRepository.findAll().stream()
-				.filter(v -> vaccinationRecordId == null
-						|| (v.getVaccinationRecord() != null && vaccinationRecordId.equals(v.getVaccinationRecord().getId())))
-				.filter(v -> petId == null || (v.getVaccinationRecord() != null
-						&& v.getVaccinationRecord().getPet() != null
-						&& petId.equals(v.getVaccinationRecord().getPet().getId())))
-				.map(v -> {
-					refreshStatus(v);
-					return v;
-				})
-				.filter(v -> status == null || status.equals(v.getStatus()))
+				.filter(v -> v.getVaccinationRecord() != null
+						&& vaccinationRecordId.equals(v.getVaccinationRecord().getId()))
 				.toList();
+
+		vaccines.forEach(this::refreshStatus);
+
 		if (vaccines.isEmpty())
-			log.info("There are no registered vaccines that meet the filters");
+			log.info("There are no registered vaccines for this vaccination record");
+
 		return vaccines;
 	}
 
 	@Transactional
-	public VaccineEntity getVaccine(Long vaccineId) throws EntityNotFoundException, IllegalOperationException {
-		return findVaccine(vaccineId, null, null);
+	public VaccineEntity getVaccine(Long vaccinationRecordId, Long vaccineId)
+			throws EntityNotFoundException, IllegalOperationException {
+		log.info("The process of consulting vaccine with id = {} of vaccination record with id = {} begins",
+				vaccineId, vaccinationRecordId);
+
+		findVaccinationRecordOrThrow(vaccinationRecordId);
+		VaccineEntity vaccine = findVaccineOrThrow(vaccineId);
+		validateBelongsToRecord(vaccine, vaccinationRecordId);
+
+		refreshStatus(vaccine);
+
+		log.info("The process of consulting vaccine with id = {} of vaccination record with id = {} ends",
+				vaccineId, vaccinationRecordId);
+		return vaccine;
 	}
 
 	@Transactional
-	public VaccineEntity getVaccine(Long vaccineId, String name, Long vaccinationRecordId)
+	public VaccineEntity updateVaccine(Long vaccinationRecordId, Long vaccineId, VaccineEntity vaccine)
 			throws EntityNotFoundException, IllegalOperationException {
-		return findVaccine(vaccineId, name, vaccinationRecordId);
-	}
+		log.info("The process of updating vaccine with id = {} of vaccination record with id = {} begins",
+				vaccineId, vaccinationRecordId);
 
-	private VaccineEntity findVaccine(Long vaccineId, String name, Long vaccinationRecordId)
-			throws EntityNotFoundException, IllegalOperationException {
-		log.info("The process of consulting a vaccine through filters begins");
-
-		if (vaccineId != null && vaccineId <= 0)
-			throw new IllegalOperationException(VACCINE_ID_NOT_VALID);
-
-		Optional<VaccineEntity> vaccine = vaccineRepository.findAll().stream()
-				.filter(v -> vaccineId == null || vaccineId.equals(v.getId()))
-				.filter(v -> name == null || name.equalsIgnoreCase(v.getName()))
-				.filter(v -> vaccinationRecordId == null || (v.getVaccinationRecord() != null
-						&& vaccinationRecordId.equals(v.getVaccinationRecord().getId())))
-				.findFirst();
-
-		if (vaccine.isEmpty())
-			throw new EntityNotFoundException(VACCINE_NOT_FOUND);
-
-		refreshStatus(vaccine.get());
-
-		log.info("Termina proceso de consultar una vacuna por filtros");
-		return vaccine.get();
-	}
-
-	@Transactional
-	public VaccineEntity updateVaccine(Long vaccineId, VaccineEntity vaccine)
-			throws EntityNotFoundException, IllegalOperationException {
-		log.info("The process of updating the vaccine begins with id = {}", vaccineId);
-		if (vaccineId == null || vaccineId <= 0)
-			throw new IllegalOperationException(VACCINE_ID_NOT_VALID);
-
-		Optional<VaccineEntity> existing = vaccineRepository.findById(vaccineId);
-		if (existing.isEmpty())
-			throw new EntityNotFoundException(VACCINE_NOT_FOUND);
+		findVaccinationRecordOrThrow(vaccinationRecordId);
+		VaccineEntity current = findVaccineOrThrow(vaccineId);
+		validateBelongsToRecord(current, vaccinationRecordId);
 
 		if (vaccine.getName() == null || vaccine.getName().isBlank())
 			throw new IllegalOperationException("Name cannot be null or empty");
 		if (vaccine.getStatus() == null)
 			throw new IllegalOperationException("Status cannot be null");
-
-		VaccineEntity current = existing.get();
 
 		if (vaccine.getAdministrationDate() != null
 				&& !sameDay(vaccine.getAdministrationDate(), current.getAdministrationDate()))
@@ -167,25 +129,25 @@ public class VaccineService {
 		vaccine.setAdministrationDate(current.getAdministrationDate());
 		vaccine.setVaccinationRecord(current.getVaccinationRecord());
 
-		log.info("The process of updating the vaccine with id = {} ends", vaccineId);
 		VaccineEntity updated = vaccineRepository.save(vaccine);
 		refreshStatus(updated);
+
+		log.info("The process of updating vaccine with id = {} of vaccination record with id = {} ends",
+				vaccineId, vaccinationRecordId);
 		return updated;
 	}
 
 	@Transactional
-	public void deleteVaccine(Long vaccineId) throws EntityNotFoundException, IllegalOperationException {
-		log.info("Start the process of deleting the vaccine with id = {}", vaccineId);
-		if (vaccineId == null || vaccineId <= 0)
-			throw new IllegalOperationException(VACCINE_ID_NOT_VALID);
+	public void deleteVaccine(Long vaccinationRecordId, Long vaccineId)
+			throws EntityNotFoundException, IllegalOperationException {
+		log.info("Start the process of deleting vaccine with id = {} of vaccination record with id = {}",
+				vaccineId, vaccinationRecordId);
 
-		Optional<VaccineEntity> vaccine = vaccineRepository.findById(vaccineId);
-		if (vaccine.isEmpty())
-			throw new EntityNotFoundException(VACCINE_NOT_FOUND);
+		findVaccinationRecordOrThrow(vaccinationRecordId);
+		VaccineEntity vaccine = findVaccineOrThrow(vaccineId);
+		validateBelongsToRecord(vaccine, vaccinationRecordId);
 
-		PetEntity pet = vaccine.get().getVaccinationRecord() != null
-				? vaccine.get().getVaccinationRecord().getPet()
-				: null;
+		PetEntity pet = vaccine.getVaccinationRecord() != null ? vaccine.getVaccinationRecord().getPet() : null;
 
 		boolean petAlreadyAdopted = pet != null && adoptionRepository.findAll().stream()
 				.filter(a -> a.getPet() != null && a.getPet().getId().equals(pet.getId()))
@@ -195,7 +157,47 @@ public class VaccineService {
 					"A vaccine that is part of the medical history of an already adopted pet cannot be deleted");
 
 		vaccineRepository.deleteById(vaccineId);
-		log.info("Finish the process of deleting the vaccine with id = {}", vaccineId);
+		log.info("Finish the process of deleting vaccine with id = {} of vaccination record with id = {}",
+				vaccineId, vaccinationRecordId);
+	}
+
+	private VaccinationRecordEntity findVaccinationRecordOrThrow(Long vaccinationRecordId)
+			throws EntityNotFoundException, IllegalOperationException {
+		if (vaccinationRecordId == null || vaccinationRecordId <= 0)
+			throw new IllegalOperationException("Vaccination record id is not valid");
+
+		Optional<VaccinationRecordEntity> vaccinationRecord = vaccinationRecordRepository.findById(vaccinationRecordId);
+		if (vaccinationRecord.isEmpty())
+			throw new EntityNotFoundException(VACCINATION_RECORD_NOT_FOUND);
+
+		return vaccinationRecord.get();
+	}
+
+	private VaccineEntity findVaccineOrThrow(Long vaccineId) throws EntityNotFoundException, IllegalOperationException {
+		if (vaccineId == null || vaccineId <= 0)
+			throw new IllegalOperationException(VACCINE_ID_NOT_VALID);
+
+		Optional<VaccineEntity> vaccine = vaccineRepository.findById(vaccineId);
+		if (vaccine.isEmpty())
+			throw new EntityNotFoundException(VACCINE_NOT_FOUND);
+
+		return vaccine.get();
+	}
+
+	private void validateBelongsToRecord(VaccineEntity vaccine, Long vaccinationRecordId) throws IllegalOperationException {
+		if (vaccine.getVaccinationRecord() == null || !vaccine.getVaccinationRecord().getId().equals(vaccinationRecordId))
+			throw new IllegalOperationException(VACCINE_NOT_ASSOCIATED_TO_RECORD);
+	}
+
+	// --- Reglas de negocio existentes (sin cambios) ---
+
+	private void validateMandatoryAttributes(VaccineEntity vaccine) throws IllegalOperationException {
+		if (vaccine.getName() == null || vaccine.getName().isBlank())
+			throw new IllegalOperationException("Name cannot be null or empty");
+		if (vaccine.getAdministrationDate() == null)
+			throw new IllegalOperationException("Administration date cannot be null");
+		if (vaccine.getStatus() == null)
+			throw new IllegalOperationException("Status must be explicitly initialized");
 	}
 
 	private boolean sameDay(Date d1, Date d2) {

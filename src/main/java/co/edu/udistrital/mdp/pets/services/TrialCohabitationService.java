@@ -37,7 +37,17 @@ public class TrialCohabitationService {
 	private final PetRepository petRepository;
 
 	/**
-	 * Crea una nueva convivencia de prueba.
+	 * Creates a trial cohabitation after resolving and validating its adopter,
+	 * shelter and pet references, and enforcing that the pet is not already
+	 * involved in another in-progress trial. A blank/absent status defaults to
+	 * PENDING; the start date must not be in the past.
+	 *
+	 * @param trial the trial cohabitation to persist
+	 * @return the persisted trial cohabitation
+	 * @throws EntityNotFoundException  if the adopter, shelter or pet does not exist
+	 * @throws IllegalOperationException if the start date is missing or in the past,
+	 *                                   a required reference is missing or the pet
+	 *                                   is already in another in-progress trial
 	 */
 	@Transactional
 	public TrialCohabitationEntity createTrial(TrialCohabitationEntity trial)
@@ -97,6 +107,16 @@ public class TrialCohabitationService {
 		return petId;
 	}
 
+	/**
+	 * Guards against creating/editing a trial that would leave the same pet with
+	 * two concurrent in-progress trials. The pet id is read through the
+	 * cohabitation request associated with each trial.
+	 *
+	 * @param trial the trial being validated
+	 * @param petId the resolved id of the pet for the incoming trial
+	 * @throws IllegalOperationException if the pet is already in another in-progress
+	 *                                   trial cohabitation
+	 */
 	private void validatePetNotAlreadyInTrial(TrialCohabitationEntity trial, Long petId)
 			throws IllegalOperationException {
 		boolean petAlreadyInTrial = trialCohabitationRepository.findAll().stream()
@@ -111,9 +131,6 @@ public class TrialCohabitationService {
 					"The requested pet is already involved in another in-progress trial cohabitation");
 	}
 
-	/**
-	 * Obtiene todas las convivencias de prueba registradas.
-	 */
 	@Transactional
 	public List<TrialCohabitationEntity> readAllTrials() {
 		log.info("Inicia proceso de consultar todas las convivencias de prueba");
@@ -124,8 +141,14 @@ public class TrialCohabitationService {
 	}
 
 	/**
-	 * Obtiene las convivencias de prueba filtrando, de forma opcional, por estado
-	 * y/o rango de fechas. Si se combinan varios filtros, todos deben coincidir.
+	 * Queries trials applying optional, combinable filters: status (case-insensitive)
+	 * and a start/end date range over the trial start date. Null filters are ignored.
+	 *
+	 * @param status    optional status to filter by
+	 * @param startDate optional lower bound of the start date range
+	 * @param endDate   optional upper bound of the start date range
+	 * @return the trials matching all the provided filters
+	 * @throws IllegalOperationException if the status filter is blank
 	 */
 	@Transactional
 	public List<TrialCohabitationEntity> readAllTrials(String status, Date startDate, Date endDate)
@@ -144,9 +167,6 @@ public class TrialCohabitationService {
 		return trials;
 	}
 
-	/**
-	 * Obtiene una convivencia de prueba a partir de su id.
-	 */
 	@Transactional
 	public TrialCohabitationEntity readTrial(Long trialId) throws EntityNotFoundException, IllegalOperationException {
 		log.info("Inicia proceso de consultar la convivencia de prueba con id = {}", trialId);
@@ -162,7 +182,16 @@ public class TrialCohabitationService {
 	}
 
 	/**
-	 * Actualiza una convivencia de prueba existente.
+	 * Updates a trial cohabitation. All its fields (status, dates and observations)
+	 * are required to persist. A trial in FINALIZED status is immutable with
+	 * respect to being reverted to an earlier state.
+	 *
+	 * @param trialId the id of the trial to update
+	 * @param trial   the object holding the new field values
+	 * @return the updated trial cohabitation
+	 * @throws EntityNotFoundException  if the trial does not exist
+	 * @throws IllegalOperationException if the id is not valid, a field is missing or
+	 *                                   the trial is finalized and cannot be reverted
 	 */
 	@Transactional
 	public TrialCohabitationEntity updateTrial(Long trialId, TrialCohabitationEntity trial)
@@ -200,8 +229,14 @@ public class TrialCohabitationService {
 	}
 
 	/**
-	 * Borra una convivencia de prueba a partir de su id. Únicamente se pueden
-	 * eliminar aquellas en estado pendiente.
+	 * Deletes a trial cohabitation only while it is in PENDING status. Once the
+	 * trial enters IN_PROGRESS or FINALIZED it is part of the adoption history and
+	 * cannot be deleted.
+	 *
+	 * @param trialId the id of the trial to delete
+	 * @throws EntityNotFoundException  if the trial does not exist
+	 * @throws IllegalOperationException if the id is not valid or the trial is not
+	 *                                   in PENDING status
 	 */
 	@Transactional
 	public void deleteTrial(Long trialId) throws EntityNotFoundException, IllegalOperationException {

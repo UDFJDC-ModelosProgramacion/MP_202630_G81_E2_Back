@@ -35,7 +35,17 @@ public class FollowUpService {
 	private final VeterinarianRepository veterinarianRepository;
 
 	/**
-	 * Crea un nuevo seguimiento de una adopción.
+	 * Creates a follow-up for a finalized adoption. Validates the date and
+	 * observation, that the veterinarian and the adoption exist, and that the
+	 * adoption is in finalized status; the scheduled date must not be in the past.
+	 *
+	 * @param followUp the follow-up to persist
+	 * @return the persisted follow-up
+	 * @throws EntityNotFoundException  if the veterinarian or the adoption do not
+	 *                                  exist
+	 * @throws IllegalOperationException if a required field is missing, the
+	 *                                   adoption is not finalized or the date is in
+	 *                                   the past
 	 */
 	@Transactional
 	public FollowUpEntity createFollowUp(FollowUpEntity followUp)
@@ -73,9 +83,6 @@ public class FollowUpService {
 		return followUpRepository.save(followUp);
 	}
 
-	/**
-	 * Obtiene todos los seguimientos registrados.
-	 */
 	@Transactional
 	public List<FollowUpEntity> getFollowUps() {
 		log.info("Initiate the process of querying all follow-ups.");
@@ -85,9 +92,6 @@ public class FollowUpService {
 		return followUps;
 	}
 
-	/**
-	 * Obtiene los seguimientos registrados para una adopción específica.
-	 */
 	@Transactional
 	public List<FollowUpEntity> getFollowUps(Long adoptionId) {
 		log.info("Initiate the process of checking adoption follow-ups with id = {}", adoptionId);
@@ -99,9 +103,6 @@ public class FollowUpService {
 		return followUps;
 	}
 
-	/**
-	 * Obtiene un seguimiento a partir de su id.
-	 */
 	@Transactional
 	public FollowUpEntity getFollowUp(Long followUpId) throws EntityNotFoundException, IllegalOperationException {
 		log.info("Starting the process to check the tracking for id = {}", followUpId);
@@ -116,22 +117,35 @@ public class FollowUpService {
 		return followUp.get();
 	}
 
-	/**
-	 * Obtiene un seguimiento a partir de su id verificando que el solicitante sea
-	 * el adoptante asociado o el veterinario responsable (personal autorizado).
-	 */
 	@Transactional
 	public FollowUpEntity getFollowUp(Long followUpId, Long requesterId)
 			throws EntityNotFoundException, IllegalOperationException {
-		return getFollowUp(followUpId, requesterId, null);
+		return doGetFollowUp(followUpId, requesterId, null);
+	}
+
+	@Transactional
+	public FollowUpEntity getFollowUp(Long followUpId, Long requesterId, String requesterRole)
+			throws EntityNotFoundException, IllegalOperationException {
+		return doGetFollowUp(followUpId, requesterId, requesterRole);
 	}
 
 	/**
-	 * Obtiene un seguimiento a partir de su id. Pueden consultarlo los
-	 * administradores, el veterinario responsable y el adoptante asociado.
+	 * Shared lookup logic with access control. It is not annotated as @Transactional
+	 * to avoid self-invocation between transactional methods of the same class (the
+	 * Spring proxy does not intercept internal calls via "this"); every public entry
+	 * point is already annotated and delegates here.
+	 *
+	 * @param followUpId    the id of the follow-up to consult
+	 * @param requesterId   the id of the user requesting the consultation
+	 * @param requesterRole the role of the requesting user, or null for the
+	 *                      two-argument variant
+	 * @return the follow-up
+	 * @throws EntityNotFoundException  if the follow-up or its associated entities do
+	 *                                  not exist
+	 * @throws IllegalOperationException if the follow-up id is not valid, no requester
+	 *                                   is provided or the requester is not authorized
 	 */
-	@Transactional
-	public FollowUpEntity getFollowUp(Long followUpId, Long requesterId, String requesterRole)
+	private FollowUpEntity doGetFollowUp(Long followUpId, Long requesterId, String requesterRole)
 			throws EntityNotFoundException, IllegalOperationException {
 		FollowUpEntity followUp = fetchFollowUpById(followUpId);
 
@@ -164,8 +178,15 @@ public class FollowUpService {
 	}
 
 	/**
-	 * Actualiza un seguimiento existente. La adopción asociada al seguimiento
-	 * original no puede ser modificada a otra distinta.
+	 * Updates a follow-up. Only the date and the observation can be changed; the
+	 * associated adoption and veterinarian are immutable.
+	 *
+	 * @param followUpId the id of the follow-up to update
+	 * @param followUp   the object holding the new date and observation
+	 * @return the updated follow-up
+	 * @throws EntityNotFoundException  if the follow-up does not exist
+	 * @throws IllegalOperationException if the id is not valid, a required field is
+	 *                                   missing or the adoption is changed
 	 */
 	@Transactional
 	public FollowUpEntity updateFollowUp(Long followUpId, FollowUpEntity followUp)
@@ -196,7 +217,13 @@ public class FollowUpService {
 	}
 
 	/**
-	 * Borra un seguimiento a partir de su id.
+	 * Deletes a follow-up. Follow-ups whose date has already passed are preserved
+	 * because they are part of the shelter's adoption history.
+	 *
+	 * @param followUpId the id of the follow-up to delete
+	 * @throws EntityNotFoundException  if the follow-up does not exist
+	 * @throws IllegalOperationException if the id is not valid or the follow-up has
+	 *                                   already been validated/closed
 	 */
 	@Transactional
 	public void deleteFollowUp(Long followUpId) throws EntityNotFoundException, IllegalOperationException {

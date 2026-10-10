@@ -20,7 +20,13 @@ public class MessageEntity extends BaseEntity {
 	private Date time;
 	private String message;
 	private Boolean isRead;
-	
+
+	@PodamExclude
+	private Boolean hiddenForSender = false;
+
+	@PodamExclude
+	private Boolean hiddenForReceiver = false;
+
 	@PodamExclude
 	@ManyToOne
 	private UserEntity sendUser;

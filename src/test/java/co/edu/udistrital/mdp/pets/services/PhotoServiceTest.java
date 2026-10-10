@@ -338,4 +338,68 @@ class PhotoServiceTest {
 			photoService.deletePhoto(1000L);
 		});
 	}
+
+	@Test
+	void testCreatePhotoWithNullType() {
+		assertThrows(IllegalOperationException.class, () -> {
+			PhotoEntity newEntity = buildValidPhoto();
+			newEntity.setPet(petList.get(0));
+			newEntity.setType(null);
+			photoService.createPhoto(newEntity);
+		});
+	}
+
+	@Test
+	void testGetPhotosByPetAndShelterCombined() throws EntityNotFoundException, IllegalOperationException {
+		ShelterEntity shelter = factory.manufacturePojo(ShelterEntity.class);
+		entityManager.persist(shelter);
+
+		PhotoEntity photo = buildValidPhoto();
+		photo.setPet(petList.get(0));
+		photo.setShelter(shelter);
+		entityManager.persist(photo);
+
+		List<PhotoEntity> list = photoService.getPhotos(petList.get(0).getId(), shelter.getId());
+		assertNotNull(list);
+		assertTrue(list.stream().anyMatch(p -> p.getId().equals(photo.getId())));
+	}
+
+	@Test
+	void testUpdatePhotoWithNullType() {
+		assertThrows(IllegalOperationException.class, () -> {
+			PhotoEntity entity = photoList.get(0);
+			PhotoEntity pojoEntity = factory.manufacturePojo(PhotoEntity.class);
+			pojoEntity.setId(entity.getId());
+			pojoEntity.setUrl("https://shelter.example.com/photos/updated");
+			pojoEntity.setType(null);
+			photoService.updatePhoto(entity.getId(), pojoEntity);
+		});
+	}
+
+	@Test
+	void testUpdatePhotoWithInvalidFormat() {
+		assertThrows(IllegalOperationException.class, () -> {
+			PhotoEntity entity = photoList.get(0);
+			PhotoEntity pojoEntity = factory.manufacturePojo(PhotoEntity.class);
+			pojoEntity.setId(entity.getId());
+			pojoEntity.setUrl("https://shelter.example.com/photos/updated");
+			pojoEntity.setType("TIFF");
+			photoService.updatePhoto(entity.getId(), pojoEntity);
+		});
+	}
+
+	@Test
+	void testDeletePhotoOfShelter() throws EntityNotFoundException, IllegalOperationException {
+		ShelterEntity shelter = factory.manufacturePojo(ShelterEntity.class);
+		entityManager.persist(shelter);
+
+		PhotoEntity photo = buildValidPhoto();
+		photo.setShelter(shelter);
+		entityManager.persist(photo);
+
+		photoService.deletePhoto(photo.getId());
+
+		PhotoEntity deleted = entityManager.find(PhotoEntity.class, photo.getId());
+		assertNull(deleted);
+	}
 }

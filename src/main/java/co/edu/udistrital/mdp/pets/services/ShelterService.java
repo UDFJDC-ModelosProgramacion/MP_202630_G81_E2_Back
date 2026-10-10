@@ -57,33 +57,34 @@ public class ShelterService {
 	}
 
 	@Transactional
-	public List<ShelterEntity> readShelter(String city, String location) {
+	public List<ShelterEntity> getShelters(String city, String location) {
 		return findShelters(city, location);
 	}
 
 	@Transactional
-	public List<ShelterEntity> readShelter() {
+	public List<ShelterEntity> getShelters() {
 		return findShelters(null, null);
 	}
 
 	private List<ShelterEntity> findShelters(String city, String location) {
-		log.info("The process of consulting leaked shelters begins");
+		log.info("The process of consulting registered shelters begins");
 		List<ShelterEntity> shelters = shelterRepository.findAll().stream()
 				.filter(s -> city == null || city.equalsIgnoreCase(s.getCity()))
 				.filter(s -> location == null || location.equalsIgnoreCase(s.getLocation()))
 				.toList();
 		if (shelters.isEmpty())
 			log.info("There are no registered shelters that meet the filters");
+		log.info("The process of consulting registered shelters ends");
 		return shelters;
 	}
 
 	@Transactional
-	public ShelterEntity readAllShelters(Long shelterId) throws EntityNotFoundException, IllegalOperationException {
+	public ShelterEntity getShelter(Long shelterId) throws EntityNotFoundException, IllegalOperationException {
 		return findShelter(shelterId, null, null);
 	}
 
 	@Transactional
-	public ShelterEntity readAllShelters(Long shelterId, String name, String nit)
+	public ShelterEntity getShelter(Long shelterId, String name, String nit)
 			throws EntityNotFoundException, IllegalOperationException {
 		return findShelter(shelterId, name, nit);
 	}

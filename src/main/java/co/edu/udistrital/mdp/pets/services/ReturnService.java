@@ -94,7 +94,7 @@ public class ReturnService {
 	 */
 	@Transactional(readOnly = true)
 	public List<ReturnEntity> readAllReturns() {
-		return readAllReturns(null, null, null);
+		return doReadAllReturns(null, null, null);
 	}
 
 	/**
@@ -103,6 +103,16 @@ public class ReturnService {
 	 */
 	@Transactional(readOnly = true)
 	public List<ReturnEntity> readAllReturns(Long shelterId, Long petId, Long userId) {
+		return doReadAllReturns(shelterId, petId, userId);
+	}
+
+	/**
+	 * Lógica compartida de listado con filtros. No está anotado como
+	 * @Transactional para evitar la auto-invocación entre métodos transaccionales
+	 * de la misma clase (el proxy de Spring no intercepta llamadas internas via
+	 * "this"); cada punto de entrada público ya está anotado y delega aquí.
+	 */
+	private List<ReturnEntity> doReadAllReturns(Long shelterId, Long petId, Long userId) {
 		log.info("Inicia proceso de consultar las devoluciones");
 
 		List<ReturnEntity> returns = returnRepository.findAll().stream()
