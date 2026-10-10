@@ -9,7 +9,7 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.ManyToOne;
 import uk.co.jemos.podam.common.PodamExclude;
-
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
@@ -63,6 +63,6 @@ public class PetEntity extends BaseEntity {
 	private ShelterEntity shelter;
 
 	@PodamExclude
-	@OneToMany(mappedBy = "pet")
+	@OneToMany(mappedBy = "pet", cascade = CascadeType.REMOVE)
 	private List<MedicalEventEntity> medicalEvents = new ArrayList<>();
 }

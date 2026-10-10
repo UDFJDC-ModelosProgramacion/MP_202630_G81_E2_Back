@@ -251,50 +251,106 @@ class EventServiceTest {
 		});
 	}
 
-	// getEvent
+	// getEvent (the service only receives the eventId, no shelter validation)
 	@Test
 	void testGetEvent() throws EntityNotFoundException, IllegalOperationException {
 		EventEntity entity = eventList.get(0);
-		EventEntity result = eventService.getEvent(shelter.getId(), entity.getId());
+		EventEntity result = eventService.getEvent(entity.getId());
 		assertNotNull(result);
 		assertEquals(entity.getId(), result.getId());
 	}
 
 	@Test
-	void testGetEventWithInvalidShelterId() {
+	void testGetEventWithNullId() {
 		assertThrows(IllegalOperationException.class, () -> {
-			EventEntity entity = eventList.get(0);
-			eventService.getEvent(0L, entity.getId());
-		});
-	}
-
-	@Test
-	void testGetEventWithNonExistentShelter() {
-		assertThrows(EntityNotFoundException.class, () -> {
-			EventEntity entity = eventList.get(0);
-			eventService.getEvent(1000L, entity.getId());
+			eventService.getEvent(null);
 		});
 	}
 
 	@Test
 	void testGetEventWithInvalidId() {
 		assertThrows(IllegalOperationException.class, () -> {
-			eventService.getEvent(shelter.getId(), 0L);
+			eventService.getEvent(0L);
+		});
+	}
+
+	@Test
+	void testGetEventWithNegativeId() {
+		assertThrows(IllegalOperationException.class, () -> {
+			eventService.getEvent(-1L);
 		});
 	}
 
 	@Test
 	void testGetNonExistentEvent() {
 		assertThrows(EntityNotFoundException.class, () -> {
-			eventService.getEvent(shelter.getId(), 1000L);
+			eventService.getEvent(1000L);
+		});
+	}
+
+	// searchEvents
+	@Test
+	void testSearchEventsWithoutFilters() throws IllegalOperationException {
+		List<EventEntity> list = eventService.searchEvents(null, null, null);
+		assertEquals(eventList.size(), list.size());
+	}
+
+	@Test
+	void testSearchEventsById() throws IllegalOperationException {
+		EventEntity entity = eventList.get(0);
+		List<EventEntity> list = eventService.searchEvents(entity.getId(), null, null);
+		assertEquals(1, list.size());
+		assertEquals(entity.getId(), list.get(0).getId());
+	}
+
+	@Test
+	void testSearchEventsByNameIgnoringCase() throws IllegalOperationException {
+		EventEntity entity = eventList.get(1);
+		List<EventEntity> list = eventService.searchEvents(null, entity.getName().toUpperCase(), null);
+		assertEquals(1, list.size());
+		assertEquals(entity.getId(), list.get(0).getId());
+	}
+
+	@Test
+	void testSearchEventsByDate() throws IllegalOperationException {
+		EventEntity entity = eventList.get(2);
+		List<EventEntity> list = eventService.searchEvents(null, null, entity.getDate());
+		assertEquals(1, list.size());
+		assertEquals(entity.getId(), list.get(0).getId());
+	}
+
+	@Test
+	void testSearchEventsCombinedFilters() throws IllegalOperationException {
+		EventEntity entity = eventList.get(0);
+		List<EventEntity> list = eventService.searchEvents(entity.getId(), entity.getName(), entity.getDate());
+		assertEquals(1, list.size());
+		assertEquals(entity.getId(), list.get(0).getId());
+	}
+
+	@Test
+	void testSearchEventsCombinedFiltersNoMatch() throws IllegalOperationException {
+		EventEntity entity = eventList.get(0);
+		List<EventEntity> list = eventService.searchEvents(entity.getId(), "nombre-que-no-existe", null);
+		assertTrue(list.isEmpty());
+	}
+
+	@Test
+	void testSearchEventsNoMatch() throws IllegalOperationException {
+		List<EventEntity> list = eventService.searchEvents(1000L, null, null);
+		assertTrue(list.isEmpty());
+	}
+
+	@Test
+	void testSearchEventsWithInvalidId() {
+		assertThrows(IllegalOperationException.class, () -> {
+			eventService.searchEvents(0L, null, null);
 		});
 	}
 
 	@Test
-	void testGetEventNotBelongingToShelter() {
+	void testSearchEventsWithNegativeId() {
 		assertThrows(IllegalOperationException.class, () -> {
-			EventEntity entity = eventList.get(0);
-			eventService.getEvent(otherShelter.getId(), entity.getId());
+			eventService.searchEvents(-5L, null, null);
 		});
 	}
 
@@ -475,5 +531,202 @@ class EventServiceTest {
 			entityManager.persist(entity);
 			eventService.deleteEvent(shelter.getId(), entity.getId());
 		});
+	}
+
+	// ------------------------------------------------------------------
+	// Additional coverage tests
+	// ------------------------------------------------------------------
+
+	private EventEntity persistEvent(ShelterEntity eventShelter, String name, String location, Date date) {
+		EventEntity event = factory.manufacturePojo(EventEntity.class);
+		event.setShelter(eventShelter);
+		event.setName(name);
+		event.setLocation(location);
+		event.setDate(date);
+		entityManager.persist(event);
+		return event;
+	}
+
+	// getEvent(shelterId, eventId)
+	@Test
+	void testGetEventOfShelter() throws EntityNotFoundException, IllegalOperationException {
+		EventEntity entity = eventList.get(0);
+		EventEntity result = eventService.getEvent(shelter.getId(), entity.getId());
+		assertNotNull(result);
+		assertEquals(entity.getId(), result.getId());
+	}
+
+	@Test
+	void testGetEventOfShelterWithInvalidShelterId() {
+		Long eventId = eventList.get(0).getId();
+		assertThrows(IllegalOperationException.class, () -> eventService.getEvent(0L, eventId));
+	}
+
+	@Test
+	void testGetEventOfShelterWithNonExistentShelter() {
+		Long eventId = eventList.get(0).getId();
+		assertThrows(EntityNotFoundException.class, () -> eventService.getEvent(1000L, eventId));
+	}
+
+	@Test
+	void testGetEventOfShelterWithInvalidEventId() {
+		Long shelterId = shelter.getId();
+		assertThrows(IllegalOperationException.class, () -> eventService.getEvent(shelterId, 0L));
+	}
+
+	@Test
+	void testGetNonExistentEventOfShelter() {
+		Long shelterId = shelter.getId();
+		assertThrows(EntityNotFoundException.class, () -> eventService.getEvent(shelterId, 1000L));
+	}
+
+	@Test
+	void testGetEventOfShelterNotBelongingToShelter() {
+		Long eventId = eventList.get(0).getId();
+		Long otherShelterId = otherShelter.getId();
+		assertThrows(IllegalOperationException.class, () -> eventService.getEvent(otherShelterId, eventId));
+	}
+
+	@Test
+	void testGetEventOfShelterWhenEventHasNoShelter() {
+		EventEntity orphan = persistEvent(null, "Orphan event", "Somewhere", futureDate(5));
+		Long shelterId = shelter.getId();
+		Long orphanId = orphan.getId();
+		assertThrows(IllegalOperationException.class, () -> eventService.getEvent(shelterId, orphanId));
+	}
+
+	// getEvents
+	@Test
+	void testGetEventsIgnoresEventsWithoutShelter() throws EntityNotFoundException, IllegalOperationException {
+		persistEvent(null, "Orphan event", "Somewhere", futureDate(5));
+		List<EventEntity> list = eventService.getEvents(shelter.getId());
+		assertEquals(eventList.size(), list.size());
+	}
+
+	// searchEvents
+	@Test
+	void testSearchEventsByDateIgnoresEventsWithoutDate() throws IllegalOperationException {
+		persistEvent(shelter, "Event without date", "Somewhere", null);
+		EventEntity entity = eventList.get(0);
+		List<EventEntity> list = eventService.searchEvents(null, null, entity.getDate());
+		assertEquals(1, list.size());
+		assertEquals(entity.getId(), list.get(0).getId());
+	}
+
+	// createEvent / updateEvent: mandatory attributes that are blank
+	@Test
+	void testCreateEventWithBlankDescription() {
+		assertThrows(IllegalOperationException.class, () -> {
+			EventEntity newEntity = factory.manufacturePojo(EventEntity.class);
+			newEntity.setDate(futureDate(5));
+			newEntity.setDescription("   ");
+			eventService.createEvent(shelter.getId(), newEntity);
+		});
+	}
+
+	@Test
+	void testCreateEventWithBlankLocation() {
+		assertThrows(IllegalOperationException.class, () -> {
+			EventEntity newEntity = factory.manufacturePojo(EventEntity.class);
+			newEntity.setDate(futureDate(5));
+			newEntity.setLocation("   ");
+			eventService.createEvent(shelter.getId(), newEntity);
+		});
+	}
+
+	@Test
+	void testUpdateEventWithBlankDescription() {
+		assertThrows(IllegalOperationException.class, () -> {
+			EventEntity entity = eventList.get(0);
+			EventEntity pojoEntity = factory.manufacturePojo(EventEntity.class);
+			pojoEntity.setId(entity.getId());
+			pojoEntity.setDate(futureDate(20));
+			pojoEntity.setDescription(" ");
+			eventService.updateEvent(shelter.getId(), entity.getId(), pojoEntity);
+		});
+	}
+
+	@Test
+	void testUpdateEventWithBlankLocation() {
+		assertThrows(IllegalOperationException.class, () -> {
+			EventEntity entity = eventList.get(0);
+			EventEntity pojoEntity = factory.manufacturePojo(EventEntity.class);
+			pojoEntity.setId(entity.getId());
+			pojoEntity.setDate(futureDate(20));
+			pojoEntity.setLocation(" ");
+			eventService.updateEvent(shelter.getId(), entity.getId(), pojoEntity);
+		});
+	}
+
+	// deleteEvent
+	@Test
+	void testDeleteEventWithoutDate() throws EntityNotFoundException, IllegalOperationException {
+		EventEntity noDate = persistEvent(shelter, "Event without date", "Somewhere", null);
+		eventService.deleteEvent(shelter.getId(), noDate.getId());
+		assertNull(entityManager.find(EventEntity.class, noDate.getId()));
+	}
+
+	@Test
+	void testDeleteEventWhenEventHasNoShelter() {
+		EventEntity orphan = persistEvent(null, "Orphan event", "Somewhere", futureDate(5));
+		Long shelterId = shelter.getId();
+		Long orphanId = orphan.getId();
+		assertThrows(IllegalOperationException.class, () -> eventService.deleteEvent(shelterId, orphanId));
+	}
+
+	// duplicated event detection: events that look similar but are NOT duplicates
+	@Test
+	void testCreateEventSameNameDifferentLocationIsNotDuplicate()
+			throws EntityNotFoundException, IllegalOperationException {
+		EventEntity existing = eventList.get(0);
+		EventEntity newEntity = factory.manufacturePojo(EventEntity.class);
+		newEntity.setName(existing.getName());
+		newEntity.setLocation("another-location-" + existing.getLocation());
+		newEntity.setDate(existing.getDate());
+
+		assertNotNull(eventService.createEvent(shelter.getId(), newEntity));
+	}
+
+	@Test
+	void testCreateEventSameNameAndLocationDifferentDateIsNotDuplicate()
+			throws EntityNotFoundException, IllegalOperationException {
+		EventEntity existing = eventList.get(0);
+		EventEntity newEntity = factory.manufacturePojo(EventEntity.class);
+		newEntity.setName(existing.getName());
+		newEntity.setLocation(existing.getLocation());
+		newEntity.setDate(futureDate(60));
+
+		assertNotNull(eventService.createEvent(shelter.getId(), newEntity));
+	}
+
+	@Test
+	void testCreateEventSameDataInAnotherShelterIsNotDuplicate()
+			throws EntityNotFoundException, IllegalOperationException {
+		Date date = futureDate(30);
+		persistEvent(otherShelter, "Adoption fair", "Main square", date);
+
+		EventEntity newEntity = factory.manufacturePojo(EventEntity.class);
+		newEntity.setName("Adoption fair");
+		newEntity.setLocation("Main square");
+		newEntity.setDate(date);
+
+		assertNotNull(eventService.createEvent(shelter.getId(), newEntity));
+	}
+
+	@Test
+	void testCreateEventIgnoresExistingEventsWithMissingData()
+			throws EntityNotFoundException, IllegalOperationException {
+		Date date = futureDate(40);
+		persistEvent(null, "Adoption fair", "Main square", date); // no shelter
+		persistEvent(shelter, null, "Main square", date); // no name
+		persistEvent(shelter, "Adoption fair", null, date); // same name, no location
+		persistEvent(shelter, "Adoption fair", "Main square", null); // same name and location, no date
+
+		EventEntity newEntity = factory.manufacturePojo(EventEntity.class);
+		newEntity.setName("Adoption fair");
+		newEntity.setLocation("Main square");
+		newEntity.setDate(date);
+
+		assertNotNull(eventService.createEvent(shelter.getId(), newEntity));
 	}
 }

@@ -70,6 +70,26 @@ public class EventService {
 	}
 
 	@Transactional
+	public List<EventEntity> searchEvents(Long id, String name, Date date) throws IllegalOperationException {
+		if (id != null && id <= 0)
+			throw new IllegalOperationException(EVENT_ID_NOT_VALID);
+		return eventRepository.findAll().stream()
+				.filter(e -> id == null || id.equals(e.getId()))
+				.filter(e -> name == null || name.equalsIgnoreCase(e.getName()))
+				.filter(e -> date == null || (e.getDate() != null && sameDay(e.getDate(), date)))
+				.toList();
+	}
+
+	@Transactional
+	public EventEntity getEvent(Long eventId) throws EntityNotFoundException, IllegalOperationException {
+		return findEventOrThrow(eventId);
+	}
+
+	/**
+	 * Consulta un evento desde SU refugio: valida el refugio, el evento y que el
+	 * evento pertenezca a ese refugio (GET /shelters/{shelterId}/events/{eventId}).
+	 */
+	@Transactional
 	public EventEntity getEvent(Long shelterId, Long eventId)
 			throws EntityNotFoundException, IllegalOperationException {
 		log.info("Starts the process of consulting event with id = {} of shelter with id = {}", eventId, shelterId);
