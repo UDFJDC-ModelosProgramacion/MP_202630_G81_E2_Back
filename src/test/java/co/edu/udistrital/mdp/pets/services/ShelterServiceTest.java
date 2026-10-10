@@ -399,8 +399,6 @@ class ShelterServiceTest {
 		});
 	}
 
-	// Test for deleteShelter
-
 	@Test
 	void testDeleteShelter() throws EntityNotFoundException, IllegalOperationException {
 		ShelterEntity entity = shelterList.get(0);
@@ -537,6 +535,142 @@ class ShelterServiceTest {
 			entityManager.persist(returnEntity);
 			entityManager.flush();
 			entityManager.clear();
+			shelterService.deleteShelter(entity.getId());
+		});
+	}
+
+	private ShelterEntity persistShelter(String name, String city, String location, String nit) {
+		ShelterEntity persisted = factory.manufacturePojo(ShelterEntity.class);
+		persisted.setName(name);
+		persisted.setCity(city);
+		persisted.setLocation(location);
+		persisted.setNit(nit);
+		entityManager.persist(persisted);
+		return persisted;
+	}
+
+	@Test
+	void testCreateShelterWithBlankCity() {
+		assertThrows(IllegalOperationException.class, () -> {
+			ShelterEntity newEntity = newValidShelter();
+			newEntity.setCity("   ");
+			newEntity.setUsers(newUsers());
+			shelterService.createShelter(newEntity);
+		});
+	}
+
+	@Test
+	void testCreateShelterWithBlankLocation() {
+		assertThrows(IllegalOperationException.class, () -> {
+			ShelterEntity newEntity = newValidShelter();
+			newEntity.setLocation("   ");
+			newEntity.setUsers(newUsers());
+			shelterService.createShelter(newEntity);
+		});
+	}
+
+	@Test
+	void testCreateShelterWithBlankNit() {
+		assertThrows(IllegalOperationException.class, () -> {
+			ShelterEntity newEntity = newValidShelter();
+			newEntity.setNit("   ");
+			newEntity.setUsers(newUsers());
+			shelterService.createShelter(newEntity);
+		});
+	}
+
+	@Test
+	void testCreateShelterIgnoresNonMatchingExistingShelters() throws IllegalOperationException {
+		persistShelter(null, "Bogota", "Centro", "NIT-A1"); // no name
+		persistShelter("Shelter X", null, "Centro", "NIT-A2"); // same name, no city
+		persistShelter("Shelter X", "Cali", "Centro", "NIT-A3"); // same name, other city
+		persistShelter("Shelter X", "Bogota", null, "NIT-A4"); // same name and city, no location
+		persistShelter("Shelter X", "Bogota", "Norte", "NIT-A5"); // same name and city, other location
+		persistShelter("Shelter without nit", "Bogota", "Sur", null); // no nit
+
+		ShelterEntity newEntity = newValidShelter();
+		newEntity.setName("Shelter X");
+		newEntity.setCity("Bogota");
+		newEntity.setLocation("Centro");
+		newEntity.setNit("NIT-NEW");
+		newEntity.setUsers(newUsers());
+
+		ShelterEntity result = shelterService.createShelter(newEntity);
+
+		assertNotNull(result);
+		assertNotNull(entityManager.find(ShelterEntity.class, result.getId()));
+	}
+
+	@Test
+	void testGetShelterWithoutIdFilteringByNameAndNit() throws EntityNotFoundException, IllegalOperationException {
+		ShelterEntity entity = shelterList.get(1);
+		ShelterEntity result = shelterService.getShelter(null, entity.getName(), entity.getNit());
+		assertNotNull(result);
+		assertEquals(entity.getId(), result.getId());
+	}
+
+	@Test
+	void testGetShelterWithoutAnyFilter() throws EntityNotFoundException, IllegalOperationException {
+		ShelterEntity result = shelterService.getShelter(null, null, null);
+		assertNotNull(result);
+	}
+
+	@Test
+	void testGetShelterWithoutIdAndUnmatchedName() {
+		assertThrows(EntityNotFoundException.class,
+				() -> shelterService.getShelter(null, "unmatched-name-xyz", null));
+	}
+
+	@Test
+	void testDeleteShelterIgnoresRecordsOfOtherShelters() throws EntityNotFoundException, IllegalOperationException {
+		ShelterEntity entity = shelterList.get(0);
+		ShelterEntity other = shelterList.get(1);
+
+		PetEntity petWithoutShelter = factory.manufacturePojo(PetEntity.class);
+		entityManager.persist(petWithoutShelter);
+		PetEntity petOfOtherShelter = factory.manufacturePojo(PetEntity.class);
+		petOfOtherShelter.setShelter(other);
+		entityManager.persist(petOfOtherShelter);
+
+		AdoptionEntity adoptionWithoutShelter = factory.manufacturePojo(AdoptionEntity.class);
+		entityManager.persist(adoptionWithoutShelter);
+		AdoptionEntity adoptionOfOtherShelter = factory.manufacturePojo(AdoptionEntity.class);
+		adoptionOfOtherShelter.setShelter(other);
+		entityManager.persist(adoptionOfOtherShelter);
+
+		shelterService.deleteShelter(entity.getId());
+
+		assertNull(entityManager.find(ShelterEntity.class, entity.getId()));
+	}
+
+	@Test
+	void testDeleteShelterWithNullAssociations() throws EntityNotFoundException, IllegalOperationException {
+		ShelterEntity entity = shelterList.get(0);
+		entity.setAdoptionRequests(null);
+		entity.setCohabitationRequests(null);
+		entity.setTrialCohabitations(null);
+		entity.setEvents(null);
+		entity.setVeterinarians(null);
+		entity.setReturnsDuringTrial(null);
+
+		shelterService.deleteShelter(entity.getId());
+
+		assertNull(entityManager.find(ShelterEntity.class, entity.getId()));
+	}
+
+	@Test
+	void testDeleteShelterWithReturnedAdoptionHistory() {
+		assertThrows(IllegalOperationException.class, () -> {
+			ShelterEntity entity = shelterList.get(0);
+			AdoptionEntity adoption = factory.manufacturePojo(AdoptionEntity.class);
+			adoption.setShelter(entity);
+			entityManager.persist(adoption);
+
+			ReturnEntity returnRecord = factory.manufacturePojo(ReturnEntity.class);
+			returnRecord.setAdoption(adoption);
+			entityManager.persist(returnRecord);
+			adoption.setReturnAfterAdoption(returnRecord); // closed adoption -> only history, not an active process
+
 			shelterService.deleteShelter(entity.getId());
 		});
 	}
