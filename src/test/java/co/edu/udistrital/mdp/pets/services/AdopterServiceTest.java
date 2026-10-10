@@ -458,4 +458,11 @@ class AdopterServiceTest {
 		assertEquals(originalEmail, resp.getEmail());
 		assertEquals(originalNationalId, resp.getNationalId());
 	}
+
+	@Test
+	void testReadAdopterWithNullId() {
+		assertThrows(IllegalOperationException.class, () -> {
+			adopterService.readAdopter(null);
+		});
+	}
 }
