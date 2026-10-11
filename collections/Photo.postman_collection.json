@@ -685,6 +685,38 @@
       ]
     },
     {
+      "name": "Obtener una foto de otra mascota",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/pets/{{pet_id_2}}/photos/{{photo_id_1}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "pets",
+            "{{pet_id_2}}",
+            "photos",
+            "{{photo_id_1}}"
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Request: Obtener una foto de otra mascota\", function () {",
+              "    pm.response.to.have.status(412);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ]
+    },
+    {
       "name": "Obtener una foto que no existe",
       "request": {
         "method": "GET",
@@ -1321,6 +1353,38 @@
           "script": {
             "exec": [
               "pm.test(\"Request: Editar una foto con formato invalido\", function () {",
+              "    pm.response.to.have.status(412);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Borrar una foto de otra mascota",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/pets/{{pet_id_2}}/photos/{{photo_id_1}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "pets",
+            "{{pet_id_2}}",
+            "photos",
+            "{{photo_id_1}}"
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Request: Borrar una foto de otra mascota\", function () {",
               "    pm.response.to.have.status(412);",
               "});"
             ],
