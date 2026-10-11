@@ -99,7 +99,7 @@
 							"script": {
 								"type": "text/javascript",
 								"exec": [
-									"const data = pm.response.json();",
+									"var data = pm.response.json();",
 									"pm.collectionVariables.set(\"shelter_id\", data.id);",
 									"pm.test(\"Status code is 201\", function () {",
 									"   pm.response.to.have.status(201);",
@@ -187,7 +187,7 @@
 							"script": {
 								"type": "text/javascript",
 								"exec": [
-									"const data = pm.response.json();",
+									"var data = pm.response.json();",
 									"pm.collectionVariables.set(\"shelter_id_2\", data.id);",
 									"pm.test(\"Status code is 201\", function () {",
 									"   pm.response.to.have.status(201);",
@@ -281,13 +281,13 @@
 							"script": {
 								"type": "text/javascript",
 								"exec": [
-									"const data = pm.response.json();",
+									"var data = pm.response.json();",
 									"pm.collectionVariables.set(\"pet_id\", data.id);",
 									"pm.test(\"Status code is 201\", function () {",
 									"   pm.response.to.have.status(201);",
 									"});",
 									"pm.test(\"Response echoes the pet and its shelter\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data.id).to.be.a(\"number\");",
 									"   pm.expect(data.name).to.eql(\"Firulais\");",
 									"   pm.expect(data.species).to.eql(\"Perro\");",
@@ -297,7 +297,7 @@
 									"   pm.expect(String(data.admissionDate).substring(0, 10)).to.eql(pm.collectionVariables.get(\"d_past_30\").substring(0, 10));",
 									"});",
 									"pm.test(\"The arrival medical event was registered with the pet\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data.medicalEvents).to.have.lengthOf(1);",
 									"   pm.expect(data.medicalEvents[0].type).to.eql(\"Rescate\");",
 									"});"
@@ -384,13 +384,13 @@
 							"script": {
 								"type": "text/javascript",
 								"exec": [
-									"const data = pm.response.json();",
+									"var data = pm.response.json();",
 									"pm.collectionVariables.set(\"pet_id_2\", data.id);",
 									"pm.test(\"Status code is 201\", function () {",
 									"   pm.response.to.have.status(201);",
 									"});",
 									"pm.test(\"Both arrival events were registered\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data.medicalEvents).to.have.lengthOf(2);",
 									"});"
 								]
@@ -478,13 +478,13 @@
 							"script": {
 								"type": "text/javascript",
 								"exec": [
-									"const data = pm.response.json();",
+									"var data = pm.response.json();",
 									"pm.collectionVariables.set(\"pet_id_3\", data.id);",
 									"pm.test(\"Status code is 201\", function () {",
 									"   pm.response.to.have.status(201);",
 									"});",
 									"pm.test(\"description, temperament and specificNeeds are optional\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data.description).to.be.null;",
 									"   pm.expect(data.temperament).to.be.null;",
 									"   pm.expect(data.specificNeeds).to.be.null;",
@@ -582,7 +582,7 @@
 									"   pm.response.to.have.status(412);",
 									"});",
 									"pm.test(\"Get expected error message\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"PRECONDITION_FAILED\");",
 									"   pm.expect(data.apierror.message).to.eql(\"Pet name cannot be null or empty\");",
 									"});"
@@ -673,7 +673,7 @@
 									"   pm.response.to.have.status(412);",
 									"});",
 									"pm.test(\"Get expected error message\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"PRECONDITION_FAILED\");",
 									"   pm.expect(data.apierror.message).to.eql(\"Species cannot be null or empty\");",
 									"});"
@@ -764,7 +764,7 @@
 									"   pm.response.to.have.status(412);",
 									"});",
 									"pm.test(\"Get expected error message\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"PRECONDITION_FAILED\");",
 									"   pm.expect(data.apierror.message).to.eql(\"Breed cannot be null or empty\");",
 									"});"
@@ -855,7 +855,7 @@
 									"   pm.response.to.have.status(412);",
 									"});",
 									"pm.test(\"Get expected error message\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"PRECONDITION_FAILED\");",
 									"   pm.expect(data.apierror.message).to.eql(\"Age cannot be null\");",
 									"});"
@@ -946,7 +946,7 @@
 									"   pm.response.to.have.status(412);",
 									"});",
 									"pm.test(\"Get expected error message\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"PRECONDITION_FAILED\");",
 									"   pm.expect(data.apierror.message).to.eql(\"Sex cannot be null or empty\");",
 									"});"
@@ -1037,7 +1037,7 @@
 									"   pm.response.to.have.status(412);",
 									"});",
 									"pm.test(\"Get expected error message\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"PRECONDITION_FAILED\");",
 									"   pm.expect(data.apierror.message).to.eql(\"Size cannot be null or empty\");",
 									"});"
@@ -1128,7 +1128,7 @@
 									"   pm.response.to.have.status(412);",
 									"});",
 									"pm.test(\"Get expected error message\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"PRECONDITION_FAILED\");",
 									"   pm.expect(data.apierror.message).to.eql(\"Health status cannot be null or empty\");",
 									"});"
@@ -1219,7 +1219,7 @@
 									"   pm.response.to.have.status(412);",
 									"});",
 									"pm.test(\"Get expected error message\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"PRECONDITION_FAILED\");",
 									"   pm.expect(data.apierror.message).to.eql(\"Admission date cannot be null\");",
 									"});"
@@ -1310,7 +1310,7 @@
 									"   pm.response.to.have.status(412);",
 									"});",
 									"pm.test(\"Get expected error message\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"PRECONDITION_FAILED\");",
 									"   pm.expect(data.apierror.message).to.eql(\"Compatibility with children cannot be null\");",
 									"});"
@@ -1401,7 +1401,7 @@
 									"   pm.response.to.have.status(412);",
 									"});",
 									"pm.test(\"Get expected error message\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"PRECONDITION_FAILED\");",
 									"   pm.expect(data.apierror.message).to.eql(\"Compatibility with other pets cannot be null\");",
 									"});"
@@ -1492,7 +1492,7 @@
 									"   pm.response.to.have.status(412);",
 									"});",
 									"pm.test(\"Get expected error message\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"PRECONDITION_FAILED\");",
 									"   pm.expect(data.apierror.message).to.eql(\"Activity level cannot be null or empty\");",
 									"});"
@@ -1583,7 +1583,7 @@
 									"   pm.response.to.have.status(412);",
 									"});",
 									"pm.test(\"Get expected error message\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"PRECONDITION_FAILED\");",
 									"   pm.expect(data.apierror.message).to.eql(\"Required space cannot be null or empty\");",
 									"});"
@@ -1680,7 +1680,7 @@
 									"   pm.response.to.have.status(412);",
 									"});",
 									"pm.test(\"Get expected error message\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"PRECONDITION_FAILED\");",
 									"   pm.expect(data.apierror.message).to.eql(\"Pet must be associated with an existing shelter\");",
 									"});"
@@ -1771,7 +1771,7 @@
 									"   pm.response.to.have.status(404);",
 									"});",
 									"pm.test(\"Get expected error message\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"NOT_FOUND\");",
 									"   pm.expect(data.apierror.message).to.eql(\"The shelter with the given id was not found\");",
 									"});"
@@ -1862,7 +1862,7 @@
 									"   pm.response.to.have.status(412);",
 									"});",
 									"pm.test(\"Get expected error message\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"PRECONDITION_FAILED\");",
 									"   pm.expect(data.apierror.message).to.eql(\"Admission date cannot be a future date\");",
 									"});"
@@ -1953,7 +1953,7 @@
 									"   pm.response.to.have.status(412);",
 									"});",
 									"pm.test(\"Get expected error message\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"PRECONDITION_FAILED\");",
 									"   pm.expect(data.apierror.message).to.eql(\"A pet must be registered with at least one medical event describing its arrival at the shelter\");",
 									"});"
@@ -2044,7 +2044,7 @@
 									"   pm.response.to.have.status(412);",
 									"});",
 									"pm.test(\"Get expected error message\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"PRECONDITION_FAILED\");",
 									"   pm.expect(data.apierror.message).to.eql(\"A pet with the same shelter, name, species and admission date already exists\");",
 									"});"
@@ -2113,7 +2113,7 @@
 									"   pm.response.to.have.status(200);",
 									"});",
 									"pm.test(\"List contains the three pets created here\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data).to.be.an(\"array\");",
 									"   const ids = data.map(p => p.id);",
 									"   pm.expect(ids).to.include(Number(pm.collectionVariables.get(\"pet_id\")));",
@@ -2197,7 +2197,7 @@
 									"   pm.response.to.have.status(200);",
 									"});",
 									"pm.test(\"Every result matches the filter(s)\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data).to.be.an(\"array\");",
 									"   pm.expect(data.every(p => p.species === \"Perro\")).to.be.true;",
 									"   const ids = data.map(p => p.id);",
@@ -2275,7 +2275,7 @@
 									"   pm.response.to.have.status(200);",
 									"});",
 									"pm.test(\"Every result matches the filter(s)\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data).to.be.an(\"array\");",
 									"   pm.expect(data.every(p => p.age === 3)).to.be.true;",
 									"   const ids = data.map(p => p.id);",
@@ -2352,7 +2352,7 @@
 									"   pm.response.to.have.status(200);",
 									"});",
 									"pm.test(\"Every result matches the filter(s)\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data).to.be.an(\"array\");",
 									"   pm.expect(data.every(p => p.size === \"Mediano\")).to.be.true;",
 									"   const ids = data.map(p => p.id);",
@@ -2429,7 +2429,7 @@
 									"   pm.response.to.have.status(200);",
 									"});",
 									"pm.test(\"Every result matches the filter(s)\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data).to.be.an(\"array\");",
 									"   pm.expect(data.every(p => p.requiredSpace === \"Apartamento\")).to.be.true;",
 									"   const ids = data.map(p => p.id);",
@@ -2506,7 +2506,7 @@
 									"   pm.response.to.have.status(200);",
 									"});",
 									"pm.test(\"Every result matches the filter(s)\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data).to.be.an(\"array\");",
 									"   pm.expect(data.every(p => p.compatibilityChildren === false)).to.be.true;",
 									"   const ids = data.map(p => p.id);",
@@ -2583,7 +2583,7 @@
 									"   pm.response.to.have.status(200);",
 									"});",
 									"pm.test(\"Every result matches the filter(s)\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data).to.be.an(\"array\");",
 									"   pm.expect(data.every(p => p.compatibilityOtherPets === false)).to.be.true;",
 									"   const ids = data.map(p => p.id);",
@@ -2660,7 +2660,7 @@
 									"   pm.response.to.have.status(200);",
 									"});",
 									"pm.test(\"Every result matches the filter(s)\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data).to.be.an(\"array\");",
 									"   pm.expect(data.every(p => p.activityLevel === \"Alto\")).to.be.true;",
 									"   const ids = data.map(p => p.id);",
@@ -2753,7 +2753,7 @@
 									"   pm.response.to.have.status(200);",
 									"});",
 									"pm.test(\"Every result matches the filter(s)\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data).to.be.an(\"array\");",
 									"   pm.expect(data.every(p => p.species === \"Perro\" && p.size === \"Grande\" && p.compatibilityChildren === false)).to.be.true;",
 									"   const ids = data.map(p => p.id);",
@@ -2838,7 +2838,7 @@
 									"   pm.response.to.have.status(200);",
 									"});",
 									"pm.test(\"All criteria must match: empty list\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data).to.have.lengthOf(0);",
 									"});"
 								]
@@ -2908,7 +2908,7 @@
 									"   pm.response.to.have.status(200);",
 									"});",
 									"pm.test(\"Detail has shelter, medical events and empty associations\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data.id).to.eql(Number(pm.collectionVariables.get(\"pet_id\")));",
 									"   pm.expect(data.name).to.eql(\"Firulais\");",
 									"   pm.expect(data.shelter.id).to.eql(Number(pm.collectionVariables.get(\"shelter_id\")));",
@@ -2978,7 +2978,7 @@
 									"   pm.response.to.have.status(404);",
 									"});",
 									"pm.test(\"Get expected error message\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"NOT_FOUND\");",
 									"   pm.expect(data.apierror.message).to.eql(\"The pet with the given id was not found\");",
 									"});"
@@ -3043,7 +3043,7 @@
 									"   pm.response.to.have.status(412);",
 									"});",
 									"pm.test(\"Get expected error message\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"PRECONDITION_FAILED\");",
 									"   pm.expect(data.apierror.message).to.eql(\"Pet id is not valid\");",
 									"});"
@@ -3141,7 +3141,7 @@
 									"   pm.response.to.have.status(200);",
 									"});",
 									"pm.test(\"Changed attributes are returned; shelter and admission date are kept\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data.id).to.eql(Number(pm.collectionVariables.get(\"pet_id\")));",
 									"   pm.expect(data.age).to.eql(4);",
 									"   pm.expect(data.healthStatus).to.eql(\"En tratamiento\");",
@@ -3238,7 +3238,7 @@
 									"   pm.response.to.have.status(404);",
 									"});",
 									"pm.test(\"Get expected error message\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"NOT_FOUND\");",
 									"   pm.expect(data.apierror.message).to.eql(\"The pet with the given id was not found\");",
 									"});"
@@ -3331,7 +3331,7 @@
 									"   pm.response.to.have.status(412);",
 									"});",
 									"pm.test(\"Get expected error message\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"PRECONDITION_FAILED\");",
 									"   pm.expect(data.apierror.message).to.eql(\"Pet id is not valid\");",
 									"});"
@@ -3424,7 +3424,7 @@
 									"   pm.response.to.have.status(412);",
 									"});",
 									"pm.test(\"Get expected error message\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"PRECONDITION_FAILED\");",
 									"   pm.expect(data.apierror.message).to.eql(\"Pet name cannot be null or empty\");",
 									"});"
@@ -3517,7 +3517,7 @@
 									"   pm.response.to.have.status(412);",
 									"});",
 									"pm.test(\"Get expected error message\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"PRECONDITION_FAILED\");",
 									"   pm.expect(data.apierror.message).to.eql(\"Admission date cannot be modified\");",
 									"});"
@@ -3610,7 +3610,7 @@
 									"   pm.response.to.have.status(404);",
 									"});",
 									"pm.test(\"Get expected error message\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"NOT_FOUND\");",
 									"   pm.expect(data.apierror.message).to.eql(\"The shelter with the given id was not found\");",
 									"});"
@@ -3705,7 +3705,7 @@
 									"   pm.response.to.have.status(412);",
 									"});",
 									"pm.test(\"Get expected error message\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"PRECONDITION_FAILED\");",
 									"   pm.expect(data.apierror.message).to.eql(\"A pet with the same shelter, name, species and admission date already exists\");",
 									"});"
@@ -3831,7 +3831,7 @@
 									"   pm.response.to.have.status(404);",
 									"});",
 									"pm.test(\"Get expected error message\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"NOT_FOUND\");",
 									"   pm.expect(data.apierror.message).to.eql(\"The pet with the given id was not found\");",
 									"});"
@@ -3896,7 +3896,7 @@
 									"   pm.response.to.have.status(404);",
 									"});",
 									"pm.test(\"Get expected error message\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"NOT_FOUND\");",
 									"   pm.expect(data.apierror.message).to.eql(\"The pet with the given id was not found\");",
 									"});"
@@ -3961,7 +3961,7 @@
 									"   pm.response.to.have.status(412);",
 									"});",
 									"pm.test(\"Get expected error message\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"PRECONDITION_FAILED\");",
 									"   pm.expect(data.apierror.message).to.eql(\"Pet id is not valid\");",
 									"});"
@@ -4028,7 +4028,7 @@
 									"   pm.response.to.have.status(412);",
 									"});",
 									"pm.test(\"Get expected error message\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"PRECONDITION_FAILED\");",
 									"   pm.expect(data.apierror.message).to.eql(\"A pet with associated history cannot be deleted\");",
 									"});"

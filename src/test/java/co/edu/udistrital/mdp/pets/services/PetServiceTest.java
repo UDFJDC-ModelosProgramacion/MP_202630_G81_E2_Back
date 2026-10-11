@@ -782,10 +782,10 @@ class PetServiceTest {
 	// reference each other and Lombok's hashCode would recurse forever. Instead, the data is flushed and the
 	// persistence context is cleared so that the service loads the real association from the database.
 	private VaccinationRecordEntity persistVaccinationRecord(PetEntity ofPet) {
-		VaccinationRecordEntity record = factory.manufacturePojo(VaccinationRecordEntity.class);
-		record.setPet(ofPet);
-		entityManager.persist(record);
-		return record;
+		VaccinationRecordEntity recordVaccine = factory.manufacturePojo(VaccinationRecordEntity.class);
+		recordVaccine.setPet(ofPet);
+		entityManager.persist(recordVaccine);
+		return recordVaccine;
 	}
 
 	// null ids
@@ -946,14 +946,14 @@ class PetServiceTest {
 		assertNull(entityManager.find(PetEntity.class, entity.getId()));
 	}
 
-	// deletePet: vaccination record as history
+	// deletePet: vaccination recordVaccine as history
 
 	@Test
 	void testDeletePetWithVaccinesInVaccinationRecord() {
 		PetEntity entity = petList.get(0);
-		VaccinationRecordEntity record = persistVaccinationRecord(entity);
+		VaccinationRecordEntity recordVaccine = persistVaccinationRecord(entity);
 		VaccineEntity vaccine = factory.manufacturePojo(VaccineEntity.class);
-		vaccine.setVaccinationRecord(record);
+		vaccine.setVaccinationRecord(recordVaccine);
 		entityManager.persist(vaccine);
 		entityManager.flush();
 		entityManager.clear();

@@ -99,7 +99,7 @@
 							"script": {
 								"type": "text/javascript",
 								"exec": [
-									"const data = pm.response.json();",
+									"var data = pm.response.json();",
 									"pm.collectionVariables.set(\"shelter_id\", data.id);",
 									"pm.test(\"Status code is 201\", function () {",
 									"   pm.response.to.have.status(201);",
@@ -187,7 +187,7 @@
 							"script": {
 								"type": "text/javascript",
 								"exec": [
-									"const data = pm.response.json();",
+									"var data = pm.response.json();",
 									"pm.collectionVariables.set(\"pet_id\", data.id);",
 									"pm.test(\"Status code is 201\", function () {",
 									"   pm.response.to.have.status(201);",
@@ -275,7 +275,7 @@
 							"script": {
 								"type": "text/javascript",
 								"exec": [
-									"const data = pm.response.json();",
+									"var data = pm.response.json();",
 									"pm.collectionVariables.set(\"pet_id_2\", data.id);",
 									"pm.test(\"Status code is 201\", function () {",
 									"   pm.response.to.have.status(201);",
@@ -363,7 +363,7 @@
 							"script": {
 								"type": "text/javascript",
 								"exec": [
-									"const data = pm.response.json();",
+									"var data = pm.response.json();",
 									"pm.collectionVariables.set(\"pet_id_3\", data.id);",
 									"pm.test(\"Status code is 201\", function () {",
 									"   pm.response.to.have.status(201);",
@@ -461,13 +461,13 @@
 							"script": {
 								"type": "text/javascript",
 								"exec": [
-									"const data = pm.response.json();",
+									"var data = pm.response.json();",
 									"pm.collectionVariables.set(\"photo_id\", data.id);",
 									"pm.test(\"Status code is 201\", function () {",
 									"   pm.response.to.have.status(201);",
 									"});",
 									"pm.test(\"Response echoes the photo\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data.id).to.be.a(\"number\");",
 									"   pm.expect(data.url).to.eql(\"https://fotos.example.com/firulais-1.jpg\");",
 									"   pm.expect(data.type).to.eql(\"JPG\");",
@@ -560,7 +560,7 @@
 							"script": {
 								"type": "text/javascript",
 								"exec": [
-									"const data = pm.response.json();",
+									"var data = pm.response.json();",
 									"pm.collectionVariables.set(\"photo_id_2\", data.id);",
 									"pm.test(\"Status code is 201\", function () {",
 									"   pm.response.to.have.status(201);",
@@ -652,13 +652,13 @@
 							"script": {
 								"type": "text/javascript",
 								"exec": [
-									"const data = pm.response.json();",
+									"var data = pm.response.json();",
 									"pm.collectionVariables.set(\"photo_id_3\", data.id);",
 									"pm.test(\"Status code is 201\", function () {",
 									"   pm.response.to.have.status(201);",
 									"});",
 									"pm.test(\"The format check is case-insensitive\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data.type).to.eql(\"webp\");",
 									"});"
 								]
@@ -748,7 +748,7 @@
 							"script": {
 								"type": "text/javascript",
 								"exec": [
-									"const data = pm.response.json();",
+									"var data = pm.response.json();",
 									"pm.collectionVariables.set(\"photo_id_other\", data.id);",
 									"pm.test(\"Status code is 201\", function () {",
 									"   pm.response.to.have.status(201);",
@@ -844,7 +844,7 @@
 									"   pm.response.to.have.status(412);",
 									"});",
 									"pm.test(\"Get expected error message\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"PRECONDITION_FAILED\");",
 									"   pm.expect(data.apierror.message).to.eql(\"Photo url cannot be null or empty\");",
 									"});"
@@ -939,7 +939,7 @@
 									"   pm.response.to.have.status(412);",
 									"});",
 									"pm.test(\"Get expected error message\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"PRECONDITION_FAILED\");",
 									"   pm.expect(data.apierror.message).to.eql(\"Photo format cannot be null or empty\");",
 									"});"
@@ -1034,7 +1034,7 @@
 									"   pm.response.to.have.status(412);",
 									"});",
 									"pm.test(\"Get expected error message\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"PRECONDITION_FAILED\");",
 									"   pm.expect(data.apierror.message).to.eql(\"Photo format is not valid; use JPG, PNG or another supported format\");",
 									"});"
@@ -1129,7 +1129,7 @@
 									"   pm.response.to.have.status(404);",
 									"});",
 									"pm.test(\"Get expected error message\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"NOT_FOUND\");",
 									"   pm.expect(data.apierror.message).to.eql(\"Pet not found\");",
 									"});"
@@ -1202,7 +1202,7 @@
 									"   pm.response.to.have.status(200);",
 									"});",
 									"pm.test(\"Only the photos of this pet\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data).to.be.an(\"array\");",
 									"   pm.expect(data).to.have.lengthOf(3);",
 									"   const ids = data.map(p => p.id);",
@@ -1274,7 +1274,7 @@
 									"   pm.response.to.have.status(200);",
 									"});",
 									"pm.test(\"Empty list\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data).to.have.lengthOf(0);",
 									"});"
 								]
@@ -1340,7 +1340,7 @@
 									"   pm.response.to.have.status(404);",
 									"});",
 									"pm.test(\"Get expected error message\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"NOT_FOUND\");",
 									"   pm.expect(data.apierror.message).to.eql(\"Pet not found\");",
 									"});"
@@ -1409,7 +1409,7 @@
 									"   pm.response.to.have.status(200);",
 									"});",
 									"pm.test(\"The requested photo\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data.id).to.eql(Number(pm.collectionVariables.get(\"photo_id\")));",
 									"   pm.expect(data.type).to.eql(\"JPG\");",
 									"});"
@@ -1478,7 +1478,7 @@
 									"   pm.response.to.have.status(404);",
 									"});",
 									"pm.test(\"Get expected error message\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"NOT_FOUND\");",
 									"   pm.expect(data.apierror.message).to.eql(\"Photo not found\");",
 									"});"
@@ -1547,7 +1547,7 @@
 									"   pm.response.to.have.status(412);",
 									"});",
 									"pm.test(\"Get expected error message\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"PRECONDITION_FAILED\");",
 									"   pm.expect(data.apierror.message).to.eql(\"Photo id is not valid\");",
 									"});"
@@ -1616,7 +1616,7 @@
 									"   pm.response.to.have.status(404);",
 									"});",
 									"pm.test(\"Get expected error message\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"NOT_FOUND\");",
 									"   pm.expect(data.apierror.message).to.eql(\"Pet not found\");",
 									"});"
@@ -1685,7 +1685,7 @@
 									"   pm.response.to.have.status(412);",
 									"});",
 									"pm.test(\"Get expected error message\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"PRECONDITION_FAILED\");",
 									"   pm.expect(data.apierror.message).to.eql(\"The photo is not associated with the pet\");",
 									"});"
@@ -1788,7 +1788,7 @@
 									"   pm.response.to.have.status(200);",
 									"});",
 									"pm.test(\"Changed attributes are returned\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data.id).to.eql(Number(pm.collectionVariables.get(\"photo_id\")));",
 									"   pm.expect(data.url).to.eql(\"https://fotos.example.com/firulais-1-nueva.png\");",
 									"   pm.expect(data.type).to.eql(\"PNG\");",
@@ -1887,7 +1887,7 @@
 									"   pm.response.to.have.status(404);",
 									"});",
 									"pm.test(\"Get expected error message\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"NOT_FOUND\");",
 									"   pm.expect(data.apierror.message).to.eql(\"Photo not found\");",
 									"});"
@@ -1984,7 +1984,7 @@
 									"   pm.response.to.have.status(412);",
 									"});",
 									"pm.test(\"Get expected error message\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"PRECONDITION_FAILED\");",
 									"   pm.expect(data.apierror.message).to.eql(\"Photo id is not valid\");",
 									"});"
@@ -2081,7 +2081,7 @@
 									"   pm.response.to.have.status(404);",
 									"});",
 									"pm.test(\"Get expected error message\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"NOT_FOUND\");",
 									"   pm.expect(data.apierror.message).to.eql(\"Pet not found\");",
 									"});"
@@ -2178,7 +2178,7 @@
 									"   pm.response.to.have.status(412);",
 									"});",
 									"pm.test(\"Get expected error message\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"PRECONDITION_FAILED\");",
 									"   pm.expect(data.apierror.message).to.eql(\"The photo is not associated with the pet\");",
 									"});"
@@ -2275,7 +2275,7 @@
 									"   pm.response.to.have.status(412);",
 									"});",
 									"pm.test(\"Get expected error message\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"PRECONDITION_FAILED\");",
 									"   pm.expect(data.apierror.message).to.eql(\"The new photo url cannot be null or empty\");",
 									"});"
@@ -2372,7 +2372,7 @@
 									"   pm.response.to.have.status(412);",
 									"});",
 									"pm.test(\"Get expected error message\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"PRECONDITION_FAILED\");",
 									"   pm.expect(data.apierror.message).to.eql(\"Photo format cannot be null or empty\");",
 									"});"
@@ -2469,7 +2469,7 @@
 									"   pm.response.to.have.status(412);",
 									"});",
 									"pm.test(\"Get expected error message\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"PRECONDITION_FAILED\");",
 									"   pm.expect(data.apierror.message).to.eql(\"Photo format is not valid; use JPG, PNG or another supported format\");",
 									"});"
@@ -2540,7 +2540,7 @@
 									"   pm.response.to.have.status(200);",
 									"});",
 									"pm.test(\"PetDetail.photos has the pet's photos only\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   const ids = data.photos.map(p => p.id);",
 									"   pm.expect(ids).to.include(Number(pm.collectionVariables.get(\"photo_id\")));",
 									"   pm.expect(ids).to.include(Number(pm.collectionVariables.get(\"photo_id_2\")));",
@@ -2677,7 +2677,7 @@
 									"   pm.response.to.have.status(404);",
 									"});",
 									"pm.test(\"Get expected error message\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"NOT_FOUND\");",
 									"   pm.expect(data.apierror.message).to.eql(\"Photo not found\");",
 									"});"
@@ -2746,7 +2746,7 @@
 									"   pm.response.to.have.status(404);",
 									"});",
 									"pm.test(\"Get expected error message\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"NOT_FOUND\");",
 									"   pm.expect(data.apierror.message).to.eql(\"Photo not found\");",
 									"});"
@@ -2815,7 +2815,7 @@
 									"   pm.response.to.have.status(412);",
 									"});",
 									"pm.test(\"Get expected error message\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"PRECONDITION_FAILED\");",
 									"   pm.expect(data.apierror.message).to.eql(\"Photo id is not valid\");",
 									"});"
@@ -2884,7 +2884,7 @@
 									"   pm.response.to.have.status(404);",
 									"});",
 									"pm.test(\"Get expected error message\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"NOT_FOUND\");",
 									"   pm.expect(data.apierror.message).to.eql(\"Pet not found\");",
 									"});"
@@ -2953,7 +2953,7 @@
 									"   pm.response.to.have.status(412);",
 									"});",
 									"pm.test(\"Get expected error message\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"PRECONDITION_FAILED\");",
 									"   pm.expect(data.apierror.message).to.eql(\"The photo is not associated with the pet\");",
 									"});"
@@ -3024,7 +3024,7 @@
 									"   pm.response.to.have.status(412);",
 									"});",
 									"pm.test(\"Get expected error message\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"PRECONDITION_FAILED\");",
 									"   pm.expect(data.apierror.message).to.eql(\"The main profile photo of a pet active for adoption cannot be deleted without establishing another default image first\");",
 									"});"
@@ -3089,7 +3089,7 @@
 									"   pm.response.to.have.status(200);",
 									"});",
 									"pm.test(\"PetDetail.photos no longer has the deleted photo\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   const ids = data.photos.map(p => p.id);",
 									"   pm.expect(ids).to.not.include(Number(pm.collectionVariables.get(\"photo_id_3\")));",
 									"   pm.expect(ids).to.have.lengthOf(2);",

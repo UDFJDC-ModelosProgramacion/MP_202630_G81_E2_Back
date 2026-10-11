@@ -59,8 +59,7 @@ class NotificationServiceTest {
 			entityManager.persist(userEntity);
 			userList.add(userEntity);
 		}
-		// userList.get(0) es el dueño de las notificaciones de prueba;
-		// userList.get(1) se usa como "otro usuario" para probar la propiedad.
+		
 		for (int i = 0; i < 3; i++) {
 			NotificationEntity notificationEntity = factory.manufacturePojo(NotificationEntity.class);
 			notificationEntity.setUser(userList.get(0));

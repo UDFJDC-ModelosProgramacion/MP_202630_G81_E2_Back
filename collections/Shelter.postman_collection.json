@@ -99,13 +99,13 @@
 							"script": {
 								"type": "text/javascript",
 								"exec": [
-									"const data = pm.response.json();",
+									"var data = pm.response.json();",
 									"pm.collectionVariables.set(\"shelter_id\", data.id);",
 									"pm.test(\"Status code is 201\", function () {",
 									"   pm.response.to.have.status(201);",
 									"});",
 									"pm.test(\"Response echoes the shelter\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   const rid = pm.collectionVariables.get(\"run_id\");",
 									"   pm.expect(data.id).to.be.a(\"number\");",
 									"   pm.expect(data.name).to.eql(\"Refugio Huellitas \" + rid);",
@@ -196,13 +196,13 @@
 							"script": {
 								"type": "text/javascript",
 								"exec": [
-									"const data = pm.response.json();",
+									"var data = pm.response.json();",
 									"pm.collectionVariables.set(\"shelter_id_2\", data.id);",
 									"pm.test(\"Status code is 201\", function () {",
 									"   pm.response.to.have.status(201);",
 									"});",
 									"pm.test(\"Second shelter has a different id\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data.id).to.be.a(\"number\");",
 									"   pm.expect(data.id === Number(pm.collectionVariables.get(\"shelter_id\"))).to.be.false;",
 									"});"
@@ -293,7 +293,7 @@
 									"   pm.response.to.have.status(412);",
 									"});",
 									"pm.test(\"Get expected error message\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"PRECONDITION_FAILED\");",
 									"   pm.expect(data.apierror.message).to.eql(\"Name cannot be null or empty\");",
 									"});"
@@ -384,7 +384,7 @@
 									"   pm.response.to.have.status(412);",
 									"});",
 									"pm.test(\"Get expected error message\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"PRECONDITION_FAILED\");",
 									"   pm.expect(data.apierror.message).to.eql(\"City cannot be null or empty\");",
 									"});"
@@ -475,7 +475,7 @@
 									"   pm.response.to.have.status(412);",
 									"});",
 									"pm.test(\"Get expected error message\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"PRECONDITION_FAILED\");",
 									"   pm.expect(data.apierror.message).to.eql(\"Location cannot be null or empty\");",
 									"});"
@@ -566,7 +566,7 @@
 									"   pm.response.to.have.status(412);",
 									"});",
 									"pm.test(\"Get expected error message\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"PRECONDITION_FAILED\");",
 									"   pm.expect(data.apierror.message).to.eql(\"Nit cannot be null or empty\");",
 									"});"
@@ -657,7 +657,7 @@
 									"   pm.response.to.have.status(412);",
 									"});",
 									"pm.test(\"Get expected error message\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"PRECONDITION_FAILED\");",
 									"   pm.expect(data.apierror.message).to.eql(\"The nit is already registered for another shelter\");",
 									"});"
@@ -748,7 +748,7 @@
 									"   pm.response.to.have.status(412);",
 									"});",
 									"pm.test(\"Get expected error message\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"PRECONDITION_FAILED\");",
 									"   pm.expect(data.apierror.message).to.eql(\"A shelter already exists with the same name, city and location\");",
 									"});"
@@ -839,7 +839,7 @@
 									"   pm.response.to.have.status(412);",
 									"});",
 									"pm.test(\"Get expected error message\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"PRECONDITION_FAILED\");",
 									"   pm.expect(data.apierror.message).to.eql(\"A shelter must be associated with at least one user responsible for its administration\");",
 									"});"
@@ -908,7 +908,7 @@
 									"   pm.response.to.have.status(200);",
 									"});",
 									"pm.test(\"Response is a list with both shelters\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data).to.be.an(\"array\");",
 									"   const ids = data.map(s => s.id);",
 									"   pm.expect(ids).to.include(Number(pm.collectionVariables.get(\"shelter_id\")));",
@@ -975,7 +975,7 @@
 									"   pm.response.to.have.status(200);",
 									"});",
 									"pm.test(\"Detail has the shelter and its (empty) associations\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data.id).to.eql(Number(pm.collectionVariables.get(\"shelter_id\")));",
 									"   pm.expect(data.city).to.eql(\"Bogota\");",
 									"   pm.expect(data.pets).to.be.an(\"array\");",
@@ -1044,7 +1044,7 @@
 									"   pm.response.to.have.status(404);",
 									"});",
 									"pm.test(\"Get expected error message\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"NOT_FOUND\");",
 									"   pm.expect(data.apierror.message).to.eql(\"Shelter not found\");",
 									"});"
@@ -1109,7 +1109,7 @@
 									"   pm.response.to.have.status(412);",
 									"});",
 									"pm.test(\"Get expected error message\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"PRECONDITION_FAILED\");",
 									"   pm.expect(data.apierror.message).to.eql(\"Shelter id is not valid\");",
 									"});"
@@ -1190,7 +1190,7 @@
 									"   pm.response.to.have.status(200);",
 									"});",
 									"pm.test(\"Only shelters from Bogota, including ours\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data).to.be.an(\"array\");",
 									"   pm.expect(data.every(s => s.city === \"Bogota\")).to.be.true;",
 									"   pm.expect(data.map(s => s.id)).to.include(Number(pm.collectionVariables.get(\"shelter_id\")));",
@@ -1266,7 +1266,7 @@
 									"   pm.response.to.have.status(200);",
 									"});",
 									"pm.test(\"Only the shelter at that location\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data).to.have.lengthOf(1);",
 									"   pm.expect(data[0].id).to.eql(Number(pm.collectionVariables.get(\"shelter_id_2\")));",
 									"});"
@@ -1349,7 +1349,7 @@
 									"   pm.response.to.have.status(200);",
 									"});",
 									"pm.test(\"Both criteria match exactly one shelter\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data).to.have.lengthOf(1);",
 									"   pm.expect(data[0].id).to.eql(Number(pm.collectionVariables.get(\"shelter_id\")));",
 									"});"
@@ -1432,7 +1432,7 @@
 									"   pm.response.to.have.status(200);",
 									"});",
 									"pm.test(\"All criteria must match: empty list\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data).to.have.lengthOf(0);",
 									"});"
 								]
@@ -1530,7 +1530,7 @@
 									"   pm.response.to.have.status(200);",
 									"});",
 									"pm.test(\"Name changed, nit and id unchanged\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data.id).to.eql(Number(pm.collectionVariables.get(\"shelter_id\")));",
 									"   const rid = pm.collectionVariables.get(\"run_id\");",
 									"   pm.expect(data.name).to.eql(\"Refugio Huellitas Editado \" + rid);",
@@ -1625,7 +1625,7 @@
 									"   pm.response.to.have.status(404);",
 									"});",
 									"pm.test(\"Get expected error message\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"NOT_FOUND\");",
 									"   pm.expect(data.apierror.message).to.eql(\"Shelter not found\");",
 									"});"
@@ -1718,7 +1718,7 @@
 									"   pm.response.to.have.status(412);",
 									"});",
 									"pm.test(\"Get expected error message\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"PRECONDITION_FAILED\");",
 									"   pm.expect(data.apierror.message).to.eql(\"Shelter id is not valid\");",
 									"});"
@@ -1811,7 +1811,7 @@
 									"   pm.response.to.have.status(412);",
 									"});",
 									"pm.test(\"Get expected error message\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"PRECONDITION_FAILED\");",
 									"   pm.expect(data.apierror.message).to.eql(\"City cannot be null or empty\");",
 									"});"
@@ -1904,7 +1904,7 @@
 									"   pm.response.to.have.status(412);",
 									"});",
 									"pm.test(\"Get expected error message\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"PRECONDITION_FAILED\");",
 									"   pm.expect(data.apierror.message).to.eql(\"The nit cannot be modified once the shelter has been created\");",
 									"});"
@@ -1997,7 +1997,7 @@
 									"   pm.response.to.have.status(412);",
 									"});",
 									"pm.test(\"Get expected error message\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"PRECONDITION_FAILED\");",
 									"   pm.expect(data.apierror.message).to.eql(\"A shelter already exists with the same name, city and location\");",
 									"});"
@@ -2123,7 +2123,7 @@
 									"   pm.response.to.have.status(404);",
 									"});",
 									"pm.test(\"Get expected error message\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"NOT_FOUND\");",
 									"   pm.expect(data.apierror.message).to.eql(\"Shelter not found\");",
 									"});"
@@ -2188,7 +2188,7 @@
 									"   pm.response.to.have.status(404);",
 									"});",
 									"pm.test(\"Get expected error message\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"NOT_FOUND\");",
 									"   pm.expect(data.apierror.message).to.eql(\"Shelter not found\");",
 									"});"
@@ -2253,7 +2253,7 @@
 									"   pm.response.to.have.status(412);",
 									"});",
 									"pm.test(\"Get expected error message\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"PRECONDITION_FAILED\");",
 									"   pm.expect(data.apierror.message).to.eql(\"Shelter id is not valid\");",
 									"});"
@@ -2373,7 +2373,7 @@
 									"   pm.response.to.have.status(404);",
 									"});",
 									"pm.test(\"Get expected error message\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"NOT_FOUND\");",
 									"   pm.expect(data.apierror.message).to.eql(\"Shelter not found\");",
 									"});"

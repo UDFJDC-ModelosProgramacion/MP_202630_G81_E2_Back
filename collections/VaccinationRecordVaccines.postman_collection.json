@@ -1,6 +1,6 @@
 {
 	"info": {
-
+		"name": "VaccinationRecordVaccines",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
@@ -97,7 +97,7 @@
 							"script": {
 								"type": "text/javascript",
 								"exec": [
-									"const data = pm.response.json();",
+									"var data = pm.response.json();",
 									"pm.collectionVariables.set(\"shelter_id\", data.id);",
 									"pm.test(\"Status code is 201\", function () {",
 									"   pm.response.to.have.status(201);",
@@ -185,7 +185,7 @@
 							"script": {
 								"type": "text/javascript",
 								"exec": [
-									"const data = pm.response.json();",
+									"var data = pm.response.json();",
 									"pm.collectionVariables.set(\"pet_id\", data.id);",
 									"pm.test(\"Status code is 201\", function () {",
 									"   pm.response.to.have.status(201);",
@@ -273,7 +273,7 @@
 							"script": {
 								"type": "text/javascript",
 								"exec": [
-									"const data = pm.response.json();",
+									"var data = pm.response.json();",
 									"pm.collectionVariables.set(\"pet_id_2\", data.id);",
 									"pm.test(\"Status code is 201\", function () {",
 									"   pm.response.to.have.status(201);",
@@ -361,7 +361,7 @@
 							"script": {
 								"type": "text/javascript",
 								"exec": [
-									"const data = pm.response.json();",
+									"var data = pm.response.json();",
 									"pm.collectionVariables.set(\"vaccination_record_id\", data.id);",
 									"pm.test(\"Status code is 201\", function () {",
 									"   pm.response.to.have.status(201);",
@@ -449,7 +449,7 @@
 							"script": {
 								"type": "text/javascript",
 								"exec": [
-									"const data = pm.response.json();",
+									"var data = pm.response.json();",
 									"pm.collectionVariables.set(\"vaccination_record_id_2\", data.id);",
 									"pm.test(\"Status code is 201\", function () {",
 									"   pm.response.to.have.status(201);",
@@ -547,13 +547,13 @@
 							"script": {
 								"type": "text/javascript",
 								"exec": [
-									"const data = pm.response.json();",
+									"var data = pm.response.json();",
 									"pm.collectionVariables.set(\"vaccine_id\", data.id);",
 									"pm.test(\"Status code is 201\", function () {",
 									"   pm.response.to.have.status(201);",
 									"});",
 									"pm.test(\"Response echoes the vaccine and its record\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data.id).to.be.a(\"number\");",
 									"   pm.expect(data.name).to.eql(\"Rabia\");",
 									"   pm.expect(data.status).to.be.true;",
@@ -648,13 +648,13 @@
 							"script": {
 								"type": "text/javascript",
 								"exec": [
-									"const data = pm.response.json();",
+									"var data = pm.response.json();",
 									"pm.collectionVariables.set(\"vaccine_id_2\", data.id);",
 									"pm.test(\"Status code is 201\", function () {",
 									"   pm.response.to.have.status(201);",
 									"});",
 									"pm.test(\"nextAdministration is optional\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data.nextAdministration).to.be.null;",
 									"});"
 								]
@@ -746,7 +746,7 @@
 							"script": {
 								"type": "text/javascript",
 								"exec": [
-									"const data = pm.response.json();",
+									"var data = pm.response.json();",
 									"pm.collectionVariables.set(\"vaccine_id_3\", data.id);",
 									"pm.test(\"Status code is 201\", function () {",
 									"   pm.response.to.have.status(201);",
@@ -848,7 +848,7 @@
 									"   pm.response.to.have.status(412);",
 									"});",
 									"pm.test(\"Get expected error message\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"PRECONDITION_FAILED\");",
 									"   pm.expect(data.apierror.message).to.eql(\"Name cannot be null or empty\");",
 									"});"
@@ -943,7 +943,7 @@
 									"   pm.response.to.have.status(412);",
 									"});",
 									"pm.test(\"Get expected error message\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"PRECONDITION_FAILED\");",
 									"   pm.expect(data.apierror.message).to.eql(\"Administration date cannot be null\");",
 									"});"
@@ -1038,7 +1038,7 @@
 									"   pm.response.to.have.status(412);",
 									"});",
 									"pm.test(\"Get expected error message\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"PRECONDITION_FAILED\");",
 									"   pm.expect(data.apierror.message).to.eql(\"Status must be explicitly initialized\");",
 									"});"
@@ -1133,7 +1133,7 @@
 									"   pm.response.to.have.status(412);",
 									"});",
 									"pm.test(\"Get expected error message\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"PRECONDITION_FAILED\");",
 									"   pm.expect(data.apierror.message).to.eql(\"Administration date cannot be a future date\");",
 									"});"
@@ -1228,7 +1228,7 @@
 									"   pm.response.to.have.status(412);",
 									"});",
 									"pm.test(\"Get expected error message\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"PRECONDITION_FAILED\");",
 									"   pm.expect(data.apierror.message).to.eql(\"Next administration must be a date later than administration date\");",
 									"});"
@@ -1323,7 +1323,7 @@
 									"   pm.response.to.have.status(412);",
 									"});",
 									"pm.test(\"Get expected error message\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"PRECONDITION_FAILED\");",
 									"   pm.expect(data.apierror.message).to.eql(\"This vaccination record already has a vaccine with the same name and administration date\");",
 									"});"
@@ -1418,7 +1418,7 @@
 									"   pm.response.to.have.status(404);",
 									"});",
 									"pm.test(\"Get expected error message\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"NOT_FOUND\");",
 									"   pm.expect(data.apierror.message).to.eql(\"Vaccination record not found\");",
 									"});"
@@ -1513,7 +1513,7 @@
 									"   pm.response.to.have.status(412);",
 									"});",
 									"pm.test(\"Get expected error message\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"PRECONDITION_FAILED\");",
 									"   pm.expect(data.apierror.message).to.eql(\"Vaccination record id is not valid\");",
 									"});"
@@ -1586,7 +1586,7 @@
 									"   pm.response.to.have.status(200);",
 									"});",
 									"pm.test(\"Only the vaccines of this record\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data).to.be.an(\"array\");",
 									"   pm.expect(data).to.have.lengthOf(3);",
 									"   pm.expect(data.every(x => x.vaccinationRecord.id === Number(pm.collectionVariables.get(\"vaccination_record_id\")))).to.be.true;",
@@ -1658,7 +1658,7 @@
 									"   pm.response.to.have.status(200);",
 									"});",
 									"pm.test(\"Empty list\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data).to.have.lengthOf(0);",
 									"});"
 								]
@@ -1726,7 +1726,7 @@
 									"   pm.response.to.have.status(200);",
 									"});",
 									"pm.test(\"The requested vaccine\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data.id).to.eql(Number(pm.collectionVariables.get(\"vaccine_id\")));",
 									"   pm.expect(data.name).to.eql(\"Rabia\");",
 									"   pm.expect(data.status).to.be.true;",
@@ -1796,7 +1796,7 @@
 									"   pm.response.to.have.status(200);",
 									"});",
 									"pm.test(\"status was automatically set to false\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data.status).to.be.false;",
 									"});"
 								]
@@ -1864,7 +1864,7 @@
 									"   pm.response.to.have.status(404);",
 									"});",
 									"pm.test(\"Get expected error message\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"NOT_FOUND\");",
 									"   pm.expect(data.apierror.message).to.eql(\"Vaccine not found\");",
 									"});"
@@ -1933,7 +1933,7 @@
 									"   pm.response.to.have.status(412);",
 									"});",
 									"pm.test(\"Get expected error message\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"PRECONDITION_FAILED\");",
 									"   pm.expect(data.apierror.message).to.eql(\"Vaccine id is not valid\");",
 									"});"
@@ -2002,7 +2002,7 @@
 									"   pm.response.to.have.status(404);",
 									"});",
 									"pm.test(\"Get expected error message\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"NOT_FOUND\");",
 									"   pm.expect(data.apierror.message).to.eql(\"Vaccination record not found\");",
 									"});"
@@ -2071,7 +2071,7 @@
 									"   pm.response.to.have.status(412);",
 									"});",
 									"pm.test(\"Get expected error message\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"PRECONDITION_FAILED\");",
 									"   pm.expect(data.apierror.message).to.eql(\"The vaccine is not associated with the vaccination record\");",
 									"});"
@@ -2174,7 +2174,7 @@
 									"   pm.response.to.have.status(200);",
 									"});",
 									"pm.test(\"Changed attributes returned; administration date and record are kept\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data.id).to.eql(Number(pm.collectionVariables.get(\"vaccine_id\")));",
 									"   pm.expect(data.name).to.eql(\"Rabia (refuerzo aplicado)\");",
 									"   pm.expect(String(data.administrationDate).substring(0, 10)).to.eql(pm.collectionVariables.get(\"d_past_30\").substring(0, 10));",
@@ -2273,7 +2273,7 @@
 									"   pm.response.to.have.status(404);",
 									"});",
 									"pm.test(\"Get expected error message\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"NOT_FOUND\");",
 									"   pm.expect(data.apierror.message).to.eql(\"Vaccine not found\");",
 									"});"
@@ -2370,7 +2370,7 @@
 									"   pm.response.to.have.status(412);",
 									"});",
 									"pm.test(\"Get expected error message\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"PRECONDITION_FAILED\");",
 									"   pm.expect(data.apierror.message).to.eql(\"Vaccine id is not valid\");",
 									"});"
@@ -2467,7 +2467,7 @@
 									"   pm.response.to.have.status(404);",
 									"});",
 									"pm.test(\"Get expected error message\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"NOT_FOUND\");",
 									"   pm.expect(data.apierror.message).to.eql(\"Vaccination record not found\");",
 									"});"
@@ -2564,7 +2564,7 @@
 									"   pm.response.to.have.status(412);",
 									"});",
 									"pm.test(\"Get expected error message\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"PRECONDITION_FAILED\");",
 									"   pm.expect(data.apierror.message).to.eql(\"The vaccine is not associated with the vaccination record\");",
 									"});"
@@ -2661,7 +2661,7 @@
 									"   pm.response.to.have.status(412);",
 									"});",
 									"pm.test(\"Get expected error message\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"PRECONDITION_FAILED\");",
 									"   pm.expect(data.apierror.message).to.eql(\"Name cannot be null or empty\");",
 									"});"
@@ -2758,7 +2758,7 @@
 									"   pm.response.to.have.status(412);",
 									"});",
 									"pm.test(\"Get expected error message\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"PRECONDITION_FAILED\");",
 									"   pm.expect(data.apierror.message).to.eql(\"Status cannot be null\");",
 									"});"
@@ -2855,7 +2855,7 @@
 									"   pm.response.to.have.status(412);",
 									"});",
 									"pm.test(\"Get expected error message\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"PRECONDITION_FAILED\");",
 									"   pm.expect(data.apierror.message).to.eql(\"Administration date cannot be modified once the vaccine has been created\");",
 									"});"
@@ -2952,7 +2952,7 @@
 									"   pm.response.to.have.status(412);",
 									"});",
 									"pm.test(\"Get expected error message\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"PRECONDITION_FAILED\");",
 									"   pm.expect(data.apierror.message).to.eql(\"Next administration must remain later than administration date\");",
 									"});"
@@ -3023,7 +3023,7 @@
 									"   pm.response.to.have.status(200);",
 									"});",
 									"pm.test(\"PetDetail.vaccinationRecord points to the record\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data.vaccinationRecord.id).to.eql(Number(pm.collectionVariables.get(\"vaccination_record_id\")));",
 									"});"
 								]
@@ -3087,7 +3087,7 @@
 									"   pm.response.to.have.status(412);",
 									"});",
 									"pm.test(\"Get expected error message\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"PRECONDITION_FAILED\");",
 									"   pm.expect(data.apierror.message).to.eql(\"A pet with associated history cannot be deleted\");",
 									"});"
@@ -3221,7 +3221,7 @@
 									"   pm.response.to.have.status(404);",
 									"});",
 									"pm.test(\"Get expected error message\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"NOT_FOUND\");",
 									"   pm.expect(data.apierror.message).to.eql(\"Vaccine not found\");",
 									"});"
@@ -3290,7 +3290,7 @@
 									"   pm.response.to.have.status(404);",
 									"});",
 									"pm.test(\"Get expected error message\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"NOT_FOUND\");",
 									"   pm.expect(data.apierror.message).to.eql(\"Vaccine not found\");",
 									"});"
@@ -3359,7 +3359,7 @@
 									"   pm.response.to.have.status(412);",
 									"});",
 									"pm.test(\"Get expected error message\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"PRECONDITION_FAILED\");",
 									"   pm.expect(data.apierror.message).to.eql(\"Vaccine id is not valid\");",
 									"});"
@@ -3428,7 +3428,7 @@
 									"   pm.response.to.have.status(404);",
 									"});",
 									"pm.test(\"Get expected error message\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"NOT_FOUND\");",
 									"   pm.expect(data.apierror.message).to.eql(\"Vaccination record not found\");",
 									"});"
@@ -3497,7 +3497,7 @@
 									"   pm.response.to.have.status(412);",
 									"});",
 									"pm.test(\"Get expected error message\", function () {",
-									"   const data = pm.response.json();",
+									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"PRECONDITION_FAILED\");",
 									"   pm.expect(data.apierror.message).to.eql(\"The vaccine is not associated with the vaccination record\");",
 									"});"
