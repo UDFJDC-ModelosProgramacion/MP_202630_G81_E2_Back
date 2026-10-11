@@ -1,5 +1,7 @@
 package co.edu.udistrital.mdp.pets.dto;
 
+import java.util.Date;
+
 import lombok.Data;
 
 @Data
@@ -9,6 +11,6 @@ public class AdoptionDTO {
 	private String status;
 	private String importantNotes;
 
-	// Shelter
-	// Adopter
+	private ShelterDTO shelter;
+	private AdopterDTO adopter;
 }

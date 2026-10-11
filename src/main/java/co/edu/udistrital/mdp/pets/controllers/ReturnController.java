@@ -10,7 +10,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import co.edu.udistrital.mdp.pets.dto.ReturnDTO;
-import co.edu.udistrital.mdp.pets.dto.ReturnDetailDTO;
 import co.edu.udistrital.mdp.pets.entities.ReturnEntity;
 import co.edu.udistrital.mdp.pets.services.ReturnService;
 import co.edu.udistrital.mdp.pets.exceptions.EntityNotFoundException;
@@ -34,9 +33,9 @@ public class ReturnController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ReturnDetailDTO> getReturn(@PathVariable Long id) throws EntityNotFoundException, IllegalOperationException {
+    public ResponseEntity<ReturnDTO> getReturn(@PathVariable Long id) throws EntityNotFoundException, IllegalOperationException {
         ReturnEntity entity = returnService.readReturn(id);
-        return new ResponseEntity<>(modelMapper.map(entity, ReturnDetailDTO.class), HttpStatus.OK);
+        return new ResponseEntity<>(modelMapper.map(entity, ReturnDTO.class), HttpStatus.OK);
     }
 
     @GetMapping

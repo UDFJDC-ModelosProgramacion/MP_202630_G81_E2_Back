@@ -23,6 +23,8 @@ import co.edu.udistrital.mdp.pets.entities.AdoptionEntity;
 import co.edu.udistrital.mdp.pets.entities.MedicalEventEntity;
 import co.edu.udistrital.mdp.pets.entities.PetEntity;
 import co.edu.udistrital.mdp.pets.entities.ReturnEntity;
+import co.edu.udistrital.mdp.pets.entities.VaccineEntity;
+import co.edu.udistrital.mdp.pets.entities.VaccinationRecordEntity;
 import co.edu.udistrital.mdp.pets.entities.ShelterEntity;
 import co.edu.udistrital.mdp.pets.entities.TrialCohabitationEntity;
 import co.edu.udistrital.mdp.pets.entities.TrialCohabitationRequestEntity;

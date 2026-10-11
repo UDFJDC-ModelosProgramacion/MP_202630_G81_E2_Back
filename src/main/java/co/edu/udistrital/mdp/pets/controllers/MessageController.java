@@ -10,7 +10,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import co.edu.udistrital.mdp.pets.dto.MessageDTO;
-import co.edu.udistrital.mdp.pets.dto.MessageDetailDTO;
 import co.edu.udistrital.mdp.pets.entities.MessageEntity;
 import co.edu.udistrital.mdp.pets.services.MessageService;
 import co.edu.udistrital.mdp.pets.exceptions.EntityNotFoundException;
@@ -35,10 +34,10 @@ public class MessageController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<MessageDetailDTO> getMessage(@PathVariable Long id,
+    public ResponseEntity<MessageDTO> getMessage(@PathVariable Long id,
             @RequestParam(required = false, defaultValue = "1") Long currentUserId) throws EntityNotFoundException, IllegalOperationException {
         MessageEntity entity = messageService.readMessage(id, currentUserId);
-        return new ResponseEntity<>(modelMapper.map(entity, MessageDetailDTO.class), HttpStatus.OK);
+        return new ResponseEntity<>(modelMapper.map(entity, MessageDTO.class), HttpStatus.OK);
     }
 
     @GetMapping
