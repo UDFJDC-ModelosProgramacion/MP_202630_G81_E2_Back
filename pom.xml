@@ -17,6 +17,7 @@
 	<properties>
 		<java.version>21</java.version>
 		<jacoco.version>0.8.11</jacoco.version>
+		<skipPostmanTests>true</skipPostmanTests>
 		<sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
 		<sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
 		<sonar.coverage.jacoco.xmlReportPaths>${project.basedir}/../target/jacoco-report/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>

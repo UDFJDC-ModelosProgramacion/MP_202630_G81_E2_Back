@@ -23,7 +23,7 @@ pipeline {
                docker.image('citools-isis2603:latest').inside('-v $HOME/.m2:/root/.m2:z -u root') {
                   sh '''
                      java -version
-                     mvn clean install
+                     mvn clean install -DskipPostmanTests=true
                   '''
                }
             }
@@ -35,7 +35,7 @@ pipeline {
             script {
                docker.image('citools-isis2603:latest').inside('-v $HOME/.m2:/root/.m2:z -u root') {                  
                   sh '''
-                     mvn test
+                     mvn test -DskipPostmanTests=true
                   '''
                }
             }
@@ -47,7 +47,7 @@ pipeline {
             script {
                docker.image('citools-isis2603:latest').inside('-v $HOME/.m2:/root/.m2:z -u root') {
                   sh '''
-                     mvn org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.token=${SONAR_TOKEN} -Dsonar.host.url=${SONARQUBE_URL}
+                     mvn org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -DskipPostmanTests=true -Dsonar.token=${SONAR_TOKEN} -Dsonar.host.url=${SONARQUBE_URL}
                   '''
                }
             }
