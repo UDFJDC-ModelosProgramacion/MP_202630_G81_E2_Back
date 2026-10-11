@@ -746,10 +746,10 @@ class VaccineServiceTest {
 	// Additional coverage tests
 	// ------------------------------------------------------------------
 
-	private VaccineEntity persistVaccine(VaccinationRecordEntity record, String name, Date administrationDate,
+	private VaccineEntity persistVaccine(VaccinationRecordEntity recordVaccine, String name, Date administrationDate,
 			Date nextAdministration, Boolean status) {
 		VaccineEntity vaccine = factory.manufacturePojo(VaccineEntity.class);
-		vaccine.setVaccinationRecord(record);
+		vaccine.setVaccinationRecord(recordVaccine);
 		vaccine.setName(name);
 		vaccine.setAdministrationDate(administrationDate);
 		vaccine.setNextAdministration(nextAdministration);
