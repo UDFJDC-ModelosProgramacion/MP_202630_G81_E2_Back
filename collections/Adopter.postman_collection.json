@@ -27,7 +27,7 @@
         },
         "body": {
           "mode": "raw",
-          "raw": "{\n    \"firstName\": \"Carlos\",\n    \"lastName\": \"Perez\",\n    \"email\": \"adoptercdf135@mail.com\",\n    \"password\": \"secret123\",\n    \"phone\": \"3001234567\",\n    \"address\": \"Calle 123 # 45-67\",\n    \"nationalId\": \"CC-5303334a\",\n    \"occupation\": \"Ingeniero\",\n    \"earnings\": 2500000.0,\n    \"housingType\": \"Casa\",\n    \"allergies\": \"Ninguna\",\n    \"hasChildren\": false,\n    \"hasOtherPets\": true\n}",
+          "raw": "{\n    \"firstName\": \"Carlos\",\n    \"lastName\": \"Perez\",\n    \"email\": \"adopter-{{$guid}}@mail.com\",\n    \"password\": \"secret123\",\n    \"phone\": \"3001234567\",\n    \"address\": \"Calle 123 # 45-67\",\n    \"nationalId\": \"CC-{{$guid}}\",\n    \"occupation\": \"Ingeniero\",\n    \"earnings\": 2500000.0,\n    \"housingType\": \"Casa\",\n    \"allergies\": \"Ninguna\",\n    \"hasChildren\": false,\n    \"hasOtherPets\": true\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -2810,13 +2810,13 @@
         "method": "DELETE",
         "header": [],
         "url": {
-          "raw": "{{baseUrl}}/adopters/{{adopter_id_3}}",
+          "raw": "{{baseUrl}}/adopters/{{adopter_id_1}}",
           "host": [
             "{{baseUrl}}"
           ],
           "path": [
             "adopters",
-            "{{adopter_id_3}}"
+            "{{adopter_id_1}}"
           ]
         }
       },
@@ -2827,13 +2827,13 @@
             "method": "DELETE",
             "header": [],
             "url": {
-              "raw": "{{baseUrl}}/adopters/{{adopter_id_3}}",
+              "raw": "{{baseUrl}}/adopters/{{adopter_id_1}}",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
                 "adopters",
-                "{{adopter_id_3}}"
+                "{{adopter_id_1}}"
               ]
             }
           },
