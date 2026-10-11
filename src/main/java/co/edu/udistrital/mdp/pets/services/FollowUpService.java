@@ -65,6 +65,11 @@ public class FollowUpService {
 	@Transactional
 	public FollowUpEntity createFollowUp(FollowUpEntity followUp)
 			throws EntityNotFoundException, IllegalOperationException {
+		return persistFollowUp(followUp);
+	}
+
+	private FollowUpEntity persistFollowUp(FollowUpEntity followUp)
+			throws EntityNotFoundException, IllegalOperationException {
 		log.info("Initiate the process of creating the tracking mechanism.");
 
 		if (followUp.getDate() == null)
@@ -109,6 +114,10 @@ public class FollowUpService {
 
 	@Transactional
 	public List<FollowUpEntity> getFollowUps(Long adoptionId) {
+		return findFollowUpsByAdoption(adoptionId);
+	}
+
+	private List<FollowUpEntity> findFollowUpsByAdoption(Long adoptionId) {
 		log.info("Initiate the process of checking adoption follow-ups with id = {}", adoptionId);
 		List<FollowUpEntity> followUps = followUpRepository.findAll().stream()
 				.filter(f -> f.getAdoption() != null && adoptionId.equals(f.getAdoption().getId()))
@@ -206,6 +215,11 @@ public class FollowUpService {
 	@Transactional
 	public FollowUpEntity updateFollowUp(Long followUpId, FollowUpEntity followUp)
 			throws EntityNotFoundException, IllegalOperationException {
+		return applyFollowUpUpdate(followUpId, followUp);
+	}
+
+	private FollowUpEntity applyFollowUpUpdate(Long followUpId, FollowUpEntity followUp)
+			throws EntityNotFoundException, IllegalOperationException {
 		log.info("Initiating the process to update the tracking with id = {}", followUpId);
 		if (followUpId == null || followUpId <= 0)
 			throw new IllegalOperationException(FOLLOW_UP_ID_INVALID);
@@ -242,6 +256,10 @@ public class FollowUpService {
 	 */
 	@Transactional
 	public void deleteFollowUp(Long followUpId) throws EntityNotFoundException, IllegalOperationException {
+		removeFollowUp(followUpId);
+	}
+
+	private void removeFollowUp(Long followUpId) throws EntityNotFoundException, IllegalOperationException {
 		log.info("Starting the process to delete the tracking with id = {}", followUpId);
 		if (followUpId == null || followUpId <= 0)
 			throw new IllegalOperationException(FOLLOW_UP_ID_INVALID);
@@ -259,45 +277,47 @@ public class FollowUpService {
 		log.info("Finished the process of deleting the tracking with id = {}", followUpId);
 	}
 
-	/**
-	 * Creates a follow-up for the adoption identified by the path.
-	 */
 	@Transactional
 	public FollowUpEntity createAdoptionFollowUp(Long adoptionId, FollowUpEntity followUp)
 			throws EntityNotFoundException, IllegalOperationException {
 		AdoptionEntity adoption = findAdoptionOrThrow(adoptionId);
 		followUp.setAdoption(adoption);
-		return createFollowUp(followUp);
+		return persistFollowUp(followUp);
 	}
 
 	@Transactional(readOnly = true)
 	public List<FollowUpEntity> getAdoptionFollowUps(Long adoptionId)
 			throws EntityNotFoundException, IllegalOperationException {
 		findAdoptionOrThrow(adoptionId);
-		return getFollowUps(adoptionId);
+		return findFollowUpsByAdoption(adoptionId);
 	}
 
 	@Transactional(readOnly = true)
 	public FollowUpEntity getAdoptionFollowUp(Long adoptionId, Long followUpId)
 			throws EntityNotFoundException, IllegalOperationException {
-		findAdoptionOrThrow(adoptionId);
-		FollowUpEntity followUp = fetchFollowUpById(followUpId);
-		validateFollowUpBelongsToAdoption(followUp, adoptionId);
-		return followUp;
+		return findAdoptionFollowUp(adoptionId, followUpId);
 	}
 
 	@Transactional
 	public FollowUpEntity updateAdoptionFollowUp(Long adoptionId, Long followUpId, FollowUpEntity followUp)
 			throws EntityNotFoundException, IllegalOperationException {
-		getAdoptionFollowUp(adoptionId, followUpId);
-		return updateFollowUp(followUpId, followUp);
+		findAdoptionFollowUp(adoptionId, followUpId);
+		return applyFollowUpUpdate(followUpId, followUp);
 	}
 
 	@Transactional
 	public void deleteAdoptionFollowUp(Long adoptionId, Long followUpId)
 			throws EntityNotFoundException, IllegalOperationException {
-		getAdoptionFollowUp(adoptionId, followUpId);
-		deleteFollowUp(followUpId);
+		findAdoptionFollowUp(adoptionId, followUpId);
+		removeFollowUp(followUpId);
+	}
+
+	private FollowUpEntity findAdoptionFollowUp(Long adoptionId, Long followUpId)
+			throws EntityNotFoundException, IllegalOperationException {
+		findAdoptionOrThrow(adoptionId);
+		FollowUpEntity followUp = fetchFollowUpById(followUpId);
+		validateFollowUpBelongsToAdoption(followUp, adoptionId);
+		return followUp;
 	}
 
 	private AdoptionEntity findAdoptionOrThrow(Long adoptionId) throws EntityNotFoundException, IllegalOperationException {
