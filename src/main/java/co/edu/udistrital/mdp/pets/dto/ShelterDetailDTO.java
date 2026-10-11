@@ -10,11 +10,11 @@ public class ShelterDetailDTO extends ShelterDTO {
 
     private List<PetDTO> pets = new ArrayList<>();
     private List<PhotoDTO> photos = new ArrayList<>();
-    // CohabitationRequests
-    // AdoptionRequests
+    private List<TrialCohabitationRequestDTO> trialCohabitationsRequests = new ArrayList<>();
+    private List<AdoptionRequestDTO> adoptionRequests = new ArrayList<>();
     private List<TrialCohabitationDTO> trialCohabitations = new ArrayList<>();
-    // Adoptions
-    // Returns duringtrial
+    private List<AdoptionDTO> adoptions = new ArrayList<>();
+    private List<ReturnDTO> returns = new ArrayList<>();
     private List<EventDTO> events = new ArrayList<>();
     private List<AdopterDTO> adopters = new ArrayList<>();
     private List<VeterinarianDTO> veterinarians = new ArrayList<>();

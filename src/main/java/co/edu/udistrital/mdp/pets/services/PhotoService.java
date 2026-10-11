@@ -35,10 +35,6 @@ public class PhotoService {
 	private final ShelterRepository shelterRepository;
 	private final AdoptionRepository adoptionRepository;
 
-	/**
-	 * Creates a new photo validating its data and that it is associated with an
-	 * existing pet, shelter or user; the associated entity must exist.
-	 */
 	@Transactional
 	public PhotoEntity createPhoto(PhotoEntity photo) throws EntityNotFoundException, IllegalOperationException {
 		log.info("Inicia proceso de creación de la foto");
@@ -55,14 +51,62 @@ public class PhotoService {
 		return photoRepository.save(photo);
 	}
 
-	/**
-	 * Validates that the photo has a non-blank url and a supported image format. The
-	 * format is checked case-insensitively against the whitelisted formats.
-	 *
-	 * @param photo the photo to validate
-	 * @throws IllegalOperationException if the url is missing or the format is not
-	 *                                   supported
-	 */
+	@Transactional
+	public PhotoEntity createPetPhoto(Long petId, PhotoEntity photo)
+			throws EntityNotFoundException, IllegalOperationException {
+		photo.setPet(findPetOrThrow(petId));
+		photo.setShelter(null);
+		return createPhoto(photo);
+	}
+
+	@Transactional(readOnly = true)
+	public List<PhotoEntity> getPetPhotos(Long petId)
+			throws EntityNotFoundException, IllegalOperationException {
+		findPetOrThrow(petId);
+		return photoRepository.findAll().stream()
+				.filter(photo -> photo.getPet() != null && petId.equals(photo.getPet().getId()))
+				.toList();
+	}
+
+	@Transactional(readOnly = true)
+	public PhotoEntity getPetPhoto(Long petId, Long photoId)
+			throws EntityNotFoundException, IllegalOperationException {
+		findPetOrThrow(petId);
+		PhotoEntity photo = getPhoto(photoId);
+		validatePhotoBelongsToPet(photo, petId);
+		return photo;
+	}
+
+	@Transactional
+	public PhotoEntity updatePetPhoto(Long petId, Long photoId, PhotoEntity photo)
+			throws EntityNotFoundException, IllegalOperationException {
+		findPetOrThrow(petId);
+		PhotoEntity current = getPhoto(photoId);
+		validatePhotoBelongsToPet(current, petId);
+		return updatePhoto(photoId, photo);
+	}
+
+	@Transactional
+	public void deletePetPhoto(Long petId, Long photoId)
+			throws EntityNotFoundException, IllegalOperationException {
+		findPetOrThrow(petId);
+		PhotoEntity photo = getPhoto(photoId);
+		validatePhotoBelongsToPet(photo, petId);
+		deletePhoto(photoId);
+	}
+
+	private PetEntity findPetOrThrow(Long petId) throws EntityNotFoundException, IllegalOperationException {
+		if (petId == null || petId <= 0)
+			throw new IllegalOperationException("Pet id is not valid");
+		return petRepository.findById(petId)
+				.orElseThrow(() -> new EntityNotFoundException("Pet not found"));
+	}
+
+	private void validatePhotoBelongsToPet(PhotoEntity photo, Long petId) throws IllegalOperationException {
+		if (photo.getPet() == null || !petId.equals(photo.getPet().getId()))
+			throw new IllegalOperationException("The photo is not associated with the pet");
+	}
+
 	private void validatePhotoData(PhotoEntity photo) throws IllegalOperationException {
 		if (photo.getUrl() == null || photo.getUrl().isBlank())
 			throw new IllegalOperationException("Photo url cannot be null or empty");
@@ -73,14 +117,6 @@ public class PhotoService {
 			throw new IllegalOperationException("Photo format is not valid; use JPG, PNG or another supported format");
 	}
 
-	/**
-	 * Associates the photo with an existing pet, replacing the dangling reference
-	 * with the managed entity and registering the photo in the pet's collection.
-	 *
-	 * @param photo the photo being created
-	 * @throws EntityNotFoundException  if the referenced pet does not exist
-	 * @throws IllegalOperationException if the pet reference has no id
-	 */
 	private void attachToPet(PhotoEntity photo) throws EntityNotFoundException, IllegalOperationException {
 		if (photo.getPet() == null)
 			return;
@@ -94,15 +130,6 @@ public class PhotoService {
 		pet.getPhotos().add(photo);
 	}
 
-	/**
-	 * Associates the photo with an existing shelter, replacing the dangling
-	 * reference with the managed entity and registering the photo in the shelter's
-	 * collection.
-	 *
-	 * @param photo the photo being created
-	 * @throws EntityNotFoundException  if the referenced shelter does not exist
-	 * @throws IllegalOperationException if the shelter reference has no id
-	 */
 	private void attachToShelter(PhotoEntity photo) throws EntityNotFoundException, IllegalOperationException {
 		if (photo.getShelter() == null)
 			return;
@@ -116,9 +143,6 @@ public class PhotoService {
 		shelter.getPhotos().add(photo);
 	}
 
-	/**
-	 * Retrieves all registered photos.
-	 */
 	@Transactional
 	public List<PhotoEntity> getPhotos() {
 		log.info("Inicia proceso de consultar todas las fotos");
@@ -128,10 +152,6 @@ public class PhotoService {
 		return photos;
 	}
 
-	/**
-	 * Queries photos optionally filtering by pet and/or shelter. The referenced
-	 * entities must exist when a filter is provided; both filters can be combined.
-	 */
 	@Transactional
 	public List<PhotoEntity> getPhotos(Long petId, Long shelterId)
 			throws EntityNotFoundException, IllegalOperationException {
@@ -151,9 +171,6 @@ public class PhotoService {
 		return photos;
 	}
 
-	/**
-	 * Retrieves a single photo by its id.
-	 */
 	@Transactional
 	public PhotoEntity getPhoto(Long photoId) throws EntityNotFoundException, IllegalOperationException {
 		log.info("Inicia proceso de consultar la foto con id = {}", photoId);
@@ -168,10 +185,6 @@ public class PhotoService {
 		return photo.get();
 	}
 
-	/**
-	 * Updates an existing photo. The entity to which the original photo is
-	 * associated cannot be modified.
-	 */
 	@Transactional
 	public PhotoEntity updatePhoto(Long photoId, PhotoEntity photo)
 			throws EntityNotFoundException, IllegalOperationException {
@@ -199,10 +212,6 @@ public class PhotoService {
 		return photoRepository.save(current);
 	}
 
-	/**
-	 * Deletes a photo, unless it is the main profile photo of a pet that is still
-	 * active for adoption.
-	 */
 	@Transactional
 	public void deletePhoto(Long photoId) throws EntityNotFoundException, IllegalOperationException {
 		log.info("Inicia proceso de borrar la foto con id = {}", photoId);
@@ -222,14 +231,6 @@ public class PhotoService {
 		log.info("Termina proceso de borrar la foto con id = {}", photoId);
 	}
 
-	/**
-	 * Determines whether a photo is the single profile photo of a pet that has no
-	 * finalized adoption, i.e. a pet still available for adoption whose photo
-	 * cannot be deleted without leaving the pet without a default image.
-	 *
-	 * @param photo the photo to evaluate
-	 * @return true if the photo is the only photo of an active pet
-	 */
 	private boolean isMainPhotoOfActivePet(PhotoEntity photo) {
 		Long petId = photo.getPet().getId();
 		long photoCount = photoRepository.findAll().stream()

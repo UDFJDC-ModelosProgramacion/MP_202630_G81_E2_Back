@@ -1,8 +1,8 @@
 package co.edu.udistrital.mdp.pets.dto;
 
 import java.util.Date;
-import lombok.Data;
 
+import lombok.Data;
 
 @Data
 public class PetDTO {
