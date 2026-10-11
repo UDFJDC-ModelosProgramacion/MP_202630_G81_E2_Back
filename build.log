@@ -1,0 +1,3270 @@
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] ------------< co.edu.udistrital.mdp:MP_202630_G81_E2_Back >-------------
+[INFO] Building MP_202630_G81_E2_Back 0.0.1-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- clean:3.3.2:clean (default-clean) @ MP_202630_G81_E2_Back ---
+[INFO] Deleting C:\Users\lunal\Universidad\MP_202630_G81_E2_Back\target
+[INFO] 
+[INFO] --- jacoco:0.8.11:prepare-agent (jacoco-initialize) @ MP_202630_G81_E2_Back ---
+[INFO] argLine set to -javaagent:C:\\Users\\lunal\\.m2\\repository\\org\\jacoco\\org.jacoco.agent\\0.8.11\\org.jacoco.agent-0.8.11-runtime.jar=destfile=C:\\Users\\lunal\\Universidad\\MP_202630_G81_E2_Back\\target\\jacoco.exec
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ MP_202630_G81_E2_Back ---
+[INFO] Copying 1 resource from src\main\resources to target\classes
+[INFO] Copying 0 resource from src\main\resources to target\classes
+[INFO] 
+[INFO] --- compiler:3.11.0:compile (default-compile) @ MP_202630_G81_E2_Back ---
+[INFO] Changes detected - recompiling the module! :source
+[INFO] Compiling 107 source files with javac [debug release 21] to target\classes
+[INFO] Annotation processing is enabled because one or more processors were found
+  on the class path. A future release of javac may disable annotation processing
+  unless at least one processor is specified by name (-processor), or a search
+  path is specified (--processor-path, --processor-module-path), or annotation
+  processing is enabled explicitly (-proc:only, -proc:full).
+  Use -Xlint:-options to suppress this message.
+  Use -proc:none to disable annotation processing.
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ MP_202630_G81_E2_Back ---
+[INFO] skip non existing resourceDirectory C:\Users\lunal\Universidad\MP_202630_G81_E2_Back\src\test\resources
+[INFO] 
+[INFO] --- compiler:3.11.0:testCompile (default-testCompile) @ MP_202630_G81_E2_Back ---
+[INFO] Changes detected - recompiling the module! :dependency
+[INFO] Compiling 19 source files with javac [debug release 21] to target\test-classes
+[INFO] Annotation processing is enabled because one or more processors were found
+  on the class path. A future release of javac may disable annotation processing
+  unless at least one processor is specified by name (-processor), or a search
+  path is specified (--processor-path, --processor-module-path), or annotation
+  processing is enabled explicitly (-proc:only, -proc:full).
+  Use -Xlint:-options to suppress this message.
+  Use -proc:none to disable annotation processing.
+[INFO] 
+[INFO] --- surefire:2.22.1:test (default-test) @ MP_202630_G81_E2_Back ---
+[INFO] Tests are skipped.
+[INFO] 
+[INFO] --- jar:3.3.0:jar (default-jar) @ MP_202630_G81_E2_Back ---
+[INFO] Building jar: C:\Users\lunal\Universidad\MP_202630_G81_E2_Back\target\MP_202630_G81_E2_Back-0.0.1-SNAPSHOT.jar
+[INFO] 
+[INFO] --- spring-boot:3.2.3:repackage (repackage) @ MP_202630_G81_E2_Back ---
+[INFO] Replacing main artifact C:\Users\lunal\Universidad\MP_202630_G81_E2_Back\target\MP_202630_G81_E2_Back-0.0.1-SNAPSHOT.jar with repackaged archive, adding nested dependencies in BOOT-INF/.
+[INFO] The original artifact has been renamed to C:\Users\lunal\Universidad\MP_202630_G81_E2_Back\target\MP_202630_G81_E2_Back-0.0.1-SNAPSHOT.jar.original
+[INFO] 
+[INFO] --- jacoco:0.8.11:report (jacoco-site) @ MP_202630_G81_E2_Back ---
+[INFO] Skipping JaCoCo execution due to missing execution data file.
+[INFO] 
+[INFO] --- spring-boot:3.2.3:start (pre-integration-test) @ MP_202630_G81_E2_Back ---
+[INFO] Attaching agents: []
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::                (v3.2.3)
+
+2026-10-11T11:59:51.230-05:00  INFO 1792 --- [           main] c.e.udistrital.mdp.pets.MainApplication  : Starting MainApplication using Java 21.0.12.1 with PID 1792 (C:\Users\lunal\Universidad\MP_202630_G81_E2_Back\target\classes started by lunal in C:\Users\lunal\Universidad\MP_202630_G81_E2_Back)
+2026-10-11T11:59:51.233-05:00  INFO 1792 --- [           main] c.e.udistrital.mdp.pets.MainApplication  : The following 1 profile is active: "integration-tests"
+2026-10-11T11:59:52.593-05:00  INFO 1792 --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-10-11T11:59:52.796-05:00  INFO 1792 --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 189 ms. Found 19 JPA repository interfaces.
+2026-10-11T11:59:53.876-05:00  INFO 1792 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8999 (http)
+2026-10-11T11:59:53.895-05:00  INFO 1792 --- [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-10-11T11:59:53.895-05:00  INFO 1792 --- [           main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.19]
+2026-10-11T11:59:54.013-05:00  INFO 1792 --- [           main] o.a.c.c.C.[Tomcat].[localhost].[/api]    : Initializing Spring embedded WebApplicationContext
+2026-10-11T11:59:54.014-05:00  INFO 1792 --- [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 2695 ms
+2026-10-11T11:59:54.113-05:00  INFO 1792 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-10-11T11:59:54.460-05:00  INFO 1792 --- [           main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection conn0: url=jdbc:h2:mem:pets user=SA
+2026-10-11T11:59:54.462-05:00  INFO 1792 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-10-11T11:59:54.480-05:00  INFO 1792 --- [           main] o.s.b.a.h2.H2ConsoleAutoConfiguration    : H2 console available at '/h2-console'. Database available at 'jdbc:h2:mem:pets'
+2026-10-11T11:59:54.829-05:00  INFO 1792 --- [           main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-10-11T11:59:54.999-05:00  INFO 1792 --- [           main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.4.4.Final
+2026-10-11T11:59:55.073-05:00  INFO 1792 --- [           main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2026-10-11T11:59:55.491-05:00  INFO 1792 --- [           main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-10-11T11:59:55.554-05:00  WARN 1792 --- [           main] org.hibernate.orm.deprecation            : HHH90000025: H2Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-10-11T11:59:57.856-05:00  INFO 1792 --- [           main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-10-11T11:59:58.129-05:00  INFO 1792 --- [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-10-11T12:00:01.057-05:00  INFO 1792 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8999 (http) with context path '/api'
+2026-10-11T12:00:01.077-05:00  INFO 1792 --- [           main] c.e.udistrital.mdp.pets.MainApplication  : Started MainApplication in 10.523 seconds (process running for 11.58)
+[INFO] 
+[INFO] --- exec:1.6.0:exec (combine-collection) @ MP_202630_G81_E2_Back ---
+Collection 'Adopter' was successfully added.
+Collection 'Adoption' was successfully added.
+Collection 'Default Tests' was successfully added.
+Collection 'Event' was successfully added.
+Collection 'FollowUp' was successfully added.
+Collection 'MedicalEvent' was successfully added.
+Collection 'Notification' was successfully added.
+Collection 'Pet' was successfully added.
+Collection 'PetMedicalEvents' was successfully added.
+Collection 'PetPhotos' was successfully added.
+Collection 'Photo' was successfully added.
+Collection 'Review' was successfully added.
+Collection 'Shelter' was successfully added.
+Collection 'ShelterEvents' was successfully added.
+Collection 'ShelterPets' was successfully added.
+Collection 'TrialCohabitation' was successfully added.
+Collection 'TrialCohabitationRequest' was successfully added.
+Collection 'VaccinationRecordVaccines' was successfully added.
+Collection 'Vaccine' was successfully added.
+Collection 'VeterinarianFollowUps' was successfully added.
+Collection 'VeterinarianMedicalEvents' was successfully added.
+Combined collection is saved to 'it/composed.collection.json'
+[INFO] 
+[INFO] --- exec:1.6.0:exec (integration-tests-composed-collection) @ MP_202630_G81_E2_Back ---
+(node:21472) [DEP0176] DeprecationWarning: fs.F_OK is deprecated, use fs.constants.F_OK instead
+(Use `node --trace-deprecation ...` to show where the warning was created)
+newman
+
+Composed
+
+Ôûí Adopter
+Ôöö Crear un adoptante
+  POST http://localhost:8999/api/adopters 2026-10-11T12:00:04.758-05:00  INFO 1792 --- [nio-8999-exec-2] o.a.c.c.C.[Tomcat].[localhost].[/api]    : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-10-11T12:00:04.759-05:00  INFO 1792 --- [nio-8999-exec-2] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2026-10-11T12:00:04.760-05:00  INFO 1792 --- [nio-8999-exec-2] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
+2026-10-11T12:00:04.790-05:00  WARN 1792 --- [nio-8999-exec-2] o.s.web.servlet.PageNotFound             : Request method 'POST' is not supported
+[405 Method Not Allowed, 334B, 246ms]
+
+Ôöö Crear un adoptante sin firstName
+  POST http://localhost:8999/api/adopters 2026-10-11T12:00:04.951-05:00  WARN 1792 --- [nio-8999-exec-3] o.s.web.servlet.PageNotFound             : Request method 'POST' is not supported
+[405 Method Not Allowed, 334B, 8ms]
+
+Ôöö Crear un adoptante sin lastName
+  POST http://localhost:8999/api/adopters 2026-10-11T12:00:05.042-05:00  WARN 1792 --- [nio-8999-exec-4] o.s.web.servlet.PageNotFound             : Request method 'POST' is not supported
+[405 Method Not Allowed, 334B, 6ms]
+
+Ôöö Crear un adoptante sin email
+  POST http://localhost:8999/api/adopters 2026-10-11T12:00:05.135-05:00  WARN 1792 --- [nio-8999-exec-5] o.s.web.servlet.PageNotFound             : Request method 'POST' is not supported
+[405 Method Not Allowed, 334B, 6ms]
+
+Ôöö Crear un adoptante sin password
+  POST http://localhost:8999/api/adopters 2026-10-11T12:00:05.229-05:00  WARN 1792 --- [nio-8999-exec-6] o.s.web.servlet.PageNotFound             : Request method 'POST' is not supported
+[405 Method Not Allowed, 334B, 7ms]
+
+Ôöö Crear un adoptante sin phone
+  POST http://localhost:8999/api/adopters 2026-10-11T12:00:05.320-05:00  WARN 1792 --- [nio-8999-exec-7] o.s.web.servlet.PageNotFound             : Request method 'POST' is not supported
+[405 Method Not Allowed, 334B, 6ms]
+
+Ôöö Crear un adoptante sin address
+  POST http://localhost:8999/api/adopters 2026-10-11T12:00:05.411-05:00  WARN 1792 --- [nio-8999-exec-8] o.s.web.servlet.PageNotFound             : Request method 'POST' is not supported
+[405 Method Not Allowed, 334B, 6ms]
+
+Ôöö Crear un adoptante sin nationalId
+  POST http://localhost:8999/api/adopters 2026-10-11T12:00:05.488-05:00  WARN 1792 --- [nio-8999-exec-9] o.s.web.servlet.PageNotFound             : Request method 'POST' is not supported
+[405 Method Not Allowed, 334B, 6ms]
+
+Ôöö Crear un adoptante sin occupation
+  POST http://localhost:8999/api/adopters 2026-10-11T12:00:05.583-05:00  WARN 1792 --- [io-8999-exec-10] o.s.web.servlet.PageNotFound             : Request method 'POST' is not supported
+[405 Method Not Allowed, 334B, 7ms]
+
+Ôöö Crear un adoptante sin earnings
+  POST http://localhost:8999/api/adopters 2026-10-11T12:00:05.676-05:00  WARN 1792 --- [nio-8999-exec-1] o.s.web.servlet.PageNotFound             : Request method 'POST' is not supported
+[405 Method Not Allowed, 334B, 6ms]
+
+Ôöö Crear un adoptante sin housingType
+  POST http://localhost:8999/api/adopters 2026-10-11T12:00:05.754-05:00  WARN 1792 --- [nio-8999-exec-2] o.s.web.servlet.PageNotFound             : Request method 'POST' is not supported
+[405 Method Not Allowed, 334B, 5ms]
+
+Ôöö Crear un adoptante sin allergies
+  POST http://localhost:8999/api/adopters 2026-10-11T12:00:05.831-05:00  WARN 1792 --- [nio-8999-exec-3] o.s.web.servlet.PageNotFound             : Request method 'POST' is not supported
+[405 Method Not Allowed, 334B, 5ms]
+
+Ôöö Crear un adoptante sin hasChildren
+  POST http://localhost:8999/api/adopters 2026-10-11T12:00:05.924-05:00  WARN 1792 --- [nio-8999-exec-4] o.s.web.servlet.PageNotFound             : Request method 'POST' is not supported
+[405 Method Not Allowed, 334B, 5ms]
+
+Ôöö Crear un adoptante sin hasOtherPets
+  POST http://localhost:8999/api/adopters 2026-10-11T12:00:06.017-05:00  WARN 1792 --- [nio-8999-exec-5] o.s.web.servlet.PageNotFound             : Request method 'POST' is not supported
+[405 Method Not Allowed, 334B, 6ms]
+
+Ôöö Crear un adoptante con correo ya registrado
+  POST http://localhost:8999/api/adopters 2026-10-11T12:00:06.109-05:00  WARN 1792 --- [nio-8999-exec-6] o.s.web.servlet.PageNotFound             : Request method 'POST' is not supported
+[405 Method Not Allowed, 334B, 6ms]
+
+Ôöö Crear un adoptante con documento repetido
+  POST http://localhost:8999/api/adopters 2026-10-11T12:00:06.201-05:00  WARN 1792 --- [nio-8999-exec-7] o.s.web.servlet.PageNotFound             : Request method 'POST' is not supported
+[405 Method Not Allowed, 334B, 5ms]
+
+Ôöö Obtener todos los adoptantes
+  GET http://localhost:8999/api/adopters [200 OK, 309B, 32ms]
+
+Ôöö Obtener adoptantes por documento
+  GET http://localhost:8999/api/adopters?nationalId=CC-1020304050 [200 OK, 309B, 5ms]
+
+Ôöö Obtener adoptantes por tipo de vivienda
+  GET http://localhost:8999/api/adopters?housingType=Casa [200 OK, 309B, 4ms]
+
+Ôöö Obtener adoptantes por ocupacion
+  GET http://localhost:8999/api/adopters?occupation=Ingeniero [200 OK, 309B, 6ms]
+
+Ôöö Obtener adoptantes con todos los filtros combinados
+  GET http://localhost:8999/api/adopters?nationalId=CC-1020304050&housingType=Casa&occupation=Ingeniero [200 OK, 309B, 5ms]
+
+Ôöö Obtener adoptantes con filtros que no coinciden
+  GET http://localhost:8999/api/adopters?nationalId=CC-SINCOINCIDIR [200 OK, 309B, 5ms]
+
+Ôöö Obtener adoptantes con filtros vacios
+  GET http://localhost:8999/api/adopters?housingType= [200 OK, 309B, 6ms]
+
+Ôöö Obtener un adoptante por id
+  GET http://localhost:8999/api/adopters/1 [404 Not Found, 394B, 7ms]
+
+Ôöö Obtener un adoptante que no existe
+  GET http://localhost:8999/api/adopters/0 [404 Not Found, 394B, 5ms]
+
+Ôöö Obtener un adoptante con id invalido
+  GET http://localhost:8999/api/adopters/-1 [404 Not Found, 396B, 6ms]
+
+Ôöö Editar un adoptante
+  PUT http://localhost:8999/api/adopters/1 [404 Not Found, 394B, 5ms]
+
+Ôöö Editar un adoptante que no existe
+  PUT http://localhost:8999/api/adopters/0 [404 Not Found, 394B, 6ms]
+
+Ôöö Editar un adoptante con id invalido
+  PUT http://localhost:8999/api/adopters/-1 [404 Not Found, 396B, 6ms]
+
+Ôöö Editar un adoptante sin address
+  PUT http://localhost:8999/api/adopters/1 [404 Not Found, 394B, 7ms]
+
+Ôöö Editar un adoptante sin occupation
+  PUT http://localhost:8999/api/adopters/1 [404 Not Found, 394B, 5ms]
+
+Ôöö Editar un adoptante sin earnings
+  PUT http://localhost:8999/api/adopters/1 [404 Not Found, 394B, 6ms]
+
+Ôöö Editar un adoptante sin housingType
+  PUT http://localhost:8999/api/adopters/1 [404 Not Found, 394B, 5ms]
+
+Ôöö Editar un adoptante sin allergies
+  PUT http://localhost:8999/api/adopters/1 [404 Not Found, 394B, 5ms]
+
+Ôöö Editar un adoptante sin hasChildren
+  PUT http://localhost:8999/api/adopters/1 [404 Not Found, 394B, 6ms]
+
+Ôöö Editar un adoptante sin hasOtherPets
+  PUT http://localhost:8999/api/adopters/1 [404 Not Found, 394B, 6ms]
+
+Ôöö Borrar un adoptante
+  DELETE http://localhost:8999/api/adopters/3 [404 Not Found, 394B, 8ms]
+
+Ôöö Borrar un adoptante que no existe
+  DELETE http://localhost:8999/api/adopters/0 [404 Not Found, 394B, 6ms]
+
+Ôöö Borrar un adoptante con id invalido
+  DELETE http://localhost:8999/api/adopters/-1 [404 Not Found, 396B, 4ms]
+
+Ôöö Borrar un adoptante con solicitudes de adopcion activas
+  DELETE http://localhost:8999/api/adopters/1 [404 Not Found, 394B, 8ms]
+
+Ôûí Adoption
+Ôöö Crear una adopcion
+  POST http://localhost:8999/api/adoptions 2026-10-11T12:00:08.400-05:00  WARN 1792 --- [nio-8999-exec-2] o.s.web.servlet.PageNotFound             : Request method 'POST' is not supported
+[405 Method Not Allowed, 335B, 4ms]
+
+Ôöö Crear una adopcion sin estado
+  POST http://localhost:8999/api/adoptions 2026-10-11T12:00:08.494-05:00  WARN 1792 --- [nio-8999-exec-3] o.s.web.servlet.PageNotFound             : Request method 'POST' is not supported
+[405 Method Not Allowed, 335B, 5ms]
+
+Ôöö Crear una adopcion sin fecha
+  POST http://localhost:8999/api/adoptions 2026-10-11T12:00:08.588-05:00  WARN 1792 --- [nio-8999-exec-4] o.s.web.servlet.PageNotFound             : Request method 'POST' is not supported
+[405 Method Not Allowed, 335B, 5ms]
+
+Ôöö Crear una adopcion sin observaciones
+  POST http://localhost:8999/api/adoptions 2026-10-11T12:00:08.681-05:00  WARN 1792 --- [nio-8999-exec-5] o.s.web.servlet.PageNotFound             : Request method 'POST' is not supported
+[405 Method Not Allowed, 335B, 4ms]
+
+Ôöö Crear una adopcion con un adoptante que no existe
+  POST http://localhost:8999/api/adoptions 2026-10-11T12:00:08.775-05:00  WARN 1792 --- [nio-8999-exec-6] o.s.web.servlet.PageNotFound             : Request method 'POST' is not supported
+[405 Method Not Allowed, 335B, 5ms]
+
+Ôöö Crear una adopcion con un adoptante inactivo
+  POST http://localhost:8999/api/adoptions 2026-10-11T12:00:08.869-05:00  WARN 1792 --- [nio-8999-exec-7] o.s.web.servlet.PageNotFound             : Request method 'POST' is not supported
+[405 Method Not Allowed, 335B, 8ms]
+
+Ôöö Crear una adopcion con una mascota que no existe
+  POST http://localhost:8999/api/adoptions 2026-10-11T12:00:08.946-05:00  WARN 1792 --- [nio-8999-exec-8] o.s.web.servlet.PageNotFound             : Request method 'POST' is not supported
+[405 Method Not Allowed, 335B, 8ms]
+
+Ôöö Crear una adopcion con una mascota no disponible
+  POST http://localhost:8999/api/adoptions 2026-10-11T12:00:09.036-05:00  WARN 1792 --- [nio-8999-exec-9] o.s.web.servlet.PageNotFound             : Request method 'POST' is not supported
+[405 Method Not Allowed, 335B, 4ms]
+
+Ôöö Crear una adopcion con una solicitud que no existe
+  POST http://localhost:8999/api/adoptions 2026-10-11T12:00:09.132-05:00  WARN 1792 --- [io-8999-exec-10] o.s.web.servlet.PageNotFound             : Request method 'POST' is not supported
+[405 Method Not Allowed, 335B, 5ms]
+
+Ôöö Crear una adopcion con una solicitud no aprobada
+  POST http://localhost:8999/api/adoptions 2026-10-11T12:00:09.225-05:00  WARN 1792 --- [nio-8999-exec-1] o.s.web.servlet.PageNotFound             : Request method 'POST' is not supported
+[405 Method Not Allowed, 335B, 4ms]
+
+Ôöö Crear una adopcion duplicada
+  POST http://localhost:8999/api/adoptions 2026-10-11T12:00:09.320-05:00  WARN 1792 --- [nio-8999-exec-2] o.s.web.servlet.PageNotFound             : Request method 'POST' is not supported
+[405 Method Not Allowed, 335B, 4ms]
+
+Ôöö Obtener todas las adopciones
+  GET http://localhost:8999/api/adoptions [200 OK, 309B, 5ms]
+
+Ôöö Obtener adopciones filtradas por estado
+  GET http://localhost:8999/api/adoptions?status=IN_PROGRESS [200 OK, 309B, 4ms]
+
+Ôöö Obtener adopciones con todos los filtros combinados
+  GET http://localhost:8999/api/adoptions?petId=1&adopterId=1&status=IN_PROGRESS [200 OK, 309B, 5ms]
+
+Ôöö Obtener adopciones con filtros que no coinciden
+  GET http://localhost:8999/api/adoptions?petId=1&status=CANCELLED [200 OK, 309B, 7ms]
+
+Ôöö Obtener adopciones con un id invalido en los filtros
+  GET http://localhost:8999/api/adoptions?petId=-1 [200 OK, 309B, 4ms]
+
+Ôöö Obtener una adopcion
+  GET http://localhost:8999/api/adoptions/1 [404 Not Found, 396B, 6ms]
+
+Ôöö Obtener una adopcion que no existe
+  GET http://localhost:8999/api/adoptions/0 [404 Not Found, 396B, 5ms]
+
+Ôöö Obtener una adopcion con un id invalido
+  GET http://localhost:8999/api/adoptions/-1 [404 Not Found, 398B, 5ms]
+
+Ôöö Editar una adopcion
+  PUT http://localhost:8999/api/adoptions/1 [404 Not Found, 396B, 4ms]
+
+Ôöö Editar una adopcion que no existe
+  PUT http://localhost:8999/api/adoptions/0 [404 Not Found, 396B, 5ms]
+
+Ôöö Editar una adopcion con un id invalido
+  PUT http://localhost:8999/api/adoptions/-1 [404 Not Found, 398B, 5ms]
+
+Ôöö Editar una adopcion sin estado
+  PUT http://localhost:8999/api/adoptions/1 [404 Not Found, 396B, 5ms]
+
+Ôöö Editar la mascota de una adopcion
+  PUT http://localhost:8999/api/adoptions/1 [404 Not Found, 396B, 5ms]
+
+Ôöö Editar el adoptante de una adopcion
+  PUT http://localhost:8999/api/adoptions/1 [404 Not Found, 396B, 5ms]
+
+Ôöö Editar una adopcion finalizada o cancelada
+  PUT http://localhost:8999/api/adoptions/2 [404 Not Found, 396B, 6ms]
+
+Ôöö Borrar una adopcion
+  DELETE http://localhost:8999/api/adoptions/3 [404 Not Found, 396B, 6ms]
+
+Ôöö Borrar una adopcion que no existe
+  DELETE http://localhost:8999/api/adoptions/0 [404 Not Found, 396B, 4ms]
+
+Ôöö Borrar una adopcion con un id invalido
+  DELETE http://localhost:8999/api/adoptions/-1 [404 Not Found, 398B, 5ms]
+
+Ôöö Borrar una adopcion activa o en curso
+  DELETE http://localhost:8999/api/adoptions/1 [404 Not Found, 396B, 4ms]
+
+Ôûí Default Tests
+Ôöö Test API Status
+  GET http://localhost:8999/api [200 OK, 309B, 8ms]
+  ÔêÜ  Status code is 200
+
+Ôûí Event / 00 Preparacion
+Ôöö Preparacion: crear refugio A
+  POST http://localhost:8999/api/shelters 2026-10-11T12:00:11.337-05:00  INFO 1792 --- [nio-8999-exec-4] c.e.u.mdp.pets.services.ShelterService   : Refuge creation process begins
+2026-10-11T12:00:11.499-05:00  INFO 1792 --- [nio-8999-exec-4] c.e.u.mdp.pets.services.ShelterService   : Shelter creation process ends
+[201 Created, 366B, 324ms]
+  ÔêÜ  Status code is 201
+
+Ôöö Preparacion: crear refugio B
+  POST http://localhost:8999/api/shelters 2026-10-11T12:00:11.655-05:00  INFO 1792 --- [nio-8999-exec-5] c.e.u.mdp.pets.services.ShelterService   : Refuge creation process begins
+2026-10-11T12:00:11.665-05:00  INFO 1792 --- [nio-8999-exec-5] c.e.u.mdp.pets.services.ShelterService   : Shelter creation process ends
+[201 Created, 368B, 20ms]
+  ÔêÜ  Status code is 201
+
+Ôöö Preparacion: crear evento 1 en el refugio A
+  POST http://localhost:8999/api/shelters/1/events 2026-10-11T12:00:11.773-05:00  INFO 1792 --- [nio-8999-exec-6] c.e.u.mdp.pets.services.EventService     : Starts event creation process for shelter with id = 1
+2026-10-11T12:00:11.792-05:00  INFO 1792 --- [nio-8999-exec-6] c.e.u.mdp.pets.services.EventService     : Event creation process ends
+[201 Created, 564B, 69ms]
+  ÔêÜ  Status code is 201
+
+Ôöö Preparacion: crear evento 2 en el refugio A
+  POST http://localhost:8999/api/shelters/1/events 2026-10-11T12:00:11.918-05:00  INFO 1792 --- [nio-8999-exec-7] c.e.u.mdp.pets.services.EventService     : Starts event creation process for shelter with id = 1
+2026-10-11T12:00:11.924-05:00  INFO 1792 --- [nio-8999-exec-7] c.e.u.mdp.pets.services.EventService     : Event creation process ends
+[201 Created, 557B, 17ms]
+  ÔêÜ  Status code is 201
+
+Ôöö Preparacion: crear evento 3 en el refugio B
+  POST http://localhost:8999/api/shelters/2/events 2026-10-11T12:00:12.010-05:00  INFO 1792 --- [nio-8999-exec-8] c.e.u.mdp.pets.services.EventService     : Starts event creation process for shelter with id = 2
+2026-10-11T12:00:12.016-05:00  INFO 1792 --- [nio-8999-exec-8] c.e.u.mdp.pets.services.EventService     : Event creation process ends
+[201 Created, 564B, 15ms]
+  ÔêÜ  Status code is 201
+
+Ôûí Event / 01 Consultar
+Ôöö Obtener todos los eventos
+  GET http://localhost:8999/api/events [200 OK, 1.11kB, 33ms]
+  ÔêÜ  Status code is 200
+  ÔêÜ  List contains the three events created here
+
+Ôöö Obtener un evento por id
+  GET http://localhost:8999/api/events/1 [200 OK, 540B, 16ms]
+  ÔêÜ  Status code is 200
+  ÔêÜ  The requested event with its shelter
+
+Ôöö Obtener un evento que no existe
+  GET http://localhost:8999/api/events/999999 [404 Not Found, 357B, 49ms]
+  ÔêÜ  Status code is 404
+  ÔêÜ  Get expected error message
+
+Ôöö Obtener un evento con un id invalido
+  GET http://localhost:8999/api/events/0 [412 Precondition Failed, 383B, 6ms]
+  ÔêÜ  Status code is 412
+  ÔêÜ  Get expected error message
+
+Ôûí Event / 01b Filtros
+Ôöö Obtener eventos por nombre
+  GET http://localhost:8999/api/events?name=Jornada-adopcion-mv42jtjel [200 OK, 830B, 19ms]
+  ÔêÜ  Status code is 200
+  ÔêÜ  Every result matches the filter(s)
+
+Ôöö Obtener eventos por nombre sin importar mayusculas
+  GET http://localhost:8999/api/events?name=JORNADA-ADOPCION-mv42jtjel [200 OK, 830B, 12ms]
+  ÔêÜ  Status code is 200
+  ÔêÜ  Every result matches the filter(s)
+
+Ôöö Obtener eventos por fecha
+  GET http://localhost:8999/api/events?date=2026-11-10 [200 OK, 830B, 15ms]
+  ÔêÜ  Status code is 200
+  ÔêÜ  Every result matches the filter(s)
+
+Ôöö Obtener un evento por id como filtro
+  GET http://localhost:8999/api/events?id=1 [200 OK, 542B, 14ms]
+  ÔêÜ  Status code is 200
+  ÔêÜ  Every result matches the filter(s)
+
+Ôöö Obtener un evento con id, nombre y fecha que coinciden
+  GET http://localhost:8999/api/events?id=1&name=Jornada-adopcion-mv42jtjel&date=2026-11-10 [200 OK, 542B, 14ms]
+  ÔêÜ  Status code is 200
+  ÔêÜ  Every result matches the filter(s)
+
+Ôöö Obtener un evento con nombre y fecha que no coinciden
+  GET http://localhost:8999/api/events?name=Jornada-adopcion-mv42jtjel&date=2026-12-10 [200 OK, 255B, 11ms]
+  ÔêÜ  Status code is 200
+  ÔêÜ  Every result matches the filter(s)
+
+Ôöö Obtener un evento con id y nombre que no coinciden
+  GET http://localhost:8999/api/events?id=1&name=Vacunacion-masiva-mv42jtjel [200 OK, 255B, 11ms]
+  ÔêÜ  Status code is 200
+  ÔêÜ  Every result matches the filter(s)
+
+Ôöö Obtener un evento con un id que no existe como filtro
+  GET http://localhost:8999/api/events?id=999999 [200 OK, 255B, 12ms]
+  ÔêÜ  Status code is 200
+  ÔêÜ  Every result matches the filter(s)
+
+Ôöö Obtener eventos con un id invalido como filtro
+  GET http://localhost:8999/api/events?id=0 [412 Precondition Failed, 383B, 5ms]
+  ÔêÜ  Status code is 412
+  ÔêÜ  Get expected error message
+
+Ôûí FollowUp
+Ôöö Crear un seguimiento
+  POST http://localhost:8999/api/followUps 2026-10-11T12:00:13.394-05:00  WARN 1792 --- [nio-8999-exec-2] o.s.web.servlet.PageNotFound             : Request method 'POST' is not supported
+[405 Method Not Allowed, 335B, 5ms]
+
+Ôöö Crear un seguimiento sin fecha
+  POST http://localhost:8999/api/followUps 2026-10-11T12:00:13.475-05:00  WARN 1792 --- [nio-8999-exec-3] o.s.web.servlet.PageNotFound             : Request method 'POST' is not supported
+[405 Method Not Allowed, 335B, 4ms]
+
+Ôöö Crear un seguimiento con fecha pasada
+  POST http://localhost:8999/api/followUps 2026-10-11T12:00:13.552-05:00  WARN 1792 --- [nio-8999-exec-4] o.s.web.servlet.PageNotFound             : Request method 'POST' is not supported
+[405 Method Not Allowed, 335B, 4ms]
+
+Ôöö Crear un seguimiento sin observacion
+  POST http://localhost:8999/api/followUps 2026-10-11T12:00:13.648-05:00  WARN 1792 --- [nio-8999-exec-5] o.s.web.servlet.PageNotFound             : Request method 'POST' is not supported
+[405 Method Not Allowed, 335B, 4ms]
+
+Ôöö Crear un seguimiento sin veterinario
+  POST http://localhost:8999/api/followUps 2026-10-11T12:00:13.741-05:00  WARN 1792 --- [nio-8999-exec-6] o.s.web.servlet.PageNotFound             : Request method 'POST' is not supported
+[405 Method Not Allowed, 335B, 4ms]
+
+Ôöö Crear un seguimiento sin adopcion
+  POST http://localhost:8999/api/followUps 2026-10-11T12:00:13.820-05:00  WARN 1792 --- [nio-8999-exec-7] o.s.web.servlet.PageNotFound             : Request method 'POST' is not supported
+[405 Method Not Allowed, 335B, 4ms]
+
+Ôöö Crear un seguimiento con veterinario inexistente
+  POST http://localhost:8999/api/followUps 2026-10-11T12:00:13.915-05:00  WARN 1792 --- [nio-8999-exec-8] o.s.web.servlet.PageNotFound             : Request method 'POST' is not supported
+[405 Method Not Allowed, 335B, 3ms]
+
+Ôöö Crear un seguimiento con adopcion inexistente
+  POST http://localhost:8999/api/followUps 2026-10-11T12:00:13.993-05:00  WARN 1792 --- [nio-8999-exec-9] o.s.web.servlet.PageNotFound             : Request method 'POST' is not supported
+[405 Method Not Allowed, 335B, 4ms]
+
+Ôöö Crear un seguimiento de una adopcion no finalizada
+  POST http://localhost:8999/api/followUps 2026-10-11T12:00:14.088-05:00  WARN 1792 --- [io-8999-exec-10] o.s.web.servlet.PageNotFound             : Request method 'POST' is not supported
+[405 Method Not Allowed, 335B, 4ms]
+
+Ôöö Obtener todos los seguimientos
+  GET http://localhost:8999/api/followUps [200 OK, 280B, 4ms]
+
+Ôöö Obtener los seguimientos de una adopcion
+  GET http://localhost:8999/api/followUps?adoptionId=1 [200 OK, 309B, 6ms]
+
+Ôöö Obtener un seguimiento por id
+  GET http://localhost:8999/api/followUps/1 [404 Not Found, 396B, 6ms]
+
+Ôöö Obtener un seguimiento que no existe
+  GET http://localhost:8999/api/followUps/0 [404 Not Found, 396B, 5ms]
+
+Ôöö Obtener un seguimiento con id invalido
+  GET http://localhost:8999/api/followUps/-1 [404 Not Found, 398B, 6ms]
+
+Ôöö Obtener un seguimiento autorizado para el adoptante asociado
+  GET http://localhost:8999/api/followUps/1?requesterId=1 [404 Not Found, 396B, 5ms]
+
+Ôöö Obtener un seguimiento autorizado para el veterinario
+  GET http://localhost:8999/api/followUps/1?requesterId=0 [404 Not Found, 396B, 5ms]
+
+Ôöö Obtener un seguimiento sin autorizacion
+  GET http://localhost:8999/api/followUps/1?requesterId=9999 [404 Not Found, 396B, 6ms]
+
+Ôöö Obtener un seguimiento sin solicitante
+  GET http://localhost:8999/api/followUps/1?requesterId=0 [404 Not Found, 396B, 6ms]
+
+Ôöö Obtener un seguimiento autorizado para el administrador
+  GET http://localhost:8999/api/followUps/1?requesterId=9999&role=ADMIN [404 Not Found, 396B, 6ms]
+
+Ôöö Obtener un seguimiento con rol no administrador y sin autorizacion
+  GET http://localhost:8999/api/followUps/1?requesterId=9999&role=ADOPTER [404 Not Found, 396B, 5ms]
+
+Ôöö Editar un seguimiento
+  PUT http://localhost:8999/api/followUps/1 [404 Not Found, 396B, 6ms]
+
+Ôöö Editar un seguimiento que no existe
+  PUT http://localhost:8999/api/followUps/0 [404 Not Found, 396B, 6ms]
+
+Ôöö Editar un seguimiento con id invalido
+  PUT http://localhost:8999/api/followUps/-1 [404 Not Found, 398B, 5ms]
+
+Ôöö Editar un seguimiento cambiando la adopcion
+  PUT http://localhost:8999/api/followUps/1 [404 Not Found, 396B, 8ms]
+
+Ôöö Editar un seguimiento sin fecha
+  PUT http://localhost:8999/api/followUps/1 [404 Not Found, 396B, 7ms]
+
+Ôöö Editar un seguimiento sin observacion
+  PUT http://localhost:8999/api/followUps/1 [404 Not Found, 396B, 6ms]
+
+Ôöö Borrar un seguimiento
+  DELETE http://localhost:8999/api/followUps/2 [404 Not Found, 396B, 5ms]
+
+Ôöö Borrar un seguimiento que no existe
+  DELETE http://localhost:8999/api/followUps/0 [404 Not Found, 396B, 5ms]
+
+Ôöö Borrar un seguimiento con id invalido
+  DELETE http://localhost:8999/api/followUps/-1 [404 Not Found, 398B, 5ms]
+
+Ôöö Borrar un seguimiento ya cerrado o vencido
+  DELETE http://localhost:8999/api/followUps/3 [404 Not Found, 396B, 7ms]
+
+Ôûí MedicalEvent
+Ôöö Crear un evento medico
+  POST http://localhost:8999/api/medicalEvents 2026-10-11T12:00:16.060-05:00  WARN 1792 --- [nio-8999-exec-3] o.s.web.servlet.PageNotFound             : Request method 'POST' is not supported
+[405 Method Not Allowed, 339B, 6ms]
+
+Ôöö Crear un evento medico sin fecha
+  POST http://localhost:8999/api/medicalEvents 2026-10-11T12:00:16.141-05:00  WARN 1792 --- [nio-8999-exec-4] o.s.web.servlet.PageNotFound             : Request method 'POST' is not supported
+[405 Method Not Allowed, 339B, 5ms]
+
+Ôöö Crear un evento medico sin tipo
+  POST http://localhost:8999/api/medicalEvents 2026-10-11T12:00:16.213-05:00  WARN 1792 --- [nio-8999-exec-5] o.s.web.servlet.PageNotFound             : Request method 'POST' is not supported
+[405 Method Not Allowed, 339B, 5ms]
+
+Ôöö Crear un evento medico sin descripcion
+  POST http://localhost:8999/api/medicalEvents 2026-10-11T12:00:16.306-05:00  WARN 1792 --- [nio-8999-exec-6] o.s.web.servlet.PageNotFound             : Request method 'POST' is not supported
+[405 Method Not Allowed, 339B, 4ms]
+
+Ôöö Crear un evento medico con una mascota que no existe
+  POST http://localhost:8999/api/medicalEvents 2026-10-11T12:00:16.399-05:00  WARN 1792 --- [nio-8999-exec-7] o.s.web.servlet.PageNotFound             : Request method 'POST' is not supported
+[405 Method Not Allowed, 339B, 5ms]
+
+Ôöö Crear un evento medico con una mascota inactiva
+  POST http://localhost:8999/api/medicalEvents 2026-10-11T12:00:16.478-05:00  WARN 1792 --- [nio-8999-exec-8] o.s.web.servlet.PageNotFound             : Request method 'POST' is not supported
+[405 Method Not Allowed, 339B, 4ms]
+
+Ôöö Crear un evento medico con fecha futura
+  POST http://localhost:8999/api/medicalEvents 2026-10-11T12:00:16.572-05:00  WARN 1792 --- [nio-8999-exec-9] o.s.web.servlet.PageNotFound             : Request method 'POST' is not supported
+[405 Method Not Allowed, 339B, 7ms]
+
+Ôöö Crear un evento medico duplicado
+  POST http://localhost:8999/api/medicalEvents 2026-10-11T12:00:16.663-05:00  WARN 1792 --- [io-8999-exec-10] o.s.web.servlet.PageNotFound             : Request method 'POST' is not supported
+[405 Method Not Allowed, 339B, 6ms]
+
+Ôöö Obtener todos los eventos medicos
+  GET http://localhost:8999/api/medicalEvents [200 OK, 309B, 6ms]
+
+Ôöö Obtener eventos medicos filtrados por tipo
+  GET http://localhost:8999/api/medicalEvents?type=Cirugia [200 OK, 309B, 5ms]
+
+Ôöö Obtener eventos medicos con todos los filtros combinados
+  GET http://localhost:8999/api/medicalEvents?petId=1&type=Cirugia&date=2026-09-10 [200 OK, 309B, 5ms]
+
+Ôöö Obtener eventos medicos con filtros que no coinciden
+  GET http://localhost:8999/api/medicalEvents?petId=1&type=Vacunacion [200 OK, 309B, 4ms]
+
+Ôöö Obtener eventos medicos con un id invalido en los filtros
+  GET http://localhost:8999/api/medicalEvents?petId=-1 [200 OK, 309B, 4ms]
+
+Ôöö Obtener un evento medico
+  GET http://localhost:8999/api/medicalEvents/1 [404 Not Found, 404B, 5ms]
+
+Ôöö Obtener un evento medico que no existe
+  GET http://localhost:8999/api/medicalEvents/0 [404 Not Found, 404B, 6ms]
+
+Ôöö Obtener un evento medico con un id invalido
+  GET http://localhost:8999/api/medicalEvents/-1 [404 Not Found, 406B, 7ms]
+
+Ôöö Editar un evento medico
+  PUT http://localhost:8999/api/medicalEvents/1 [404 Not Found, 404B, 6ms]
+
+Ôöö Editar un evento medico que no existe
+  PUT http://localhost:8999/api/medicalEvents/0 [404 Not Found, 404B, 4ms]
+
+Ôöö Editar un evento medico con un id invalido
+  PUT http://localhost:8999/api/medicalEvents/-1 [404 Not Found, 406B, 4ms]
+
+Ôöö Editar un evento medico sin tipo
+  PUT http://localhost:8999/api/medicalEvents/1 [404 Not Found, 404B, 6ms]
+
+Ôöö Editar la mascota de un evento medico
+  PUT http://localhost:8999/api/medicalEvents/1 [404 Not Found, 404B, 5ms]
+
+Ôöö Editar un evento medico con fecha futura
+  PUT http://localhost:8999/api/medicalEvents/1 [404 Not Found, 404B, 5ms]
+
+Ôöö Borrar un evento medico
+  DELETE http://localhost:8999/api/medicalEvents/2 [404 Not Found, 404B, 6ms]
+
+Ôöö Borrar un evento medico que no existe
+  DELETE http://localhost:8999/api/medicalEvents/0 [404 Not Found, 404B, 5ms]
+
+Ôöö Borrar un evento medico con un id invalido
+  DELETE http://localhost:8999/api/medicalEvents/-1 [404 Not Found, 406B, 4ms]
+
+Ôöö Borrar un evento medico requerido por una adopcion activa
+  DELETE http://localhost:8999/api/medicalEvents/3 [404 Not Found, 404B, 5ms]
+
+Ôûí Notification / Preparacion (usuarios destinatarios)
+Ôöö Crear el usuario destinatario 1 (veterinario)
+  POST http://localhost:8999/api/veterinarians 2026-10-11T12:00:18.412-05:00  INFO 1792 --- [nio-8999-exec-9] c.e.u.m.p.services.VeterinarianService   : Starting process to create a veterinarian
+2026-10-11T12:00:18.418-05:00  INFO 1792 --- [nio-8999-exec-9] c.e.u.m.p.services.VeterinarianService   : Ending process to create a veterinarian
+[201 Created, 451B, 33ms]
+  ÔêÜ  Status code is 201
+
+Ôöö Crear el usuario destinatario 2 (veterinario)
+  POST http://localhost:8999/api/veterinarians 2026-10-11T12:00:18.533-05:00  INFO 1792 --- [io-8999-exec-10] c.e.u.m.p.services.VeterinarianService   : Starting process to create a veterinarian
+2026-10-11T12:00:18.538-05:00  INFO 1792 --- [io-8999-exec-10] c.e.u.m.p.services.VeterinarianService   : Ending process to create a veterinarian
+[201 Created, 442B, 14ms]
+  ÔêÜ  Status code is 201
+
+Ôûí Notification / Notification
+Ôöö Crear una notificacion
+  POST http://localhost:8999/api/users/1/notifications 2026-10-11T12:00:18.650-05:00  INFO 1792 --- [nio-8999-exec-1] c.e.u.m.p.services.NotificationService   : Inicia proceso de creaci├│n de la notificaci├│n para el usuario con id = 1
+2026-10-11T12:00:18.655-05:00  INFO 1792 --- [nio-8999-exec-1] c.e.u.m.p.services.NotificationService   : Termina proceso de creaci├│n de la notificaci├│n
+[201 Created, 639B, 33ms]
+  ÔêÜ  Status code is 201
+  ÔêÜ  Notification is created unsent by default
+
+Ôöö Crear una segunda notificacion
+  POST http://localhost:8999/api/users/1/notifications 2026-10-11T12:00:18.750-05:00  INFO 1792 --- [nio-8999-exec-2] c.e.u.m.p.services.NotificationService   : Inicia proceso de creaci├│n de la notificaci├│n para el usuario con id = 1
+2026-10-11T12:00:18.751-05:00  INFO 1792 --- [nio-8999-exec-2] c.e.u.m.p.services.NotificationService   : Termina proceso de creaci├│n de la notificaci├│n
+[201 Created, 592B, 9ms]
+  ÔêÜ  Status code is 201
+
+Ôöö Crear una notificacion ya enviada
+  POST http://localhost:8999/api/users/1/notifications 2026-10-11T12:00:18.845-05:00  INFO 1792 --- [nio-8999-exec-3] c.e.u.m.p.services.NotificationService   : Inicia proceso de creaci├│n de la notificaci├│n para el usuario con id = 1
+2026-10-11T12:00:18.847-05:00  INFO 1792 --- [nio-8999-exec-3] c.e.u.m.p.services.NotificationService   : Termina proceso de creaci├│n de la notificaci├│n
+[201 Created, 582B, 10ms]
+  ÔêÜ  Status code is 201
+  ÔêÜ  Notification keeps sent = true
+
+Ôöö Crear una notificacion sin mensaje
+  POST http://localhost:8999/api/users/1/notifications 2026-10-11T12:00:18.938-05:00  INFO 1792 --- [nio-8999-exec-4] c.e.u.m.p.services.NotificationService   : Inicia proceso de creaci├│n de la notificaci├│n para el usuario con id = 1
+[412 Precondition Failed, 406B, 8ms]
+  ÔêÜ  Status code is 412
+  ÔêÜ  Get expected error message
+
+Ôöö Crear una notificacion sin contenido
+  POST http://localhost:8999/api/users/1/notifications 2026-10-11T12:00:19.032-05:00  INFO 1792 --- [nio-8999-exec-5] c.e.u.m.p.services.NotificationService   : Inicia proceso de creaci├│n de la notificaci├│n para el usuario con id = 1
+[412 Precondition Failed, 406B, 7ms]
+  ÔêÜ  Status code is 412
+  ÔêÜ  Get expected error message
+
+Ôöö Crear una notificacion sin fecha
+  POST http://localhost:8999/api/users/1/notifications 2026-10-11T12:00:19.125-05:00  INFO 1792 --- [nio-8999-exec-6] c.e.u.m.p.services.NotificationService   : Inicia proceso de creaci├│n de la notificaci├│n para el usuario con id = 1
+[412 Precondition Failed, 394B, 8ms]
+  ÔêÜ  Status code is 412
+  ÔêÜ  Get expected error message
+
+Ôöö Crear una notificacion sin hora
+  POST http://localhost:8999/api/users/1/notifications 2026-10-11T12:00:19.217-05:00  INFO 1792 --- [nio-8999-exec-7] c.e.u.m.p.services.NotificationService   : Inicia proceso de creaci├│n de la notificaci├│n para el usuario con id = 1
+[412 Precondition Failed, 394B, 7ms]
+  ÔêÜ  Status code is 412
+  ÔêÜ  Get expected error message
+
+Ôöö Crear una notificacion sin canal
+  POST http://localhost:8999/api/users/1/notifications 2026-10-11T12:00:19.312-05:00  INFO 1792 --- [nio-8999-exec-8] c.e.u.m.p.services.NotificationService   : Inicia proceso de creaci├│n de la notificaci├│n para el usuario con id = 1
+[412 Precondition Failed, 406B, 10ms]
+  ÔêÜ  Status code is 412
+  ÔêÜ  Get expected error message
+
+Ôöö Crear una notificacion con un canal invalido
+  POST http://localhost:8999/api/users/1/notifications 2026-10-11T12:00:19.403-05:00  INFO 1792 --- [nio-8999-exec-9] c.e.u.m.p.services.NotificationService   : Inicia proceso de creaci├│n de la notificaci├│n para el usuario con id = 1
+[412 Precondition Failed, 395B, 8ms]
+  ÔêÜ  Status code is 412
+  ÔêÜ  Get expected error message
+
+Ôöö Crear una notificacion para un usuario que no existe
+  POST http://localhost:8999/api/users/999999/notifications 2026-10-11T12:00:19.495-05:00  INFO 1792 --- [io-8999-exec-10] c.e.u.m.p.services.NotificationService   : Inicia proceso de creaci├│n de la notificaci├│n para el usuario con id = 999999
+[404 Not Found, 356B, 7ms]
+  ÔêÜ  Status code is 404
+  ÔêÜ  Get expected error message
+
+Ôöö Obtener todas las notificaciones de un usuario
+  GET http://localhost:8999/api/users/1/notifications 2026-10-11T12:00:19.587-05:00  INFO 1792 --- [nio-8999-exec-1] c.e.u.m.p.services.NotificationService   : Inicia proceso de consultar notificaciones del usuario con id = 1
+[200 OK, 1.24kB, 20ms]
+  ÔêÜ  Number of items > 0
+  ÔêÜ  Status code is 200
+
+Ôöö Obtener notificaciones filtradas por rango de fechas
+  GET http://localhost:8999/api/users/1/notifications?startDate=2026-01-01&endDate=2026-12-31 2026-10-11T12:00:19.707-05:00  INFO 1792 --- [nio-8999-exec-2] c.e.u.m.p.services.NotificationService   : Inicia proceso de consultar notificaciones del usuario con id = 1
+[200 OK, 1.24kB, 23ms]
+  ÔêÜ  Number of items > 0
+  ÔêÜ  Status code is 200
+
+Ôöö Obtener notificaciones con un rango de fechas sin resultados
+  GET http://localhost:8999/api/users/1/notifications?startDate=2030-01-01&endDate=2030-12-31 2026-10-11T12:00:19.752-05:00  INFO 1792 --- [nio-8999-exec-3] c.e.u.m.p.services.NotificationService   : Inicia proceso de consultar notificaciones del usuario con id = 1
+2026-10-11T12:00:19.759-05:00  INFO 1792 --- [nio-8999-exec-3] c.e.u.m.p.services.NotificationService   : No hay notificaciones registradas que cumplan los filtros
+[200 OK, 255B, 17ms]
+  ÔêÜ  Number of items = 0
+  ÔêÜ  Status code is 200
+
+Ôöö Obtener las notificaciones de un usuario sin notificaciones
+  GET http://localhost:8999/api/users/2/notifications 2026-10-11T12:00:19.853-05:00  INFO 1792 --- [nio-8999-exec-4] c.e.u.m.p.services.NotificationService   : Inicia proceso de consultar notificaciones del usuario con id = 2
+2026-10-11T12:00:19.858-05:00  INFO 1792 --- [nio-8999-exec-4] c.e.u.m.p.services.NotificationService   : No hay notificaciones registradas que cumplan los filtros
+[200 OK, 255B, 11ms]
+  ÔêÜ  Number of items = 0
+  ÔêÜ  Status code is 200
+
+Ôöö Obtener las notificaciones de un usuario que no existe
+  GET http://localhost:8999/api/users/999999/notifications 2026-10-11T12:00:19.945-05:00  INFO 1792 --- [nio-8999-exec-5] c.e.u.m.p.services.NotificationService   : Inicia proceso de consultar notificaciones del usuario con id = 999999
+[404 Not Found, 356B, 6ms]
+  ÔêÜ  Status code is 404
+  ÔêÜ  Get expected error message
+
+Ôöö Obtener una notificacion
+  GET http://localhost:8999/api/users/1/notifications/1 2026-10-11T12:00:20.040-05:00  INFO 1792 --- [nio-8999-exec-6] c.e.u.m.p.services.NotificationService   : Inicia proceso de consultar la notificaci├│n con id = 1
+2026-10-11T12:00:20.047-05:00  INFO 1792 --- [nio-8999-exec-6] c.e.u.m.p.services.NotificationService   : Termina proceso de consultar la notificaci├│n con id = 1
+[200 OK, 615B, 15ms]
+  ÔêÜ  Status code is 200
+  ÔêÜ  Returned id matches notification_id
+
+Ôöö Obtener una notificacion que no existe
+  GET http://localhost:8999/api/users/1/notifications/999999 2026-10-11T12:00:20.147-05:00  INFO 1792 --- [nio-8999-exec-7] c.e.u.m.p.services.NotificationService   : Inicia proceso de consultar la notificaci├│n con id = 999999
+[404 Not Found, 364B, 8ms]
+  ÔêÜ  Status code is 404
+  ÔêÜ  Get expected error message
+
+Ôöö Obtener una notificacion con un id invalido
+  GET http://localhost:8999/api/users/1/notifications/0 2026-10-11T12:00:20.225-05:00  INFO 1792 --- [nio-8999-exec-8] c.e.u.m.p.services.NotificationService   : Inicia proceso de consultar la notificaci├│n con id = 0
+[412 Precondition Failed, 390B, 6ms]
+  ÔêÜ  Status code is 412
+  ÔêÜ  Get expected error message
+
+Ôöö Obtener una notificacion de otro usuario
+  GET http://localhost:8999/api/users/2/notifications/1 2026-10-11T12:00:20.319-05:00  INFO 1792 --- [nio-8999-exec-9] c.e.u.m.p.services.NotificationService   : Inicia proceso de consultar la notificaci├│n con id = 1
+[412 Precondition Failed, 412B, 8ms]
+  ÔêÜ  Status code is 412
+  ÔêÜ  Get expected error message
+
+Ôöö Obtener una notificacion de un usuario que no existe
+  GET http://localhost:8999/api/users/999999/notifications/1 2026-10-11T12:00:20.412-05:00  INFO 1792 --- [io-8999-exec-10] c.e.u.m.p.services.NotificationService   : Inicia proceso de consultar la notificaci├│n con id = 1
+[404 Not Found, 356B, 6ms]
+  ÔêÜ  Status code is 404
+  ÔêÜ  Get expected error message
+
+Ôöö Editar una notificacion
+  PUT http://localhost:8999/api/users/1/notifications/1 2026-10-11T12:00:20.508-05:00  INFO 1792 --- [nio-8999-exec-1] c.e.u.m.p.services.NotificationService   : Inicia proceso de actualizar la notificaci├│n con id = 1
+2026-10-11T12:00:20.511-05:00  INFO 1792 --- [nio-8999-exec-1] c.e.u.m.p.services.NotificationService   : Termina proceso de actualizar la notificaci├│n con id = 1
+[200 OK, 626B, 31ms]
+  ÔêÜ  Status code is 200
+  ÔêÜ  Content was updated and channel kept
+
+Ôöö Editar una notificacion que no existe
+  PUT http://localhost:8999/api/users/1/notifications/999999 2026-10-11T12:00:20.631-05:00  INFO 1792 --- [nio-8999-exec-2] c.e.u.m.p.services.NotificationService   : Inicia proceso de actualizar la notificaci├│n con id = 999999
+[404 Not Found, 364B, 7ms]
+  ÔêÜ  Status code is 404
+  ÔêÜ  Get expected error message
+
+Ôöö Editar una notificacion con un id invalido
+  PUT http://localhost:8999/api/users/1/notifications/0 2026-10-11T12:00:20.727-05:00  INFO 1792 --- [nio-8999-exec-3] c.e.u.m.p.services.NotificationService   : Inicia proceso de actualizar la notificaci├│n con id = 0
+[412 Precondition Failed, 390B, 9ms]
+  ÔêÜ  Status code is 412
+  ÔêÜ  Get expected error message
+
+Ôöö Editar una notificacion sin mensaje
+  PUT http://localhost:8999/api/users/1/notifications/1 2026-10-11T12:00:20.802-05:00  INFO 1792 --- [nio-8999-exec-4] c.e.u.m.p.services.NotificationService   : Inicia proceso de actualizar la notificaci├│n con id = 1
+[412 Precondition Failed, 406B, 11ms]
+  ÔêÜ  Status code is 412
+  ÔêÜ  Get expected error message
+
+Ôöö Editar una notificacion sin contenido
+  PUT http://localhost:8999/api/users/1/notifications/1 2026-10-11T12:00:20.897-05:00  INFO 1792 --- [nio-8999-exec-5] c.e.u.m.p.services.NotificationService   : Inicia proceso de actualizar la notificaci├│n con id = 1
+[412 Precondition Failed, 406B, 11ms]
+  ÔêÜ  Status code is 412
+  ÔêÜ  Get expected error message
+
+Ôöö Editar una notificacion de otro usuario
+  PUT http://localhost:8999/api/users/2/notifications/1 2026-10-11T12:00:20.989-05:00  INFO 1792 --- [nio-8999-exec-6] c.e.u.m.p.services.NotificationService   : Inicia proceso de actualizar la notificaci├│n con id = 1
+[412 Precondition Failed, 412B, 9ms]
+  ÔêÜ  Status code is 412
+  ÔêÜ  Get expected error message
+
+Ôöö Editar el canal de una notificacion ya enviada
+  PUT http://localhost:8999/api/users/1/notifications/3 2026-10-11T12:00:21.083-05:00  INFO 1792 --- [nio-8999-exec-7] c.e.u.m.p.services.NotificationService   : Inicia proceso de actualizar la notificaci├│n con id = 3
+[412 Precondition Failed, 428B, 10ms]
+  ÔêÜ  Status code is 412
+  ÔêÜ  Get expected error message
+
+Ôöö Editar el contenido de una notificacion ya enviada
+  PUT http://localhost:8999/api/users/1/notifications/3 2026-10-11T12:00:21.163-05:00  INFO 1792 --- [nio-8999-exec-8] c.e.u.m.p.services.NotificationService   : Inicia proceso de actualizar la notificaci├│n con id = 3
+2026-10-11T12:00:21.166-05:00  INFO 1792 --- [nio-8999-exec-8] c.e.u.m.p.services.NotificationService   : Termina proceso de actualizar la notificaci├│n con id = 3
+[200 OK, 592B, 13ms]
+  ÔêÜ  Status code is 200
+  ÔêÜ  Content updated and sent flag preserved
+
+Ôöö Borrar una notificacion
+  DELETE http://localhost:8999/api/users/1/notifications/2 2026-10-11T12:00:21.274-05:00  INFO 1792 --- [nio-8999-exec-9] c.e.u.m.p.services.NotificationService   : Inicia proceso de borrar la notificaci├│n con id = 2
+2026-10-11T12:00:21.287-05:00  INFO 1792 --- [nio-8999-exec-9] c.e.u.m.p.services.NotificationService   : Termina proceso de borrar la notificaci├│n con id = 2
+[204 No Content, 201B, 30ms]
+  ÔêÜ  Status code is 204
+
+Ôöö Obtener una notificacion borrada
+  GET http://localhost:8999/api/users/1/notifications/2 2026-10-11T12:00:21.397-05:00  INFO 1792 --- [io-8999-exec-10] c.e.u.m.p.services.NotificationService   : Inicia proceso de consultar la notificaci├│n con id = 2
+[404 Not Found, 364B, 7ms]
+  ÔêÜ  Status code is 404
+  ÔêÜ  Get expected error message
+
+Ôöö Borrar una notificacion que no existe
+  DELETE http://localhost:8999/api/users/1/notifications/999999 2026-10-11T12:00:21.477-05:00  INFO 1792 --- [nio-8999-exec-1] c.e.u.m.p.services.NotificationService   : Inicia proceso de borrar la notificaci├│n con id = 999999
+[404 Not Found, 364B, 6ms]
+  ÔêÜ  Status code is 404
+  ÔêÜ  Get expected error message
+
+Ôöö Borrar una notificacion con un id invalido
+  DELETE http://localhost:8999/api/users/1/notifications/0 2026-10-11T12:00:21.557-05:00  INFO 1792 --- [nio-8999-exec-2] c.e.u.m.p.services.NotificationService   : Inicia proceso de borrar la notificaci├│n con id = 0
+[412 Precondition Failed, 390B, 9ms]
+  ÔêÜ  Status code is 412
+  ÔêÜ  Get expected error message
+
+Ôöö Borrar una notificacion de otro usuario
+  DELETE http://localhost:8999/api/users/2/notifications/1 2026-10-11T12:00:21.650-05:00  INFO 1792 --- [nio-8999-exec-3] c.e.u.m.p.services.NotificationService   : Inicia proceso de borrar la notificaci├│n con id = 1
+[412 Precondition Failed, 412B, 8ms]
+  ÔêÜ  Status code is 412
+  ÔêÜ  Get expected error message
+
+Ôöö Borrar una notificacion ya enviada
+  DELETE http://localhost:8999/api/users/1/notifications/3 2026-10-11T12:00:21.743-05:00  INFO 1792 --- [nio-8999-exec-4] c.e.u.m.p.services.NotificationService   : Inicia proceso de borrar la notificaci├│n con id = 3
+[412 Precondition Failed, 450B, 7ms]
+  ÔêÜ  Status code is 412
+  ÔêÜ  Get expected error message
+
+Ôûí Pet / 00 Preparacion
+Ôöö Preparacion: crear refugio A
+  POST http://localhost:8999/api/shelters 2026-10-11T12:00:21.839-05:00  INFO 1792 --- [nio-8999-exec-5] c.e.u.mdp.pets.services.ShelterService   : Refuge creation process begins
+2026-10-11T12:00:21.843-05:00  INFO 1792 --- [nio-8999-exec-5] c.e.u.mdp.pets.services.ShelterService   : Shelter creation process ends
+[201 Created, 366B, 12ms]
+  ÔêÜ  Status code is 201
+
+Ôöö Preparacion: crear refugio B
+  POST http://localhost:8999/api/shelters 2026-10-11T12:00:21.932-05:00  INFO 1792 --- [nio-8999-exec-6] c.e.u.mdp.pets.services.ShelterService   : Refuge creation process begins
+2026-10-11T12:00:21.937-05:00  INFO 1792 --- [nio-8999-exec-6] c.e.u.mdp.pets.services.ShelterService   : Shelter creation process ends
+[201 Created, 368B, 11ms]
+  ÔêÜ  Status code is 201
+
+Ôûí Pet / 01 Crear
+Ôöö Crear una mascota
+  POST http://localhost:8999/api/pets 2026-10-11T12:00:22.087-05:00  INFO 1792 --- [nio-8999-exec-7] c.e.u.mdp.pets.services.PetService       : Start the pet creation process
+2026-10-11T12:00:22.098-05:00  INFO 1792 --- [nio-8999-exec-7] c.e.u.mdp.pets.services.PetService       : Pet creation process ends
+[201 Created, 988B, 120ms]
+  ÔêÜ  Status code is 201
+  ÔêÜ  Response echoes the pet and its shelter
+  ÔêÜ  The arrival medical event was registered with the pet
+
+Ôöö Crear una segunda mascota con dos eventos medicos
+  POST http://localhost:8999/api/pets 2026-10-11T12:00:22.228-05:00  INFO 1792 --- [nio-8999-exec-8] c.e.u.mdp.pets.services.PetService       : Start the pet creation process
+2026-10-11T12:00:22.244-05:00  INFO 1792 --- [nio-8999-exec-8] c.e.u.mdp.pets.services.PetService       : Pet creation process ends
+[201 Created, 1.13kB, 24ms]
+  ÔêÜ  Status code is 201
+  ÔêÜ  Both arrival events were registered
+
+Ôöö Crear una mascota sin los campos opcionales
+  POST http://localhost:8999/api/pets 2026-10-11T12:00:22.338-05:00  INFO 1792 --- [nio-8999-exec-9] c.e.u.mdp.pets.services.PetService       : Start the pet creation process
+2026-10-11T12:00:22.345-05:00  INFO 1792 --- [nio-8999-exec-9] c.e.u.mdp.pets.services.PetService       : Pet creation process ends
+[201 Created, 950B, 18ms]
+  ÔêÜ  Status code is 201
+  ÔêÜ  description, temperament and specificNeeds are optional
+
+Ôûí Pet / 01b Atributos obligatorios
+Ôöö Crear una mascota sin nombre
+  POST http://localhost:8999/api/pets 2026-10-11T12:00:22.430-05:00  INFO 1792 --- [io-8999-exec-10] c.e.u.mdp.pets.services.PetService       : Start the pet creation process
+[412 Precondition Failed, 394B, 7ms]
+  ÔêÜ  Status code is 412
+  ÔêÜ  Get expected error message
+
+Ôöö Crear una mascota sin especie
+  POST http://localhost:8999/api/pets 2026-10-11T12:00:22.522-05:00  INFO 1792 --- [nio-8999-exec-1] c.e.u.mdp.pets.services.PetService       : Start the pet creation process
+[412 Precondition Failed, 393B, 6ms]
+  ÔêÜ  Status code is 412
+  ÔêÜ  Get expected error message
+
+Ôöö Crear una mascota sin raza
+  POST http://localhost:8999/api/pets 2026-10-11T12:00:22.617-05:00  INFO 1792 --- [nio-8999-exec-2] c.e.u.mdp.pets.services.PetService       : Start the pet creation process
+[412 Precondition Failed, 391B, 5ms]
+  ÔêÜ  Status code is 412
+  ÔêÜ  Get expected error message
+
+Ôöö Crear una mascota sin edad
+  POST http://localhost:8999/api/pets 2026-10-11T12:00:22.713-05:00  INFO 1792 --- [nio-8999-exec-3] c.e.u.mdp.pets.services.PetService       : Start the pet creation process
+[412 Precondition Failed, 380B, 7ms]
+  ÔêÜ  Status code is 412
+  ÔêÜ  Get expected error message
+
+Ôöö Crear una mascota sin sexo
+  POST http://localhost:8999/api/pets 2026-10-11T12:00:22.804-05:00  INFO 1792 --- [nio-8999-exec-4] c.e.u.mdp.pets.services.PetService       : Start the pet creation process
+[412 Precondition Failed, 389B, 6ms]
+  ÔêÜ  Status code is 412
+  ÔêÜ  Get expected error message
+
+Ôöö Crear una mascota sin tamano
+  POST http://localhost:8999/api/pets 2026-10-11T12:00:22.898-05:00  INFO 1792 --- [nio-8999-exec-5] c.e.u.mdp.pets.services.PetService       : Start the pet creation process
+[412 Precondition Failed, 390B, 5ms]
+  ÔêÜ  Status code is 412
+  ÔêÜ  Get expected error message
+
+Ôöö Crear una mascota sin estado de salud
+  POST http://localhost:8999/api/pets 2026-10-11T12:00:22.991-05:00  INFO 1792 --- [nio-8999-exec-6] c.e.u.mdp.pets.services.PetService       : Start the pet creation process
+[412 Precondition Failed, 399B, 6ms]
+  ÔêÜ  Status code is 412
+  ÔêÜ  Get expected error message
+
+Ôöö Crear una mascota sin fecha de ingreso
+  POST http://localhost:8999/api/pets 2026-10-11T12:00:23.084-05:00  INFO 1792 --- [nio-8999-exec-7] c.e.u.mdp.pets.services.PetService       : Start the pet creation process
+[412 Precondition Failed, 391B, 5ms]
+  ÔêÜ  Status code is 412
+  ÔêÜ  Get expected error message
+
+Ôöö Crear una mascota sin compatibilidad con ninos
+  POST http://localhost:8999/api/pets 2026-10-11T12:00:23.177-05:00  INFO 1792 --- [nio-8999-exec-8] c.e.u.mdp.pets.services.PetService       : Start the pet creation process
+[412 Precondition Failed, 404B, 7ms]
+  ÔêÜ  Status code is 412
+  ÔêÜ  Get expected error message
+
+Ôöö Crear una mascota sin compatibilidad con otras mascotas
+  POST http://localhost:8999/api/pets 2026-10-11T12:00:23.268-05:00  INFO 1792 --- [nio-8999-exec-9] c.e.u.mdp.pets.services.PetService       : Start the pet creation process
+[412 Precondition Failed, 406B, 6ms]
+  ÔêÜ  Status code is 412
+  ÔêÜ  Get expected error message
+
+Ôöö Crear una mascota sin nivel de actividad
+  POST http://localhost:8999/api/pets 2026-10-11T12:00:23.363-05:00  INFO 1792 --- [io-8999-exec-10] c.e.u.mdp.pets.services.PetService       : Start the pet creation process
+[412 Precondition Failed, 400B, 6ms]
+  ÔêÜ  Status code is 412
+  ÔêÜ  Get expected error message
+
+Ôöö Crear una mascota sin espacio requerido
+  POST http://localhost:8999/api/pets 2026-10-11T12:00:23.458-05:00  INFO 1792 --- [nio-8999-exec-1] c.e.u.mdp.pets.services.PetService       : Start the pet creation process
+[412 Precondition Failed, 400B, 7ms]
+  ÔêÜ  Status code is 412
+  ÔêÜ  Get expected error message
+
+Ôûí Pet / 01c Refugio y reglas de negocio
+Ôöö Crear una mascota sin refugio
+  POST http://localhost:8999/api/pets 2026-10-11T12:00:23.523-05:00  INFO 1792 --- [nio-8999-exec-2] c.e.u.mdp.pets.services.PetService       : Start the pet creation process
+[412 Precondition Failed, 380B, 8ms]
+  ÔêÜ  Status code is 412
+  ÔêÜ  Get expected error message
+
+Ôöö Crear una mascota en un refugio que no existe
+  POST http://localhost:8999/api/pets 2026-10-11T12:00:23.615-05:00  INFO 1792 --- [nio-8999-exec-4] c.e.u.mdp.pets.services.PetService       : Start the pet creation process
+[404 Not Found, 385B, 8ms]
+  ÔêÜ  Status code is 404
+  ÔêÜ  Get expected error message
+
+Ôöö Crear una mascota con fecha de ingreso futura
+  POST http://localhost:8999/api/pets 2026-10-11T12:00:23.707-05:00  INFO 1792 --- [nio-8999-exec-5] c.e.u.mdp.pets.services.PetService       : Start the pet creation process
+[412 Precondition Failed, 400B, 7ms]
+  ÔêÜ  Status code is 412
+  ÔêÜ  Get expected error message
+
+Ôöö Crear una mascota sin evento medico de llegada
+  POST http://localhost:8999/api/pets 2026-10-11T12:00:23.801-05:00  INFO 1792 --- [nio-8999-exec-6] c.e.u.mdp.pets.services.PetService       : Start the pet creation process
+[412 Precondition Failed, 456B, 8ms]
+  ÔêÜ  Status code is 412
+  ÔêÜ  Get expected error message
+
+Ôöö Crear una mascota duplicada
+  POST http://localhost:8999/api/pets 2026-10-11T12:00:23.896-05:00  INFO 1792 --- [nio-8999-exec-7] c.e.u.mdp.pets.services.PetService       : Start the pet creation process
+[412 Precondition Failed, 438B, 12ms]
+  ÔêÜ  Status code is 412
+  ÔêÜ  Get expected error message
+
+Ôûí Pet / 02 Consultar
+Ôöö Obtener todas las mascotas
+  GET http://localhost:8999/api/pets 2026-10-11T12:00:23.993-05:00  INFO 1792 --- [nio-8999-exec-8] c.e.u.mdp.pets.services.PetService       : Start the process of consulting leaked pets
+[200 OK, 2.42kB, 206ms]
+  ÔêÜ  Status code is 200
+  ÔêÜ  List contains the three pets created here
+
+Ôûí Pet / 02b Filtros
+Ôöö Obtener mascotas por especie
+  GET http://localhost:8999/api/pets?species=Perro 2026-10-11T12:00:24.324-05:00  INFO 1792 --- [nio-8999-exec-9] c.e.u.mdp.pets.services.PetService       : Start the process of consulting leaked pets
+[200 OK, 1.6kB, 48ms]
+  ÔêÜ  Status code is 200
+  ÔêÜ  Every result matches the filter(s)
+
+Ôöö Obtener mascotas por edad
+  GET http://localhost:8999/api/pets?age=3 2026-10-11T12:00:24.478-05:00  INFO 1792 --- [io-8999-exec-10] c.e.u.mdp.pets.services.PetService       : Start the process of consulting leaked pets
+[200 OK, 947B, 23ms]
+  ÔêÜ  Status code is 200
+  ÔêÜ  Every result matches the filter(s)
+
+Ôöö Obtener mascotas por tamano
+  GET http://localhost:8999/api/pets?size=Mediano 2026-10-11T12:00:24.589-05:00  INFO 1792 --- [nio-8999-exec-1] c.e.u.mdp.pets.services.PetService       : Start the process of consulting leaked pets
+[200 OK, 947B, 36ms]
+  ÔêÜ  Status code is 200
+  ÔêÜ  Every result matches the filter(s)
+
+Ôöö Obtener mascotas por espacio requerido
+  GET http://localhost:8999/api/pets?requiredSpace=Apartamento 2026-10-11T12:00:24.715-05:00  INFO 1792 --- [nio-8999-exec-2] c.e.u.mdp.pets.services.PetService       : Start the process of consulting leaked pets
+[200 OK, 1.07kB, 36ms]
+  ÔêÜ  Status code is 200
+  ÔêÜ  Every result matches the filter(s)
+
+Ôöö Obtener mascotas por compatibilidad con ninos
+  GET http://localhost:8999/api/pets?compatibilityChildren=false 2026-10-11T12:00:24.838-05:00  INFO 1792 --- [nio-8999-exec-3] c.e.u.mdp.pets.services.PetService       : Start the process of consulting leaked pets
+[200 OK, 909B, 27ms]
+  ÔêÜ  Status code is 200
+  ÔêÜ  Every result matches the filter(s)
+
+Ôöö Obtener mascotas por compatibilidad con otras mascotas
+  GET http://localhost:8999/api/pets?compatibilityOtherPets=false 2026-10-11T12:00:24.948-05:00  INFO 1792 --- [nio-8999-exec-4] c.e.u.mdp.pets.services.PetService       : Start the process of consulting leaked pets
+[200 OK, 1.07kB, 26ms]
+  ÔêÜ  Status code is 200
+  ÔêÜ  Every result matches the filter(s)
+
+Ôöö Obtener mascotas por nivel de actividad
+  GET http://localhost:8999/api/pets?activityLevel=Alto 2026-10-11T12:00:25.042-05:00  INFO 1792 --- [nio-8999-exec-5] c.e.u.mdp.pets.services.PetService       : Start the process of consulting leaked pets
+[200 OK, 947B, 27ms]
+  ÔêÜ  Status code is 200
+  ÔêÜ  Every result matches the filter(s)
+
+Ôöö Obtener mascotas con filtros combinados
+  GET http://localhost:8999/api/pets?species=Perro&size=Grande&compatibilityChildren=false 2026-10-11T12:00:25.153-05:00  INFO 1792 --- [nio-8999-exec-6] c.e.u.mdp.pets.services.PetService       : Start the process of consulting leaked pets
+[200 OK, 909B, 27ms]
+  ÔêÜ  Status code is 200
+  ÔêÜ  Every result matches the filter(s)
+
+Ôöö Obtener mascotas con filtros que no coinciden
+  GET http://localhost:8999/api/pets?species=Perro&age=99 2026-10-11T12:00:25.261-05:00  INFO 1792 --- [nio-8999-exec-7] c.e.u.mdp.pets.services.PetService       : Start the process of consulting leaked pets
+2026-10-11T12:00:25.268-05:00  INFO 1792 --- [nio-8999-exec-7] c.e.u.mdp.pets.services.PetService       : There are no registered pets that meet the filters
+[200 OK, 255B, 12ms]
+  ÔêÜ  Status code is 200
+  ÔêÜ  All criteria must match: empty list
+
+Ôûí Pet / 02c Consultar una
+Ôöö Obtener una mascota
+  GET http://localhost:8999/api/pets/1 2026-10-11T12:00:25.355-05:00  INFO 1792 --- [nio-8999-exec-8] c.e.u.mdp.pets.services.PetService       : Start the process of consulting the pet with id = 1
+2026-10-11T12:00:25.358-05:00  INFO 1792 --- [nio-8999-exec-8] c.e.u.mdp.pets.services.PetService       : Finish the process of consulting the pet with id = 1
+[200 OK, 945B, 34ms]
+  ÔêÜ  Status code is 200
+  ÔêÜ  Detail has shelter, medical events and empty associations
+
+Ôöö Obtener una mascota que no existe
+  GET http://localhost:8999/api/pets/999999 2026-10-11T12:00:25.479-05:00  INFO 1792 --- [nio-8999-exec-9] c.e.u.mdp.pets.services.PetService       : Start the process of consulting the pet with id = 999999
+[404 Not Found, 381B, 5ms]
+  ÔêÜ  Status code is 404
+  ÔêÜ  Get expected error message
+
+Ôöö Obtener una mascota con un id invalido
+  GET http://localhost:8999/api/pets/0 2026-10-11T12:00:25.573-05:00  INFO 1792 --- [io-8999-exec-10] c.e.u.mdp.pets.services.PetService       : Start the process of consulting the pet with id = 0
+[412 Precondition Failed, 381B, 5ms]
+  ÔêÜ  Status code is 412
+  ÔêÜ  Get expected error message
+
+Ôûí Pet / 03 Editar
+Ôöö Editar una mascota
+  PUT http://localhost:8999/api/pets/1 2026-10-11T12:00:25.678-05:00  INFO 1792 --- [nio-8999-exec-1] c.e.u.mdp.pets.services.PetService       : Starts process of updating the pet with id = 1
+2026-10-11T12:00:25.687-05:00  INFO 1792 --- [nio-8999-exec-1] c.e.u.mdp.pets.services.PetService       : Finish process of updating pet with id = 1
+[200 OK, 757B, 45ms]
+  ÔêÜ  Status code is 200
+  ÔêÜ  Changed attributes are returned; shelter and admission date are kept
+
+Ôöö Editar una mascota que no existe
+  PUT http://localhost:8999/api/pets/999999 2026-10-11T12:00:25.792-05:00  INFO 1792 --- [nio-8999-exec-2] c.e.u.mdp.pets.services.PetService       : Starts process of updating the pet with id = 999999
+[404 Not Found, 381B, 6ms]
+  ÔêÜ  Status code is 404
+  ÔêÜ  Get expected error message
+
+Ôöö Editar una mascota con un id invalido
+  PUT http://localhost:8999/api/pets/0 2026-10-11T12:00:25.885-05:00  INFO 1792 --- [nio-8999-exec-3] c.e.u.mdp.pets.services.PetService       : Starts process of updating the pet with id = 0
+[412 Precondition Failed, 381B, 6ms]
+  ÔêÜ  Status code is 412
+  ÔêÜ  Get expected error message
+
+Ôöö Editar una mascota con nombre vacio
+  PUT http://localhost:8999/api/pets/1 2026-10-11T12:00:25.977-05:00  INFO 1792 --- [nio-8999-exec-4] c.e.u.mdp.pets.services.PetService       : Starts process of updating the pet with id = 1
+[412 Precondition Failed, 394B, 6ms]
+  ÔêÜ  Status code is 412
+  ÔêÜ  Get expected error message
+
+Ôöö Editar la fecha de ingreso de una mascota
+  PUT http://localhost:8999/api/pets/1 2026-10-11T12:00:26.057-05:00  INFO 1792 --- [nio-8999-exec-5] c.e.u.mdp.pets.services.PetService       : Starts process of updating the pet with id = 1
+[412 Precondition Failed, 395B, 7ms]
+  ÔêÜ  Status code is 412
+  ÔêÜ  Get expected error message
+
+Ôöö Editar una mascota con un refugio que no existe
+  PUT http://localhost:8999/api/pets/1 2026-10-11T12:00:26.152-05:00  INFO 1792 --- [nio-8999-exec-6] c.e.u.mdp.pets.services.PetService       : Starts process of updating the pet with id = 1
+[404 Not Found, 385B, 11ms]
+  ÔêÜ  Status code is 404
+  ÔêÜ  Get expected error message
+
+Ôöö Editar una mascota generando un duplicado
+  PUT http://localhost:8999/api/pets/2 2026-10-11T12:00:26.245-05:00  INFO 1792 --- [nio-8999-exec-7] c.e.u.mdp.pets.services.PetService       : Starts process of updating the pet with id = 2
+[412 Precondition Failed, 438B, 10ms]
+  ÔêÜ  Status code is 412
+  ÔêÜ  Get expected error message
+
+Ôûí Pet / 04 Borrar
+Ôöö Borrar una mascota
+  DELETE http://localhost:8999/api/pets/3 2026-10-11T12:00:26.338-05:00  INFO 1792 --- [nio-8999-exec-8] c.e.u.mdp.pets.services.PetService       : Start the process of deleting the pet with id = 3
+2026-10-11T12:00:26.356-05:00  INFO 1792 --- [nio-8999-exec-8] c.e.u.mdp.pets.services.PetService       : Finish the process of deleting the pet with id = 3
+[204 No Content, 201B, 26ms]
+  ÔêÜ  Status code is 204
+
+Ôöö Obtener la mascota borrada
+  GET http://localhost:8999/api/pets/3 2026-10-11T12:00:26.448-05:00  INFO 1792 --- [nio-8999-exec-9] c.e.u.mdp.pets.services.PetService       : Start the process of consulting the pet with id = 3
+[404 Not Found, 381B, 6ms]
+  ÔêÜ  Status code is 404
+  ÔêÜ  Get expected error message
+
+Ôöö Borrar una mascota que no existe
+  DELETE http://localhost:8999/api/pets/999999 2026-10-11T12:00:26.541-05:00  INFO 1792 --- [io-8999-exec-10] c.e.u.mdp.pets.services.PetService       : Start the process of deleting the pet with id = 999999
+[404 Not Found, 381B, 6ms]
+  ÔêÜ  Status code is 404
+  ÔêÜ  Get expected error message
+
+Ôöö Borrar una mascota con un id invalido
+  DELETE http://localhost:8999/api/pets/0 2026-10-11T12:00:26.635-05:00  INFO 1792 --- [nio-8999-exec-1] c.e.u.mdp.pets.services.PetService       : Start the process of deleting the pet with id = 0
+[412 Precondition Failed, 381B, 6ms]
+  ÔêÜ  Status code is 412
+  ÔêÜ  Get expected error message
+
+Ôöö Borrar una mascota con historial asociado
+  DELETE http://localhost:8999/api/pets/2 2026-10-11T12:00:26.727-05:00  INFO 1792 --- [nio-8999-exec-2] c.e.u.mdp.pets.services.PetService       : Start the process of deleting the pet with id = 2
+[412 Precondition Failed, 409B, 13ms]
+  ÔêÜ  Status code is 412
+  ÔêÜ  Get expected error message
+
+Ôûí PetMedicalEvents / 00 Preparacion
+Ôöö Preparacion: crear refugio
+  POST http://localhost:8999/api/shelters 2026-10-11T12:00:26.821-05:00  INFO 1792 --- [nio-8999-exec-3] c.e.u.mdp.pets.services.ShelterService   : Refuge creation process begins
+2026-10-11T12:00:26.826-05:00  INFO 1792 --- [nio-8999-exec-3] c.e.u.mdp.pets.services.ShelterService   : Shelter creation process ends
+[201 Created, 369B, 12ms]
+  ÔêÜ  Status code is 201
+
+Ôöö Preparacion: crear mascota 1 con dos eventos de llegada
+  POST http://localhost:8999/api/pets 2026-10-11T12:00:26.917-05:00  INFO 1792 --- [nio-8999-exec-4] c.e.u.mdp.pets.services.PetService       : Start the pet creation process
+2026-10-11T12:00:26.927-05:00  INFO 1792 --- [nio-8999-exec-4] c.e.u.mdp.pets.services.PetService       : Pet creation process ends
+[201 Created, 1.13kB, 26ms]
+  ÔêÜ  Status code is 201
+
+Ôöö Preparacion: crear mascota 2
+  POST http://localhost:8999/api/pets 2026-10-11T12:00:27.026-05:00  INFO 1792 --- [nio-8999-exec-5] c.e.u.mdp.pets.services.PetService       : Start the pet creation process
+2026-10-11T12:00:27.032-05:00  INFO 1792 --- [nio-8999-exec-5] c.e.u.mdp.pets.services.PetService       : Pet creation process ends
+[201 Created, 992B, 14ms]
+  ÔêÜ  Status code is 201
+
+Ôûí PetMedicalEvents / 01 Crear
+Ôöö Crear un evento medico (requiere un veterinario existente)
+  POST http://localhost:8999/api/pets/4/medicalEvents 2026-10-11T12:00:27.136-05:00  INFO 1792 --- [nio-8999-exec-6] c.e.u.m.p.services.MedicalEventService   : Inicia proceso de creaci├│n del evento m├®dico
+[404 Not Found, 368B, 13ms]
+  ÔêÜ  SKIPPED: define veterinarian_id con un veterinario existente para ejecutar esta prueba
+
+Ôöö Crear un evento medico sin fecha
+  POST http://localhost:8999/api/pets/4/medicalEvents 2026-10-11T12:00:27.228-05:00  INFO 1792 --- [nio-8999-exec-7] c.e.u.m.p.services.MedicalEventService   : Inicia proceso de creaci├│n del evento m├®dico
+[412 Precondition Failed, 379B, 7ms]
+  ÔêÜ  Status code is 412
+  ÔêÜ  Get expected error message
+
+Ôöö Crear un evento medico con fecha futura
+  POST http://localhost:8999/api/pets/4/medicalEvents 2026-10-11T12:00:27.321-05:00  INFO 1792 --- [nio-8999-exec-8] c.e.u.m.p.services.MedicalEventService   : Inicia proceso de creaci├│n del evento m├®dico
+[412 Precondition Failed, 390B, 8ms]
+  ÔêÜ  Status code is 412
+  ÔêÜ  Get expected error message
+
+Ôöö Crear un evento medico sin tipo
+  POST http://localhost:8999/api/pets/4/medicalEvents 2026-10-11T12:00:27.415-05:00  INFO 1792 --- [nio-8999-exec-9] c.e.u.m.p.services.MedicalEventService   : Inicia proceso de creaci├│n del evento m├®dico
+[412 Precondition Failed, 379B, 8ms]
+  ÔêÜ  Status code is 412
+  ÔêÜ  Get expected error message
+
+Ôöö Crear un evento medico sin veterinario
+  POST http://localhost:8999/api/pets/4/medicalEvents 2026-10-11T12:00:27.493-05:00  INFO 1792 --- [io-8999-exec-10] c.e.u.m.p.services.MedicalEventService   : Inicia proceso de creaci├│n del evento m├®dico
+[412 Precondition Failed, 387B, 7ms]
+  ÔêÜ  Status code is 412
+  ÔêÜ  Get expected error message
+
+Ôöö Crear un evento medico con un veterinario que no existe
+  POST http://localhost:8999/api/pets/4/medicalEvents 2026-10-11T12:00:27.587-05:00  INFO 1792 --- [nio-8999-exec-1] c.e.u.m.p.services.MedicalEventService   : Inicia proceso de creaci├│n del evento m├®dico
+[404 Not Found, 368B, 7ms]
+  ÔêÜ  Status code is 404
+  ÔêÜ  Get expected error message
+
+Ôöö Crear un evento medico en una mascota que no existe
+  POST http://localhost:8999/api/pets/999999/medicalEvents [404 Not Found, 359B, 7ms]
+  ÔêÜ  Status code is 404
+  ÔêÜ  Get expected error message
+
+Ôûí PetMedicalEvents / 02 Consultar
+Ôöö Obtener todos los eventos medicos de una mascota
+  GET http://localhost:8999/api/pets/4/medicalEvents [200 OK, 444B, 18ms]
+  ÔêÜ  Status code is 200
+  ÔêÜ  Only the events of this pet
+
+Ôöö Obtener un evento medico
+  GET http://localhost:8999/api/pets/4/medicalEvents/5 2026-10-11T12:00:27.883-05:00  INFO 1792 --- [nio-8999-exec-4] c.e.u.m.p.services.MedicalEventService   : Inicia proceso de consultar el evento m├®dico con id = 5
+2026-10-11T12:00:27.885-05:00  INFO 1792 --- [nio-8999-exec-4] c.e.u.m.p.services.MedicalEventService   : Termina proceso de consultar el evento m├®dico con id = 5
+[200 OK, 343B, 8ms]
+  ÔêÜ  Status code is 200
+  ÔêÜ  The requested event
+
+Ôöö Obtener un evento medico que no existe
+  GET http://localhost:8999/api/pets/4/medicalEvents/999999 2026-10-11T12:00:27.977-05:00  INFO 1792 --- [nio-8999-exec-5] c.e.u.m.p.services.MedicalEventService   : Inicia proceso de consultar el evento m├®dico con id = 999999
+[404 Not Found, 369B, 6ms]
+  ÔêÜ  Status code is 404
+  ÔêÜ  Get expected error message
+
+Ôöö Obtener un evento medico con un id invalido
+  GET http://localhost:8999/api/pets/4/medicalEvents/0 2026-10-11T12:00:28.070-05:00  INFO 1792 --- [nio-8999-exec-6] c.e.u.m.p.services.MedicalEventService   : Inicia proceso de consultar el evento m├®dico con id = 0
+[412 Precondition Failed, 391B, 6ms]
+  ÔêÜ  Status code is 412
+  ÔêÜ  Get expected error message
+
+Ôöö Obtener un evento medico de una mascota que no existe
+  GET http://localhost:8999/api/pets/999999/medicalEvents/5 [404 Not Found, 359B, 5ms]
+  ÔêÜ  Status code is 404
+  ÔêÜ  Get expected error message
+
+Ôöö Obtener un evento medico que no pertenece a la mascota
+  GET http://localhost:8999/api/pets/5/medicalEvents/5 2026-10-11T12:00:28.257-05:00  INFO 1792 --- [nio-8999-exec-8] c.e.u.m.p.services.MedicalEventService   : Inicia proceso de consultar el evento m├®dico con id = 5
+2026-10-11T12:00:28.258-05:00  INFO 1792 --- [nio-8999-exec-8] c.e.u.m.p.services.MedicalEventService   : Termina proceso de consultar el evento m├®dico con id = 5
+[412 Precondition Failed, 410B, 7ms]
+  ÔêÜ  Status code is 412
+  ÔêÜ  Get expected error message
+
+Ôûí PetMedicalEvents / 03 Editar
+Ôöö Editar un evento medico
+  PUT http://localhost:8999/api/pets/4/medicalEvents/5 2026-10-11T12:00:28.354-05:00  INFO 1792 --- [nio-8999-exec-9] c.e.u.m.p.services.MedicalEventService   : Inicia proceso de consultar el evento m├®dico con id = 5
+2026-10-11T12:00:28.354-05:00  INFO 1792 --- [nio-8999-exec-9] c.e.u.m.p.services.MedicalEventService   : Termina proceso de consultar el evento m├®dico con id = 5
+2026-10-11T12:00:28.355-05:00  INFO 1792 --- [nio-8999-exec-9] c.e.u.m.p.services.MedicalEventService   : Inicia proceso de actualizar el evento m├®dico con id = 5
+2026-10-11T12:00:28.355-05:00  INFO 1792 --- [nio-8999-exec-9] c.e.u.m.p.services.MedicalEventService   : Termina proceso de actualizar el evento m├®dico con id = 5
+[200 OK, 373B, 10ms]
+  ÔêÜ  Status code is 200
+  ÔêÜ  Changed attributes are returned
+
+Ôöö Editar un evento medico sin fecha
+  PUT http://localhost:8999/api/pets/4/medicalEvents/5 2026-10-11T12:00:28.447-05:00  INFO 1792 --- [io-8999-exec-10] c.e.u.m.p.services.MedicalEventService   : Inicia proceso de consultar el evento m├®dico con id = 5
+2026-10-11T12:00:28.449-05:00  INFO 1792 --- [io-8999-exec-10] c.e.u.m.p.services.MedicalEventService   : Termina proceso de consultar el evento m├®dico con id = 5
+2026-10-11T12:00:28.449-05:00  INFO 1792 --- [io-8999-exec-10] c.e.u.m.p.services.MedicalEventService   : Inicia proceso de actualizar el evento m├®dico con id = 5
+[412 Precondition Failed, 379B, 9ms]
+  ÔêÜ  Status code is 412
+  ÔêÜ  Get expected error message
+
+Ôöö Editar un evento medico con fecha futura
+  PUT http://localhost:8999/api/pets/4/medicalEvents/5 2026-10-11T12:00:28.546-05:00  INFO 1792 --- [nio-8999-exec-1] c.e.u.m.p.services.MedicalEventService   : Inicia proceso de consultar el evento m├®dico con id = 5
+2026-10-11T12:00:28.548-05:00  INFO 1792 --- [nio-8999-exec-1] c.e.u.m.p.services.MedicalEventService   : Termina proceso de consultar el evento m├®dico con id = 5
+2026-10-11T12:00:28.548-05:00  INFO 1792 --- [nio-8999-exec-1] c.e.u.m.p.services.MedicalEventService   : Inicia proceso de actualizar el evento m├®dico con id = 5
+[412 Precondition Failed, 390B, 16ms]
+  ÔêÜ  Status code is 412
+  ÔêÜ  Get expected error message
+
+Ôöö Editar un evento medico sin tipo
+  PUT http://localhost:8999/api/pets/4/medicalEvents/5 2026-10-11T12:00:28.650-05:00  INFO 1792 --- [nio-8999-exec-2] c.e.u.m.p.services.MedicalEventService   : Inicia proceso de consultar el evento m├®dico con id = 5
+2026-10-11T12:00:28.650-05:00  INFO 1792 --- [nio-8999-exec-2] c.e.u.m.p.services.MedicalEventService   : Termina proceso de consultar el evento m├®dico con id = 5
+2026-10-11T12:00:28.650-05:00  INFO 1792 --- [nio-8999-exec-2] c.e.u.m.p.services.MedicalEventService   : Inicia proceso de actualizar el evento m├®dico con id = 5
+[412 Precondition Failed, 379B, 7ms]
+  ÔêÜ  Status code is 412
+  ÔêÜ  Get expected error message
+
+Ôöö Editar un evento medico que no existe
+  PUT http://localhost:8999/api/pets/4/medicalEvents/999999 2026-10-11T12:00:28.746-05:00  INFO 1792 --- [nio-8999-exec-3] c.e.u.m.p.services.MedicalEventService   : Inicia proceso de consultar el evento m├®dico con id = 999999
+[404 Not Found, 369B, 9ms]
+  ÔêÜ  Status code is 404
+  ÔêÜ  Get expected error message
+
+Ôöö Editar un evento medico con un id invalido
+  PUT http://localhost:8999/api/pets/4/medicalEvents/0 2026-10-11T12:00:28.837-05:00  INFO 1792 --- [nio-8999-exec-4] c.e.u.m.p.services.MedicalEventService   : Inicia proceso de consultar el evento m├®dico con id = 0
+[412 Precondition Failed, 391B, 8ms]
+  ÔêÜ  Status code is 412
+  ÔêÜ  Get expected error message
+
+Ôöö Editar un evento medico de una mascota que no existe
+  PUT http://localhost:8999/api/pets/999999/medicalEvents/5 [404 Not Found, 359B, 7ms]
+  ÔêÜ  Status code is 404
+  ÔêÜ  Get expected error message
+
+Ôöö Editar un evento medico que no pertenece a la mascota
+  PUT http://localhost:8999/api/pets/5/medicalEvents/5 2026-10-11T12:00:29.009-05:00  INFO 1792 --- [nio-8999-exec-6] c.e.u.m.p.services.MedicalEventService   : Inicia proceso de consultar el evento m├®dico con id = 5
+2026-10-11T12:00:29.011-05:00  INFO 1792 --- [nio-8999-exec-6] c.e.u.m.p.services.MedicalEventService   : Termina proceso de consultar el evento m├®dico con id = 5
+[412 Precondition Failed, 410B, 11ms]
+  ÔêÜ  Status code is 412
+  ÔêÜ  Get expected error message
+
+Ôûí PetMedicalEvents / 03b Relacion Pet - MedicalEvent
+Ôöö La mascota lista sus eventos medicos
+  GET http://localhost:8999/api/pets/4 2026-10-11T12:00:29.099-05:00  INFO 1792 --- [nio-8999-exec-7] c.e.u.mdp.pets.services.PetService       : Start the process of consulting the pet with id = 4
+2026-10-11T12:00:29.101-05:00  INFO 1792 --- [nio-8999-exec-7] c.e.u.mdp.pets.services.PetService       : Finish the process of consulting the pet with id = 4
+[200 OK, 1.08kB, 23ms]
+  ÔêÜ  Status code is 200
+  ÔêÜ  PetDetail.medicalEvents has the pet's events only
+
+Ôûí PetMedicalEvents / 04 Borrar
+Ôöö Borrar un evento medico
+  DELETE http://localhost:8999/api/pets/4/medicalEvents/6 2026-10-11T12:00:29.209-05:00  INFO 1792 --- [nio-8999-exec-8] c.e.u.m.p.services.MedicalEventService   : Inicia proceso de consultar el evento m├®dico con id = 6
+2026-10-11T12:00:29.210-05:00  INFO 1792 --- [nio-8999-exec-8] c.e.u.m.p.services.MedicalEventService   : Termina proceso de consultar el evento m├®dico con id = 6
+2026-10-11T12:00:29.210-05:00  INFO 1792 --- [nio-8999-exec-8] c.e.u.m.p.services.MedicalEventService   : Inicia proceso de borrar el evento m├®dico con id = 6
+2026-10-11T12:00:29.217-05:00  INFO 1792 --- [nio-8999-exec-8] c.e.u.m.p.services.MedicalEventService   : Termina proceso de borrar el evento m├®dico con id = 6
+[204 No Content, 201B, 19ms]
+  ÔêÜ  Status code is 204
+
+Ôöö Obtener el evento medico borrado
+  GET http://localhost:8999/api/pets/4/medicalEvents/6 2026-10-11T12:00:29.318-05:00  INFO 1792 --- [nio-8999-exec-9] c.e.u.m.p.services.MedicalEventService   : Inicia proceso de consultar el evento m├®dico con id = 6
+[404 Not Found, 369B, 9ms]
+  ÔêÜ  Status code is 404
+  ÔêÜ  Get expected error message
+
+Ôöö Borrar un evento medico que no existe
+  DELETE http://localhost:8999/api/pets/4/medicalEvents/999999 2026-10-11T12:00:29.411-05:00  INFO 1792 --- [io-8999-exec-10] c.e.u.m.p.services.MedicalEventService   : Inicia proceso de consultar el evento m├®dico con id = 999999
+[404 Not Found, 369B, 8ms]
+  ÔêÜ  Status code is 404
+  ÔêÜ  Get expected error message
+
+Ôöö Borrar un evento medico con un id invalido
+  DELETE http://localhost:8999/api/pets/4/medicalEvents/0 2026-10-11T12:00:29.504-05:00  INFO 1792 --- [nio-8999-exec-1] c.e.u.m.p.services.MedicalEventService   : Inicia proceso de consultar el evento m├®dico con id = 0
+[412 Precondition Failed, 391B, 8ms]
+  ÔêÜ  Status code is 412
+  ÔêÜ  Get expected error message
+
+Ôöö Borrar un evento medico de una mascota que no existe
+  DELETE http://localhost:8999/api/pets/999999/medicalEvents/5 [404 Not Found, 359B, 5ms]
+  ÔêÜ  Status code is 404
+  ÔêÜ  Get expected error message
+
+Ôöö Borrar un evento medico que no pertenece a la mascota
+  DELETE http://localhost:8999/api/pets/5/medicalEvents/5 2026-10-11T12:00:29.673-05:00  INFO 1792 --- [nio-8999-exec-3] c.e.u.m.p.services.MedicalEventService   : Inicia proceso de consultar el evento m├®dico con id = 5
+2026-10-11T12:00:29.675-05:00  INFO 1792 --- [nio-8999-exec-3] c.e.u.m.p.services.MedicalEventService   : Termina proceso de consultar el evento m├®dico con id = 5
+[412 Precondition Failed, 410B, 11ms]
+  ÔêÜ  Status code is 412
+  ÔêÜ  Get expected error message
+
+Ôöö La mascota ya no lista el evento borrado
+  GET http://localhost:8999/api/pets/4 2026-10-11T12:00:29.765-05:00  INFO 1792 --- [nio-8999-exec-4] c.e.u.mdp.pets.services.PetService       : Start the process of consulting the pet with id = 4
+2026-10-11T12:00:29.768-05:00  INFO 1792 --- [nio-8999-exec-4] c.e.u.mdp.pets.services.PetService       : Finish the process of consulting the pet with id = 4
+[200 OK, 959B, 31ms]
+  ÔêÜ  Status code is 200
+  ÔêÜ  PetDetail.medicalEvents no longer has the deleted event
+
+Ôûí PetPhotos / 00 Preparacion
+Ôöö Preparacion: crear refugio
+  POST http://localhost:8999/api/shelters 2026-10-11T12:00:29.873-05:00  INFO 1792 --- [nio-8999-exec-5] c.e.u.mdp.pets.services.ShelterService   : Refuge creation process begins
+2026-10-11T12:00:29.877-05:00  INFO 1792 --- [nio-8999-exec-5] c.e.u.mdp.pets.services.ShelterService   : Shelter creation process ends
+[201 Created, 369B, 15ms]
+  ÔêÜ  Status code is 201
+
+Ôöö Preparacion: crear mascota 1
+  POST http://localhost:8999/api/pets 2026-10-11T12:00:29.981-05:00  INFO 1792 --- [nio-8999-exec-6] c.e.u.mdp.pets.services.PetService       : Start the pet creation process
+2026-10-11T12:00:29.989-05:00  INFO 1792 --- [nio-8999-exec-6] c.e.u.mdp.pets.services.PetService       : Pet creation process ends
+[201 Created, 991B, 15ms]
+  ÔêÜ  Status code is 201
+
+Ôöö Preparacion: crear mascota 2
+  POST http://localhost:8999/api/pets 2026-10-11T12:00:30.090-05:00  INFO 1792 --- [nio-8999-exec-7] c.e.u.mdp.pets.services.PetService       : Start the pet creation process
+2026-10-11T12:00:30.097-05:00  INFO 1792 --- [nio-8999-exec-7] c.e.u.mdp.pets.services.PetService       : Pet creation process ends
+[201 Created, 992B, 15ms]
+  ÔêÜ  Status code is 201
+
+Ôöö Preparacion: crear mascota 3
+  POST http://localhost:8999/api/pets 2026-10-11T12:00:30.183-05:00  INFO 1792 --- [nio-8999-exec-8] c.e.u.mdp.pets.services.PetService       : Start the pet creation process
+2026-10-11T12:00:30.190-05:00  INFO 1792 --- [nio-8999-exec-8] c.e.u.mdp.pets.services.PetService       : Pet creation process ends
+[201 Created, 954B, 15ms]
+  ÔêÜ  Status code is 201
+
+Ôûí PetPhotos / 01 Crear
+Ôöö Crear una foto
+  POST http://localhost:8999/api/pets/6/photos 2026-10-11T12:00:30.298-05:00  INFO 1792 --- [nio-8999-exec-9] c.e.u.mdp.pets.services.PhotoService     : Inicia proceso de creaci├│n de la foto
+2026-10-11T12:00:30.300-05:00  INFO 1792 --- [nio-8999-exec-9] c.e.u.mdp.pets.services.PhotoService     : Termina proceso de creaci├│n de la foto
+[201 Created, 359B, 22ms]
+  ÔêÜ  Status code is 201
+  ÔêÜ  Response echoes the photo
+
+Ôöö Crear una segunda foto
+  POST http://localhost:8999/api/pets/6/photos 2026-10-11T12:00:30.401-05:00  INFO 1792 --- [io-8999-exec-10] c.e.u.mdp.pets.services.PhotoService     : Inicia proceso de creaci├│n de la foto
+2026-10-11T12:00:30.402-05:00  INFO 1792 --- [io-8999-exec-10] c.e.u.mdp.pets.services.PhotoService     : Termina proceso de creaci├│n de la foto
+[201 Created, 364B, 8ms]
+  ÔêÜ  Status code is 201
+
+Ôöö Crear una foto con formato en minusculas
+  POST http://localhost:8999/api/pets/6/photos 2026-10-11T12:00:30.495-05:00  INFO 1792 --- [nio-8999-exec-1] c.e.u.mdp.pets.services.PhotoService     : Inicia proceso de creaci├│n de la foto
+2026-10-11T12:00:30.495-05:00  INFO 1792 --- [nio-8999-exec-1] c.e.u.mdp.pets.services.PhotoService     : Termina proceso de creaci├│n de la foto
+[201 Created, 354B, 9ms]
+  ÔêÜ  Status code is 201
+  ÔêÜ  The format check is case-insensitive
+
+Ôöö Crear una foto para la mascota 2
+  POST http://localhost:8999/api/pets/7/photos 2026-10-11T12:00:30.588-05:00  INFO 1792 --- [nio-8999-exec-2] c.e.u.mdp.pets.services.PhotoService     : Inicia proceso de creaci├│n de la foto
+2026-10-11T12:00:30.589-05:00  INFO 1792 --- [nio-8999-exec-2] c.e.u.mdp.pets.services.PhotoService     : Termina proceso de creaci├│n de la foto
+[201 Created, 365B, 8ms]
+  ÔêÜ  Status code is 201
+
+Ôöö Crear una foto sin url
+  POST http://localhost:8999/api/pets/6/photos 2026-10-11T12:00:30.682-05:00  INFO 1792 --- [nio-8999-exec-3] c.e.u.mdp.pets.services.PhotoService     : Inicia proceso de creaci├│n de la foto
+[412 Precondition Failed, 395B, 7ms]
+  ÔêÜ  Status code is 412
+  ÔêÜ  Get expected error message
+
+Ôöö Crear una foto sin formato
+  POST http://localhost:8999/api/pets/6/photos 2026-10-11T12:00:30.776-05:00  INFO 1792 --- [nio-8999-exec-4] c.e.u.mdp.pets.services.PhotoService     : Inicia proceso de creaci├│n de la foto
+[412 Precondition Failed, 398B, 6ms]
+  ÔêÜ  Status code is 412
+  ÔêÜ  Get expected error message
+
+Ôöö Crear una foto con formato no valido
+  POST http://localhost:8999/api/pets/6/photos 2026-10-11T12:00:30.855-05:00  INFO 1792 --- [nio-8999-exec-5] c.e.u.mdp.pets.services.PhotoService     : Inicia proceso de creaci├│n de la foto
+[412 Precondition Failed, 429B, 6ms]
+  ÔêÜ  Status code is 412
+  ÔêÜ  Get expected error message
+
+Ôöö Crear una foto en una mascota que no existe
+  POST http://localhost:8999/api/pets/999999/photos [404 Not Found, 355B, 7ms]
+  ÔêÜ  Status code is 404
+  ÔêÜ  Get expected error message
+
+Ôûí PetPhotos / 02 Consultar
+Ôöö Obtener todas las fotos de una mascota
+  GET http://localhost:8999/api/pets/6/photos [200 OK, 560B, 12ms]
+  ÔêÜ  Status code is 200
+  ÔêÜ  Only the photos of this pet
+
+Ôöö Obtener las fotos de una mascota sin fotos
+  GET http://localhost:8999/api/pets/8/photos [200 OK, 255B, 9ms]
+  ÔêÜ  Status code is 200
+  ÔêÜ  Empty list
+
+Ôöö Obtener las fotos de una mascota que no existe
+  GET http://localhost:8999/api/pets/999999/photos [404 Not Found, 355B, 5ms]
+  ÔêÜ  Status code is 404
+  ÔêÜ  Get expected error message
+
+Ôöö Obtener una foto
+  GET http://localhost:8999/api/pets/6/photos/1 2026-10-11T12:00:31.320-05:00  INFO 1792 --- [io-8999-exec-10] c.e.u.mdp.pets.services.PhotoService     : Inicia proceso de consultar la foto con id = 1
+2026-10-11T12:00:31.322-05:00  INFO 1792 --- [io-8999-exec-10] c.e.u.mdp.pets.services.PhotoService     : Termina proceso de consultar la foto con id = 1
+[200 OK, 354B, 7ms]
+  ÔêÜ  Status code is 200
+  ÔêÜ  The requested photo
+
+Ôöö Obtener una foto que no existe
+  GET http://localhost:8999/api/pets/6/photos/999999 2026-10-11T12:00:31.414-05:00  INFO 1792 --- [nio-8999-exec-1] c.e.u.mdp.pets.services.PhotoService     : Inicia proceso de consultar la foto con id = 999999
+[404 Not Found, 357B, 6ms]
+  ÔêÜ  Status code is 404
+  ÔêÜ  Get expected error message
+
+Ôöö Obtener una foto con un id invalido
+  GET http://localhost:8999/api/pets/6/photos/0 2026-10-11T12:00:31.507-05:00  INFO 1792 --- [nio-8999-exec-2] c.e.u.mdp.pets.services.PhotoService     : Inicia proceso de consultar la foto con id = 0
+[412 Precondition Failed, 383B, 6ms]
+  ÔêÜ  Status code is 412
+  ÔêÜ  Get expected error message
+
+Ôöö Obtener una foto de una mascota que no existe
+  GET http://localhost:8999/api/pets/999999/photos/1 [404 Not Found, 355B, 6ms]
+  ÔêÜ  Status code is 404
+  ÔêÜ  Get expected error message
+
+Ôöö Obtener una foto que no pertenece a la mascota
+  GET http://localhost:8999/api/pets/7/photos/1 2026-10-11T12:00:31.694-05:00  INFO 1792 --- [nio-8999-exec-4] c.e.u.mdp.pets.services.PhotoService     : Inicia proceso de consultar la foto con id = 1
+2026-10-11T12:00:31.695-05:00  INFO 1792 --- [nio-8999-exec-4] c.e.u.mdp.pets.services.PhotoService     : Termina proceso de consultar la foto con id = 1
+[412 Precondition Failed, 402B, 7ms]
+  ÔêÜ  Status code is 412
+  ÔêÜ  Get expected error message
+
+Ôûí PetPhotos / 03 Editar
+Ôöö Editar una foto
+  PUT http://localhost:8999/api/pets/6/photos/1 2026-10-11T12:00:31.789-05:00  INFO 1792 --- [nio-8999-exec-5] c.e.u.mdp.pets.services.PhotoService     : Inicia proceso de consultar la foto con id = 1
+2026-10-11T12:00:31.791-05:00  INFO 1792 --- [nio-8999-exec-5] c.e.u.mdp.pets.services.PhotoService     : Termina proceso de consultar la foto con id = 1
+2026-10-11T12:00:31.791-05:00  INFO 1792 --- [nio-8999-exec-5] c.e.u.mdp.pets.services.PhotoService     : Inicia proceso de actualizar la foto con id = 1
+2026-10-11T12:00:31.791-05:00  INFO 1792 --- [nio-8999-exec-5] c.e.u.mdp.pets.services.PhotoService     : Termina proceso de actualizar la foto con id = 1
+[200 OK, 366B, 12ms]
+  ÔêÜ  Status code is 200
+  ÔêÜ  Changed attributes are returned
+
+Ôöö Editar una foto que no existe
+  PUT http://localhost:8999/api/pets/6/photos/999999 2026-10-11T12:00:31.884-05:00  INFO 1792 --- [nio-8999-exec-6] c.e.u.mdp.pets.services.PhotoService     : Inicia proceso de consultar la foto con id = 999999
+[404 Not Found, 357B, 11ms]
+  ÔêÜ  Status code is 404
+  ÔêÜ  Get expected error message
+
+Ôöö Editar una foto con un id invalido
+  PUT http://localhost:8999/api/pets/6/photos/0 2026-10-11T12:00:31.980-05:00  INFO 1792 --- [nio-8999-exec-7] c.e.u.mdp.pets.services.PhotoService     : Inicia proceso de consultar la foto con id = 0
+[412 Precondition Failed, 383B, 12ms]
+  ÔêÜ  Status code is 412
+  ÔêÜ  Get expected error message
+
+Ôöö Editar una foto de una mascota que no existe
+  PUT http://localhost:8999/api/pets/999999/photos/1 [404 Not Found, 355B, 7ms]
+  ÔêÜ  Status code is 404
+  ÔêÜ  Get expected error message
+
+Ôöö Editar una foto que no pertenece a la mascota
+  PUT http://localhost:8999/api/pets/7/photos/1 2026-10-11T12:00:32.146-05:00  INFO 1792 --- [nio-8999-exec-9] c.e.u.mdp.pets.services.PhotoService     : Inicia proceso de consultar la foto con id = 1
+2026-10-11T12:00:32.147-05:00  INFO 1792 --- [nio-8999-exec-9] c.e.u.mdp.pets.services.PhotoService     : Termina proceso de consultar la foto con id = 1
+[412 Precondition Failed, 402B, 12ms]
+  ÔêÜ  Status code is 412
+  ÔêÜ  Get expected error message
+
+Ôöö Editar una foto sin url
+  PUT http://localhost:8999/api/pets/6/photos/1 2026-10-11T12:00:32.240-05:00  INFO 1792 --- [io-8999-exec-10] c.e.u.mdp.pets.services.PhotoService     : Inicia proceso de consultar la foto con id = 1
+2026-10-11T12:00:32.241-05:00  INFO 1792 --- [io-8999-exec-10] c.e.u.mdp.pets.services.PhotoService     : Termina proceso de consultar la foto con id = 1
+2026-10-11T12:00:32.241-05:00  INFO 1792 --- [io-8999-exec-10] c.e.u.mdp.pets.services.PhotoService     : Inicia proceso de actualizar la foto con id = 1
+[412 Precondition Failed, 403B, 8ms]
+  ÔêÜ  Status code is 412
+  ÔêÜ  Get expected error message
+
+Ôöö Editar una foto sin formato
+  PUT http://localhost:8999/api/pets/6/photos/1 2026-10-11T12:00:32.331-05:00  INFO 1792 --- [nio-8999-exec-1] c.e.u.mdp.pets.services.PhotoService     : Inicia proceso de consultar la foto con id = 1
+2026-10-11T12:00:32.332-05:00  INFO 1792 --- [nio-8999-exec-1] c.e.u.mdp.pets.services.PhotoService     : Termina proceso de consultar la foto con id = 1
+2026-10-11T12:00:32.332-05:00  INFO 1792 --- [nio-8999-exec-1] c.e.u.mdp.pets.services.PhotoService     : Inicia proceso de actualizar la foto con id = 1
+[412 Precondition Failed, 398B, 7ms]
+  ÔêÜ  Status code is 412
+  ÔêÜ  Get expected error message
+
+Ôöö Editar una foto con formato no valido
+  PUT http://localhost:8999/api/pets/6/photos/1 2026-10-11T12:00:32.426-05:00  INFO 1792 --- [nio-8999-exec-2] c.e.u.mdp.pets.services.PhotoService     : Inicia proceso de consultar la foto con id = 1
+2026-10-11T12:00:32.427-05:00  INFO 1792 --- [nio-8999-exec-2] c.e.u.mdp.pets.services.PhotoService     : Termina proceso de consultar la foto con id = 1
+2026-10-11T12:00:32.427-05:00  INFO 1792 --- [nio-8999-exec-2] c.e.u.mdp.pets.services.PhotoService     : Inicia proceso de actualizar la foto con id = 1
+[412 Precondition Failed, 429B, 9ms]
+  ÔêÜ  Status code is 412
+  ÔêÜ  Get expected error message
+
+Ôûí PetPhotos / 03b Relacion Pet - Photo
+Ôöö La mascota lista sus fotos
+  GET http://localhost:8999/api/pets/6 2026-10-11T12:00:32.518-05:00  INFO 1792 --- [nio-8999-exec-3] c.e.u.mdp.pets.services.PetService       : Start the process of consulting the pet with id = 6
+2026-10-11T12:00:32.521-05:00  INFO 1792 --- [nio-8999-exec-3] c.e.u.mdp.pets.services.PetService       : Finish the process of consulting the pet with id = 6
+[200 OK, 1.26kB, 29ms]
+  ÔêÜ  Status code is 200
+  ÔêÜ  PetDetail.photos has the pet's photos only
+
+Ôûí PetPhotos / 04 Borrar
+Ôöö Borrar una foto
+  DELETE http://localhost:8999/api/pets/6/photos/3 2026-10-11T12:00:32.613-05:00  INFO 1792 --- [nio-8999-exec-4] c.e.u.mdp.pets.services.PhotoService     : Inicia proceso de consultar la foto con id = 3
+2026-10-11T12:00:32.614-05:00  INFO 1792 --- [nio-8999-exec-4] c.e.u.mdp.pets.services.PhotoService     : Termina proceso de consultar la foto con id = 3
+2026-10-11T12:00:32.614-05:00  INFO 1792 --- [nio-8999-exec-4] c.e.u.mdp.pets.services.PhotoService     : Inicia proceso de borrar la foto con id = 3
+2026-10-11T12:00:32.618-05:00  INFO 1792 --- [nio-8999-exec-4] c.e.u.mdp.pets.services.PhotoService     : Termina proceso de borrar la foto con id = 3
+[204 No Content, 201B, 13ms]
+  ÔêÜ  Status code is 204
+
+Ôöö Obtener la foto borrada
+  GET http://localhost:8999/api/pets/6/photos/3 2026-10-11T12:00:32.690-05:00  INFO 1792 --- [nio-8999-exec-5] c.e.u.mdp.pets.services.PhotoService     : Inicia proceso de consultar la foto con id = 3
+[404 Not Found, 357B, 6ms]
+  ÔêÜ  Status code is 404
+  ÔêÜ  Get expected error message
+
+Ôöö Borrar una foto que no existe
+  DELETE http://localhost:8999/api/pets/6/photos/999999 2026-10-11T12:00:32.783-05:00  INFO 1792 --- [nio-8999-exec-6] c.e.u.mdp.pets.services.PhotoService     : Inicia proceso de consultar la foto con id = 999999
+[404 Not Found, 357B, 6ms]
+  ÔêÜ  Status code is 404
+  ÔêÜ  Get expected error message
+
+Ôöö Borrar una foto con un id invalido
+  DELETE http://localhost:8999/api/pets/6/photos/0 2026-10-11T12:00:32.873-05:00  INFO 1792 --- [nio-8999-exec-7] c.e.u.mdp.pets.services.PhotoService     : Inicia proceso de consultar la foto con id = 0
+[412 Precondition Failed, 383B, 5ms]
+  ÔêÜ  Status code is 412
+  ÔêÜ  Get expected error message
+
+Ôöö Borrar una foto de una mascota que no existe
+  DELETE http://localhost:8999/api/pets/999999/photos/1 [404 Not Found, 355B, 4ms]
+  ÔêÜ  Status code is 404
+  ÔêÜ  Get expected error message
+
+Ôöö Borrar una foto que no pertenece a la mascota
+  DELETE http://localhost:8999/api/pets/7/photos/1 2026-10-11T12:00:33.045-05:00  INFO 1792 --- [nio-8999-exec-9] c.e.u.mdp.pets.services.PhotoService     : Inicia proceso de consultar la foto con id = 1
+2026-10-11T12:00:33.045-05:00  INFO 1792 --- [nio-8999-exec-9] c.e.u.mdp.pets.services.PhotoService     : Termina proceso de consultar la foto con id = 1
+[412 Precondition Failed, 402B, 6ms]
+  ÔêÜ  Status code is 412
+  ÔêÜ  Get expected error message
+
+Ôöö Borrar la unica foto de una mascota activa
+  DELETE http://localhost:8999/api/pets/7/photos/4 2026-10-11T12:00:33.139-05:00  INFO 1792 --- [io-8999-exec-10] c.e.u.mdp.pets.services.PhotoService     : Inicia proceso de consultar la foto con id = 4
+2026-10-11T12:00:33.140-05:00  INFO 1792 --- [io-8999-exec-10] c.e.u.mdp.pets.services.PhotoService     : Termina proceso de consultar la foto con id = 4
+2026-10-11T12:00:33.140-05:00  INFO 1792 --- [io-8999-exec-10] c.e.u.mdp.pets.services.PhotoService     : Inicia proceso de borrar la foto con id = 4
+[412 Precondition Failed, 480B, 13ms]
+  ÔêÜ  Status code is 412
+  ÔêÜ  Get expected error message
+
+Ôöö La mascota ya no lista la foto borrada
+  GET http://localhost:8999/api/pets/6 2026-10-11T12:00:33.230-05:00  INFO 1792 --- [nio-8999-exec-1] c.e.u.mdp.pets.services.PetService       : Start the process of consulting the pet with id = 6
+2026-10-11T12:00:33.232-05:00  INFO 1792 --- [nio-8999-exec-1] c.e.u.mdp.pets.services.PetService       : Finish the process of consulting the pet with id = 6
+[200 OK, 1.17kB, 19ms]
+  ÔêÜ  Status code is 200
+  ÔêÜ  PetDetail.photos no longer has the deleted photo
+
+Ôûí Photo
+Ôöö Crear una foto
+  POST http://localhost:8999/api/photos 2026-10-11T12:00:33.338-05:00  WARN 1792 --- [nio-8999-exec-2] o.s.web.servlet.PageNotFound             : Request method 'POST' is not supported
+[405 Method Not Allowed, 332B, 4ms]
+
+Ôöö Crear una foto para un refugio
+  POST http://localhost:8999/api/photos 2026-10-11T12:00:33.433-05:00  WARN 1792 --- [nio-8999-exec-3] o.s.web.servlet.PageNotFound             : Request method 'POST' is not supported
+[405 Method Not Allowed, 303B, 4ms]
+
+Ôöö Crear una foto sin url
+  POST http://localhost:8999/api/photos 2026-10-11T12:00:33.511-05:00  WARN 1792 --- [nio-8999-exec-5] o.s.web.servlet.PageNotFound             : Request method 'POST' is not supported
+[405 Method Not Allowed, 332B, 5ms]
+
+Ôöö Crear una foto sin tipo
+  POST http://localhost:8999/api/photos 2026-10-11T12:00:33.603-05:00  WARN 1792 --- [nio-8999-exec-6] o.s.web.servlet.PageNotFound             : Request method 'POST' is not supported
+[405 Method Not Allowed, 332B, 4ms]
+
+Ôöö Crear una foto con formato invalido
+  POST http://localhost:8999/api/photos 2026-10-11T12:00:33.699-05:00  WARN 1792 --- [nio-8999-exec-7] o.s.web.servlet.PageNotFound             : Request method 'POST' is not supported
+[405 Method Not Allowed, 332B, 6ms]
+
+Ôöö Crear una foto sin entidad asociada
+  POST http://localhost:8999/api/photos 2026-10-11T12:00:33.793-05:00  WARN 1792 --- [nio-8999-exec-8] o.s.web.servlet.PageNotFound             : Request method 'POST' is not supported
+[405 Method Not Allowed, 332B, 6ms]
+
+Ôöö Crear una foto de una mascota inexistente
+  POST http://localhost:8999/api/photos 2026-10-11T12:00:33.869-05:00  WARN 1792 --- [nio-8999-exec-9] o.s.web.servlet.PageNotFound             : Request method 'POST' is not supported
+[405 Method Not Allowed, 332B, 4ms]
+
+Ôöö Crear una foto de un refugio inexistente
+  POST http://localhost:8999/api/photos 2026-10-11T12:00:33.962-05:00  WARN 1792 --- [io-8999-exec-10] o.s.web.servlet.PageNotFound             : Request method 'POST' is not supported
+[405 Method Not Allowed, 332B, 3ms]
+
+Ôöö Obtener todas las fotos
+  GET http://localhost:8999/api/photos [200 OK, 309B, 4ms]
+
+Ôöö Obtener fotos de una mascota
+  GET http://localhost:8999/api/photos?petId=1 [200 OK, 309B, 3ms]
+
+Ôöö Obtener fotos de un refugio
+  GET http://localhost:8999/api/photos?shelterId=1 [200 OK, 309B, 4ms]
+
+Ôöö Obtener fotos por mascota y refugio combinados
+  GET http://localhost:8999/api/photos?petId=1&shelterId=1 [200 OK, 309B, 4ms]
+
+Ôöö Obtener fotos con filtros que no coinciden
+  GET http://localhost:8999/api/photos?petId=9999 [200 OK, 309B, 3ms]
+
+Ôöö Obtener fotos de una mascota inexistente
+  GET http://localhost:8999/api/photos?petId=0 [200 OK, 309B, 4ms]
+
+Ôöö Obtener una foto por id
+  GET http://localhost:8999/api/photos/1 [404 Not Found, 390B, 6ms]
+
+Ôöö Obtener una foto que no existe
+  GET http://localhost:8999/api/photos/0 [404 Not Found, 390B, 6ms]
+
+Ôöö Obtener una foto con id invalido
+  GET http://localhost:8999/api/photos/-1 [404 Not Found, 392B, 5ms]
+
+Ôöö Editar una foto
+  PUT http://localhost:8999/api/photos/1 [404 Not Found, 390B, 5ms]
+
+Ôöö Editar una foto que no existe
+  PUT http://localhost:8999/api/photos/0 [404 Not Found, 390B, 4ms]
+
+Ôöö Editar una foto con id invalido
+  PUT http://localhost:8999/api/photos/-1 [404 Not Found, 392B, 4ms]
+
+Ôöö Editar una foto sin url
+  PUT http://localhost:8999/api/photos/1 [404 Not Found, 390B, 5ms]
+
+Ôöö Editar una foto sin tipo
+  PUT http://localhost:8999/api/photos/1 [404 Not Found, 390B, 5ms]
+
+Ôöö Editar una foto con formato invalido
+  PUT http://localhost:8999/api/photos/1 [404 Not Found, 390B, 4ms]
+
+Ôöö Borrar una foto
+  DELETE http://localhost:8999/api/photos/2 [404 Not Found, 390B, 5ms]
+
+Ôöö Borrar una foto que no existe
+  DELETE http://localhost:8999/api/photos/0 [404 Not Found, 390B, 4ms]
+
+Ôöö Borrar una foto con id invalido
+  DELETE http://localhost:8999/api/photos/-1 [404 Not Found, 392B, 4ms]
+
+Ôöö Borrar la foto principal de una mascota activa
+  DELETE http://localhost:8999/api/photos/3 [404 Not Found, 390B, 8ms]
+
+Ôûí Review / A. Sin dependencias (corren con el back recien levantado)
+Ôöö Crear una resena sin rating
+  POST http://localhost:8999/api/pets/999999/reviews 2026-10-11T12:00:35.818-05:00  INFO 1792 --- [io-8999-exec-10] c.e.u.mdp.pets.services.ReviewService    : Inicia proceso de creaci├│n de la rese├▒a para la mascota con id = 999999
+[412 Precondition Failed, 383B, 117ms]
+  ÔêÜ  Status code is 412
+  ÔêÜ  Get expected error message
+
+Ôöö Crear una resena con rating menor al minimo
+  POST http://localhost:8999/api/pets/999999/reviews 2026-10-11T12:00:35.911-05:00  INFO 1792 --- [nio-8999-exec-1] c.e.u.mdp.pets.services.ReviewService    : Inicia proceso de creaci├│n de la rese├▒a para la mascota con id = 999999
+[412 Precondition Failed, 392B, 5ms]
+  ÔêÜ  Status code is 412
+  ÔêÜ  Get expected error message
+
+Ôöö Crear una resena con rating mayor al maximo
+  POST http://localhost:8999/api/pets/999999/reviews 2026-10-11T12:00:36.003-05:00  INFO 1792 --- [nio-8999-exec-2] c.e.u.mdp.pets.services.ReviewService    : Inicia proceso de creaci├│n de la rese├▒a para la mascota con id = 999999
+[412 Precondition Failed, 392B, 4ms]
+  ÔêÜ  Status code is 412
+  ÔêÜ  Get expected error message
+
+Ôöö Crear una resena sin comentario
+  POST http://localhost:8999/api/pets/999999/reviews 2026-10-11T12:00:36.082-05:00  INFO 1792 --- [nio-8999-exec-3] c.e.u.mdp.pets.services.ReviewService    : Inicia proceso de creaci├│n de la rese├▒a para la mascota con id = 999999
+[412 Precondition Failed, 393B, 5ms]
+  ÔêÜ  Status code is 412
+  ÔêÜ  Get expected error message
+
+Ôöö Crear una resena sin fecha
+  POST http://localhost:8999/api/pets/999999/reviews 2026-10-11T12:00:36.159-05:00  INFO 1792 --- [nio-8999-exec-4] c.e.u.mdp.pets.services.ReviewService    : Inicia proceso de creaci├│n de la rese├▒a para la mascota con id = 999999
+[412 Precondition Failed, 381B, 4ms]
+  ÔêÜ  Status code is 412
+  ÔêÜ  Get expected error message
+
+Ôöö Crear una resena sin hora
+  POST http://localhost:8999/api/pets/999999/reviews 2026-10-11T12:00:36.254-05:00  INFO 1792 --- [nio-8999-exec-5] c.e.u.mdp.pets.services.ReviewService    : Inicia proceso de creaci├│n de la rese├▒a para la mascota con id = 999999
+[412 Precondition Failed, 381B, 7ms]
+  ÔêÜ  Status code is 412
+  ÔêÜ  Get expected error message
+
+Ôöö Crear una resena de una mascota que no existe
+  POST http://localhost:8999/api/pets/999999/reviews 2026-10-11T12:00:36.345-05:00  INFO 1792 --- [nio-8999-exec-6] c.e.u.mdp.pets.services.ReviewService    : Inicia proceso de creaci├│n de la rese├▒a para la mascota con id = 999999
+[404 Not Found, 355B, 6ms]
+  ÔêÜ  Status code is 404
+  ÔêÜ  Get expected error message
+
+Ôöö Obtener todas las resenas
+  GET http://localhost:8999/api/reviews 2026-10-11T12:00:36.440-05:00  INFO 1792 --- [nio-8999-exec-7] c.e.u.mdp.pets.services.ReviewService    : Inicia proceso de consultar rese├▒as filtradas
+2026-10-11T12:00:36.443-05:00  INFO 1792 --- [nio-8999-exec-7] c.e.u.mdp.pets.services.ReviewService    : No hay rese├▒as registradas que cumplan los filtros
+[200 OK, 255B, 11ms]
+  ÔêÜ  Response is a list
+  ÔêÜ  Status code is 200
+
+Ôöö Obtener resenas filtradas por una mascota sin resenas
+  GET http://localhost:8999/api/reviews?petId=999999 2026-10-11T12:00:36.532-05:00  INFO 1792 --- [nio-8999-exec-8] c.e.u.mdp.pets.services.ReviewService    : Inicia proceso de consultar rese├▒as filtradas
+2026-10-11T12:00:36.534-05:00  INFO 1792 --- [nio-8999-exec-8] c.e.u.mdp.pets.services.ReviewService    : No hay rese├▒as registradas que cumplan los filtros
+[200 OK, 255B, 8ms]
+  ÔêÜ  Number of items = 0
+  ÔêÜ  Status code is 200
+
+Ôöö Obtener resenas filtradas por un adoptante sin resenas
+  GET http://localhost:8999/api/reviews?adopterId=999999 2026-10-11T12:00:36.624-05:00  INFO 1792 --- [nio-8999-exec-9] c.e.u.mdp.pets.services.ReviewService    : Inicia proceso de consultar rese├▒as filtradas
+2026-10-11T12:00:36.625-05:00  INFO 1792 --- [nio-8999-exec-9] c.e.u.mdp.pets.services.ReviewService    : No hay rese├▒as registradas que cumplan los filtros
+[200 OK, 255B, 6ms]
+  ÔêÜ  Number of items = 0
+  ÔêÜ  Status code is 200
+
+Ôöö Obtener una resena que no existe
+  GET http://localhost:8999/api/pets/999999/reviews/999999 2026-10-11T12:00:36.716-05:00  INFO 1792 --- [io-8999-exec-10] c.e.u.mdp.pets.services.ReviewService    : Inicia proceso de consultar la rese├▒a con id = 999999
+[404 Not Found, 358B, 11ms]
+  ÔêÜ  Status code is 404
+  ÔêÜ  Get expected error message
+
+Ôöö Obtener una resena con un id invalido
+  GET http://localhost:8999/api/pets/999999/reviews/0 2026-10-11T12:00:36.791-05:00  INFO 1792 --- [nio-8999-exec-1] c.e.u.mdp.pets.services.ReviewService    : Inicia proceso de consultar la rese├▒a con id = 0
+[412 Precondition Failed, 384B, 5ms]
+  ÔêÜ  Status code is 412
+  ÔêÜ  Get expected error message
+
+Ôöö Editar una resena que no existe
+  PUT http://localhost:8999/api/pets/999999/reviews/999999?adopterId=1 2026-10-11T12:00:36.889-05:00  INFO 1792 --- [nio-8999-exec-2] c.e.u.mdp.pets.services.ReviewService    : Inicia proceso de actualizar la rese├▒a con id = 999999
+[404 Not Found, 358B, 11ms]
+  ÔêÜ  Status code is 404
+  ÔêÜ  Get expected error message
+
+Ôöö Editar una resena con un id invalido
+  PUT http://localhost:8999/api/pets/999999/reviews/0?adopterId=1 2026-10-11T12:00:36.980-05:00  INFO 1792 --- [nio-8999-exec-3] c.e.u.mdp.pets.services.ReviewService    : Inicia proceso de actualizar la rese├▒a con id = 0
+[412 Precondition Failed, 384B, 7ms]
+  ÔêÜ  Status code is 412
+  ÔêÜ  Get expected error message
+
+Ôöö Editar una resena sin indicar el adoptante
+  PUT http://localhost:8999/api/pets/999999/reviews/999999 [400 Bad Request, 401B, 7ms]
+  ÔêÜ  Status code is 400
+
+Ôöö Borrar una resena que no existe
+  DELETE http://localhost:8999/api/pets/999999/reviews/999999?adopterId=1 2026-10-11T12:00:37.167-05:00  INFO 1792 --- [nio-8999-exec-6] c.e.u.mdp.pets.services.ReviewService    : Inicia proceso de borrar la rese├▒a con id = 999999
+[404 Not Found, 358B, 8ms]
+  ÔêÜ  Status code is 404
+  ÔêÜ  Get expected error message
+
+Ôöö Borrar una resena con un id invalido
+  DELETE http://localhost:8999/api/pets/999999/reviews/0?adopterId=1 2026-10-11T12:00:37.259-05:00  INFO 1792 --- [nio-8999-exec-7] c.e.u.mdp.pets.services.ReviewService    : Inicia proceso de borrar la rese├▒a con id = 0
+[412 Precondition Failed, 384B, 4ms]
+  ÔêÜ  Status code is 412
+  ÔêÜ  Get expected error message
+
+Ôöö Borrar una resena sin indicar el adoptante
+  DELETE http://localhost:8999/api/pets/999999/reviews/999999 [400 Bad Request, 401B, 4ms]
+  ÔêÜ  Status code is 400
+
+Ôûí Review / B. Requieren Pet y Adoption FINALIZED (bloqueadas hoy, ver descripcion)
+Ôöö Crear una resena
+  Ôöî
+  Ôöé 'Peticion omitida: faltan las variables pet_id_adopted
+  Ôöé  (ver descripcion de la carpeta B).'
+  Ôöö
+
+Ôöö Crear una resena de un adoptante que ya resena esa mascota
+  Ôöî
+  Ôöé 'Peticion omitida: faltan las variables pet_id_adopted
+  Ôöé  (ver descripcion de la carpeta B).'
+  Ôöö
+
+Ôöö Crear una resena sin adopcion
+  Ôöî
+  Ôöé 'Peticion omitida: faltan las variables pet_id_adopted
+  Ôöé  (ver descripcion de la carpeta B).'
+  Ôöö
+
+Ôöö Crear una resena de una adopcion que no existe
+  Ôöî
+  Ôöé 'Peticion omitida: faltan las variables pet_id_adopted
+  Ôöé  (ver descripcion de la carpeta B).'
+  Ôöö
+
+Ôöö Crear una resena con la adopcion de otra mascota
+  Ôöî
+  Ôöé 'Peticion omitida: faltan las variables pet_id_adopted
+  Ôöé  (ver descripcion de la carpeta B).'
+  Ôöö
+
+Ôöö Obtener todas las resenas con datos
+  Ôöî
+  Ôöé 'Peticion omitida: faltan las variables pet_id_adopted
+  Ôöé  (ver descripcion de la carpeta B).'
+  Ôöö
+
+Ôöö Obtener resenas filtradas por mascota
+  Ôöî
+  Ôöé 'Peticion omitida: faltan las variables pet_id_adopted
+  Ôöé  (ver descripcion de la carpeta B).'
+  Ôöö
+
+Ôöö Obtener resenas filtradas por adoptante
+  Ôöî
+  Ôöé 'Peticion omitida: faltan las variables pet_id_adopted
+  Ôöé  (ver descripcion de la carpeta B).'
+  Ôöö
+
+Ôöö Obtener resenas de una mascota sin resenas
+  Ôöî
+  Ôöé 'Peticion omitida: faltan las variables pet_id_adopted
+  Ôöé  (ver descripcion de la carpeta B).'
+  Ôöö
+
+Ôöö Obtener una resena
+  Ôöî
+  Ôöé 'Peticion omitida: faltan las variables pet_id_adopted
+  Ôöé  (ver descripcion de la carpeta B).'
+  Ôöö
+
+Ôöö Obtener una resena a traves de otra mascota
+  Ôöî
+  Ôöé 'Peticion omitida: faltan las variables pet_id_adopted
+  Ôöé  (ver descripcion de la carpeta B).'
+  Ôöö
+
+Ôöö Editar una resena
+  Ôöî
+  Ôöé 'Peticion omitida: faltan las variables pet_id_adopted
+  Ôöé  (ver descripcion de la carpeta B).'
+  Ôöö
+
+Ôöö Editar una resena de otro adoptante
+  Ôöî
+  Ôöé 'Peticion omitida: faltan las variables pet_id_adopted
+  Ôöé  (ver descripcion de la carpeta B).'
+  Ôöö
+
+Ôöö Editar una resena con rating invalido
+  Ôöî
+  Ôöé 'Peticion omitida: faltan las variables pet_id_adopted
+  Ôöé  (ver descripcion de la carpeta B).'
+  Ôöö
+
+Ôöö Editar una resena sin comentario
+  Ôöî
+  Ôöé 'Peticion omitida: faltan las variables pet_id_adopted
+  Ôöé  (ver descripcion de la carpeta B).'
+  Ôöö
+
+Ôöö Borrar una resena de otro adoptante
+  Ôöî
+  Ôöé 'Peticion omitida: faltan las variables pet_id_adopted
+  Ôöé  (ver descripcion de la carpeta B).'
+  Ôöö
+
+Ôöö Borrar una resena
+  Ôöî
+  Ôöé 'Peticion omitida: faltan las variables pet_id_adopted
+  Ôöé  (ver descripcion de la carpeta B).'
+  Ôöö
+
+Ôöö Obtener una resena borrada
+  Ôöî
+  Ôöé 'Peticion omitida: faltan las variables pet_id_adopted
+  Ôöé  (ver descripcion de la carpeta B).'
+  Ôöö
+
+Ôûí Shelter / 01 Crear
+Ôöö Crear un refugio
+  POST http://localhost:8999/api/shelters 2026-10-11T12:00:37.975-05:00  INFO 1792 --- [io-8999-exec-10] c.e.u.mdp.pets.services.ShelterService   : Refuge creation process begins
+2026-10-11T12:00:37.979-05:00  INFO 1792 --- [io-8999-exec-10] c.e.u.mdp.pets.services.ShelterService   : Shelter creation process ends
+[201 Created, 379B, 12ms]
+  ÔêÜ  Status code is 201
+  ÔêÜ  Response echoes the shelter
+
+Ôöö Crear un segundo refugio
+  POST http://localhost:8999/api/shelters 2026-10-11T12:00:38.066-05:00  INFO 1792 --- [nio-8999-exec-1] c.e.u.mdp.pets.services.ShelterService   : Refuge creation process begins
+2026-10-11T12:00:38.069-05:00  INFO 1792 --- [nio-8999-exec-1] c.e.u.mdp.pets.services.ShelterService   : Shelter creation process ends
+[201 Created, 378B, 10ms]
+  ÔêÜ  Status code is 201
+  ÔêÜ  Second shelter has a different id
+
+Ôöö Crear un refugio sin nombre
+  POST http://localhost:8999/api/shelters 2026-10-11T12:00:38.143-05:00  INFO 1792 --- [nio-8999-exec-2] c.e.u.mdp.pets.services.ShelterService   : Refuge creation process begins
+[412 Precondition Failed, 390B, 4ms]
+  ÔêÜ  Status code is 412
+  ÔêÜ  Get expected error message
+
+Ôöö Crear un refugio sin ciudad
+  POST http://localhost:8999/api/shelters 2026-10-11T12:00:38.237-05:00  INFO 1792 --- [nio-8999-exec-3] c.e.u.mdp.pets.services.ShelterService   : Refuge creation process begins
+[412 Precondition Failed, 390B, 6ms]
+  ÔêÜ  Status code is 412
+  ÔêÜ  Get expected error message
+
+Ôöö Crear un refugio sin ubicacion
+  POST http://localhost:8999/api/shelters 2026-10-11T12:00:38.330-05:00  INFO 1792 --- [nio-8999-exec-4] c.e.u.mdp.pets.services.ShelterService   : Refuge creation process begins
+[412 Precondition Failed, 394B, 6ms]
+  ÔêÜ  Status code is 412
+  ÔêÜ  Get expected error message
+
+Ôöö Crear un refugio sin nit
+  POST http://localhost:8999/api/shelters 2026-10-11T12:00:38.423-05:00  INFO 1792 --- [nio-8999-exec-5] c.e.u.mdp.pets.services.ShelterService   : Refuge creation process begins
+[412 Precondition Failed, 389B, 5ms]
+  ÔêÜ  Status code is 412
+  ÔêÜ  Get expected error message
+
+Ôöö Crear un refugio con un nit repetido
+  POST http://localhost:8999/api/shelters 2026-10-11T12:00:38.515-05:00  INFO 1792 --- [nio-8999-exec-6] c.e.u.mdp.pets.services.ShelterService   : Refuge creation process begins
+[412 Precondition Failed, 411B, 8ms]
+  ÔêÜ  Status code is 412
+  ÔêÜ  Get expected error message
+
+Ôöö Crear un refugio duplicado
+  POST http://localhost:8999/api/shelters 2026-10-11T12:00:38.609-05:00  INFO 1792 --- [nio-8999-exec-7] c.e.u.mdp.pets.services.ShelterService   : Refuge creation process begins
+[412 Precondition Failed, 424B, 8ms]
+  ÔêÜ  Status code is 412
+  ÔêÜ  Get expected error message
+
+Ôöö Crear un refugio sin usuario responsable
+  POST http://localhost:8999/api/shelters 2026-10-11T12:00:38.702-05:00  INFO 1792 --- [nio-8999-exec-8] c.e.u.mdp.pets.services.ShelterService   : Refuge creation process begins
+[412 Precondition Failed, 448B, 7ms]
+  ÔêÜ  Status code is 412
+  ÔêÜ  Get expected error message
+
+Ôûí Shelter / 02 Consultar
+Ôöö Obtener todos los refugios
+  GET http://localhost:8999/api/shelters 2026-10-11T12:00:38.796-05:00  INFO 1792 --- [nio-8999-exec-9] c.e.u.mdp.pets.services.ShelterService   : The process of consulting registered shelters begins
+2026-10-11T12:00:38.799-05:00  INFO 1792 --- [nio-8999-exec-9] c.e.u.mdp.pets.services.ShelterService   : The process of consulting registered shelters ends
+[200 OK, 6.89kB, 164ms]
+  ÔêÜ  Status code is 200
+  ÔêÜ  Response is a list with both shelters
+
+Ôöö Obtener un refugio
+  GET http://localhost:8999/api/shelters/7 2026-10-11T12:00:39.046-05:00  INFO 1792 --- [io-8999-exec-10] c.e.u.mdp.pets.services.ShelterService   : The process of consulting a shelter through filters begins
+2026-10-11T12:00:39.050-05:00  INFO 1792 --- [io-8999-exec-10] c.e.u.mdp.pets.services.ShelterService   : The process of consulting a shelter through filters ends
+[200 OK, 547B, 28ms]
+  ÔêÜ  Status code is 200
+  ÔêÜ  Detail has the shelter and its (empty) associations
+
+Ôöö Obtener un refugio que no existe
+  GET http://localhost:8999/api/shelters/999999 2026-10-11T12:00:39.155-05:00  INFO 1792 --- [nio-8999-exec-1] c.e.u.mdp.pets.services.ShelterService   : The process of consulting a shelter through filters begins
+[404 Not Found, 359B, 8ms]
+  ÔêÜ  Status code is 404
+  ÔêÜ  Get expected error message
+
+Ôöö Obtener un refugio con un id invalido
+  GET http://localhost:8999/api/shelters/0 2026-10-11T12:00:39.246-05:00  INFO 1792 --- [nio-8999-exec-2] c.e.u.mdp.pets.services.ShelterService   : The process of consulting a shelter through filters begins
+[412 Precondition Failed, 385B, 4ms]
+  ÔêÜ  Status code is 412
+  ÔêÜ  Get expected error message
+
+Ôûí Shelter / 02b Filtros
+Ôöö Obtener refugios filtrados por ciudad
+  GET http://localhost:8999/api/shelters?city=Bogota 2026-10-11T12:00:39.325-05:00  INFO 1792 --- [nio-8999-exec-3] c.e.u.mdp.pets.services.ShelterService   : The process of consulting registered shelters begins
+2026-10-11T12:00:39.327-05:00  INFO 1792 --- [nio-8999-exec-3] c.e.u.mdp.pets.services.ShelterService   : The process of consulting registered shelters ends
+[200 OK, 5.75kB, 148ms]
+  ÔêÜ  Status code is 200
+  ÔêÜ  Only shelters from Bogota, including ours
+
+Ôöö Obtener refugios filtrados por ubicacion
+  GET http://localhost:8999/api/shelters?location=Laureles-mv42ke64o5 2026-10-11T12:00:39.542-05:00  INFO 1792 --- [nio-8999-exec-4] c.e.u.mdp.pets.services.ShelterService   : The process of consulting registered shelters begins
+2026-10-11T12:00:39.545-05:00  INFO 1792 --- [nio-8999-exec-4] c.e.u.mdp.pets.services.ShelterService   : The process of consulting registered shelters ends
+[200 OK, 548B, 20ms]
+  ÔêÜ  Status code is 200
+  ÔêÜ  Only the shelter at that location
+
+Ôöö Obtener refugios filtrados por ciudad y ubicacion
+  GET http://localhost:8999/api/shelters?city=Bogota&location=Chapinero-mv42ke64o5 2026-10-11T12:00:39.651-05:00  INFO 1792 --- [nio-8999-exec-5] c.e.u.mdp.pets.services.ShelterService   : The process of consulting registered shelters begins
+2026-10-11T12:00:39.653-05:00  INFO 1792 --- [nio-8999-exec-5] c.e.u.mdp.pets.services.ShelterService   : The process of consulting registered shelters ends
+[200 OK, 549B, 22ms]
+  ÔêÜ  Status code is 200
+  ÔêÜ  Both criteria match exactly one shelter
+
+Ôöö Obtener refugios con ciudad y ubicacion que no coinciden
+  GET http://localhost:8999/api/shelters?city=Bogota&location=Laureles-mv42ke64o5 2026-10-11T12:00:39.744-05:00  INFO 1792 --- [nio-8999-exec-6] c.e.u.mdp.pets.services.ShelterService   : The process of consulting registered shelters begins
+2026-10-11T12:00:39.746-05:00  INFO 1792 --- [nio-8999-exec-6] c.e.u.mdp.pets.services.ShelterService   : There are no registered shelters that meet the filters
+2026-10-11T12:00:39.746-05:00  INFO 1792 --- [nio-8999-exec-6] c.e.u.mdp.pets.services.ShelterService   : The process of consulting registered shelters ends
+[200 OK, 255B, 6ms]
+  ÔêÜ  Status code is 200
+  ÔêÜ  All criteria must match: empty list
+
+Ôûí Shelter / 03 Editar
+Ôöö Editar un refugio
+  PUT http://localhost:8999/api/shelters/7 2026-10-11T12:00:39.840-05:00  INFO 1792 --- [nio-8999-exec-7] c.e.u.mdp.pets.services.ShelterService   : Starts process of updating the shelter with id = 7
+2026-10-11T12:00:39.844-05:00  INFO 1792 --- [nio-8999-exec-7] c.e.u.mdp.pets.services.ShelterService   : Finish process of updating the shelter with id = 7
+[200 OK, 382B, 11ms]
+  ÔêÜ  Status code is 200
+  ÔêÜ  Name changed, nit and id unchanged
+
+Ôöö Editar un refugio que no existe
+  PUT http://localhost:8999/api/shelters/999999 2026-10-11T12:00:39.933-05:00  INFO 1792 --- [nio-8999-exec-8] c.e.u.mdp.pets.services.ShelterService   : Starts process of updating the shelter with id = 999999
+[404 Not Found, 359B, 6ms]
+  ÔêÜ  Status code is 404
+  ÔêÜ  Get expected error message
+
+Ôöö Editar un refugio con un id invalido
+  PUT http://localhost:8999/api/shelters/0 2026-10-11T12:00:40.027-05:00  INFO 1792 --- [nio-8999-exec-9] c.e.u.mdp.pets.services.ShelterService   : Starts process of updating the shelter with id = 0
+[412 Precondition Failed, 385B, 6ms]
+  ÔêÜ  Status code is 412
+  ÔêÜ  Get expected error message
+
+Ôöö Editar un refugio con ciudad vacia
+  PUT http://localhost:8999/api/shelters/7 2026-10-11T12:00:40.122-05:00  INFO 1792 --- [io-8999-exec-10] c.e.u.mdp.pets.services.ShelterService   : Starts process of updating the shelter with id = 7
+[412 Precondition Failed, 390B, 9ms]
+  ÔêÜ  Status code is 412
+  ÔêÜ  Get expected error message
+
+Ôöö Editar el nit de un refugio
+  PUT http://localhost:8999/api/shelters/7 2026-10-11T12:00:40.217-05:00  INFO 1792 --- [nio-8999-exec-1] c.e.u.mdp.pets.services.ShelterService   : Starts process of updating the shelter with id = 7
+[412 Precondition Failed, 422B, 10ms]
+  ÔêÜ  Status code is 412
+  ÔêÜ  Get expected error message
+
+Ôöö Editar un refugio generando un duplicado
+  PUT http://localhost:8999/api/shelters/8 2026-10-11T12:00:40.308-05:00  INFO 1792 --- [nio-8999-exec-2] c.e.u.mdp.pets.services.ShelterService   : Starts process of updating the shelter with id = 8
+[412 Precondition Failed, 424B, 9ms]
+  ÔêÜ  Status code is 412
+  ÔêÜ  Get expected error message
+
+Ôûí Shelter / 04 Borrar
+Ôöö Borrar un refugio
+  DELETE http://localhost:8999/api/shelters/8 2026-10-11T12:00:40.402-05:00  INFO 1792 --- [nio-8999-exec-3] c.e.u.mdp.pets.services.ShelterService   : Starts process of deleting the shelter with id = 8
+2026-10-11T12:00:40.424-05:00  INFO 1792 --- [nio-8999-exec-3] c.e.u.mdp.pets.services.ShelterService   : Finish process of deleting the shelter with id = 8
+[204 No Content, 201B, 29ms]
+  ÔêÜ  Status code is 204
+
+Ôöö Obtener el refugio borrado
+  GET http://localhost:8999/api/shelters/8 2026-10-11T12:00:40.526-05:00  INFO 1792 --- [nio-8999-exec-4] c.e.u.mdp.pets.services.ShelterService   : The process of consulting a shelter through filters begins
+[404 Not Found, 359B, 11ms]
+  ÔêÜ  Status code is 404
+  ÔêÜ  Get expected error message
+
+Ôöö Borrar un refugio que no existe
+  DELETE http://localhost:8999/api/shelters/999999 2026-10-11T12:00:40.620-05:00  INFO 1792 --- [nio-8999-exec-5] c.e.u.mdp.pets.services.ShelterService   : Starts process of deleting the shelter with id = 999999
+[404 Not Found, 359B, 7ms]
+  ÔêÜ  Status code is 404
+  ÔêÜ  Get expected error message
+
+Ôöö Borrar un refugio con un id invalido
+  DELETE http://localhost:8999/api/shelters/0 2026-10-11T12:00:40.713-05:00  INFO 1792 --- [nio-8999-exec-6] c.e.u.mdp.pets.services.ShelterService   : Starts process of deleting the shelter with id = 0
+[412 Precondition Failed, 385B, 6ms]
+  ÔêÜ  Status code is 412
+  ÔêÜ  Get expected error message
+
+Ôöö Borrar el primer refugio (limpieza)
+  DELETE http://localhost:8999/api/shelters/7 2026-10-11T12:00:40.805-05:00  INFO 1792 --- [nio-8999-exec-7] c.e.u.mdp.pets.services.ShelterService   : Starts process of deleting the shelter with id = 7
+2026-10-11T12:00:40.826-05:00  INFO 1792 --- [nio-8999-exec-7] c.e.u.mdp.pets.services.ShelterService   : Finish process of deleting the shelter with id = 7
+[204 No Content, 201B, 26ms]
+  ÔêÜ  Status code is 204
+
+Ôöö Obtener el primer refugio borrado
+  GET http://localhost:8999/api/shelters/7 2026-10-11T12:00:40.915-05:00  INFO 1792 --- [nio-8999-exec-8] c.e.u.mdp.pets.services.ShelterService   : The process of consulting a shelter through filters begins
+[404 Not Found, 359B, 6ms]
+  ÔêÜ  Status code is 404
+  ÔêÜ  Get expected error message
+
+Ôûí ShelterEvents / 00 Preparacion
+Ôöö Preparacion: crear refugio A
+  POST http://localhost:8999/api/shelters 2026-10-11T12:00:41.009-05:00  INFO 1792 --- [nio-8999-exec-9] c.e.u.mdp.pets.services.ShelterService   : Refuge creation process begins
+2026-10-11T12:00:41.013-05:00  INFO 1792 --- [nio-8999-exec-9] c.e.u.mdp.pets.services.ShelterService   : Shelter creation process ends
+[201 Created, 369B, 11ms]
+  ÔêÜ  Status code is 201
+
+Ôöö Preparacion: crear refugio B
+  POST http://localhost:8999/api/shelters 2026-10-11T12:00:41.103-05:00  INFO 1792 --- [io-8999-exec-10] c.e.u.mdp.pets.services.ShelterService   : Refuge creation process begins
+2026-10-11T12:00:41.106-05:00  INFO 1792 --- [io-8999-exec-10] c.e.u.mdp.pets.services.ShelterService   : Shelter creation process ends
+[201 Created, 372B, 11ms]
+  ÔêÜ  Status code is 201
+
+Ôöö Preparacion: crear refugio C
+  POST http://localhost:8999/api/shelters 2026-10-11T12:00:41.197-05:00  INFO 1792 --- [nio-8999-exec-1] c.e.u.mdp.pets.services.ShelterService   : Refuge creation process begins
+2026-10-11T12:00:41.201-05:00  INFO 1792 --- [nio-8999-exec-1] c.e.u.mdp.pets.services.ShelterService   : Shelter creation process ends
+[201 Created, 368B, 12ms]
+  ÔêÜ  Status code is 201
+
+Ôûí ShelterEvents / 01 Crear
+Ôöö Crear un evento
+  POST http://localhost:8999/api/shelters/9/events 2026-10-11T12:00:41.290-05:00  INFO 1792 --- [nio-8999-exec-2] c.e.u.mdp.pets.services.EventService     : Starts event creation process for shelter with id = 9
+2026-10-11T12:00:41.293-05:00  INFO 1792 --- [nio-8999-exec-2] c.e.u.mdp.pets.services.EventService     : Event creation process ends
+[201 Created, 560B, 12ms]
+  ÔêÜ  Status code is 201
+  ÔêÜ  Response echoes the event and its shelter
+
+Ôöö Crear un segundo evento
+  POST http://localhost:8999/api/shelters/9/events 2026-10-11T12:00:41.350-05:00  INFO 1792 --- [nio-8999-exec-3] c.e.u.mdp.pets.services.EventService     : Starts event creation process for shelter with id = 9
+2026-10-11T12:00:41.353-05:00  INFO 1792 --- [nio-8999-exec-3] c.e.u.mdp.pets.services.EventService     : Event creation process ends
+[201 Created, 550B, 12ms]
+  ÔêÜ  Status code is 201
+  ÔêÜ  Event belongs to the shelter
+
+Ôöö Crear un evento sin tipo
+  POST http://localhost:8999/api/shelters/9/events 2026-10-11T12:00:41.450-05:00  INFO 1792 --- [nio-8999-exec-4] c.e.u.mdp.pets.services.EventService     : Starts event creation process for shelter with id = 9
+2026-10-11T12:00:41.455-05:00  INFO 1792 --- [nio-8999-exec-4] c.e.u.mdp.pets.services.EventService     : Event creation process ends
+[201 Created, 564B, 19ms]
+  ÔêÜ  Status code is 201
+  ÔêÜ  type is optional
+
+Ôöö Crear el mismo evento en otro refugio
+  POST http://localhost:8999/api/shelters/10/events 2026-10-11T12:00:41.536-05:00  INFO 1792 --- [nio-8999-exec-5] c.e.u.mdp.pets.services.EventService     : Starts event creation process for shelter with id = 10
+2026-10-11T12:00:41.539-05:00  INFO 1792 --- [nio-8999-exec-5] c.e.u.mdp.pets.services.EventService     : Event creation process ends
+[201 Created, 563B, 10ms]
+  ÔêÜ  Status code is 201
+  ÔêÜ  Duplicates are only checked inside one shelter
+
+Ôûí ShelterEvents / 01b Reglas de creacion
+Ôöö Crear un evento sin nombre
+  POST http://localhost:8999/api/shelters/9/events 2026-10-11T12:00:41.628-05:00  INFO 1792 --- [nio-8999-exec-6] c.e.u.mdp.pets.services.EventService     : Starts event creation process for shelter with id = 9
+[412 Precondition Failed, 390B, 7ms]
+  ÔêÜ  Status code is 412
+  ÔêÜ  Get expected error message
+
+Ôöö Crear un evento sin fecha
+  POST http://localhost:8999/api/shelters/9/events 2026-10-11T12:00:41.720-05:00  INFO 1792 --- [nio-8999-exec-7] c.e.u.mdp.pets.services.EventService     : Starts event creation process for shelter with id = 9
+[412 Precondition Failed, 381B, 5ms]
+  ÔêÜ  Status code is 412
+  ÔêÜ  Get expected error message
+
+Ôöö Crear un evento sin hora
+  POST http://localhost:8999/api/shelters/9/events 2026-10-11T12:00:41.813-05:00  INFO 1792 --- [nio-8999-exec-8] c.e.u.mdp.pets.services.EventService     : Starts event creation process for shelter with id = 9
+[412 Precondition Failed, 390B, 6ms]
+  ÔêÜ  Status code is 412
+  ÔêÜ  Get expected error message
+
+Ôöö Crear un evento sin descripcion
+  POST http://localhost:8999/api/shelters/9/events 2026-10-11T12:00:41.907-05:00  INFO 1792 --- [nio-8999-exec-9] c.e.u.mdp.pets.services.EventService     : Starts event creation process for shelter with id = 9
+[412 Precondition Failed, 397B, 6ms]
+  ÔêÜ  Status code is 412
+  ÔêÜ  Get expected error message
+
+Ôöö Crear un evento sin ubicacion
+  POST http://localhost:8999/api/shelters/9/events 2026-10-11T12:00:42.002-05:00  INFO 1792 --- [io-8999-exec-10] c.e.u.mdp.pets.services.EventService     : Starts event creation process for shelter with id = 9
+[412 Precondition Failed, 394B, 8ms]
+  ÔêÜ  Status code is 412
+  ÔêÜ  Get expected error message
+
+Ôöö Crear un evento con fecha pasada
+  POST http://localhost:8999/api/shelters/9/events 2026-10-11T12:00:42.097-05:00  INFO 1792 --- [nio-8999-exec-1] c.e.u.mdp.pets.services.EventService     : Starts event creation process for shelter with id = 9
+[412 Precondition Failed, 412B, 10ms]
+  ÔêÜ  Status code is 412
+  ÔêÜ  Get expected error message
+
+Ôöö Crear un evento duplicado
+  POST http://localhost:8999/api/shelters/9/events 2026-10-11T12:00:42.190-05:00  INFO 1792 --- [nio-8999-exec-2] c.e.u.mdp.pets.services.EventService     : Starts event creation process for shelter with id = 9
+[412 Precondition Failed, 440B, 12ms]
+  ÔêÜ  Status code is 412
+  ÔêÜ  Get expected error message
+
+Ôöö Crear un evento en un refugio que no existe
+  POST http://localhost:8999/api/shelters/999999/events 2026-10-11T12:00:42.283-05:00  INFO 1792 --- [nio-8999-exec-3] c.e.u.mdp.pets.services.EventService     : Starts event creation process for shelter with id = 999999
+[404 Not Found, 359B, 5ms]
+  ÔêÜ  Status code is 404
+  ÔêÜ  Get expected error message
+
+Ôöö Crear un evento con un id de refugio invalido
+  POST http://localhost:8999/api/shelters/0/events 2026-10-11T12:00:42.363-05:00  INFO 1792 --- [nio-8999-exec-4] c.e.u.mdp.pets.services.EventService     : Starts event creation process for shelter with id = 0
+[412 Precondition Failed, 385B, 5ms]
+  ÔêÜ  Status code is 412
+  ÔêÜ  Get expected error message
+
+Ôûí ShelterEvents / 02 Consultar
+Ôöö Obtener todos los eventos de un refugio
+  GET http://localhost:8999/api/shelters/9/events 2026-10-11T12:00:42.453-05:00  INFO 1792 --- [nio-8999-exec-5] c.e.u.mdp.pets.services.EventService     : Starts the process of consulting events for shelter with id = 9
+2026-10-11T12:00:42.456-05:00  INFO 1792 --- [nio-8999-exec-5] c.e.u.mdp.pets.services.EventService     : Finishes the process of consulting events for shelter with id = 9
+[200 OK, 1.1kB, 11ms]
+  ÔêÜ  Status code is 200
+  ÔêÜ  Only the events of this shelter
+
+Ôöö Obtener los eventos de un refugio sin eventos
+  GET http://localhost:8999/api/shelters/11/events 2026-10-11T12:00:42.546-05:00  INFO 1792 --- [nio-8999-exec-6] c.e.u.mdp.pets.services.EventService     : Starts the process of consulting events for shelter with id = 11
+2026-10-11T12:00:42.549-05:00  INFO 1792 --- [nio-8999-exec-6] c.e.u.mdp.pets.services.EventService     : There are no recorded events for shelter with id = 11
+2026-10-11T12:00:42.549-05:00  INFO 1792 --- [nio-8999-exec-6] c.e.u.mdp.pets.services.EventService     : Finishes the process of consulting events for shelter with id = 11
+[200 OK, 255B, 10ms]
+  ÔêÜ  Status code is 200
+  ÔêÜ  Empty list
+
+Ôöö Obtener un evento
+  GET http://localhost:8999/api/shelters/9/events/4 2026-10-11T12:00:42.642-05:00  INFO 1792 --- [nio-8999-exec-7] c.e.u.mdp.pets.services.EventService     : Starts the process of consulting event with id = 4 of shelter with id = 9
+2026-10-11T12:00:42.644-05:00  INFO 1792 --- [nio-8999-exec-7] c.e.u.mdp.pets.services.EventService     : Finishes the process of consulting event with id = 4 of shelter with id = 9
+[200 OK, 536B, 8ms]
+  ÔêÜ  Status code is 200
+  ÔêÜ  The requested event
+
+Ôöö Obtener un evento que no existe
+  GET http://localhost:8999/api/shelters/9/events/999999 2026-10-11T12:00:42.733-05:00  INFO 1792 --- [nio-8999-exec-8] c.e.u.mdp.pets.services.EventService     : Starts the process of consulting event with id = 999999 of shelter with id = 9
+[404 Not Found, 357B, 7ms]
+  ÔêÜ  Status code is 404
+  ÔêÜ  Get expected error message
+
+Ôöö Obtener un evento con un id invalido
+  GET http://localhost:8999/api/shelters/9/events/0 2026-10-11T12:00:42.826-05:00  INFO 1792 --- [nio-8999-exec-9] c.e.u.mdp.pets.services.EventService     : Starts the process of consulting event with id = 0 of shelter with id = 9
+[412 Precondition Failed, 383B, 6ms]
+  ÔêÜ  Status code is 412
+  ÔêÜ  Get expected error message
+
+Ôöö Obtener un evento de un refugio que no existe
+  GET http://localhost:8999/api/shelters/999999/events/4 2026-10-11T12:00:42.919-05:00  INFO 1792 --- [io-8999-exec-10] c.e.u.mdp.pets.services.EventService     : Starts the process of consulting event with id = 4 of shelter with id = 999999
+[404 Not Found, 359B, 5ms]
+  ÔêÜ  Status code is 404
+  ÔêÜ  Get expected error message
+
+Ôöö Obtener los eventos de un refugio que no existe
+  GET http://localhost:8999/api/shelters/999999/events 2026-10-11T12:00:43.014-05:00  INFO 1792 --- [nio-8999-exec-1] c.e.u.mdp.pets.services.EventService     : Starts the process of consulting events for shelter with id = 999999
+[404 Not Found, 359B, 6ms]
+  ÔêÜ  Status code is 404
+  ÔêÜ  Get expected error message
+
+Ôöö Obtener un evento que no pertenece al refugio
+  GET http://localhost:8999/api/shelters/10/events/4 2026-10-11T12:00:43.106-05:00  INFO 1792 --- [nio-8999-exec-2] c.e.u.mdp.pets.services.EventService     : Starts the process of consulting event with id = 4 of shelter with id = 10
+[412 Precondition Failed, 406B, 8ms]
+  ÔêÜ  Status code is 412
+  ÔêÜ  Get expected error message
+
+Ôûí ShelterEvents / 03 Editar
+Ôöö Editar un evento
+  PUT http://localhost:8999/api/shelters/9/events/4 2026-10-11T12:00:43.201-05:00  INFO 1792 --- [nio-8999-exec-3] c.e.u.mdp.pets.services.EventService     : Starts process of updating event with id = 4 of shelter with id = 9
+2026-10-11T12:00:43.205-05:00  INFO 1792 --- [nio-8999-exec-3] c.e.u.mdp.pets.services.EventService     : Finish process of updating event with id = 4 of shelter with id = 9
+[200 OK, 542B, 14ms]
+  ÔêÜ  Status code is 200
+  ÔêÜ  Changed attributes are returned; shelter is kept
+
+Ôöö Editar un evento que no existe
+  PUT http://localhost:8999/api/shelters/9/events/999999 2026-10-11T12:00:43.308-05:00  INFO 1792 --- [nio-8999-exec-4] c.e.u.mdp.pets.services.EventService     : Starts process of updating event with id = 999999 of shelter with id = 9
+[404 Not Found, 357B, 7ms]
+  ÔêÜ  Status code is 404
+  ÔêÜ  Get expected error message
+
+Ôöö Editar un evento con un id invalido
+  PUT http://localhost:8999/api/shelters/9/events/0 2026-10-11T12:00:43.400-05:00  INFO 1792 --- [nio-8999-exec-5] c.e.u.mdp.pets.services.EventService     : Starts process of updating event with id = 0 of shelter with id = 9
+[412 Precondition Failed, 383B, 6ms]
+  ÔêÜ  Status code is 412
+  ÔêÜ  Get expected error message
+
+Ôöö Editar un evento de un refugio que no existe
+  PUT http://localhost:8999/api/shelters/999999/events/4 2026-10-11T12:00:43.476-05:00  INFO 1792 --- [nio-8999-exec-6] c.e.u.mdp.pets.services.EventService     : Starts process of updating event with id = 4 of shelter with id = 999999
+[404 Not Found, 359B, 6ms]
+  ÔêÜ  Status code is 404
+  ÔêÜ  Get expected error message
+
+Ôöö Editar un evento que no pertenece al refugio
+  PUT http://localhost:8999/api/shelters/10/events/4 2026-10-11T12:00:43.570-05:00  INFO 1792 --- [nio-8999-exec-7] c.e.u.mdp.pets.services.EventService     : Starts process of updating event with id = 4 of shelter with id = 10
+[412 Precondition Failed, 406B, 6ms]
+  ÔêÜ  Status code is 412
+  ÔêÜ  Get expected error message
+
+Ôöö Editar un evento con nombre vacio
+  PUT http://localhost:8999/api/shelters/9/events/4 2026-10-11T12:00:43.662-05:00  INFO 1792 --- [nio-8999-exec-8] c.e.u.mdp.pets.services.EventService     : Starts process of updating event with id = 4 of shelter with id = 9
+[412 Precondition Failed, 390B, 5ms]
+  ÔêÜ  Status code is 412
+  ÔêÜ  Get expected error message
+
+Ôöö Editar un evento con fecha pasada
+  PUT http://localhost:8999/api/shelters/9/events/4 2026-10-11T12:00:43.756-05:00  INFO 1792 --- [nio-8999-exec-9] c.e.u.mdp.pets.services.EventService     : Starts process of updating event with id = 4 of shelter with id = 9
+[412 Precondition Failed, 412B, 6ms]
+  ÔêÜ  Status code is 412
+  ÔêÜ  Get expected error message
+
+Ôöö Editar un evento generando un duplicado
+  PUT http://localhost:8999/api/shelters/9/events/5 2026-10-11T12:00:43.850-05:00  INFO 1792 --- [io-8999-exec-10] c.e.u.mdp.pets.services.EventService     : Starts process of updating event with id = 5 of shelter with id = 9
+[412 Precondition Failed, 440B, 7ms]
+  ÔêÜ  Status code is 412
+  ÔêÜ  Get expected error message
+
+Ôûí ShelterEvents / 03b Relacion Shelter - Event
+Ôöö El refugio lista sus eventos
+  GET http://localhost:8999/api/shelters/9 2026-10-11T12:00:43.943-05:00  INFO 1792 --- [nio-8999-exec-1] c.e.u.mdp.pets.services.ShelterService   : The process of consulting a shelter through filters begins
+2026-10-11T12:00:43.944-05:00  INFO 1792 --- [nio-8999-exec-1] c.e.u.mdp.pets.services.ShelterService   : The process of consulting a shelter through filters ends
+[200 OK, 1.37kB, 17ms]
+  ÔêÜ  Status code is 200
+  ÔêÜ  ShelterDetail.events contains the three events
+
+Ôöö Borrar un refugio con eventos
+  DELETE http://localhost:8999/api/shelters/9 2026-10-11T12:00:44.036-05:00  INFO 1792 --- [nio-8999-exec-2] c.e.u.mdp.pets.services.ShelterService   : Starts process of deleting the shelter with id = 9
+[412 Precondition Failed, 448B, 17ms]
+  ÔêÜ  Status code is 412
+  ÔêÜ  Get expected error message
+
+Ôûí ShelterEvents / 04 Borrar
+Ôöö Borrar un evento
+  DELETE http://localhost:8999/api/shelters/9/events/6 2026-10-11T12:00:44.148-05:00  INFO 1792 --- [nio-8999-exec-3] c.e.u.mdp.pets.services.EventService     : Starts process of deleting event with id = 6 of shelter with id = 9
+2026-10-11T12:00:44.150-05:00  INFO 1792 --- [nio-8999-exec-3] c.e.u.mdp.pets.services.EventService     : Finish process of deleting event with id = 6 of shelter with id = 9
+[204 No Content, 201B, 9ms]
+  ÔêÜ  Status code is 204
+
+Ôöö Obtener el evento borrado
+  GET http://localhost:8999/api/shelters/9/events/6 2026-10-11T12:00:44.238-05:00  INFO 1792 --- [nio-8999-exec-4] c.e.u.mdp.pets.services.EventService     : Starts the process of consulting event with id = 6 of shelter with id = 9
+[404 Not Found, 357B, 6ms]
+  ÔêÜ  Status code is 404
+  ÔêÜ  Get expected error message
+
+Ôöö Borrar un evento que no existe
+  DELETE http://localhost:8999/api/shelters/9/events/999999 2026-10-11T12:00:44.331-05:00  INFO 1792 --- [nio-8999-exec-5] c.e.u.mdp.pets.services.EventService     : Starts process of deleting event with id = 999999 of shelter with id = 9
+[404 Not Found, 357B, 11ms]
+  ÔêÜ  Status code is 404
+  ÔêÜ  Get expected error message
+
+Ôöö Borrar un evento con un id invalido
+  DELETE http://localhost:8999/api/shelters/9/events/0 2026-10-11T12:00:44.424-05:00  INFO 1792 --- [nio-8999-exec-6] c.e.u.mdp.pets.services.EventService     : Starts process of deleting event with id = 0 of shelter with id = 9
+[412 Precondition Failed, 383B, 6ms]
+  ÔêÜ  Status code is 412
+  ÔêÜ  Get expected error message
+
+Ôöö Borrar un evento de un refugio que no existe
+  DELETE http://localhost:8999/api/shelters/999999/events/4 2026-10-11T12:00:44.517-05:00  INFO 1792 --- [nio-8999-exec-7] c.e.u.mdp.pets.services.EventService     : Starts process of deleting event with id = 4 of shelter with id = 999999
+[404 Not Found, 359B, 5ms]
+  ÔêÜ  Status code is 404
+  ÔêÜ  Get expected error message
+
+Ôöö Borrar un evento que no pertenece al refugio
+  DELETE http://localhost:8999/api/shelters/10/events/4 2026-10-11T12:00:44.611-05:00  INFO 1792 --- [nio-8999-exec-8] c.e.u.mdp.pets.services.EventService     : Starts process of deleting event with id = 4 of shelter with id = 10
+[412 Precondition Failed, 406B, 7ms]
+  ÔêÜ  Status code is 412
+  ÔêÜ  Get expected error message
+
+Ôûí ShelterEvents / 05 Limpieza
+Ôöö Borrar el primer evento
+  DELETE http://localhost:8999/api/shelters/9/events/4 2026-10-11T12:00:44.705-05:00  INFO 1792 --- [nio-8999-exec-9] c.e.u.mdp.pets.services.EventService     : Starts process of deleting event with id = 4 of shelter with id = 9
+2026-10-11T12:00:44.707-05:00  INFO 1792 --- [nio-8999-exec-9] c.e.u.mdp.pets.services.EventService     : Finish process of deleting event with id = 4 of shelter with id = 9
+[204 No Content, 201B, 6ms]
+  ÔêÜ  Status code is 204
+
+Ôöö Borrar el segundo evento
+  DELETE http://localhost:8999/api/shelters/9/events/5 2026-10-11T12:00:44.801-05:00  INFO 1792 --- [io-8999-exec-10] c.e.u.mdp.pets.services.EventService     : Starts process of deleting event with id = 5 of shelter with id = 9
+2026-10-11T12:00:44.802-05:00  INFO 1792 --- [io-8999-exec-10] c.e.u.mdp.pets.services.EventService     : Finish process of deleting event with id = 5 of shelter with id = 9
+[204 No Content, 201B, 5ms]
+  ÔêÜ  Status code is 204
+
+Ôöö Borrar el evento del otro refugio
+  DELETE http://localhost:8999/api/shelters/10/events/7 2026-10-11T12:00:44.878-05:00  INFO 1792 --- [nio-8999-exec-1] c.e.u.mdp.pets.services.EventService     : Starts process of deleting event with id = 7 of shelter with id = 10
+2026-10-11T12:00:44.880-05:00  INFO 1792 --- [nio-8999-exec-1] c.e.u.mdp.pets.services.EventService     : Finish process of deleting event with id = 7 of shelter with id = 10
+[204 No Content, 201B, 5ms]
+  ÔêÜ  Status code is 204
+
+Ôöö El refugio ya no lista eventos
+  GET http://localhost:8999/api/shelters/9 2026-10-11T12:00:44.973-05:00  INFO 1792 --- [nio-8999-exec-2] c.e.u.mdp.pets.services.ShelterService   : The process of consulting a shelter through filters begins
+2026-10-11T12:00:44.975-05:00  INFO 1792 --- [nio-8999-exec-2] c.e.u.mdp.pets.services.ShelterService   : The process of consulting a shelter through filters ends
+[200 OK, 537B, 21ms]
+  ÔêÜ  Status code is 200
+  ÔêÜ  ShelterDetail.events is empty
+
+Ôöö Borrar el refugio A sin eventos
+  DELETE http://localhost:8999/api/shelters/9 2026-10-11T12:00:45.079-05:00  INFO 1792 --- [nio-8999-exec-3] c.e.u.mdp.pets.services.ShelterService   : Starts process of deleting the shelter with id = 9
+2026-10-11T12:00:45.101-05:00  INFO 1792 --- [nio-8999-exec-3] c.e.u.mdp.pets.services.ShelterService   : Finish process of deleting the shelter with id = 9
+[204 No Content, 201B, 27ms]
+  ÔêÜ  Status code is 204
+
+Ôöö Borrar el refugio B
+  DELETE http://localhost:8999/api/shelters/10 2026-10-11T12:00:45.189-05:00  INFO 1792 --- [nio-8999-exec-4] c.e.u.mdp.pets.services.ShelterService   : Starts process of deleting the shelter with id = 10
+2026-10-11T12:00:45.205-05:00  INFO 1792 --- [nio-8999-exec-4] c.e.u.mdp.pets.services.ShelterService   : Finish process of deleting the shelter with id = 10
+[204 No Content, 201B, 21ms]
+  ÔêÜ  Status code is 204
+
+Ôöö Borrar el refugio C
+  DELETE http://localhost:8999/api/shelters/11 2026-10-11T12:00:45.298-05:00  INFO 1792 --- [nio-8999-exec-5] c.e.u.mdp.pets.services.ShelterService   : Starts process of deleting the shelter with id = 11
+2026-10-11T12:00:45.316-05:00  INFO 1792 --- [nio-8999-exec-5] c.e.u.mdp.pets.services.ShelterService   : Finish process of deleting the shelter with id = 11
+[204 No Content, 201B, 23ms]
+  ÔêÜ  Status code is 204
+
+Ôûí ShelterPets / 00 Preparacion
+Ôöö Preparacion: crear refugio A
+  POST http://localhost:8999/api/shelters 2026-10-11T12:00:45.407-05:00  INFO 1792 --- [nio-8999-exec-6] c.e.u.mdp.pets.services.ShelterService   : Refuge creation process begins
+2026-10-11T12:00:45.410-05:00  INFO 1792 --- [nio-8999-exec-6] c.e.u.mdp.pets.services.ShelterService   : Shelter creation process ends
+[201 Created, 370B, 12ms]
+  ÔêÜ  Status code is 201
+
+Ôöö Preparacion: crear refugio B
+  POST http://localhost:8999/api/shelters 2026-10-11T12:00:45.499-05:00  INFO 1792 --- [nio-8999-exec-7] c.e.u.mdp.pets.services.ShelterService   : Refuge creation process begins
+2026-10-11T12:00:45.502-05:00  INFO 1792 --- [nio-8999-exec-7] c.e.u.mdp.pets.services.ShelterService   : Shelter creation process ends
+[201 Created, 372B, 10ms]
+  ÔêÜ  Status code is 201
+
+Ôûí ShelterPets / 01 Crear mascotas en refugios
+Ôöö Crear una mascota en el refugio A
+  POST http://localhost:8999/api/pets 2026-10-11T12:00:45.591-05:00  INFO 1792 --- [nio-8999-exec-8] c.e.u.mdp.pets.services.PetService       : Start the pet creation process
+2026-10-11T12:00:45.597-05:00  INFO 1792 --- [nio-8999-exec-8] c.e.u.mdp.pets.services.PetService       : Pet creation process ends
+[201 Created, 993B, 12ms]
+  ÔêÜ  Status code is 201
+  ÔêÜ  Pet is assigned to shelter A
+
+Ôöö Crear una mascota con los mismos datos en el refugio B
+  POST http://localhost:8999/api/pets 2026-10-11T12:00:45.683-05:00  INFO 1792 --- [nio-8999-exec-9] c.e.u.mdp.pets.services.PetService       : Start the pet creation process
+2026-10-11T12:00:45.689-05:00  INFO 1792 --- [nio-8999-exec-9] c.e.u.mdp.pets.services.PetService       : Pet creation process ends
+[201 Created, 996B, 11ms]
+  ÔêÜ  Status code is 201
+  ÔêÜ  The duplicate rule only applies inside a shelter
+
+Ôûí ShelterPets / 02 Consultar la relacion
+Ôöö El refugio A lista su mascota
+  GET http://localhost:8999/api/shelters/12 2026-10-11T12:00:45.776-05:00  INFO 1792 --- [io-8999-exec-10] c.e.u.mdp.pets.services.ShelterService   : The process of consulting a shelter through filters begins
+2026-10-11T12:00:45.778-05:00  INFO 1792 --- [io-8999-exec-10] c.e.u.mdp.pets.services.ShelterService   : The process of consulting a shelter through filters ends
+[200 OK, 1.04kB, 17ms]
+  ÔêÜ  Status code is 200
+  ÔêÜ  ShelterDetail.pets has only the pet of shelter A
+
+Ôöö La mascota referencia su refugio
+  GET http://localhost:8999/api/pets/9 2026-10-11T12:00:45.884-05:00  INFO 1792 --- [nio-8999-exec-1] c.e.u.mdp.pets.services.PetService       : Start the process of consulting the pet with id = 9
+2026-10-11T12:00:45.885-05:00  INFO 1792 --- [nio-8999-exec-1] c.e.u.mdp.pets.services.PetService       : Finish the process of consulting the pet with id = 9
+[200 OK, 950B, 16ms]
+  ÔêÜ  Status code is 200
+  ÔêÜ  PetDetail.shelter is shelter A
+
+Ôûí ShelterPets / 03 Mover una mascota de refugio
+Ôöö Mover una mascota a un refugio donde ya existe una igual
+  PUT http://localhost:8999/api/pets/9 2026-10-11T12:00:45.993-05:00  INFO 1792 --- [nio-8999-exec-2] c.e.u.mdp.pets.services.PetService       : Starts process of updating the pet with id = 9
+[412 Precondition Failed, 438B, 12ms]
+  ÔêÜ  Status code is 412
+  ÔêÜ  Get expected error message
+
+Ôöö Mover una mascota a un refugio que no existe
+  PUT http://localhost:8999/api/pets/9 2026-10-11T12:00:46.086-05:00  INFO 1792 --- [nio-8999-exec-3] c.e.u.mdp.pets.services.PetService       : Starts process of updating the pet with id = 9
+[404 Not Found, 385B, 7ms]
+  ÔêÜ  Status code is 404
+  ÔêÜ  Get expected error message
+
+Ôöö Mover una mascota al refugio B
+  PUT http://localhost:8999/api/pets/9 2026-10-11T12:00:46.181-05:00  INFO 1792 --- [nio-8999-exec-4] c.e.u.mdp.pets.services.PetService       : Starts process of updating the pet with id = 9
+2026-10-11T12:00:46.185-05:00  INFO 1792 --- [nio-8999-exec-4] c.e.u.mdp.pets.services.PetService       : Finish process of updating pet with id = 9
+[200 OK, 768B, 14ms]
+  ÔêÜ  Status code is 200
+  ÔêÜ  The pet now belongs to shelter B
+
+Ôûí ShelterPets / 03b Verificar el movimiento
+Ôöö El refugio A ya no lista la mascota
+  GET http://localhost:8999/api/shelters/12 2026-10-11T12:00:46.273-05:00  INFO 1792 --- [nio-8999-exec-5] c.e.u.mdp.pets.services.ShelterService   : The process of consulting a shelter through filters begins
+2026-10-11T12:00:46.274-05:00  INFO 1792 --- [nio-8999-exec-5] c.e.u.mdp.pets.services.ShelterService   : The process of consulting a shelter through filters ends
+[200 OK, 538B, 19ms]
+  ÔêÜ  Status code is 200
+  ÔêÜ  Shelter A has no pets
+
+Ôöö El refugio B lista ambas mascotas
+  GET http://localhost:8999/api/shelters/13 2026-10-11T12:00:46.381-05:00  INFO 1792 --- [nio-8999-exec-6] c.e.u.mdp.pets.services.ShelterService   : The process of consulting a shelter through filters begins
+2026-10-11T12:00:46.385-05:00  INFO 1792 --- [nio-8999-exec-6] c.e.u.mdp.pets.services.ShelterService   : The process of consulting a shelter through filters ends
+[200 OK, 1.56kB, 26ms]
+  ÔêÜ  Status code is 200
+  ÔêÜ  Shelter B has both pets
+
+Ôûí ShelterPets / 04 Borrar
+Ôöö Borrar un refugio con mascotas
+  DELETE http://localhost:8999/api/shelters/13 2026-10-11T12:00:46.491-05:00  INFO 1792 --- [nio-8999-exec-7] c.e.u.mdp.pets.services.ShelterService   : Starts process of deleting the shelter with id = 13
+[412 Precondition Failed, 424B, 11ms]
+  ÔêÜ  Status code is 412
+  ÔêÜ  Get expected error message
+
+Ôöö Borrar la primera mascota
+  DELETE http://localhost:8999/api/pets/9 2026-10-11T12:00:46.584-05:00  INFO 1792 --- [nio-8999-exec-8] c.e.u.mdp.pets.services.PetService       : Start the process of deleting the pet with id = 9
+2026-10-11T12:00:46.592-05:00  INFO 1792 --- [nio-8999-exec-8] c.e.u.mdp.pets.services.PetService       : Finish the process of deleting the pet with id = 9
+[204 No Content, 201B, 12ms]
+  ÔêÜ  Status code is 204
+
+Ôöö Borrar la segunda mascota
+  DELETE http://localhost:8999/api/pets/10 2026-10-11T12:00:46.678-05:00  INFO 1792 --- [nio-8999-exec-9] c.e.u.mdp.pets.services.PetService       : Start the process of deleting the pet with id = 10
+2026-10-11T12:00:46.684-05:00  INFO 1792 --- [nio-8999-exec-9] c.e.u.mdp.pets.services.PetService       : Finish the process of deleting the pet with id = 10
+[204 No Content, 201B, 11ms]
+  ÔêÜ  Status code is 204
+
+Ôöö El refugio B ya no lista mascotas
+  GET http://localhost:8999/api/shelters/13 2026-10-11T12:00:46.772-05:00  INFO 1792 --- [io-8999-exec-10] c.e.u.mdp.pets.services.ShelterService   : The process of consulting a shelter through filters begins
+2026-10-11T12:00:46.774-05:00  INFO 1792 --- [io-8999-exec-10] c.e.u.mdp.pets.services.ShelterService   : The process of consulting a shelter through filters ends
+[200 OK, 540B, 20ms]
+  ÔêÜ  Status code is 200
+  ÔêÜ  Shelter B has no pets
+
+Ôöö Borrar el refugio B sin mascotas
+  DELETE http://localhost:8999/api/shelters/13 2026-10-11T12:00:46.881-05:00  INFO 1792 --- [nio-8999-exec-1] c.e.u.mdp.pets.services.ShelterService   : Starts process of deleting the shelter with id = 13
+2026-10-11T12:00:46.895-05:00  INFO 1792 --- [nio-8999-exec-1] c.e.u.mdp.pets.services.ShelterService   : Finish process of deleting the shelter with id = 13
+[204 No Content, 201B, 19ms]
+  ÔêÜ  Status code is 204
+
+Ôöö Borrar el refugio A sin mascotas
+  DELETE http://localhost:8999/api/shelters/12 2026-10-11T12:00:46.990-05:00  INFO 1792 --- [nio-8999-exec-2] c.e.u.mdp.pets.services.ShelterService   : Starts process of deleting the shelter with id = 12
+2026-10-11T12:00:47.005-05:00  INFO 1792 --- [nio-8999-exec-2] c.e.u.mdp.pets.services.ShelterService   : Finish process of deleting the shelter with id = 12
+[204 No Content, 201B, 20ms]
+  ÔêÜ  Status code is 204
+
+Ôûí TrialCohabitation
+Ôöö Crear una convivencia de prueba
+  POST http://localhost:8999/api/trialCohabitations 2026-10-11T12:00:47.098-05:00  WARN 1792 --- [nio-8999-exec-3] o.s.web.servlet.PageNotFound             : Request method 'POST' is not supported
+[405 Method Not Allowed, 344B, 3ms]
+
+Ôöö Crear una convivencia sin fecha de inicio
+  POST http://localhost:8999/api/trialCohabitations 2026-10-11T12:00:47.191-05:00  WARN 1792 --- [nio-8999-exec-4] o.s.web.servlet.PageNotFound             : Request method 'POST' is not supported
+[405 Method Not Allowed, 344B, 3ms]
+
+Ôöö Crear una convivencia con fecha de inicio pasada
+  POST http://localhost:8999/api/trialCohabitations 2026-10-11T12:00:47.284-05:00  WARN 1792 --- [nio-8999-exec-5] o.s.web.servlet.PageNotFound             : Request method 'POST' is not supported
+[405 Method Not Allowed, 344B, 3ms]
+
+Ôöö Crear una convivencia sin adoptante
+  POST http://localhost:8999/api/trialCohabitations 2026-10-11T12:00:47.379-05:00  WARN 1792 --- [nio-8999-exec-6] o.s.web.servlet.PageNotFound             : Request method 'POST' is not supported
+[405 Method Not Allowed, 344B, 3ms]
+
+Ôöö Crear una convivencia sin refugio
+  POST http://localhost:8999/api/trialCohabitations 2026-10-11T12:00:47.473-05:00  WARN 1792 --- [nio-8999-exec-7] o.s.web.servlet.PageNotFound             : Request method 'POST' is not supported
+[405 Method Not Allowed, 344B, 3ms]
+
+Ôöö Crear una convivencia sin solicitud
+  POST http://localhost:8999/api/trialCohabitations 2026-10-11T12:00:47.566-05:00  WARN 1792 --- [nio-8999-exec-8] o.s.web.servlet.PageNotFound             : Request method 'POST' is not supported
+[405 Method Not Allowed, 344B, 5ms]
+
+Ôöö Crear una convivencia con adoptante inexistente
+  POST http://localhost:8999/api/trialCohabitations 2026-10-11T12:00:47.659-05:00  WARN 1792 --- [nio-8999-exec-9] o.s.web.servlet.PageNotFound             : Request method 'POST' is not supported
+[405 Method Not Allowed, 315B, 4ms]
+
+Ôöö Crear una convivencia con refugio inexistente
+  POST http://localhost:8999/api/trialCohabitations 2026-10-11T12:00:47.738-05:00  WARN 1792 --- [nio-8999-exec-1] o.s.web.servlet.PageNotFound             : Request method 'POST' is not supported
+[405 Method Not Allowed, 344B, 5ms]
+
+Ôöö Crear una convivencia con solicitud inexistente o mascota inexistente
+  POST http://localhost:8999/api/trialCohabitations 2026-10-11T12:00:47.830-05:00  WARN 1792 --- [nio-8999-exec-2] o.s.web.servlet.PageNotFound             : Request method 'POST' is not supported
+[405 Method Not Allowed, 344B, 5ms]
+
+Ôöö Crear una convivencia de una mascota en otra convivencia en curso
+  POST http://localhost:8999/api/trialCohabitations 2026-10-11T12:00:47.922-05:00  WARN 1792 --- [nio-8999-exec-3] o.s.web.servlet.PageNotFound             : Request method 'POST' is not supported
+[405 Method Not Allowed, 344B, 4ms]
+
+Ôöö Obtener todas las convivencias de prueba
+  GET http://localhost:8999/api/trialCohabitations [200 OK, 309B, 6ms]
+
+Ôöö Obtener convivencias por estado
+  GET http://localhost:8999/api/trialCohabitations?status=PENDING [200 OK, 309B, 5ms]
+
+Ôöö Obtener convivencias por rango de fechas
+  GET http://localhost:8999/api/trialCohabitations?startDate=2026-10-20T00:00:00-05:00&endDate=2026-12-20T00:00:00-05:00 [200 OK, 309B, 4ms]
+
+Ôöö Obtener convivencias con todos los filtros combinados
+  GET http://localhost:8999/api/trialCohabitations?status=PENDING&startDate=2026-10-20T00:00:00-05:00&endDate=2026-12-20T00:00:00-05:00 [200 OK, 309B, 4ms]
+
+Ôöö Obtener convivencias con filtros que no coinciden
+  GET http://localhost:8999/api/trialCohabitations?status=FINALIZED [200 OK, 309B, 3ms]
+
+Ôöö Obtener una convivencia por id
+  GET http://localhost:8999/api/trialCohabitations/1 [404 Not Found, 414B, 6ms]
+
+Ôöö Obtener una convivencia que no existe
+  GET http://localhost:8999/api/trialCohabitations/0 [404 Not Found, 414B, 5ms]
+
+Ôöö Obtener una convivencia con id invalido
+  GET http://localhost:8999/api/trialCohabitations/-1 [404 Not Found, 416B, 6ms]
+
+Ôöö Editar una convivencia de prueba
+  PUT http://localhost:8999/api/trialCohabitations/1 [404 Not Found, 414B, 4ms]
+
+Ôöö Editar una convivencia que no existe
+  PUT http://localhost:8999/api/trialCohabitations/0 [404 Not Found, 414B, 4ms]
+
+Ôöö Editar una convivencia con id invalido
+  PUT http://localhost:8999/api/trialCohabitations/-1 [404 Not Found, 416B, 4ms]
+
+Ôöö Editar una convivencia finalizada volviendo a en curso
+  PUT http://localhost:8999/api/trialCohabitations/3 [404 Not Found, 414B, 5ms]
+
+Ôöö Editar una convivencia sin fecha de inicio
+  PUT http://localhost:8999/api/trialCohabitations/1 [404 Not Found, 414B, 5ms]
+
+Ôöö Editar una convivencia sin fecha de fin
+  PUT http://localhost:8999/api/trialCohabitations/1 [404 Not Found, 414B, 4ms]
+
+Ôöö Editar una convivencia sin estado
+  PUT http://localhost:8999/api/trialCohabitations/1 [404 Not Found, 414B, 4ms]
+
+Ôöö Editar una convivencia sin observaciones
+  PUT http://localhost:8999/api/trialCohabitations/1 [404 Not Found, 414B, 5ms]
+
+Ôöö Borrar una convivencia en estado pendiente
+  DELETE http://localhost:8999/api/trialCohabitations/2 [404 Not Found, 414B, 5ms]
+
+Ôöö Borrar una convivencia en curso
+  DELETE http://localhost:8999/api/trialCohabitations/4 [404 Not Found, 414B, 5ms]
+
+Ôöö Borrar una convivencia finalizada
+  DELETE http://localhost:8999/api/trialCohabitations/3 [404 Not Found, 414B, 3ms]
+
+Ôöö Borrar una convivencia que no existe
+  DELETE http://localhost:8999/api/trialCohabitations/0 [404 Not Found, 414B, 4ms]
+
+Ôöö Borrar una convivencia con id invalido
+  DELETE http://localhost:8999/api/trialCohabitations/-1 [404 Not Found, 416B, 4ms]
+
+Ôûí TrialCohabitationRequest
+Ôöö Crear una solicitud de convivencia de prueba
+  POST http://localhost:8999/api/trialCohabitationRequests 2026-10-11T12:00:49.898-05:00  WARN 1792 --- [nio-8999-exec-5] o.s.web.servlet.PageNotFound             : Request method 'POST' is not supported
+[405 Method Not Allowed, 351B, 4ms]
+
+Ôöö Crear una solicitud de convivencia de prueba sin estado
+  POST http://localhost:8999/api/trialCohabitationRequests 2026-10-11T12:00:49.974-05:00  WARN 1792 --- [nio-8999-exec-6] o.s.web.servlet.PageNotFound             : Request method 'POST' is not supported
+[405 Method Not Allowed, 351B, 3ms]
+
+Ôöö Crear una solicitud de convivencia de prueba sin fecha
+  POST http://localhost:8999/api/trialCohabitationRequests 2026-10-11T12:00:50.053-05:00  WARN 1792 --- [nio-8999-exec-7] o.s.web.servlet.PageNotFound             : Request method 'POST' is not supported
+[405 Method Not Allowed, 351B, 5ms]
+
+Ôöö Crear una solicitud de convivencia de prueba sin descripcion
+  POST http://localhost:8999/api/trialCohabitationRequests 2026-10-11T12:00:50.146-05:00  WARN 1792 --- [nio-8999-exec-8] o.s.web.servlet.PageNotFound             : Request method 'POST' is not supported
+[405 Method Not Allowed, 351B, 4ms]
+
+Ôöö Crear una solicitud de convivencia de prueba con un adoptante que no existe
+  POST http://localhost:8999/api/trialCohabitationRequests 2026-10-11T12:00:50.238-05:00  WARN 1792 --- [nio-8999-exec-9] o.s.web.servlet.PageNotFound             : Request method 'POST' is not supported
+[405 Method Not Allowed, 351B, 3ms]
+
+Ôöö Crear una solicitud de convivencia de prueba con un adoptante inactivo
+  POST http://localhost:8999/api/trialCohabitationRequests 2026-10-11T12:00:50.331-05:00  WARN 1792 --- [io-8999-exec-10] o.s.web.servlet.PageNotFound             : Request method 'POST' is not supported
+[405 Method Not Allowed, 351B, 4ms]
+
+Ôöö Crear una solicitud de convivencia de prueba con una mascota que no existe
+  POST http://localhost:8999/api/trialCohabitationRequests 2026-10-11T12:00:50.424-05:00  WARN 1792 --- [nio-8999-exec-1] o.s.web.servlet.PageNotFound             : Request method 'POST' is not supported
+[405 Method Not Allowed, 351B, 4ms]
+
+Ôöö Crear una solicitud de convivencia de prueba con una mascota inactiva
+  POST http://localhost:8999/api/trialCohabitationRequests 2026-10-11T12:00:50.517-05:00  WARN 1792 --- [nio-8999-exec-2] o.s.web.servlet.PageNotFound             : Request method 'POST' is not supported
+[405 Method Not Allowed, 351B, 3ms]
+
+Ôöö Crear una solicitud de convivencia de prueba con una mascota no disponible
+  POST http://localhost:8999/api/trialCohabitationRequests 2026-10-11T12:00:50.610-05:00  WARN 1792 --- [nio-8999-exec-3] o.s.web.servlet.PageNotFound             : Request method 'POST' is not supported
+[405 Method Not Allowed, 351B, 3ms]
+
+Ôöö Crear una solicitud de convivencia de prueba duplicada
+  POST http://localhost:8999/api/trialCohabitationRequests 2026-10-11T12:00:50.688-05:00  WARN 1792 --- [nio-8999-exec-4] o.s.web.servlet.PageNotFound             : Request method 'POST' is not supported
+[405 Method Not Allowed, 351B, 4ms]
+
+Ôöö Crear una solicitud de convivencia de prueba sin periodo de convivencia
+  POST http://localhost:8999/api/trialCohabitationRequests 2026-10-11T12:00:50.780-05:00  WARN 1792 --- [nio-8999-exec-5] o.s.web.servlet.PageNotFound             : Request method 'POST' is not supported
+[405 Method Not Allowed, 351B, 3ms]
+
+Ôöö Crear una solicitud de convivencia de prueba con fecha de inicio pasada
+  POST http://localhost:8999/api/trialCohabitationRequests 2026-10-11T12:00:50.874-05:00  WARN 1792 --- [nio-8999-exec-6] o.s.web.servlet.PageNotFound             : Request method 'POST' is not supported
+[405 Method Not Allowed, 351B, 4ms]
+
+Ôöö Crear una solicitud de convivencia de prueba con fecha de fin anterior a la de inicio
+  POST http://localhost:8999/api/trialCohabitationRequests 2026-10-11T12:00:50.968-05:00  WARN 1792 --- [nio-8999-exec-7] o.s.web.servlet.PageNotFound             : Request method 'POST' is not supported
+[405 Method Not Allowed, 351B, 4ms]
+
+Ôöö Obtener todas las solicitudes de convivencia de prueba
+  GET http://localhost:8999/api/trialCohabitationRequests [200 OK, 309B, 4ms]
+
+Ôöö Obtener solicitudes de convivencia de prueba filtradas por estado
+  GET http://localhost:8999/api/trialCohabitationRequests?status=PENDING [200 OK, 309B, 3ms]
+
+Ôöö Obtener solicitudes de convivencia de prueba con todos los filtros combinados
+  GET http://localhost:8999/api/trialCohabitationRequests?adopterId=1&petId=1&status=PENDING [200 OK, 309B, 4ms]
+
+Ôöö Obtener solicitudes de convivencia de prueba con filtros que no coinciden
+  GET http://localhost:8999/api/trialCohabitationRequests?adopterId=1&petId=1&status=REJECTED [200 OK, 309B, 4ms]
+
+Ôöö Obtener solicitudes de convivencia de prueba con un id invalido en los filtros
+  GET http://localhost:8999/api/trialCohabitationRequests?adopterId=-1 [200 OK, 309B, 4ms]
+
+Ôöö Obtener una solicitud de convivencia de prueba
+  GET http://localhost:8999/api/trialCohabitationRequests/1 [404 Not Found, 428B, 6ms]
+
+Ôöö Obtener una solicitud de convivencia de prueba que no existe
+  GET http://localhost:8999/api/trialCohabitationRequests/0 [404 Not Found, 428B, 6ms]
+
+Ôöö Obtener una solicitud de convivencia de prueba con un id invalido
+  GET http://localhost:8999/api/trialCohabitationRequests/-1 [404 Not Found, 430B, 5ms]
+
+Ôöö Editar una solicitud de convivencia de prueba
+  PUT http://localhost:8999/api/trialCohabitationRequests/1 [404 Not Found, 428B, 4ms]
+
+Ôöö Editar una solicitud de convivencia de prueba que no existe
+  PUT http://localhost:8999/api/trialCohabitationRequests/0 [404 Not Found, 428B, 3ms]
+
+Ôöö Editar una solicitud de convivencia de prueba con un id invalido
+  PUT http://localhost:8999/api/trialCohabitationRequests/-1 [404 Not Found, 430B, 3ms]
+
+Ôöö Editar una solicitud de convivencia de prueba sin estado
+  PUT http://localhost:8999/api/trialCohabitationRequests/1 [404 Not Found, 428B, 3ms]
+
+Ôöö Editar la mascota de una solicitud de convivencia de prueba
+  PUT http://localhost:8999/api/trialCohabitationRequests/1 [404 Not Found, 428B, 3ms]
+
+Ôöö Editar el adoptante de una solicitud de convivencia de prueba
+  PUT http://localhost:8999/api/trialCohabitationRequests/1 [404 Not Found, 428B, 4ms]
+
+Ôöö Editar una solicitud de convivencia de prueba finalizada
+  PUT http://localhost:8999/api/trialCohabitationRequests/2 [404 Not Found, 428B, 4ms]
+
+Ôöö Borrar una solicitud de convivencia de prueba
+  DELETE http://localhost:8999/api/trialCohabitationRequests/3 [404 Not Found, 428B, 5ms]
+
+Ôöö Borrar una solicitud de convivencia de prueba que no existe
+  DELETE http://localhost:8999/api/trialCohabitationRequests/0 [404 Not Found, 428B, 5ms]
+
+Ôöö Borrar una solicitud de convivencia de prueba con un id invalido
+  DELETE http://localhost:8999/api/trialCohabitationRequests/-1 [404 Not Found, 430B, 5ms]
+
+Ôöö Borrar una solicitud de convivencia de prueba en curso
+  DELETE http://localhost:8999/api/trialCohabitationRequests/1 [404 Not Found, 428B, 5ms]
+
+Ôûí VaccinationRecordVaccines / 00 Preparacion
+Ôöö Preparacion: crear refugio
+  POST http://localhost:8999/api/shelters 2026-10-11T12:00:52.605-05:00  INFO 1792 --- [nio-8999-exec-7] c.e.u.mdp.pets.services.ShelterService   : Refuge creation process begins
+2026-10-11T12:00:52.607-05:00  INFO 1792 --- [nio-8999-exec-7] c.e.u.mdp.pets.services.ShelterService   : Shelter creation process ends
+[201 Created, 370B, 10ms]
+  ÔêÜ  Status code is 201
+
+Ôöö Preparacion: crear mascota 1
+  POST http://localhost:8999/api/pets 2026-10-11T12:00:52.685-05:00  INFO 1792 --- [nio-8999-exec-8] c.e.u.mdp.pets.services.PetService       : Start the pet creation process
+2026-10-11T12:00:52.690-05:00  INFO 1792 --- [nio-8999-exec-8] c.e.u.mdp.pets.services.PetService       : Pet creation process ends
+[201 Created, 994B, 13ms]
+  ÔêÜ  Status code is 201
+
+Ôöö Preparacion: crear mascota 2
+  POST http://localhost:8999/api/pets 2026-10-11T12:00:52.780-05:00  INFO 1792 --- [nio-8999-exec-9] c.e.u.mdp.pets.services.PetService       : Start the pet creation process
+2026-10-11T12:00:52.786-05:00  INFO 1792 --- [nio-8999-exec-9] c.e.u.mdp.pets.services.PetService       : Pet creation process ends
+[201 Created, 995B, 13ms]
+  ÔêÜ  Status code is 201
+
+Ôöö Preparacion: crear carne de la mascota 1
+  POST http://localhost:8999/api/vaccinationRecords 2026-10-11T12:00:52.887-05:00  INFO 1792 --- [io-8999-exec-10] c.e.u.m.p.s.VaccinationRecordService     : Starting vaccination record creation process
+2026-10-11T12:00:52.928-05:00  INFO 1792 --- [io-8999-exec-10] c.e.u.m.p.s.VaccinationRecordService     : Ending vaccination record creation process
+[201 Created, 754B, 56ms]
+  ÔêÜ  Status code is 201
+
+Ôöö Preparacion: crear carne de la mascota 2
+  POST http://localhost:8999/api/vaccinationRecords 2026-10-11T12:00:53.025-05:00  INFO 1792 --- [nio-8999-exec-1] c.e.u.m.p.s.VaccinationRecordService     : Starting vaccination record creation process
+2026-10-11T12:00:53.029-05:00  INFO 1792 --- [nio-8999-exec-1] c.e.u.m.p.s.VaccinationRecordService     : Ending vaccination record creation process
+[201 Created, 755B, 10ms]
+  ÔêÜ  Status code is 201
+
+Ôûí VaccinationRecordVaccines / 01 Crear
+Ôöö Crear una vacuna
+  POST http://localhost:8999/api/vaccinationRecords/1/vaccines 2026-10-11T12:00:53.090-05:00  INFO 1792 --- [nio-8999-exec-2] c.e.u.mdp.pets.services.VaccineService   : Vaccine creation process begins for vaccination record with id = 1
+2026-10-11T12:00:53.094-05:00  INFO 1792 --- [nio-8999-exec-2] c.e.u.mdp.pets.services.VaccineService   : Vaccine creation process ends
+[201 Created, 918B, 18ms]
+  ÔêÜ  Status code is 201
+  ÔêÜ  Response echoes the vaccine and its record
+
+Ôöö Crear una vacuna sin fecha de refuerzo
+  POST http://localhost:8999/api/vaccinationRecords/1/vaccines 2026-10-11T12:00:53.195-05:00  INFO 1792 --- [nio-8999-exec-3] c.e.u.mdp.pets.services.VaccineService   : Vaccine creation process begins for vaccination record with id = 1
+2026-10-11T12:00:53.198-05:00  INFO 1792 --- [nio-8999-exec-3] c.e.u.mdp.pets.services.VaccineService   : Vaccine creation process ends
+[201 Created, 896B, 12ms]
+  ÔêÜ  Status code is 201
+  ÔêÜ  nextAdministration is optional
+
+Ôöö Crear una vacuna con refuerzo ya vencido
+  POST http://localhost:8999/api/vaccinationRecords/1/vaccines 2026-10-11T12:00:53.257-05:00  INFO 1792 --- [nio-8999-exec-4] c.e.u.mdp.pets.services.VaccineService   : Vaccine creation process begins for vaccination record with id = 1
+2026-10-11T12:00:53.259-05:00  INFO 1792 --- [nio-8999-exec-4] c.e.u.mdp.pets.services.VaccineService   : Vaccine creation process ends
+[201 Created, 921B, 12ms]
+  ÔêÜ  Status code is 201
+
+Ôûí VaccinationRecordVaccines / 01b Reglas de creacion
+Ôöö Crear una vacuna sin nombre
+  POST http://localhost:8999/api/vaccinationRecords/1/vaccines 2026-10-11T12:00:53.351-05:00  INFO 1792 --- [nio-8999-exec-5] c.e.u.mdp.pets.services.VaccineService   : Vaccine creation process begins for vaccination record with id = 1
+[412 Precondition Failed, 390B, 5ms]
+  ÔêÜ  Status code is 412
+  ÔêÜ  Get expected error message
+
+Ôöö Crear una vacuna sin fecha de administracion
+  POST http://localhost:8999/api/vaccinationRecords/1/vaccines 2026-10-11T12:00:53.431-05:00  INFO 1792 --- [nio-8999-exec-6] c.e.u.mdp.pets.services.VaccineService   : Vaccine creation process begins for vaccination record with id = 1
+[412 Precondition Failed, 396B, 7ms]
+  ÔêÜ  Status code is 412
+  ÔêÜ  Get expected error message
+
+Ôöö Crear una vacuna sin estado
+  POST http://localhost:8999/api/vaccinationRecords/1/vaccines 2026-10-11T12:00:53.506-05:00  INFO 1792 --- [nio-8999-exec-7] c.e.u.mdp.pets.services.VaccineService   : Vaccine creation process begins for vaccination record with id = 1
+[412 Precondition Failed, 399B, 6ms]
+  ÔêÜ  Status code is 412
+  ÔêÜ  Get expected error message
+
+Ôöö Crear una vacuna con fecha de administracion futura
+  POST http://localhost:8999/api/vaccinationRecords/1/vaccines 2026-10-11T12:00:53.601-05:00  INFO 1792 --- [nio-8999-exec-8] c.e.u.mdp.pets.services.VaccineService   : Vaccine creation process begins for vaccination record with id = 1
+[412 Precondition Failed, 405B, 8ms]
+  ÔêÜ  Status code is 412
+  ÔêÜ  Get expected error message
+
+Ôöö Crear una vacuna con refuerzo anterior a la administracion
+  POST http://localhost:8999/api/vaccinationRecords/1/vaccines 2026-10-11T12:00:53.678-05:00  INFO 1792 --- [nio-8999-exec-9] c.e.u.mdp.pets.services.VaccineService   : Vaccine creation process begins for vaccination record with id = 1
+[412 Precondition Failed, 427B, 8ms]
+  ÔêÜ  Status code is 412
+  ÔêÜ  Get expected error message
+
+Ôöö Crear una vacuna duplicada
+  POST http://localhost:8999/api/vaccinationRecords/1/vaccines 2026-10-11T12:00:53.739-05:00  INFO 1792 --- [io-8999-exec-10] c.e.u.mdp.pets.services.VaccineService   : Vaccine creation process begins for vaccination record with id = 1
+[412 Precondition Failed, 450B, 10ms]
+  ÔêÜ  Status code is 412
+  ÔêÜ  Get expected error message
+
+Ôöö Crear una vacuna en un carne que no existe
+  POST http://localhost:8999/api/vaccinationRecords/999999/vaccines 2026-10-11T12:00:53.831-05:00  INFO 1792 --- [nio-8999-exec-1] c.e.u.mdp.pets.services.VaccineService   : Vaccine creation process begins for vaccination record with id = 999999
+[404 Not Found, 370B, 7ms]
+  ÔêÜ  Status code is 404
+  ÔêÜ  Get expected error message
+
+Ôöö Crear una vacuna con un id de carne invalido
+  POST http://localhost:8999/api/vaccinationRecords/0/vaccines 2026-10-11T12:00:53.906-05:00  INFO 1792 --- [nio-8999-exec-2] c.e.u.mdp.pets.services.VaccineService   : Vaccine creation process begins for vaccination record with id = 0
+[412 Precondition Failed, 396B, 5ms]
+  ÔêÜ  Status code is 412
+  ÔêÜ  Get expected error message
+
+Ôûí VaccinationRecordVaccines / 02 Consultar
+Ôöö Obtener todas las vacunas de un carne
+  GET http://localhost:8999/api/vaccinationRecords/1/vaccines 2026-10-11T12:00:53.984-05:00  INFO 1792 --- [nio-8999-exec-3] c.e.u.mdp.pets.services.VaccineService   : The process of consulting vaccines for vaccination record with id = 1 begins
+[200 OK, 2.12kB, 14ms]
+  ÔêÜ  Status code is 200
+  ÔêÜ  Only the vaccines of this record
+
+Ôöö Obtener las vacunas de un carne sin vacunas
+  GET http://localhost:8999/api/vaccinationRecords/2/vaccines 2026-10-11T12:00:54.076-05:00  INFO 1792 --- [nio-8999-exec-4] c.e.u.mdp.pets.services.VaccineService   : The process of consulting vaccines for vaccination record with id = 2 begins
+2026-10-11T12:00:54.079-05:00  INFO 1792 --- [nio-8999-exec-4] c.e.u.mdp.pets.services.VaccineService   : There are no registered vaccines for this vaccination record
+[200 OK, 255B, 8ms]
+  ÔêÜ  Status code is 200
+  ÔêÜ  Empty list
+
+Ôöö Obtener una vacuna
+  GET http://localhost:8999/api/vaccinationRecords/1/vaccines/1 2026-10-11T12:00:54.140-05:00  INFO 1792 --- [nio-8999-exec-5] c.e.u.mdp.pets.services.VaccineService   : The process of consulting vaccine with id = 1 of vaccination record with id = 1 begins
+2026-10-11T12:00:54.142-05:00  INFO 1792 --- [nio-8999-exec-5] c.e.u.mdp.pets.services.VaccineService   : The process of consulting vaccine with id = 1 of vaccination record with id = 1 ends
+[200 OK, 875B, 8ms]
+  ÔêÜ  Status code is 200
+  ÔêÜ  The requested vaccine
+
+Ôöö Obtener una vacuna con refuerzo vencido actualiza su estado
+  GET http://localhost:8999/api/vaccinationRecords/1/vaccines/3 2026-10-11T12:00:54.232-05:00  INFO 1792 --- [nio-8999-exec-6] c.e.u.mdp.pets.services.VaccineService   : The process of consulting vaccine with id = 3 of vaccination record with id = 1 begins
+2026-10-11T12:00:54.234-05:00  INFO 1792 --- [nio-8999-exec-6] c.e.u.mdp.pets.services.VaccineService   : The process of consulting vaccine with id = 3 of vaccination record with id = 1 ends
+[200 OK, 879B, 9ms]
+  ÔêÜ  Status code is 200
+  ÔêÜ  status was automatically set to false
+
+Ôöö Obtener una vacuna que no existe
+  GET http://localhost:8999/api/vaccinationRecords/1/vaccines/999999 2026-10-11T12:00:54.325-05:00  INFO 1792 --- [nio-8999-exec-7] c.e.u.mdp.pets.services.VaccineService   : The process of consulting vaccine with id = 999999 of vaccination record with id = 1 begins
+[404 Not Found, 359B, 6ms]
+  ÔêÜ  Status code is 404
+  ÔêÜ  Get expected error message
+
+Ôöö Obtener una vacuna con un id invalido
+  GET http://localhost:8999/api/vaccinationRecords/1/vaccines/0 2026-10-11T12:00:54.418-05:00  INFO 1792 --- [nio-8999-exec-8] c.e.u.mdp.pets.services.VaccineService   : The process of consulting vaccine with id = 0 of vaccination record with id = 1 begins
+[412 Precondition Failed, 385B, 5ms]
+  ÔêÜ  Status code is 412
+  ÔêÜ  Get expected error message
+
+Ôöö Obtener una vacuna de un carne que no existe
+  GET http://localhost:8999/api/vaccinationRecords/999999/vaccines/1 2026-10-11T12:00:54.482-05:00  INFO 1792 --- [nio-8999-exec-9] c.e.u.mdp.pets.services.VaccineService   : The process of consulting vaccine with id = 1 of vaccination record with id = 999999 begins
+[404 Not Found, 370B, 5ms]
+  ÔêÜ  Status code is 404
+  ÔêÜ  Get expected error message
+
+Ôöö Obtener una vacuna que no pertenece al carne
+  GET http://localhost:8999/api/vaccinationRecords/2/vaccines/1 2026-10-11T12:00:54.573-05:00  INFO 1792 --- [io-8999-exec-10] c.e.u.mdp.pets.services.VaccineService   : The process of consulting vaccine with id = 1 of vaccination record with id = 2 begins
+[412 Precondition Failed, 419B, 6ms]
+  ÔêÜ  Status code is 412
+  ÔêÜ  Get expected error message
+
+Ôûí VaccinationRecordVaccines / 03 Editar
+Ôöö Editar una vacuna
+  PUT http://localhost:8999/api/vaccinationRecords/1/vaccines/1 2026-10-11T12:00:54.652-05:00  INFO 1792 --- [nio-8999-exec-1] c.e.u.mdp.pets.services.VaccineService   : The process of updating vaccine with id = 1 of vaccination record with id = 1 begins
+2026-10-11T12:00:54.654-05:00  INFO 1792 --- [nio-8999-exec-1] c.e.u.mdp.pets.services.VaccineService   : The process of updating vaccine with id = 1 of vaccination record with id = 1 ends
+[200 OK, 914B, 8ms]
+  ÔêÜ  Status code is 200
+  ÔêÜ  Changed attributes returned; administration date and record are kept
+
+Ôöö Editar una vacuna que no existe
+  PUT http://localhost:8999/api/vaccinationRecords/1/vaccines/999999 2026-10-11T12:00:54.733-05:00  INFO 1792 --- [nio-8999-exec-2] c.e.u.mdp.pets.services.VaccineService   : The process of updating vaccine with id = 999999 of vaccination record with id = 1 begins
+[404 Not Found, 359B, 8ms]
+  ÔêÜ  Status code is 404
+  ÔêÜ  Get expected error message
+
+Ôöö Editar una vacuna con un id invalido
+  PUT http://localhost:8999/api/vaccinationRecords/1/vaccines/0 2026-10-11T12:00:54.805-05:00  INFO 1792 --- [nio-8999-exec-3] c.e.u.mdp.pets.services.VaccineService   : The process of updating vaccine with id = 0 of vaccination record with id = 1 begins
+[412 Precondition Failed, 385B, 8ms]
+  ÔêÜ  Status code is 412
+  ÔêÜ  Get expected error message
+
+Ôöö Editar una vacuna de un carne que no existe
+  PUT http://localhost:8999/api/vaccinationRecords/999999/vaccines/1 2026-10-11T12:00:54.886-05:00  INFO 1792 --- [nio-8999-exec-4] c.e.u.mdp.pets.services.VaccineService   : The process of updating vaccine with id = 1 of vaccination record with id = 999999 begins
+[404 Not Found, 370B, 6ms]
+  ÔêÜ  Status code is 404
+  ÔêÜ  Get expected error message
+
+Ôöö Editar una vacuna que no pertenece al carne
+  PUT http://localhost:8999/api/vaccinationRecords/2/vaccines/1 2026-10-11T12:00:54.963-05:00  INFO 1792 --- [nio-8999-exec-5] c.e.u.mdp.pets.services.VaccineService   : The process of updating vaccine with id = 1 of vaccination record with id = 2 begins
+[412 Precondition Failed, 419B, 7ms]
+  ÔêÜ  Status code is 412
+  ÔêÜ  Get expected error message
+
+Ôöö Editar una vacuna con nombre vacio
+  PUT http://localhost:8999/api/vaccinationRecords/1/vaccines/1 2026-10-11T12:00:55.056-05:00  INFO 1792 --- [nio-8999-exec-6] c.e.u.mdp.pets.services.VaccineService   : The process of updating vaccine with id = 1 of vaccination record with id = 1 begins
+[412 Precondition Failed, 390B, 6ms]
+  ÔêÜ  Status code is 412
+  ÔêÜ  Get expected error message
+
+Ôöö Editar una vacuna sin estado
+  PUT http://localhost:8999/api/vaccinationRecords/1/vaccines/1 2026-10-11T12:00:55.132-05:00  INFO 1792 --- [nio-8999-exec-7] c.e.u.mdp.pets.services.VaccineService   : The process of updating vaccine with id = 1 of vaccination record with id = 1 begins
+[412 Precondition Failed, 383B, 12ms]
+  ÔêÜ  Status code is 412
+  ÔêÜ  Get expected error message
+
+Ôöö Editar la fecha de administracion de una vacuna
+  PUT http://localhost:8999/api/vaccinationRecords/1/vaccines/1 2026-10-11T12:00:55.210-05:00  INFO 1792 --- [nio-8999-exec-8] c.e.u.mdp.pets.services.VaccineService   : The process of updating vaccine with id = 1 of vaccination record with id = 1 begins
+[412 Precondition Failed, 434B, 7ms]
+  ÔêÜ  Status code is 412
+  ÔêÜ  Get expected error message
+
+Ôöö Editar una vacuna con refuerzo anterior a la administracion
+  PUT http://localhost:8999/api/vaccinationRecords/1/vaccines/1 2026-10-11T12:00:55.302-05:00  INFO 1792 --- [nio-8999-exec-9] c.e.u.mdp.pets.services.VaccineService   : The process of updating vaccine with id = 1 of vaccination record with id = 1 begins
+[412 Precondition Failed, 424B, 10ms]
+  ÔêÜ  Status code is 412
+  ÔêÜ  Get expected error message
+
+Ôûí VaccinationRecordVaccines / 03b Relacion Pet - Carne - Vacunas
+Ôöö La mascota referencia su carne
+  GET http://localhost:8999/api/pets/11 2026-10-11T12:00:55.380-05:00  INFO 1792 --- [io-8999-exec-10] c.e.u.mdp.pets.services.PetService       : Start the process of consulting the pet with id = 11
+2026-10-11T12:00:55.381-05:00  INFO 1792 --- [io-8999-exec-10] c.e.u.mdp.pets.services.PetService       : Finish the process of consulting the pet with id = 11
+[200 OK, 1.44kB, 16ms]
+  ÔêÜ  Status code is 200
+  ÔêÜ  PetDetail.vaccinationRecord points to the record
+
+Ôöö Borrar una mascota con vacunas registradas
+  DELETE http://localhost:8999/api/pets/11 2026-10-11T12:00:55.472-05:00  INFO 1792 --- [nio-8999-exec-1] c.e.u.mdp.pets.services.PetService       : Start the process of deleting the pet with id = 11
+[412 Precondition Failed, 409B, 14ms]
+  ÔêÜ  Status code is 412
+  ÔêÜ  Get expected error message
+
+Ôûí VaccinationRecordVaccines / 04 Borrar
+Ôöö Borrar una vacuna
+  DELETE http://localhost:8999/api/vaccinationRecords/1/vaccines/2 2026-10-11T12:00:55.582-05:00  INFO 1792 --- [nio-8999-exec-2] c.e.u.mdp.pets.services.VaccineService   : Start the process of deleting vaccine with id = 2 of vaccination record with id = 1
+2026-10-11T12:00:55.589-05:00  INFO 1792 --- [nio-8999-exec-2] c.e.u.mdp.pets.services.VaccineService   : Finish the process of deleting vaccine with id = 2 of vaccination record with id = 1
+[204 No Content, 201B, 13ms]
+  ÔêÜ  Status code is 204
+
+Ôöö Obtener la vacuna borrada
+  GET http://localhost:8999/api/vaccinationRecords/1/vaccines/2 2026-10-11T12:00:55.661-05:00  INFO 1792 --- [nio-8999-exec-3] c.e.u.mdp.pets.services.VaccineService   : The process of consulting vaccine with id = 2 of vaccination record with id = 1 begins
+[404 Not Found, 359B, 5ms]
+  ÔêÜ  Status code is 404
+  ÔêÜ  Get expected error message
+
+Ôöö Borrar una vacuna que no existe
+  DELETE http://localhost:8999/api/vaccinationRecords/1/vaccines/999999 2026-10-11T12:00:55.736-05:00  INFO 1792 --- [nio-8999-exec-4] c.e.u.mdp.pets.services.VaccineService   : Start the process of deleting vaccine with id = 999999 of vaccination record with id = 1
+[404 Not Found, 359B, 5ms]
+  ÔêÜ  Status code is 404
+  ÔêÜ  Get expected error message
+
+Ôöö Borrar una vacuna con un id invalido
+  DELETE http://localhost:8999/api/vaccinationRecords/1/vaccines/0 2026-10-11T12:00:55.831-05:00  INFO 1792 --- [nio-8999-exec-5] c.e.u.mdp.pets.services.VaccineService   : Start the process of deleting vaccine with id = 0 of vaccination record with id = 1
+[412 Precondition Failed, 385B, 6ms]
+  ÔêÜ  Status code is 412
+  ÔêÜ  Get expected error message
+
+Ôöö Borrar una vacuna de un carne que no existe
+  DELETE http://localhost:8999/api/vaccinationRecords/999999/vaccines/1 2026-10-11T12:00:55.894-05:00  INFO 1792 --- [nio-8999-exec-6] c.e.u.mdp.pets.services.VaccineService   : Start the process of deleting vaccine with id = 1 of vaccination record with id = 999999
+[404 Not Found, 370B, 4ms]
+  ÔêÜ  Status code is 404
+  ÔêÜ  Get expected error message
+
+Ôöö Borrar una vacuna que no pertenece al carne
+  DELETE http://localhost:8999/api/vaccinationRecords/2/vaccines/1 2026-10-11T12:00:55.970-05:00  INFO 1792 --- [nio-8999-exec-7] c.e.u.mdp.pets.services.VaccineService   : Start the process of deleting vaccine with id = 1 of vaccination record with id = 2
+[412 Precondition Failed, 419B, 6ms]
+  ÔêÜ  Status code is 412
+  ÔêÜ  Get expected error message
+
+Ôûí Vaccine / 00 Preparacion
+Ôöö Preparacion: crear refugio
+  POST http://localhost:8999/api/shelters 2026-10-11T12:00:56.061-05:00  INFO 1792 --- [nio-8999-exec-8] c.e.u.mdp.pets.services.ShelterService   : Refuge creation process begins
+2026-10-11T12:00:56.064-05:00  INFO 1792 --- [nio-8999-exec-8] c.e.u.mdp.pets.services.ShelterService   : Shelter creation process ends
+[201 Created, 370B, 9ms]
+  ÔêÜ  Status code is 201
+
+Ôöö Preparacion: crear mascota 1
+  POST http://localhost:8999/api/pets 2026-10-11T12:00:56.156-05:00  INFO 1792 --- [nio-8999-exec-9] c.e.u.mdp.pets.services.PetService       : Start the pet creation process
+2026-10-11T12:00:56.164-05:00  INFO 1792 --- [nio-8999-exec-9] c.e.u.mdp.pets.services.PetService       : Pet creation process ends
+[201 Created, 994B, 14ms]
+  ÔêÜ  Status code is 201
+
+Ôöö Preparacion: crear mascota 2
+  POST http://localhost:8999/api/pets 2026-10-11T12:00:56.249-05:00  INFO 1792 --- [io-8999-exec-10] c.e.u.mdp.pets.services.PetService       : Start the pet creation process
+2026-10-11T12:00:56.256-05:00  INFO 1792 --- [io-8999-exec-10] c.e.u.mdp.pets.services.PetService       : Pet creation process ends
+[201 Created, 966B, 14ms]
+  ÔêÜ  Status code is 201
+
+Ôöö Preparacion: crear mascota 3 (sin carne)
+  POST http://localhost:8999/api/pets 2026-10-11T12:00:56.343-05:00  INFO 1792 --- [nio-8999-exec-2] c.e.u.mdp.pets.services.PetService       : Start the pet creation process
+2026-10-11T12:00:56.353-05:00  INFO 1792 --- [nio-8999-exec-2] c.e.u.mdp.pets.services.PetService       : Pet creation process ends
+[201 Created, 956B, 20ms]
+  ÔêÜ  Status code is 201
+
+Ôöö Preparacion: crear carne A
+  POST http://localhost:8999/api/vaccinationRecords 2026-10-11T12:00:56.450-05:00  INFO 1792 --- [nio-8999-exec-3] c.e.u.m.p.s.VaccinationRecordService     : Starting vaccination record creation process
+2026-10-11T12:00:56.455-05:00  INFO 1792 --- [nio-8999-exec-3] c.e.u.m.p.s.VaccinationRecordService     : Ending vaccination record creation process
+[201 Created, 754B, 13ms]
+  ÔêÜ  Status code is 201
+
+Ôöö Preparacion: crear carne B
+  POST http://localhost:8999/api/vaccinationRecords 2026-10-11T12:00:56.542-05:00  INFO 1792 --- [nio-8999-exec-4] c.e.u.m.p.s.VaccinationRecordService     : Starting vaccination record creation process
+2026-10-11T12:00:56.544-05:00  INFO 1792 --- [nio-8999-exec-4] c.e.u.m.p.s.VaccinationRecordService     : Ending vaccination record creation process
+[201 Created, 755B, 9ms]
+  ÔêÜ  Status code is 201
+
+Ôöö Preparacion: vacuna Rabia en el carne A
+  POST http://localhost:8999/api/vaccinationRecords/3/vaccines 2026-10-11T12:00:56.619-05:00  INFO 1792 --- [nio-8999-exec-5] c.e.u.mdp.pets.services.VaccineService   : Vaccine creation process begins for vaccination record with id = 3
+2026-10-11T12:00:56.622-05:00  INFO 1792 --- [nio-8999-exec-5] c.e.u.mdp.pets.services.VaccineService   : Vaccine creation process ends
+[201 Created, 918B, 11ms]
+  ÔêÜ  Status code is 201
+
+Ôöö Preparacion: vacuna Parvovirus en el carne A
+  POST http://localhost:8999/api/vaccinationRecords/3/vaccines 2026-10-11T12:00:56.714-05:00  INFO 1792 --- [nio-8999-exec-6] c.e.u.mdp.pets.services.VaccineService   : Vaccine creation process begins for vaccination record with id = 3
+2026-10-11T12:00:56.716-05:00  INFO 1792 --- [nio-8999-exec-6] c.e.u.mdp.pets.services.VaccineService   : Vaccine creation process ends
+[201 Created, 896B, 10ms]
+  ÔêÜ  Status code is 201
+
+Ôöö Preparacion: vacuna Moquillo (refuerzo vencido) en el carne A
+  POST http://localhost:8999/api/vaccinationRecords/3/vaccines 2026-10-11T12:00:56.791-05:00  INFO 1792 --- [nio-8999-exec-7] c.e.u.mdp.pets.services.VaccineService   : Vaccine creation process begins for vaccination record with id = 3
+2026-10-11T12:00:56.794-05:00  INFO 1792 --- [nio-8999-exec-7] c.e.u.mdp.pets.services.VaccineService   : Vaccine creation process ends
+[201 Created, 921B, 9ms]
+  ÔêÜ  Status code is 201
+
+Ôöö Preparacion: vacuna Rabia en el carne B
+  POST http://localhost:8999/api/vaccinationRecords/4/vaccines 2026-10-11T12:00:56.867-05:00  INFO 1792 --- [nio-8999-exec-8] c.e.u.mdp.pets.services.VaccineService   : Vaccine creation process begins for vaccination record with id = 4
+2026-10-11T12:00:56.869-05:00  INFO 1792 --- [nio-8999-exec-8] c.e.u.mdp.pets.services.VaccineService   : Vaccine creation process ends
+[201 Created, 919B, 9ms]
+  ÔêÜ  Status code is 201
+
+Ôûí Vaccine / 01 Consultar
+Ôöö Obtener todas las vacunas
+  GET http://localhost:8999/api/vaccines [200 OK, 4.02kB, 18ms]
+  ÔêÜ  Status code is 200
+  ÔêÜ  List contains every vaccine created here
+
+Ôöö Obtener una vacuna por id
+  GET http://localhost:8999/api/vaccines/4 [200 OK, 875B, 6ms]
+  ÔêÜ  Status code is 200
+  ÔêÜ  The requested vaccine
+
+Ôöö Obtener una vacuna con refuerzo vencido actualiza su estado
+  GET http://localhost:8999/api/vaccines/6 [200 OK, 879B, 4ms]
+  ÔêÜ  Status code is 200
+  ÔêÜ  status was automatically set to false
+
+Ôöö Obtener una vacuna que no existe
+  GET http://localhost:8999/api/vaccines/999999 [404 Not Found, 359B, 4ms]
+  ÔêÜ  Status code is 404
+  ÔêÜ  Get expected error message
+
+Ôöö Obtener una vacuna con un id invalido
+  GET http://localhost:8999/api/vaccines/0 [412 Precondition Failed, 385B, 3ms]
+  ÔêÜ  Status code is 412
+  ÔêÜ  Get expected error message
+
+Ôûí Vaccine / 01b Filtros
+Ôöö Obtener vacunas filtradas por carne de vacunacion
+  GET http://localhost:8999/api/vaccines?vaccinationRecordId=3 [200 OK, 2.12kB, 12ms]
+  ÔêÜ  Status code is 200
+  ÔêÜ  Every result matches the filter(s)
+
+Ôöö Obtener vacunas filtradas por mascota
+  GET http://localhost:8999/api/vaccines?petId=13 [200 OK, 2.12kB, 9ms]
+  ÔêÜ  Status code is 200
+  ÔêÜ  Every result matches the filter(s)
+
+Ôöö Obtener vacunas de otra mascota
+  GET http://localhost:8999/api/vaccines?petId=14 [200 OK, 878B, 7ms]
+  ÔêÜ  Status code is 200
+  ÔêÜ  Every result matches the filter(s)
+
+Ôöö Obtener vacunas vigentes
+  GET http://localhost:8999/api/vaccines?status=true [200 OK, 2.76kB, 9ms]
+  ÔêÜ  Status code is 200
+  ÔêÜ  Every result matches the filter(s)
+
+Ôöö Obtener vacunas vencidas
+  GET http://localhost:8999/api/vaccines?status=false [200 OK, 1.51kB, 8ms]
+  ÔêÜ  Status code is 200
+  ÔêÜ  Every result matches the filter(s)
+
+Ôöö Obtener vacunas de un carne filtradas por estado
+  GET http://localhost:8999/api/vaccines?vaccinationRecordId=3&status=false [200 OK, 881B, 15ms]
+  ÔêÜ  Status code is 200
+  ÔêÜ  Every result matches the filter(s)
+
+Ôöö Obtener una vacuna por nombre y carne de vacunacion
+  GET http://localhost:8999/api/vaccines?name=Rabia&vaccinationRecordId=3 [200 OK, 877B, 8ms]
+  ÔêÜ  Status code is 200
+  ÔêÜ  Every result matches the filter(s)
+
+Ôöö Obtener vacunas por nombre
+  GET http://localhost:8999/api/vaccines?name=Rabia [200 OK, 1.5kB, 7ms]
+  ÔêÜ  Status code is 200
+  ÔêÜ  Every result matches the filter(s)
+
+Ôöö Obtener vacunas con nombre y estado que no coinciden
+  GET http://localhost:8999/api/vaccines?name=Rabia&vaccinationRecordId=3&status=false [200 OK, 255B, 7ms]
+  ÔêÜ  Status code is 200
+  ÔêÜ  All criteria must match: empty list
+
+Ôöö Obtener vacunas de una mascota sin carne de vacunacion
+  GET http://localhost:8999/api/vaccines?petId=15 [200 OK, 255B, 8ms]
+  ÔêÜ  Status code is 200
+  ÔêÜ  Empty list
+
+Ôöö Obtener vacunas de un carne que no existe
+  GET http://localhost:8999/api/vaccines?vaccinationRecordId=999999 [404 Not Found, 370B, 7ms]
+  ÔêÜ  Status code is 404
+  ÔêÜ  Get expected error message
+
+Ôöö Obtener vacunas con un id de carne invalido
+  GET http://localhost:8999/api/vaccines?vaccinationRecordId=0 [412 Precondition Failed, 396B, 5ms]
+  ÔêÜ  Status code is 412
+  ÔêÜ  Get expected error message
+
+Ôöö Obtener vacunas de una mascota que no existe
+  GET http://localhost:8999/api/vaccines?petId=999999 [404 Not Found, 355B, 4ms]
+  ÔêÜ  Status code is 404
+  ÔêÜ  Get expected error message
+
+Ôûí VeterinarianFollowUps
+Ôöö Agregar un seguimiento a un veterinario
+  POST http://localhost:8999/api/veterinarians/0/followups/1 [404 Not Found, 428B, 6ms]
+
+Ôöö Agregar un seguimiento que no existe a un veterinario
+  POST http://localhost:8999/api/veterinarians/0/followups/0 [404 Not Found, 428B, 5ms]
+
+Ôöö Obtener un seguimiento de un veterinario
+  GET http://localhost:8999/api/veterinarians/0/followups/1 [404 Not Found, 428B, 4ms]
+
+Ôöö Obtener un seguimiento que no existe de un veterinario
+  GET http://localhost:8999/api/veterinarians/0/followups/0 [404 Not Found, 428B, 4ms]
+
+Ôöö Obtener un seguimiento que no esta asociado a un veterinario
+  GET http://localhost:8999/api/veterinarians/0/followups/2 [404 Not Found, 428B, 6ms]
+
+Ôöö Obtener los seguimientos de un veterinario
+  GET http://localhost:8999/api/veterinarians/0/followups [404 Not Found, 424B, 6ms]
+
+Ôöö Asociar seguimientos a un veterinario
+  PUT http://localhost:8999/api/veterinarians/0/followups [404 Not Found, 424B, 5ms]
+
+Ôöö Asociar seguimientos que no existen a un veterinario
+  PUT http://localhost:8999/api/veterinarians/0/followups [404 Not Found, 424B, 5ms]
+
+Ôöö Borrar un seguimiento de un veterinario
+  DELETE http://localhost:8999/api/veterinarians/0/followups/1 [404 Not Found, 428B, 3ms]
+
+Ôöö Borrar un seguimiento de un veterinario que no existe
+  DELETE http://localhost:8999/api/veterinarians/0/followups/1 [404 Not Found, 428B, 4ms]
+
+Ôöö Borrar un seguimiento que no existe de un veterinario
+  DELETE http://localhost:8999/api/veterinarians/0/followups/0 [404 Not Found, 428B, 5ms]
+
+Ôûí VeterinarianMedicalEvents
+Ôöö Agregar un evento medico a un veterinario
+  POST http://localhost:8999/api/veterinarians/0/medicalevents/1 [404 Not Found, 436B, 4ms]
+
+Ôöö Agregar un evento medico que no existe a un veterinario
+  POST http://localhost:8999/api/veterinarians/0/medicalevents/0 [404 Not Found, 436B, 4ms]
+
+Ôöö Obtener un evento medico de un veterinario
+  GET http://localhost:8999/api/veterinarians/0/medicalevents/1 [404 Not Found, 436B, 5ms]
+
+Ôöö Obtener un evento medico que no existe de un veterinario
+  GET http://localhost:8999/api/veterinarians/0/medicalevents/0 [404 Not Found, 436B, 5ms]
+
+Ôöö Obtener un evento medico que no esta asociado a un veterinario
+  GET http://localhost:8999/api/veterinarians/0/medicalevents/6 [404 Not Found, 436B, 6ms]
+
+Ôöö Obtener los eventos medicos de un veterinario
+  GET http://localhost:8999/api/veterinarians/0/medicalevents [404 Not Found, 432B, 4ms]
+
+Ôöö Asociar eventos medicos a un veterinario
+  PUT http://localhost:8999/api/veterinarians/0/medicalevents [404 Not Found, 432B, 7ms]
+
+Ôöö Asociar eventos medicos que no existen a un veterinario
+  PUT http://localhost:8999/api/veterinarians/0/medicalevents [404 Not Found, 432B, 7ms]
+
+Ôöö Borrar un evento medico de un veterinario
+  DELETE http://localhost:8999/api/veterinarians/0/medicalevents/1 [404 Not Found, 436B, 5ms]
+
+Ôöö Borrar un evento medico de un veterinario que no existe
+  DELETE http://localhost:8999/api/veterinarians/0/medicalevents/1 [404 Not Found, 436B, 4ms]
+
+Ôöö Borrar un evento medico que no existe de un veterinario
+  DELETE http://localhost:8999/api/veterinarians/0/medicalevents/0 [404 Not Found, 436B, 4ms]
+
+ÔöîÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔö¼ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔö¼ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÉ
+Ôöé                         Ôöé          executed Ôöé           failed Ôöé
+Ôö£ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔö╝ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔö╝ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöñ
+Ôöé              iterations Ôöé                 1 Ôöé                0 Ôöé
+Ôö£ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔö╝ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔö╝ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöñ
+Ôöé                requests Ôöé               589 Ôöé                0 Ôöé
+Ôö£ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔö╝ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔö╝ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöñ
+Ôöé            test-scripts Ôöé               351 Ôöé                0 Ôöé
+Ôö£ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔö╝ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔö╝ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöñ
+Ôöé      prerequest-scripts Ôöé               325 Ôöé                0 Ôöé
+Ôö£ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔö╝ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔö╝ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöñ
+Ôöé              assertions Ôöé               641 Ôöé                0 Ôöé
+Ôö£ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔö┤ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔö┤ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöñ
+Ôöé total run duration: 55.7s                                      Ôöé
+Ôö£ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöñ
+Ôöé total data received: 138.57kB (approx)                         Ôöé
+Ôö£ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöñ
+Ôöé average response time: 10ms [min: 3ms, max: 324ms, s.d.: 22ms] Ôöé
+ÔööÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÿ
+[INFO] 
+[INFO] --- spring-boot:3.2.3:stop (post-integration-test) @ MP_202630_G81_E2_Back ---
+[INFO] Stopping application...
+2026-10-11T12:01:00.580-05:00  INFO 1792 --- [on(4)-127.0.0.1] inMXBeanRegistrar$SpringApplicationAdmin : Application shutdown requested.
+2026-10-11T12:01:00.598-05:00  INFO 1792 --- [on(4)-127.0.0.1] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-10-11T12:01:00.612-05:00  INFO 1792 --- [on(4)-127.0.0.1] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2026-10-11T12:01:00.617-05:00  INFO 1792 --- [on(4)-127.0.0.1] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+[INFO] 
+[INFO] --- install:3.1.1:install (default-install) @ MP_202630_G81_E2_Back ---
+[INFO] Installing C:\Users\lunal\Universidad\MP_202630_G81_E2_Back\pom.xml to C:\Users\lunal\.m2\repository\co\edu\udistrital\mdp\MP_202630_G81_E2_Back\0.0.1-SNAPSHOT\MP_202630_G81_E2_Back-0.0.1-SNAPSHOT.pom
+[INFO] Installing C:\Users\lunal\Universidad\MP_202630_G81_E2_Back\target\MP_202630_G81_E2_Back-0.0.1-SNAPSHOT.jar to C:\Users\lunal\.m2\repository\co\edu\udistrital\mdp\MP_202630_G81_E2_Back\0.0.1-SNAPSHOT\MP_202630_G81_E2_Back-0.0.1-SNAPSHOT.jar
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  01:27 min
+[INFO] Finished at: 2026-10-11T12:01:00-05:00
+[INFO] ------------------------------------------------------------------------
