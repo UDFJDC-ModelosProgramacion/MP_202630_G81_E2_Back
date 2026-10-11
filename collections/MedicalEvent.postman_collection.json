@@ -1956,6 +1956,15 @@
             "exec": [
               "pm.test(\"Status code is 204\", function () {",
               "    pm.response.to.have.status(204);",
+              "});",
+              "",
+              "pm.test(\"Resource no longer exists\", function (done) {",
+              "    pm.sendRequest({",
+              "        url: pm.variables.replaceIn(\"{{baseUrl}}/medicalEvents/\" + pm.collectionVariables.get(\"medical_event_id_2\")),",
+              "        method: \"GET\"",
+              "    }, function (err, res) {",
+              "        done(err || (res.code === 404 ? null : new Error(\"Expected 404, got \" + res.code)));",
+              "    });",
               "});"
             ]
           }

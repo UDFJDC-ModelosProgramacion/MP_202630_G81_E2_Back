@@ -18,7 +18,7 @@
         ],
         "body": {
           "mode": "raw",
-          "raw": "{\n    \"date\": \"2026-09-23T00:00:00-05:00\",\n    \"status\": \"PENDING\",\n    \"description\": \"Quisiera conocer a la mascota y convivir con ella antes de adoptarla\",\n    \"startDate\": \"2026-10-05T00:00:00-05:00\",\n    \"endDate\": \"2026-10-19T00:00:00-05:00\",\n    \"shelter\": {\n        \"id\": {{shelter_id}}\n    },\n    \"adopter\": {\n        \"id\": {{adopter_id}}\n    },\n    \"pet\": {\n        \"id\": {{pet_id_1}}\n    }\n}",
+          "raw": "{\n    \"date\": \"2026-09-23T00:00:00-05:00\",\n    \"status\": \"PENDING\",\n    \"description\": \"Quisiera conocer a la mascota y convivir con ella antes de adoptarla\",\n    \"startDate\": \"{{trial_start_date}}\",\n    \"endDate\": \"{{trial_end_date}}\",\n    \"shelter\": {\n        \"id\": {{shelter_id}}\n    },\n    \"adopter\": {\n        \"id\": {{adopter_id}}\n    },\n    \"pet\": {\n        \"id\": {{pet_id_1}}\n    }\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -49,7 +49,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"date\": \"2026-09-23T00:00:00-05:00\",\n    \"status\": \"PENDING\",\n    \"description\": \"Quisiera conocer a la mascota y convivir con ella antes de adoptarla\",\n    \"startDate\": \"2026-10-05T00:00:00-05:00\",\n    \"endDate\": \"2026-10-19T00:00:00-05:00\",\n    \"shelter\": {\n        \"id\": {{shelter_id}}\n    },\n    \"adopter\": {\n        \"id\": {{adopter_id}}\n    },\n    \"pet\": {\n        \"id\": {{pet_id_1}}\n    }\n}",
+              "raw": "{\n    \"date\": \"2026-09-23T00:00:00-05:00\",\n    \"status\": \"PENDING\",\n    \"description\": \"Quisiera conocer a la mascota y convivir con ella antes de adoptarla\",\n    \"startDate\": \"{{trial_start_date}}\",\n    \"endDate\": \"{{trial_end_date}}\",\n    \"shelter\": {\n        \"id\": {{shelter_id}}\n    },\n    \"adopter\": {\n        \"id\": {{adopter_id}}\n    },\n    \"pet\": {\n        \"id\": {{pet_id_1}}\n    }\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -113,7 +113,7 @@
         ],
         "body": {
           "mode": "raw",
-          "raw": "{\n    \"date\": \"2026-09-23T00:00:00-05:00\",\n    \"status\": \"\",\n    \"description\": \"Quisiera conocer a la mascota y convivir con ella antes de adoptarla\",\n    \"startDate\": \"2026-10-05T00:00:00-05:00\",\n    \"endDate\": \"2026-10-19T00:00:00-05:00\",\n    \"shelter\": {\n        \"id\": {{shelter_id}}\n    },\n    \"adopter\": {\n        \"id\": {{adopter_id}}\n    },\n    \"pet\": {\n        \"id\": {{pet_id_1}}\n    }\n}",
+          "raw": "{\n    \"date\": \"2026-09-23T00:00:00-05:00\",\n    \"status\": \"\",\n    \"description\": \"Quisiera conocer a la mascota y convivir con ella antes de adoptarla\",\n    \"startDate\": \"{{trial_start_date}}\",\n    \"endDate\": \"{{trial_end_date}}\",\n    \"shelter\": {\n        \"id\": {{shelter_id}}\n    },\n    \"adopter\": {\n        \"id\": {{adopter_id}}\n    },\n    \"pet\": {\n        \"id\": {{pet_id_1}}\n    }\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -144,7 +144,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"date\": \"2026-09-23T00:00:00-05:00\",\n    \"status\": \"\",\n    \"description\": \"Quisiera conocer a la mascota y convivir con ella antes de adoptarla\",\n    \"startDate\": \"2026-10-05T00:00:00-05:00\",\n    \"endDate\": \"2026-10-19T00:00:00-05:00\",\n    \"shelter\": {\n        \"id\": {{shelter_id}}\n    },\n    \"adopter\": {\n        \"id\": {{adopter_id}}\n    },\n    \"pet\": {\n        \"id\": {{pet_id_1}}\n    }\n}",
+              "raw": "{\n    \"date\": \"2026-09-23T00:00:00-05:00\",\n    \"status\": \"\",\n    \"description\": \"Quisiera conocer a la mascota y convivir con ella antes de adoptarla\",\n    \"startDate\": \"{{trial_start_date}}\",\n    \"endDate\": \"{{trial_end_date}}\",\n    \"shelter\": {\n        \"id\": {{shelter_id}}\n    },\n    \"adopter\": {\n        \"id\": {{adopter_id}}\n    },\n    \"pet\": {\n        \"id\": {{pet_id_1}}\n    }\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -205,7 +205,7 @@
         ],
         "body": {
           "mode": "raw",
-          "raw": "{\n    \"date\": null,\n    \"status\": \"PENDING\",\n    \"description\": \"Quisiera conocer a la mascota y convivir con ella antes de adoptarla\",\n    \"startDate\": \"2026-10-05T00:00:00-05:00\",\n    \"endDate\": \"2026-10-19T00:00:00-05:00\",\n    \"shelter\": {\n        \"id\": {{shelter_id}}\n    },\n    \"adopter\": {\n        \"id\": {{adopter_id}}\n    },\n    \"pet\": {\n        \"id\": {{pet_id_1}}\n    }\n}",
+          "raw": "{\n    \"date\": null,\n    \"status\": \"PENDING\",\n    \"description\": \"Quisiera conocer a la mascota y convivir con ella antes de adoptarla\",\n    \"startDate\": \"{{trial_start_date}}\",\n    \"endDate\": \"{{trial_end_date}}\",\n    \"shelter\": {\n        \"id\": {{shelter_id}}\n    },\n    \"adopter\": {\n        \"id\": {{adopter_id}}\n    },\n    \"pet\": {\n        \"id\": {{pet_id_1}}\n    }\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -236,7 +236,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"date\": null,\n    \"status\": \"PENDING\",\n    \"description\": \"Quisiera conocer a la mascota y convivir con ella antes de adoptarla\",\n    \"startDate\": \"2026-10-05T00:00:00-05:00\",\n    \"endDate\": \"2026-10-19T00:00:00-05:00\",\n    \"shelter\": {\n        \"id\": {{shelter_id}}\n    },\n    \"adopter\": {\n        \"id\": {{adopter_id}}\n    },\n    \"pet\": {\n        \"id\": {{pet_id_1}}\n    }\n}",
+              "raw": "{\n    \"date\": null,\n    \"status\": \"PENDING\",\n    \"description\": \"Quisiera conocer a la mascota y convivir con ella antes de adoptarla\",\n    \"startDate\": \"{{trial_start_date}}\",\n    \"endDate\": \"{{trial_end_date}}\",\n    \"shelter\": {\n        \"id\": {{shelter_id}}\n    },\n    \"adopter\": {\n        \"id\": {{adopter_id}}\n    },\n    \"pet\": {\n        \"id\": {{pet_id_1}}\n    }\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -297,7 +297,7 @@
         ],
         "body": {
           "mode": "raw",
-          "raw": "{\n    \"date\": \"2026-09-23T00:00:00-05:00\",\n    \"status\": \"PENDING\",\n    \"description\": \"\",\n    \"startDate\": \"2026-10-05T00:00:00-05:00\",\n    \"endDate\": \"2026-10-19T00:00:00-05:00\",\n    \"shelter\": {\n        \"id\": {{shelter_id}}\n    },\n    \"adopter\": {\n        \"id\": {{adopter_id}}\n    },\n    \"pet\": {\n        \"id\": {{pet_id_1}}\n    }\n}",
+          "raw": "{\n    \"date\": \"2026-09-23T00:00:00-05:00\",\n    \"status\": \"PENDING\",\n    \"description\": \"\",\n    \"startDate\": \"{{trial_start_date}}\",\n    \"endDate\": \"{{trial_end_date}}\",\n    \"shelter\": {\n        \"id\": {{shelter_id}}\n    },\n    \"adopter\": {\n        \"id\": {{adopter_id}}\n    },\n    \"pet\": {\n        \"id\": {{pet_id_1}}\n    }\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -328,7 +328,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"date\": \"2026-09-23T00:00:00-05:00\",\n    \"status\": \"PENDING\",\n    \"description\": \"\",\n    \"startDate\": \"2026-10-05T00:00:00-05:00\",\n    \"endDate\": \"2026-10-19T00:00:00-05:00\",\n    \"shelter\": {\n        \"id\": {{shelter_id}}\n    },\n    \"adopter\": {\n        \"id\": {{adopter_id}}\n    },\n    \"pet\": {\n        \"id\": {{pet_id_1}}\n    }\n}",
+              "raw": "{\n    \"date\": \"2026-09-23T00:00:00-05:00\",\n    \"status\": \"PENDING\",\n    \"description\": \"\",\n    \"startDate\": \"{{trial_start_date}}\",\n    \"endDate\": \"{{trial_end_date}}\",\n    \"shelter\": {\n        \"id\": {{shelter_id}}\n    },\n    \"adopter\": {\n        \"id\": {{adopter_id}}\n    },\n    \"pet\": {\n        \"id\": {{pet_id_1}}\n    }\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -389,7 +389,7 @@
         ],
         "body": {
           "mode": "raw",
-          "raw": "{\n    \"date\": \"2026-09-23T00:00:00-05:00\",\n    \"status\": \"PENDING\",\n    \"description\": \"Quisiera conocer a la mascota y convivir con ella antes de adoptarla\",\n    \"startDate\": \"2026-10-05T00:00:00-05:00\",\n    \"endDate\": \"2026-10-19T00:00:00-05:00\",\n    \"shelter\": {\n        \"id\": {{shelter_id}}\n    },\n    \"adopter\": {\n        \"id\": 0\n    },\n    \"pet\": {\n        \"id\": {{pet_id_1}}\n    }\n}",
+          "raw": "{\n    \"date\": \"2026-09-23T00:00:00-05:00\",\n    \"status\": \"PENDING\",\n    \"description\": \"Quisiera conocer a la mascota y convivir con ella antes de adoptarla\",\n    \"startDate\": \"{{trial_start_date}}\",\n    \"endDate\": \"{{trial_end_date}}\",\n    \"shelter\": {\n        \"id\": {{shelter_id}}\n    },\n    \"adopter\": {\n        \"id\": 0\n    },\n    \"pet\": {\n        \"id\": {{pet_id_1}}\n    }\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -420,7 +420,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"date\": \"2026-09-23T00:00:00-05:00\",\n    \"status\": \"PENDING\",\n    \"description\": \"Quisiera conocer a la mascota y convivir con ella antes de adoptarla\",\n    \"startDate\": \"2026-10-05T00:00:00-05:00\",\n    \"endDate\": \"2026-10-19T00:00:00-05:00\",\n    \"shelter\": {\n        \"id\": {{shelter_id}}\n    },\n    \"adopter\": {\n        \"id\": 0\n    },\n    \"pet\": {\n        \"id\": {{pet_id_1}}\n    }\n}",
+              "raw": "{\n    \"date\": \"2026-09-23T00:00:00-05:00\",\n    \"status\": \"PENDING\",\n    \"description\": \"Quisiera conocer a la mascota y convivir con ella antes de adoptarla\",\n    \"startDate\": \"{{trial_start_date}}\",\n    \"endDate\": \"{{trial_end_date}}\",\n    \"shelter\": {\n        \"id\": {{shelter_id}}\n    },\n    \"adopter\": {\n        \"id\": 0\n    },\n    \"pet\": {\n        \"id\": {{pet_id_1}}\n    }\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -481,7 +481,7 @@
         ],
         "body": {
           "mode": "raw",
-          "raw": "{\n    \"date\": \"2026-09-23T00:00:00-05:00\",\n    \"status\": \"PENDING\",\n    \"description\": \"Quisiera conocer a la mascota y convivir con ella antes de adoptarla\",\n    \"startDate\": \"2026-10-05T00:00:00-05:00\",\n    \"endDate\": \"2026-10-19T00:00:00-05:00\",\n    \"shelter\": {\n        \"id\": {{shelter_id}}\n    },\n    \"adopter\": {\n        \"id\": {{adopter_id_inactive}}\n    },\n    \"pet\": {\n        \"id\": {{pet_id_1}}\n    }\n}",
+          "raw": "{\n    \"date\": \"2026-09-23T00:00:00-05:00\",\n    \"status\": \"PENDING\",\n    \"description\": \"Quisiera conocer a la mascota y convivir con ella antes de adoptarla\",\n    \"startDate\": \"{{trial_start_date}}\",\n    \"endDate\": \"{{trial_end_date}}\",\n    \"shelter\": {\n        \"id\": {{shelter_id}}\n    },\n    \"adopter\": {\n        \"id\": {{adopter_id_inactive}}\n    },\n    \"pet\": {\n        \"id\": {{pet_id_1}}\n    }\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -512,7 +512,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"date\": \"2026-09-23T00:00:00-05:00\",\n    \"status\": \"PENDING\",\n    \"description\": \"Quisiera conocer a la mascota y convivir con ella antes de adoptarla\",\n    \"startDate\": \"2026-10-05T00:00:00-05:00\",\n    \"endDate\": \"2026-10-19T00:00:00-05:00\",\n    \"shelter\": {\n        \"id\": {{shelter_id}}\n    },\n    \"adopter\": {\n        \"id\": {{adopter_id_inactive}}\n    },\n    \"pet\": {\n        \"id\": {{pet_id_1}}\n    }\n}",
+              "raw": "{\n    \"date\": \"2026-09-23T00:00:00-05:00\",\n    \"status\": \"PENDING\",\n    \"description\": \"Quisiera conocer a la mascota y convivir con ella antes de adoptarla\",\n    \"startDate\": \"{{trial_start_date}}\",\n    \"endDate\": \"{{trial_end_date}}\",\n    \"shelter\": {\n        \"id\": {{shelter_id}}\n    },\n    \"adopter\": {\n        \"id\": {{adopter_id_inactive}}\n    },\n    \"pet\": {\n        \"id\": {{pet_id_1}}\n    }\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -573,7 +573,7 @@
         ],
         "body": {
           "mode": "raw",
-          "raw": "{\n    \"date\": \"2026-09-23T00:00:00-05:00\",\n    \"status\": \"PENDING\",\n    \"description\": \"Quisiera conocer a la mascota y convivir con ella antes de adoptarla\",\n    \"startDate\": \"2026-10-05T00:00:00-05:00\",\n    \"endDate\": \"2026-10-19T00:00:00-05:00\",\n    \"shelter\": {\n        \"id\": {{shelter_id}}\n    },\n    \"adopter\": {\n        \"id\": {{adopter_id}}\n    },\n    \"pet\": {\n        \"id\": 0\n    }\n}",
+          "raw": "{\n    \"date\": \"2026-09-23T00:00:00-05:00\",\n    \"status\": \"PENDING\",\n    \"description\": \"Quisiera conocer a la mascota y convivir con ella antes de adoptarla\",\n    \"startDate\": \"{{trial_start_date}}\",\n    \"endDate\": \"{{trial_end_date}}\",\n    \"shelter\": {\n        \"id\": {{shelter_id}}\n    },\n    \"adopter\": {\n        \"id\": {{adopter_id}}\n    },\n    \"pet\": {\n        \"id\": 0\n    }\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -604,7 +604,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"date\": \"2026-09-23T00:00:00-05:00\",\n    \"status\": \"PENDING\",\n    \"description\": \"Quisiera conocer a la mascota y convivir con ella antes de adoptarla\",\n    \"startDate\": \"2026-10-05T00:00:00-05:00\",\n    \"endDate\": \"2026-10-19T00:00:00-05:00\",\n    \"shelter\": {\n        \"id\": {{shelter_id}}\n    },\n    \"adopter\": {\n        \"id\": {{adopter_id}}\n    },\n    \"pet\": {\n        \"id\": 0\n    }\n}",
+              "raw": "{\n    \"date\": \"2026-09-23T00:00:00-05:00\",\n    \"status\": \"PENDING\",\n    \"description\": \"Quisiera conocer a la mascota y convivir con ella antes de adoptarla\",\n    \"startDate\": \"{{trial_start_date}}\",\n    \"endDate\": \"{{trial_end_date}}\",\n    \"shelter\": {\n        \"id\": {{shelter_id}}\n    },\n    \"adopter\": {\n        \"id\": {{adopter_id}}\n    },\n    \"pet\": {\n        \"id\": 0\n    }\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -665,7 +665,7 @@
         ],
         "body": {
           "mode": "raw",
-          "raw": "{\n    \"date\": \"2026-09-23T00:00:00-05:00\",\n    \"status\": \"PENDING\",\n    \"description\": \"Quisiera conocer a la mascota y convivir con ella antes de adoptarla\",\n    \"startDate\": \"2026-10-05T00:00:00-05:00\",\n    \"endDate\": \"2026-10-19T00:00:00-05:00\",\n    \"shelter\": {\n        \"id\": {{shelter_id}}\n    },\n    \"adopter\": {\n        \"id\": {{adopter_id}}\n    },\n    \"pet\": {\n        \"id\": {{pet_id_inactive}}\n    }\n}",
+          "raw": "{\n    \"date\": \"2026-09-23T00:00:00-05:00\",\n    \"status\": \"PENDING\",\n    \"description\": \"Quisiera conocer a la mascota y convivir con ella antes de adoptarla\",\n    \"startDate\": \"{{trial_start_date}}\",\n    \"endDate\": \"{{trial_end_date}}\",\n    \"shelter\": {\n        \"id\": {{shelter_id}}\n    },\n    \"adopter\": {\n        \"id\": {{adopter_id}}\n    },\n    \"pet\": {\n        \"id\": {{pet_id_inactive}}\n    }\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -696,7 +696,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"date\": \"2026-09-23T00:00:00-05:00\",\n    \"status\": \"PENDING\",\n    \"description\": \"Quisiera conocer a la mascota y convivir con ella antes de adoptarla\",\n    \"startDate\": \"2026-10-05T00:00:00-05:00\",\n    \"endDate\": \"2026-10-19T00:00:00-05:00\",\n    \"shelter\": {\n        \"id\": {{shelter_id}}\n    },\n    \"adopter\": {\n        \"id\": {{adopter_id}}\n    },\n    \"pet\": {\n        \"id\": {{pet_id_inactive}}\n    }\n}",
+              "raw": "{\n    \"date\": \"2026-09-23T00:00:00-05:00\",\n    \"status\": \"PENDING\",\n    \"description\": \"Quisiera conocer a la mascota y convivir con ella antes de adoptarla\",\n    \"startDate\": \"{{trial_start_date}}\",\n    \"endDate\": \"{{trial_end_date}}\",\n    \"shelter\": {\n        \"id\": {{shelter_id}}\n    },\n    \"adopter\": {\n        \"id\": {{adopter_id}}\n    },\n    \"pet\": {\n        \"id\": {{pet_id_inactive}}\n    }\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -757,7 +757,7 @@
         ],
         "body": {
           "mode": "raw",
-          "raw": "{\n    \"date\": \"2026-09-23T00:00:00-05:00\",\n    \"status\": \"PENDING\",\n    \"description\": \"Quisiera conocer a la mascota y convivir con ella antes de adoptarla\",\n    \"startDate\": \"2026-10-05T00:00:00-05:00\",\n    \"endDate\": \"2026-10-19T00:00:00-05:00\",\n    \"shelter\": {\n        \"id\": {{shelter_id}}\n    },\n    \"adopter\": {\n        \"id\": {{adopter_id}}\n    },\n    \"pet\": {\n        \"id\": {{pet_id_unavailable}}\n    }\n}",
+          "raw": "{\n    \"date\": \"2026-09-23T00:00:00-05:00\",\n    \"status\": \"PENDING\",\n    \"description\": \"Quisiera conocer a la mascota y convivir con ella antes de adoptarla\",\n    \"startDate\": \"{{trial_start_date}}\",\n    \"endDate\": \"{{trial_end_date}}\",\n    \"shelter\": {\n        \"id\": {{shelter_id}}\n    },\n    \"adopter\": {\n        \"id\": {{adopter_id}}\n    },\n    \"pet\": {\n        \"id\": {{pet_id_unavailable}}\n    }\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -788,7 +788,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"date\": \"2026-09-23T00:00:00-05:00\",\n    \"status\": \"PENDING\",\n    \"description\": \"Quisiera conocer a la mascota y convivir con ella antes de adoptarla\",\n    \"startDate\": \"2026-10-05T00:00:00-05:00\",\n    \"endDate\": \"2026-10-19T00:00:00-05:00\",\n    \"shelter\": {\n        \"id\": {{shelter_id}}\n    },\n    \"adopter\": {\n        \"id\": {{adopter_id}}\n    },\n    \"pet\": {\n        \"id\": {{pet_id_unavailable}}\n    }\n}",
+              "raw": "{\n    \"date\": \"2026-09-23T00:00:00-05:00\",\n    \"status\": \"PENDING\",\n    \"description\": \"Quisiera conocer a la mascota y convivir con ella antes de adoptarla\",\n    \"startDate\": \"{{trial_start_date}}\",\n    \"endDate\": \"{{trial_end_date}}\",\n    \"shelter\": {\n        \"id\": {{shelter_id}}\n    },\n    \"adopter\": {\n        \"id\": {{adopter_id}}\n    },\n    \"pet\": {\n        \"id\": {{pet_id_unavailable}}\n    }\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -849,7 +849,7 @@
         ],
         "body": {
           "mode": "raw",
-          "raw": "{\n    \"date\": \"2026-09-23T00:00:00-05:00\",\n    \"status\": \"PENDING\",\n    \"description\": \"Quisiera conocer a la mascota y convivir con ella antes de adoptarla\",\n    \"startDate\": \"2026-10-05T00:00:00-05:00\",\n    \"endDate\": \"2026-10-19T00:00:00-05:00\",\n    \"shelter\": {\n        \"id\": {{shelter_id}}\n    },\n    \"adopter\": {\n        \"id\": {{adopter_id}}\n    },\n    \"pet\": {\n        \"id\": {{pet_id_1}}\n    }\n}",
+          "raw": "{\n    \"date\": \"2026-09-23T00:00:00-05:00\",\n    \"status\": \"PENDING\",\n    \"description\": \"Quisiera conocer a la mascota y convivir con ella antes de adoptarla\",\n    \"startDate\": \"{{trial_start_date}}\",\n    \"endDate\": \"{{trial_end_date}}\",\n    \"shelter\": {\n        \"id\": {{shelter_id}}\n    },\n    \"adopter\": {\n        \"id\": {{adopter_id}}\n    },\n    \"pet\": {\n        \"id\": {{pet_id_1}}\n    }\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -880,7 +880,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"date\": \"2026-09-23T00:00:00-05:00\",\n    \"status\": \"PENDING\",\n    \"description\": \"Quisiera conocer a la mascota y convivir con ella antes de adoptarla\",\n    \"startDate\": \"2026-10-05T00:00:00-05:00\",\n    \"endDate\": \"2026-10-19T00:00:00-05:00\",\n    \"shelter\": {\n        \"id\": {{shelter_id}}\n    },\n    \"adopter\": {\n        \"id\": {{adopter_id}}\n    },\n    \"pet\": {\n        \"id\": {{pet_id_1}}\n    }\n}",
+              "raw": "{\n    \"date\": \"2026-09-23T00:00:00-05:00\",\n    \"status\": \"PENDING\",\n    \"description\": \"Quisiera conocer a la mascota y convivir con ella antes de adoptarla\",\n    \"startDate\": \"{{trial_start_date}}\",\n    \"endDate\": \"{{trial_end_date}}\",\n    \"shelter\": {\n        \"id\": {{shelter_id}}\n    },\n    \"adopter\": {\n        \"id\": {{adopter_id}}\n    },\n    \"pet\": {\n        \"id\": {{pet_id_1}}\n    }\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -1125,7 +1125,7 @@
         ],
         "body": {
           "mode": "raw",
-          "raw": "{\n    \"date\": \"2026-09-23T00:00:00-05:00\",\n    \"status\": \"PENDING\",\n    \"description\": \"Quisiera conocer a la mascota y convivir con ella antes de adoptarla\",\n    \"startDate\": \"2026-10-19T00:00:00-05:00\",\n    \"endDate\": \"2026-10-05T00:00:00-05:00\",\n    \"shelter\": {\n        \"id\": {{shelter_id}}\n    },\n    \"adopter\": {\n        \"id\": {{adopter_id}}\n    },\n    \"pet\": {\n        \"id\": {{pet_id_1}}\n    }\n}",
+          "raw": "{\n    \"date\": \"2026-09-23T00:00:00-05:00\",\n    \"status\": \"PENDING\",\n    \"description\": \"Quisiera conocer a la mascota y convivir con ella antes de adoptarla\",\n    \"startDate\": \"{{trial_end_date}}\",\n    \"endDate\": \"{{trial_start_date}}\",\n    \"shelter\": {\n        \"id\": {{shelter_id}}\n    },\n    \"adopter\": {\n        \"id\": {{adopter_id}}\n    },\n    \"pet\": {\n        \"id\": {{pet_id_1}}\n    }\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -1156,7 +1156,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"date\": \"2026-09-23T00:00:00-05:00\",\n    \"status\": \"PENDING\",\n    \"description\": \"Quisiera conocer a la mascota y convivir con ella antes de adoptarla\",\n    \"startDate\": \"2026-10-19T00:00:00-05:00\",\n    \"endDate\": \"2026-10-05T00:00:00-05:00\",\n    \"shelter\": {\n        \"id\": {{shelter_id}}\n    },\n    \"adopter\": {\n        \"id\": {{adopter_id}}\n    },\n    \"pet\": {\n        \"id\": {{pet_id_1}}\n    }\n}",
+              "raw": "{\n    \"date\": \"2026-09-23T00:00:00-05:00\",\n    \"status\": \"PENDING\",\n    \"description\": \"Quisiera conocer a la mascota y convivir con ella antes de adoptarla\",\n    \"startDate\": \"{{trial_end_date}}\",\n    \"endDate\": \"{{trial_start_date}}\",\n    \"shelter\": {\n        \"id\": {{shelter_id}}\n    },\n    \"adopter\": {\n        \"id\": {{adopter_id}}\n    },\n    \"pet\": {\n        \"id\": {{pet_id_1}}\n    }\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -1821,7 +1821,7 @@
         ],
         "body": {
           "mode": "raw",
-          "raw": "{\n    \"date\": \"2026-09-23T00:00:00-05:00\",\n    \"status\": \"PENDING\",\n    \"description\": \"Quisiera conocer a la mascota y convivir con ella dos semanas antes de adoptarla\",\n    \"startDate\": \"2026-10-05T00:00:00-05:00\",\n    \"endDate\": \"2026-10-19T00:00:00-05:00\",\n    \"shelter\": {\n        \"id\": {{shelter_id}}\n    },\n    \"adopter\": {\n        \"id\": {{adopter_id}}\n    },\n    \"pet\": {\n        \"id\": {{pet_id_1}}\n    }\n}",
+          "raw": "{\n    \"date\": \"2026-09-23T00:00:00-05:00\",\n    \"status\": \"PENDING\",\n    \"description\": \"Quisiera conocer a la mascota y convivir con ella dos semanas antes de adoptarla\",\n    \"startDate\": \"{{trial_start_date}}\",\n    \"endDate\": \"{{trial_end_date}}\",\n    \"shelter\": {\n        \"id\": {{shelter_id}}\n    },\n    \"adopter\": {\n        \"id\": {{adopter_id}}\n    },\n    \"pet\": {\n        \"id\": {{pet_id_1}}\n    }\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -1853,7 +1853,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"date\": \"2026-09-23T00:00:00-05:00\",\n    \"status\": \"PENDING\",\n    \"description\": \"Quisiera conocer a la mascota y convivir con ella dos semanas antes de adoptarla\",\n    \"startDate\": \"2026-10-05T00:00:00-05:00\",\n    \"endDate\": \"2026-10-19T00:00:00-05:00\",\n    \"shelter\": {\n        \"id\": {{shelter_id}}\n    },\n    \"adopter\": {\n        \"id\": {{adopter_id}}\n    },\n    \"pet\": {\n        \"id\": {{pet_id_1}}\n    }\n}",
+              "raw": "{\n    \"date\": \"2026-09-23T00:00:00-05:00\",\n    \"status\": \"PENDING\",\n    \"description\": \"Quisiera conocer a la mascota y convivir con ella dos semanas antes de adoptarla\",\n    \"startDate\": \"{{trial_start_date}}\",\n    \"endDate\": \"{{trial_end_date}}\",\n    \"shelter\": {\n        \"id\": {{shelter_id}}\n    },\n    \"adopter\": {\n        \"id\": {{adopter_id}}\n    },\n    \"pet\": {\n        \"id\": {{pet_id_1}}\n    }\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -1915,7 +1915,7 @@
         ],
         "body": {
           "mode": "raw",
-          "raw": "{\n    \"date\": \"2026-09-23T00:00:00-05:00\",\n    \"status\": \"PENDING\",\n    \"description\": \"Quisiera conocer a la mascota y convivir con ella dos semanas antes de adoptarla\",\n    \"startDate\": \"2026-10-05T00:00:00-05:00\",\n    \"endDate\": \"2026-10-19T00:00:00-05:00\",\n    \"shelter\": {\n        \"id\": {{shelter_id}}\n    },\n    \"adopter\": {\n        \"id\": {{adopter_id}}\n    },\n    \"pet\": {\n        \"id\": {{pet_id_1}}\n    }\n}",
+          "raw": "{\n    \"date\": \"2026-09-23T00:00:00-05:00\",\n    \"status\": \"PENDING\",\n    \"description\": \"Quisiera conocer a la mascota y convivir con ella dos semanas antes de adoptarla\",\n    \"startDate\": \"{{trial_start_date}}\",\n    \"endDate\": \"{{trial_end_date}}\",\n    \"shelter\": {\n        \"id\": {{shelter_id}}\n    },\n    \"adopter\": {\n        \"id\": {{adopter_id}}\n    },\n    \"pet\": {\n        \"id\": {{pet_id_1}}\n    }\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -1947,7 +1947,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"date\": \"2026-09-23T00:00:00-05:00\",\n    \"status\": \"PENDING\",\n    \"description\": \"Quisiera conocer a la mascota y convivir con ella dos semanas antes de adoptarla\",\n    \"startDate\": \"2026-10-05T00:00:00-05:00\",\n    \"endDate\": \"2026-10-19T00:00:00-05:00\",\n    \"shelter\": {\n        \"id\": {{shelter_id}}\n    },\n    \"adopter\": {\n        \"id\": {{adopter_id}}\n    },\n    \"pet\": {\n        \"id\": {{pet_id_1}}\n    }\n}",
+              "raw": "{\n    \"date\": \"2026-09-23T00:00:00-05:00\",\n    \"status\": \"PENDING\",\n    \"description\": \"Quisiera conocer a la mascota y convivir con ella dos semanas antes de adoptarla\",\n    \"startDate\": \"{{trial_start_date}}\",\n    \"endDate\": \"{{trial_end_date}}\",\n    \"shelter\": {\n        \"id\": {{shelter_id}}\n    },\n    \"adopter\": {\n        \"id\": {{adopter_id}}\n    },\n    \"pet\": {\n        \"id\": {{pet_id_1}}\n    }\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -2009,7 +2009,7 @@
         ],
         "body": {
           "mode": "raw",
-          "raw": "{\n    \"date\": \"2026-09-23T00:00:00-05:00\",\n    \"status\": \"PENDING\",\n    \"description\": \"Quisiera conocer a la mascota y convivir con ella dos semanas antes de adoptarla\",\n    \"startDate\": \"2026-10-05T00:00:00-05:00\",\n    \"endDate\": \"2026-10-19T00:00:00-05:00\",\n    \"shelter\": {\n        \"id\": {{shelter_id}}\n    },\n    \"adopter\": {\n        \"id\": {{adopter_id}}\n    },\n    \"pet\": {\n        \"id\": {{pet_id_1}}\n    }\n}",
+          "raw": "{\n    \"date\": \"2026-09-23T00:00:00-05:00\",\n    \"status\": \"PENDING\",\n    \"description\": \"Quisiera conocer a la mascota y convivir con ella dos semanas antes de adoptarla\",\n    \"startDate\": \"{{trial_start_date}}\",\n    \"endDate\": \"{{trial_end_date}}\",\n    \"shelter\": {\n        \"id\": {{shelter_id}}\n    },\n    \"adopter\": {\n        \"id\": {{adopter_id}}\n    },\n    \"pet\": {\n        \"id\": {{pet_id_1}}\n    }\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -2041,7 +2041,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"date\": \"2026-09-23T00:00:00-05:00\",\n    \"status\": \"PENDING\",\n    \"description\": \"Quisiera conocer a la mascota y convivir con ella dos semanas antes de adoptarla\",\n    \"startDate\": \"2026-10-05T00:00:00-05:00\",\n    \"endDate\": \"2026-10-19T00:00:00-05:00\",\n    \"shelter\": {\n        \"id\": {{shelter_id}}\n    },\n    \"adopter\": {\n        \"id\": {{adopter_id}}\n    },\n    \"pet\": {\n        \"id\": {{pet_id_1}}\n    }\n}",
+              "raw": "{\n    \"date\": \"2026-09-23T00:00:00-05:00\",\n    \"status\": \"PENDING\",\n    \"description\": \"Quisiera conocer a la mascota y convivir con ella dos semanas antes de adoptarla\",\n    \"startDate\": \"{{trial_start_date}}\",\n    \"endDate\": \"{{trial_end_date}}\",\n    \"shelter\": {\n        \"id\": {{shelter_id}}\n    },\n    \"adopter\": {\n        \"id\": {{adopter_id}}\n    },\n    \"pet\": {\n        \"id\": {{pet_id_1}}\n    }\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -2103,7 +2103,7 @@
         ],
         "body": {
           "mode": "raw",
-          "raw": "{\n    \"date\": \"2026-09-23T00:00:00-05:00\",\n    \"status\": null,\n    \"description\": \"Quisiera conocer a la mascota y convivir con ella dos semanas antes de adoptarla\",\n    \"startDate\": \"2026-10-05T00:00:00-05:00\",\n    \"endDate\": \"2026-10-19T00:00:00-05:00\",\n    \"shelter\": {\n        \"id\": {{shelter_id}}\n    },\n    \"adopter\": {\n        \"id\": {{adopter_id}}\n    },\n    \"pet\": {\n        \"id\": {{pet_id_1}}\n    }\n}",
+          "raw": "{\n    \"date\": \"2026-09-23T00:00:00-05:00\",\n    \"status\": null,\n    \"description\": \"Quisiera conocer a la mascota y convivir con ella dos semanas antes de adoptarla\",\n    \"startDate\": \"{{trial_start_date}}\",\n    \"endDate\": \"{{trial_end_date}}\",\n    \"shelter\": {\n        \"id\": {{shelter_id}}\n    },\n    \"adopter\": {\n        \"id\": {{adopter_id}}\n    },\n    \"pet\": {\n        \"id\": {{pet_id_1}}\n    }\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -2135,7 +2135,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"date\": \"2026-09-23T00:00:00-05:00\",\n    \"status\": null,\n    \"description\": \"Quisiera conocer a la mascota y convivir con ella dos semanas antes de adoptarla\",\n    \"startDate\": \"2026-10-05T00:00:00-05:00\",\n    \"endDate\": \"2026-10-19T00:00:00-05:00\",\n    \"shelter\": {\n        \"id\": {{shelter_id}}\n    },\n    \"adopter\": {\n        \"id\": {{adopter_id}}\n    },\n    \"pet\": {\n        \"id\": {{pet_id_1}}\n    }\n}",
+              "raw": "{\n    \"date\": \"2026-09-23T00:00:00-05:00\",\n    \"status\": null,\n    \"description\": \"Quisiera conocer a la mascota y convivir con ella dos semanas antes de adoptarla\",\n    \"startDate\": \"{{trial_start_date}}\",\n    \"endDate\": \"{{trial_end_date}}\",\n    \"shelter\": {\n        \"id\": {{shelter_id}}\n    },\n    \"adopter\": {\n        \"id\": {{adopter_id}}\n    },\n    \"pet\": {\n        \"id\": {{pet_id_1}}\n    }\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -2197,7 +2197,7 @@
         ],
         "body": {
           "mode": "raw",
-          "raw": "{\n    \"date\": \"2026-09-23T00:00:00-05:00\",\n    \"status\": \"PENDING\",\n    \"description\": \"Quisiera conocer a la mascota y convivir con ella dos semanas antes de adoptarla\",\n    \"startDate\": \"2026-10-05T00:00:00-05:00\",\n    \"endDate\": \"2026-10-19T00:00:00-05:00\",\n    \"shelter\": {\n        \"id\": {{shelter_id}}\n    },\n    \"adopter\": {\n        \"id\": {{adopter_id}}\n    },\n    \"pet\": {\n        \"id\": {{pet_id_2}}\n    }\n}",
+          "raw": "{\n    \"date\": \"2026-09-23T00:00:00-05:00\",\n    \"status\": \"PENDING\",\n    \"description\": \"Quisiera conocer a la mascota y convivir con ella dos semanas antes de adoptarla\",\n    \"startDate\": \"{{trial_start_date}}\",\n    \"endDate\": \"{{trial_end_date}}\",\n    \"shelter\": {\n        \"id\": {{shelter_id}}\n    },\n    \"adopter\": {\n        \"id\": {{adopter_id}}\n    },\n    \"pet\": {\n        \"id\": {{pet_id_2}}\n    }\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -2229,7 +2229,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"date\": \"2026-09-23T00:00:00-05:00\",\n    \"status\": \"PENDING\",\n    \"description\": \"Quisiera conocer a la mascota y convivir con ella dos semanas antes de adoptarla\",\n    \"startDate\": \"2026-10-05T00:00:00-05:00\",\n    \"endDate\": \"2026-10-19T00:00:00-05:00\",\n    \"shelter\": {\n        \"id\": {{shelter_id}}\n    },\n    \"adopter\": {\n        \"id\": {{adopter_id}}\n    },\n    \"pet\": {\n        \"id\": {{pet_id_2}}\n    }\n}",
+              "raw": "{\n    \"date\": \"2026-09-23T00:00:00-05:00\",\n    \"status\": \"PENDING\",\n    \"description\": \"Quisiera conocer a la mascota y convivir con ella dos semanas antes de adoptarla\",\n    \"startDate\": \"{{trial_start_date}}\",\n    \"endDate\": \"{{trial_end_date}}\",\n    \"shelter\": {\n        \"id\": {{shelter_id}}\n    },\n    \"adopter\": {\n        \"id\": {{adopter_id}}\n    },\n    \"pet\": {\n        \"id\": {{pet_id_2}}\n    }\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -2291,7 +2291,7 @@
         ],
         "body": {
           "mode": "raw",
-          "raw": "{\n    \"date\": \"2026-09-23T00:00:00-05:00\",\n    \"status\": \"PENDING\",\n    \"description\": \"Quisiera conocer a la mascota y convivir con ella dos semanas antes de adoptarla\",\n    \"startDate\": \"2026-10-05T00:00:00-05:00\",\n    \"endDate\": \"2026-10-19T00:00:00-05:00\",\n    \"shelter\": {\n        \"id\": {{shelter_id}}\n    },\n    \"adopter\": {\n        \"id\": {{adopter_id_inactive}}\n    },\n    \"pet\": {\n        \"id\": {{pet_id_1}}\n    }\n}",
+          "raw": "{\n    \"date\": \"2026-09-23T00:00:00-05:00\",\n    \"status\": \"PENDING\",\n    \"description\": \"Quisiera conocer a la mascota y convivir con ella dos semanas antes de adoptarla\",\n    \"startDate\": \"{{trial_start_date}}\",\n    \"endDate\": \"{{trial_end_date}}\",\n    \"shelter\": {\n        \"id\": {{shelter_id}}\n    },\n    \"adopter\": {\n        \"id\": {{adopter_id_inactive}}\n    },\n    \"pet\": {\n        \"id\": {{pet_id_1}}\n    }\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -2323,7 +2323,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"date\": \"2026-09-23T00:00:00-05:00\",\n    \"status\": \"PENDING\",\n    \"description\": \"Quisiera conocer a la mascota y convivir con ella dos semanas antes de adoptarla\",\n    \"startDate\": \"2026-10-05T00:00:00-05:00\",\n    \"endDate\": \"2026-10-19T00:00:00-05:00\",\n    \"shelter\": {\n        \"id\": {{shelter_id}}\n    },\n    \"adopter\": {\n        \"id\": {{adopter_id_inactive}}\n    },\n    \"pet\": {\n        \"id\": {{pet_id_1}}\n    }\n}",
+              "raw": "{\n    \"date\": \"2026-09-23T00:00:00-05:00\",\n    \"status\": \"PENDING\",\n    \"description\": \"Quisiera conocer a la mascota y convivir con ella dos semanas antes de adoptarla\",\n    \"startDate\": \"{{trial_start_date}}\",\n    \"endDate\": \"{{trial_end_date}}\",\n    \"shelter\": {\n        \"id\": {{shelter_id}}\n    },\n    \"adopter\": {\n        \"id\": {{adopter_id_inactive}}\n    },\n    \"pet\": {\n        \"id\": {{pet_id_1}}\n    }\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -2385,7 +2385,7 @@
         ],
         "body": {
           "mode": "raw",
-          "raw": "{\n    \"date\": \"2026-09-23T00:00:00-05:00\",\n    \"status\": \"PENDING\",\n    \"description\": \"Quisiera conocer a la mascota y convivir con ella dos semanas antes de adoptarla\",\n    \"startDate\": \"2026-10-05T00:00:00-05:00\",\n    \"endDate\": \"2026-10-19T00:00:00-05:00\",\n    \"shelter\": {\n        \"id\": {{shelter_id}}\n    },\n    \"adopter\": {\n        \"id\": {{adopter_id}}\n    },\n    \"pet\": {\n        \"id\": {{pet_id_1}}\n    }\n}",
+          "raw": "{\n    \"date\": \"2026-09-23T00:00:00-05:00\",\n    \"status\": \"PENDING\",\n    \"description\": \"Quisiera conocer a la mascota y convivir con ella dos semanas antes de adoptarla\",\n    \"startDate\": \"{{trial_start_date}}\",\n    \"endDate\": \"{{trial_end_date}}\",\n    \"shelter\": {\n        \"id\": {{shelter_id}}\n    },\n    \"adopter\": {\n        \"id\": {{adopter_id}}\n    },\n    \"pet\": {\n        \"id\": {{pet_id_1}}\n    }\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -2417,7 +2417,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"date\": \"2026-09-23T00:00:00-05:00\",\n    \"status\": \"PENDING\",\n    \"description\": \"Quisiera conocer a la mascota y convivir con ella dos semanas antes de adoptarla\",\n    \"startDate\": \"2026-10-05T00:00:00-05:00\",\n    \"endDate\": \"2026-10-19T00:00:00-05:00\",\n    \"shelter\": {\n        \"id\": {{shelter_id}}\n    },\n    \"adopter\": {\n        \"id\": {{adopter_id}}\n    },\n    \"pet\": {\n        \"id\": {{pet_id_1}}\n    }\n}",
+              "raw": "{\n    \"date\": \"2026-09-23T00:00:00-05:00\",\n    \"status\": \"PENDING\",\n    \"description\": \"Quisiera conocer a la mascota y convivir con ella dos semanas antes de adoptarla\",\n    \"startDate\": \"{{trial_start_date}}\",\n    \"endDate\": \"{{trial_end_date}}\",\n    \"shelter\": {\n        \"id\": {{shelter_id}}\n    },\n    \"adopter\": {\n        \"id\": {{adopter_id}}\n    },\n    \"pet\": {\n        \"id\": {{pet_id_1}}\n    }\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -2517,6 +2517,15 @@
             "exec": [
               "pm.test(\"Status code is 204\", function () {",
               "    pm.response.to.have.status(204);",
+              "});",
+              "",
+              "pm.test(\"Resource no longer exists\", function (done) {",
+              "    pm.sendRequest({",
+              "        url: pm.variables.replaceIn(\"{{baseUrl}}/trialCohabitationRequests/\" + pm.collectionVariables.get(\"request_id_cancelled\")),",
+              "        method: \"GET\"",
+              "    }, function (err, res) {",
+              "        done(err || (res.code === 404 ? null : new Error(\"Expected 404, got \" + res.code)));",
+              "    });",
               "});"
             ]
           }
@@ -2762,6 +2771,35 @@
     {
       "key": "request_id_cancelled",
       "value": "3"
+    },
+    {
+      "key": "trial_start_date",
+      "value": ""
+    },
+    {
+      "key": "trial_end_date",
+      "value": ""
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          "var start = new Date();",
+          "start.setDate(start.getDate() + 30);",
+          "var end = new Date(start);",
+          "end.setDate(end.getDate() + 14);",
+          "",
+          "function toDate(d) {",
+          "    return d.toISOString().slice(0, 10) + \"T00:00:00-05:00\";",
+          "}",
+          "",
+          "pm.collectionVariables.set(\"trial_start_date\", toDate(start));",
+          "pm.collectionVariables.set(\"trial_end_date\", toDate(end));"
+        ]
+      }
     }
   ]
 }

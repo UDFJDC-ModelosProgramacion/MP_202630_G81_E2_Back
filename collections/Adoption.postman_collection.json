@@ -274,9 +274,16 @@
             "type": "text/javascript",
             "exec": [
               "var data = pm.response.json();",
-              "pm.globals.set(\"adoption_id_1\", data.id);",
+              "pm.collectionVariables.set(\"adoption_id_1\", data.id);",
               "",
-              "pm.test(\"Status code is 201\", function () {\n    pm.response.to.have.status(201);\n});"
+              "pm.test(\"Status code is 201\", function () {",
+              "    pm.response.to.have.status(201);",
+              "});",
+              "",
+              "pm.test(\"Response has the created adoption data\", function () {",
+              "    pm.expect(data.status).to.eql(\"IN_PROGRESS\");",
+              "    pm.expect(data.importantNotes).to.eql(\"El adoptante cuenta con espacio adecuado para la mascota\");",
+              "});"
             ]
           }
         }
@@ -658,7 +665,7 @@
             "adoptions"
           ]
         },
-        "description": "createAdoption regla 2: el adoptante debe estar activo. adopter_id_inactive es un adoptante que existe pero esta inactivo.\n\nNOTA: sin pm.test todavia -- la regla de negocio que prueba este request aun no esta implementada en el servicio."
+        "description": "createAdoption regla 2: el adoptante debe estar activo. adopter_id_inactive es un adoptante que existe pero esta inactivo."
       },
       "response": [
         {
@@ -701,6 +708,24 @@
           ],
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"23-09-2026 10:04:14\",\n        \"message\": \"The adopter is not active in the system\"\n    }\n}"
+        }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 412\", function () {",
+              "    pm.response.to.have.status(412);",
+              "});",
+              "",
+              "pm.test(\"Get expected error message\", function () {",
+              "    var data = pm.response.json();",
+              "    pm.expect(data.apierror.message).to.eql(\"The adopter is not active in the system\");",
+              "});"
+            ]
+          }
         }
       ]
     },
@@ -819,7 +844,7 @@
             "adoptions"
           ]
         },
-        "description": "createAdoption regla 3: la mascota debe estar disponible para adopcion. pet_id_unavailable es una mascota que existe pero no esta disponible (por ejemplo, en convivencia de prueba).\n\nNOTA: sin pm.test todavia -- la regla de negocio que prueba este request aun no esta implementada en el servicio."
+        "description": "createAdoption regla 3: la mascota debe estar disponible para adopcion. pet_id_unavailable es una mascota que existe pero no esta disponible (por ejemplo, en convivencia de prueba)."
       },
       "response": [
         {
@@ -862,6 +887,24 @@
           ],
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"23-09-2026 10:05:28\",\n        \"message\": \"The pet is not available for adoption\"\n    }\n}"
+        }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 412\", function () {",
+              "    pm.response.to.have.status(412);",
+              "});",
+              "",
+              "pm.test(\"Get expected error message\", function () {",
+              "    var data = pm.response.json();",
+              "    pm.expect(data.apierror.message).to.eql(\"The pet is not available for adoption\");",
+              "});"
+            ]
+          }
         }
       ]
     },
@@ -1208,7 +1251,7 @@
             }
           ]
         },
-        "description": "getAdoptions regla 2: filtro simple por status.\n\nNOTA: sin pm.test todavia -- la regla de negocio que prueba este request aun no esta implementada en el servicio."
+        "description": "getAdoptions regla 2: filtro simple por status."
       },
       "response": [
         {
@@ -1244,6 +1287,27 @@
           "cookie": [],
           "body": "[\n    {\n        \"id\": 1,\n        \"date\": \"2026-09-10\",\n        \"status\": \"IN_PROGRESS\",\n        \"importantNotes\": \"El adoptante cuenta con espacio adecuado para la mascota\",\n        \"reviews\": [],\n        \"followUps\": [\n            {\n                \"id\": 1,\n                \"date\": \"2026-09-20\",\n                \"observation\": \"La mascota se adapto bien al nuevo hogar.\"\n            }\n        ]\n    }\n]"
         }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test(\"All adoptions match the status filter\", function () {",
+              "    var data = pm.response.json();",
+              "    pm.expect(data.length).to.greaterThan(0);",
+              "    data.forEach(function (a) {",
+              "        pm.expect(a.status).to.eql(\"IN_PROGRESS\");",
+              "    });",
+              "});"
+            ]
+          }
+        }
       ]
     },
     {
@@ -1274,7 +1338,7 @@
             }
           ]
         },
-        "description": "getAdoptions reglas 1 y 2: filtros petId, adopterId y status. Deben cumplirse todos.\n\nNOTA: sin pm.test todavia -- la regla de negocio que prueba este request aun no esta implementada en el servicio."
+        "description": "getAdoptions reglas 1 y 2: filtros petId, adopterId y status. Deben cumplirse todos."
       },
       "response": [
         {
@@ -1318,6 +1382,27 @@
           "cookie": [],
           "body": "[\n    {\n        \"id\": 1,\n        \"date\": \"2026-09-10\",\n        \"status\": \"IN_PROGRESS\",\n        \"importantNotes\": \"El adoptante cuenta con espacio adecuado para la mascota\",\n        \"reviews\": [],\n        \"followUps\": [\n            {\n                \"id\": 1,\n                \"date\": \"2026-09-20\",\n                \"observation\": \"La mascota se adapto bien al nuevo hogar.\"\n            }\n        ]\n    }\n]"
         }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test(\"All adoptions match every filter\", function () {",
+              "    var data = pm.response.json();",
+              "    pm.expect(data.length).to.greaterThan(0);",
+              "    data.forEach(function (a) {",
+              "        pm.expect(a.status).to.eql(\"IN_PROGRESS\");",
+              "    });",
+              "});"
+            ]
+          }
+        }
       ]
     },
     {
@@ -1344,7 +1429,7 @@
             }
           ]
         },
-        "description": "getAdoptions regla 2: la mascota tiene una adopcion pero no esta cancelada; si algun filtro no se cumple no se retorna nada.\n\nNOTA: sin pm.test todavia -- la regla de negocio que prueba este request aun no esta implementada en el servicio."
+        "description": "getAdoptions regla 2: la mascota tiene una adopcion pero no esta cancelada; si algun filtro no se cumple no se retorna nada."
       },
       "response": [
         {
@@ -1384,6 +1469,24 @@
           "cookie": [],
           "body": "[]"
         }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test(\"No adoptions are returned when a filter does not match\", function () {",
+              "    var data = pm.response.json();",
+              "    pm.expect(data.length).to.eql(0);",
+              "});"
+            ]
+          }
+        }
       ]
     },
     {
@@ -1406,7 +1509,7 @@
             }
           ]
         },
-        "description": "getAdoptions regla 1: no se permiten identificadores invalidos en los parametros de busqueda.\n\nNOTA: sin pm.test todavia -- la regla de negocio que prueba este request aun no esta implementada en el servicio."
+        "description": "getAdoptions regla 1: no se permiten identificadores invalidos en los parametros de busqueda."
       },
       "response": [
         {
@@ -1441,6 +1544,19 @@
           ],
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"23-09-2026 10:07:56\",\n        \"message\": \"Pet id is not valid\"\n    }\n}"
+        }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 412\", function () {",
+              "    pm.response.to.have.status(412);",
+              "});"
+            ]
+          }
         }
       ]
     },
@@ -1497,7 +1613,14 @@
           "script": {
             "type": "text/javascript",
             "exec": [
-              "pm.test(\"Status code is 200\", function () {\n    pm.response.to.have.status(200);\n});"
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test(\"Get the requested adoption\", function () {",
+              "    var data = pm.response.json();",
+              "    pm.expect(data.id).to.eql(parseInt(pm.collectionVariables.get(\"adoption_id_1\")));",
+              "});"
             ]
           }
         }
@@ -1706,7 +1829,14 @@
           "script": {
             "type": "text/javascript",
             "exec": [
-              "pm.test(\"Status code is 200\", function () {\n    pm.response.to.have.status(200);\n});"
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test(\"Important notes were updated\", function () {",
+              "    var data = pm.response.json();",
+              "    pm.expect(data.importantNotes).to.eql(\"El adoptante cuenta con espacio adecuado y ya visito a la mascota dos veces\");",
+              "});"
             ]
           }
         }
@@ -2008,7 +2138,7 @@
             "{{adoption_id_1}}"
           ]
         },
-        "description": "updateAdoption regla 2: la mascota no se puede modificar despues de crear la adopcion, solo el estado y las observaciones.\n\nNOTA: sin pm.test todavia -- la regla de negocio que prueba este request aun no esta implementada en el servicio."
+        "description": "updateAdoption regla 2: la mascota no se puede modificar despues de crear la adopcion, solo el estado y las observaciones."
       },
       "response": [
         {
@@ -2053,6 +2183,19 @@
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"23-09-2026 10:11:38\",\n        \"message\": \"The pet and the adopter of an adoption cannot be modified\"\n    }\n}"
         }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 412\", function () {",
+              "    pm.response.to.have.status(412);",
+              "});"
+            ]
+          }
+        }
       ]
     },
     {
@@ -2084,7 +2227,7 @@
             "{{adoption_id_1}}"
           ]
         },
-        "description": "updateAdoption regla 2: el adoptante no se puede modificar despues de crear la adopcion.\n\nNOTA: sin pm.test todavia -- la regla de negocio que prueba este request aun no esta implementada en el servicio."
+        "description": "updateAdoption regla 2: el adoptante no se puede modificar despues de crear la adopcion."
       },
       "response": [
         {
@@ -2128,6 +2271,19 @@
           ],
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"23-09-2026 10:12:15\",\n        \"message\": \"The pet and the adopter of an adoption cannot be modified\"\n    }\n}"
+        }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 412\", function () {",
+              "    pm.response.to.have.status(412);",
+              "});"
+            ]
+          }
         }
       ]
     },
@@ -2268,7 +2424,18 @@
           "script": {
             "type": "text/javascript",
             "exec": [
-              "pm.test(\"Status code is 204\", function () {\n    pm.response.to.have.status(204);\n});"
+              "pm.test(\"Status code is 204\", function () {",
+              "    pm.response.to.have.status(204);",
+              "});",
+              "",
+              "pm.test(\"Resource no longer exists\", function (done) {",
+              "    pm.sendRequest({",
+              "        url: pm.variables.replaceIn(\"{{baseUrl}}/adoptions/\" + pm.collectionVariables.get(\"adoption_id_cancelled\")),",
+              "        method: \"GET\"",
+              "    }, function (err, res) {",
+              "        done(err || (res.code === 404 ? null : new Error(\"Expected 404, got \" + res.code)));",
+              "    });",
+              "});"
             ]
           }
         }
@@ -2411,7 +2578,7 @@
             "{{adoption_id_1}}"
           ]
         },
-        "description": "deleteAdoption regla 3: adoption_id_1 esta en estado IN_PROGRESS; primero tiene que ser cancelada.\n\nNOTA: sin pm.test todavia -- la regla de negocio que prueba este request aun no esta implementada en el servicio."
+        "description": "deleteAdoption regla 3: adoption_id_1 esta en estado IN_PROGRESS; primero tiene que ser cancelada."
       },
       "response": [
         {
@@ -2441,6 +2608,19 @@
           ],
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"23-09-2026 10:14:43\",\n        \"message\": \"An active or in-progress adoption cannot be deleted; it must be cancelled first\"\n    }\n}"
+        }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 412\", function () {",
+              "    pm.response.to.have.status(412);",
+              "});"
+            ]
+          }
         }
       ]
     }
