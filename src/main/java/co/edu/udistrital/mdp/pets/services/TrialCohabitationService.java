@@ -300,10 +300,10 @@ public class TrialCohabitationService {
 		trialCohabitationRequestRepository.save(requestFour);
 		trialCohabitationRequestRepository.save(requestFive);
 
-		saveSimulatedTrial("PENDING", adopter, shelter, requestFour);
-		saveSimulatedTrial("PENDING", adopter, shelter, requestFive);
-		saveSimulatedTrial("FINALIZED", adopter, shelter, requestThree);
-		saveSimulatedTrial("IN_PROGRESS", adopter, shelter, requestTwoBis);
+		saveSimulatedTrial(PENDING_STATUS, adopter, shelter, requestFour);
+		saveSimulatedTrial(PENDING_STATUS, adopter, shelter, requestFive);
+		saveSimulatedTrial(FINALIZED_STATUS, adopter, shelter, requestThree);
+		saveSimulatedTrial(IN_PROGRESS_STATUS, adopter, shelter, requestTwoBis);
 	}
 
 	private TrialCohabitationRequestEntity buildSimulatedRequest(PetEntity pet, AdopterEntity adopter,
@@ -326,7 +326,7 @@ public class TrialCohabitationService {
 		trial.setStatus(status);
 		trial.setStartDate(AdopterService.relativeDate(11));
 		trial.setEndDate(AdopterService.relativeDate(72));
-		trial.setObservations(status.equals("FINALIZED") ? "Periodo finalizado" : "Periodo de adaptacion");
+		trial.setObservations(status.equals(FINALIZED_STATUS) ? "Periodo finalizado" : "Periodo de adaptacion");
 		trial.setAdopter(adopter);
 		trial.setShelter(shelter);
 		trial.setTrialCohabitationRequest(request);

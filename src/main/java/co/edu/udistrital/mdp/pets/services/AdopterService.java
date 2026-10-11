@@ -37,6 +37,8 @@ public class AdopterService {
 	private static final String ADOPTER_ID_NOT_VALID = "Adopter id is not valid";
 	private static final String SEARCH_FILTERS_CANNOT_BE_EMPTY = "Search filters cannot be empty";
 
+	private static final String SEED_PASSWORD = "secret123";
+
 	private final AdopterRepository adopterRepository;
 	private final UserRepository userRepository;
 	private final AdoptionRequestRepository adoptionRequestRepository;
@@ -317,7 +319,7 @@ public class AdopterService {
 		veterinarian.setFirstName("Laura");
 		veterinarian.setLastName("Gómez");
 		veterinarian.setEmail("laura.gomez@pets.example");
-		veterinarian.setPassword("secret123");
+		veterinarian.setPassword(SEED_PASSWORD);
 		veterinarian.setPhone("3001112233");
 		veterinarian.setSpecialization("General");
 		veterinarian.setAvailability("Lunes a viernes");
@@ -327,7 +329,7 @@ public class AdopterService {
 		adopterOne.setFirstName("Ana");
 		adopterOne.setLastName("Martínez");
 		adopterOne.setEmail("ana.martinez@pets.example");
-		adopterOne.setPassword("secret123");
+		adopterOne.setPassword(SEED_PASSWORD);
 		adopterOne.setPhone("3102223344");
 		adopterOne.setAddress("Calle 10 # 5-20");
 		adopterOne.setNationalId("CC-1011122233");
@@ -343,7 +345,7 @@ public class AdopterService {
 		adopterTwo.setFirstName("Carlos");
 		adopterTwo.setLastName("Pérez");
 		adopterTwo.setEmail("carlos.perez@mail.com");
-		adopterTwo.setPassword("secret123");
+		adopterTwo.setPassword(SEED_PASSWORD);
 		adopterTwo.setPhone("3055556677");
 		adopterTwo.setAddress("Carrera 15 # 20-30");
 		adopterTwo.setNationalId("CC-1020304050");
