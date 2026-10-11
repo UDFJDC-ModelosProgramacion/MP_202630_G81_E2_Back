@@ -18,6 +18,9 @@ import co.edu.udistrital.mdp.pets.repositories.PhotoRepository;
 import co.edu.udistrital.mdp.pets.repositories.ShelterRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.context.event.ApplicationReadyEvent;
+import org.springframework.context.event.EventListener;
+import org.springframework.core.annotation.Order;
 
 @Slf4j
 @Service
@@ -242,5 +245,98 @@ public class PhotoService {
 				.anyMatch(a -> a.getPet() != null && petId.equals(a.getPet().getId())
 						&& a.getStatus() != null && FINALIZED_STATUS.equalsIgnoreCase(a.getStatus()));
 		return !hasFinalizedAdoption;
+	}
+
+	/**
+	 * Simulated pets and photos for the "integration-tests" profile. Runs after the
+	 * base data of AdopterService (shelter with id 1).
+	 */
+	@EventListener(value = ApplicationReadyEvent.class, condition = "@environment.matchesProfiles('integration-tests')")
+	@Order(2)
+	@Transactional
+	public void seedIntegrationTestData() {
+		if (petRepository.count() > 0)
+			return;
+
+		ShelterEntity shelter = shelterRepository.findById(1L).orElseThrow();
+
+		PetEntity petOne = new PetEntity();
+		petOne.setName("Rocky");
+		petOne.setSpecies("Perro");
+		petOne.setBreed("Labrador");
+		petOne.setAge(3);
+		petOne.setSex("M");
+		petOne.setSize("Grande");
+		petOne.setHealthStatus("Saludable");
+		petOne.setDescription("Perro amigable");
+		petOne.setAdmissionDate(AdopterService.relativeDate(-400));
+		petOne.setTemperament("Tranquilo");
+		petOne.setSpecificNeeds("Ninguna");
+		petOne.setCompatibilityChildren(true);
+		petOne.setCompatibilityOtherPets(true);
+		petOne.setActivityLevel("Alta");
+		petOne.setRequiredSpace("Patio");
+		petOne.setShelter(shelter);
+		petRepository.save(petOne);
+
+		PetEntity petTwo = new PetEntity();
+		petTwo.setName("Luna");
+		petTwo.setSpecies("Gato");
+		petTwo.setBreed("Mestizo");
+		petTwo.setAge(2);
+		petTwo.setSex("H");
+		petTwo.setSize("Pequeña");
+		petTwo.setHealthStatus("Saludable");
+		petTwo.setDescription("Gata independiente");
+		petTwo.setAdmissionDate(AdopterService.relativeDate(-300));
+		petTwo.setTemperament("Juguetona");
+		petTwo.setSpecificNeeds("Ninguna");
+		petTwo.setCompatibilityChildren(true);
+		petTwo.setCompatibilityOtherPets(false);
+		petTwo.setActivityLevel("Media");
+		petTwo.setRequiredSpace("Dentro de casa");
+		petTwo.setShelter(shelter);
+		petRepository.save(petTwo);
+
+		PetEntity petThree = new PetEntity();
+		petThree.setName("Mimi");
+		petThree.setSpecies("Gato");
+		petThree.setBreed("Siamés");
+		petThree.setAge(1);
+		petThree.setSex("H");
+		petThree.setSize("Pequeña");
+		petThree.setHealthStatus("En recuperación");
+		petThree.setDescription("Gatita en adopción sin fotografías");
+		petThree.setAdmissionDate(AdopterService.relativeDate(-10));
+		petThree.setTemperament("Tímida");
+		petThree.setSpecificNeeds("Tratamiento dermatológico");
+		petThree.setCompatibilityChildren(true);
+		petThree.setCompatibilityOtherPets(true);
+		petThree.setActivityLevel("Baja");
+		petThree.setRequiredSpace("Dentro de casa");
+		petThree.setShelter(shelter);
+		petRepository.save(petThree);
+
+		PhotoEntity photoOne = new PhotoEntity();
+		photoOne.setUrl("https://example.com/fotos/rocky.jpg");
+		photoOne.setType("JPG");
+		photoOne.setDescription("Foto de perfil de la mascota");
+		photoOne.setPet(petOne);
+		photoOne.setShelter(shelter);
+		photoRepository.save(photoOne);
+
+		PhotoEntity photoTwo = new PhotoEntity();
+		photoTwo.setUrl("https://example.com/fotos/refugio.jpg");
+		photoTwo.setType("PNG");
+		photoTwo.setDescription("Foto del refugio");
+		photoTwo.setShelter(shelter);
+		photoRepository.save(photoTwo);
+
+		PhotoEntity photoThree = new PhotoEntity();
+		photoThree.setUrl("https://example.com/fotos/luna.jpg");
+		photoThree.setType("JPG");
+		photoThree.setDescription("Foto de perfil de la mascota");
+		photoThree.setPet(petTwo);
+		photoRepository.save(photoThree);
 	}
 }

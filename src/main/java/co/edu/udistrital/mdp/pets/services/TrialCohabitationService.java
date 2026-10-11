@@ -20,6 +20,10 @@ import co.edu.udistrital.mdp.pets.repositories.TrialCohabitationRepository;
 import co.edu.udistrital.mdp.pets.repositories.TrialCohabitationRequestRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.context.event.ApplicationReadyEvent;
+import org.springframework.context.event.EventListener;
+import org.springframework.core.annotation.Order;
+import co.edu.udistrital.mdp.pets.entities.PetEntity;
 
 @Slf4j
 @Service
@@ -266,5 +270,66 @@ public class TrialCohabitationService {
 
 		trialCohabitationRepository.deleteById(trialId);
 		log.info("Termina proceso de borrar la convivencia de prueba con id = {}", trialId);
+	}
+
+	/**
+	 * Simulated cohabitation requests and trials for the "integration-tests" profile.
+	 * The request ids and their use by the trials follow the fixed ids referenced by
+	 * the Postman collections.
+	 */
+	@EventListener(value = ApplicationReadyEvent.class, condition = "@environment.matchesProfiles('integration-tests')")
+	@Order(4)
+	@Transactional
+	public void seedIntegrationTestData() {
+		if (trialCohabitationRepository.count() > 0)
+			return;
+
+		ShelterEntity shelter = shelterRepository.findById(1L).orElseThrow();
+		AdopterEntity adopter = adopterRepository.findById(2L).orElseThrow();
+		PetEntity petOne = petRepository.findById(1L).orElseThrow();
+		PetEntity petTwo = petRepository.findById(2L).orElseThrow();
+
+		TrialCohabitationRequestEntity requestOneBis = buildSimulatedRequest(petOne, adopter, shelter);
+		TrialCohabitationRequestEntity requestTwoBis = buildSimulatedRequest(petTwo, adopter, shelter);
+		TrialCohabitationRequestEntity requestThree = buildSimulatedRequest(petTwo, adopter, shelter);
+		TrialCohabitationRequestEntity requestFour = buildSimulatedRequest(petOne, adopter, shelter);
+		TrialCohabitationRequestEntity requestFive = buildSimulatedRequest(petTwo, adopter, shelter);
+		trialCohabitationRequestRepository.save(requestOneBis);
+		trialCohabitationRequestRepository.save(requestTwoBis);
+		trialCohabitationRequestRepository.save(requestThree);
+		trialCohabitationRequestRepository.save(requestFour);
+		trialCohabitationRequestRepository.save(requestFive);
+
+		saveSimulatedTrial("PENDING", adopter, shelter, requestFour);
+		saveSimulatedTrial("PENDING", adopter, shelter, requestFive);
+		saveSimulatedTrial("FINALIZED", adopter, shelter, requestThree);
+		saveSimulatedTrial("IN_PROGRESS", adopter, shelter, requestTwoBis);
+	}
+
+	private TrialCohabitationRequestEntity buildSimulatedRequest(PetEntity pet, AdopterEntity adopter,
+			ShelterEntity shelter) {
+		TrialCohabitationRequestEntity request = new TrialCohabitationRequestEntity();
+		request.setStatus("APPROVED");
+		request.setDate(AdopterService.relativeDate(-30));
+		request.setDescription("Solicitud de convivencia");
+		request.setStartDate(AdopterService.relativeDate(0));
+		request.setEndDate(AdopterService.relativeDate(60));
+		request.setPet(pet);
+		request.setAdopter(adopter);
+		request.setShelter(shelter);
+		return request;
+	}
+
+	private void saveSimulatedTrial(String status, AdopterEntity adopter, ShelterEntity shelter,
+			TrialCohabitationRequestEntity request) {
+		TrialCohabitationEntity trial = new TrialCohabitationEntity();
+		trial.setStatus(status);
+		trial.setStartDate(AdopterService.relativeDate(11));
+		trial.setEndDate(AdopterService.relativeDate(72));
+		trial.setObservations(status.equals("FINALIZED") ? "Periodo finalizado" : "Periodo de adaptacion");
+		trial.setAdopter(adopter);
+		trial.setShelter(shelter);
+		trial.setTrialCohabitationRequest(request);
+		trialCohabitationRepository.save(trial);
 	}
 }

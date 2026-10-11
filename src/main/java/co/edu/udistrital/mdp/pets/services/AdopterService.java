@@ -15,6 +15,16 @@ import co.edu.udistrital.mdp.pets.repositories.AdoptionRequestRepository;
 import co.edu.udistrital.mdp.pets.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Date;
+import org.springframework.boot.context.event.ApplicationReadyEvent;
+import org.springframework.context.event.EventListener;
+import org.springframework.core.annotation.Order;
+import co.edu.udistrital.mdp.pets.entities.ShelterEntity;
+import co.edu.udistrital.mdp.pets.entities.VeterinarianEntity;
+import co.edu.udistrital.mdp.pets.repositories.ShelterRepository;
+import co.edu.udistrital.mdp.pets.repositories.VeterinarianRepository;
 
 @Slf4j
 @Service
@@ -30,6 +40,8 @@ public class AdopterService {
 	private final AdopterRepository adopterRepository;
 	private final UserRepository userRepository;
 	private final AdoptionRequestRepository adoptionRequestRepository;
+	private final ShelterRepository shelterRepository;
+	private final VeterinarianRepository veterinarianRepository;
 
 	/**
 	 * Creates a new adopter validating, in order, the identity/contact fields, the
@@ -280,5 +292,74 @@ public class AdopterService {
 
 		adopterRepository.deleteById(adopterId);
 		log.info("Finished the process of deleting the adopter with id = {}", adopterId);
+	}
+
+	/**
+	 * Simulated base data for the "integration-tests" profile: shelter, veterinarian
+	 * and two adopters with fixed ids. The veterinarian is saved before the adopters
+	 * because JOINED users share one id sequence.
+	 */
+	@EventListener(value = ApplicationReadyEvent.class, condition = "@environment.matchesProfiles('integration-tests')")
+	@Order(1)
+	@Transactional
+	public void seedIntegrationTestData() {
+		if (adopterRepository.count() > 0)
+			return;
+
+		ShelterEntity shelter = new ShelterEntity();
+		shelter.setName("Refugio Esperanza");
+		shelter.setCity("Bogotá");
+		shelter.setNit("900123456-7");
+		shelter.setLocation("Calle 45 # 20-30");
+		shelterRepository.save(shelter);
+
+		VeterinarianEntity veterinarian = new VeterinarianEntity();
+		veterinarian.setFirstName("Laura");
+		veterinarian.setLastName("Gómez");
+		veterinarian.setEmail("laura.gomez@pets.example");
+		veterinarian.setPassword("secret123");
+		veterinarian.setPhone("3001112233");
+		veterinarian.setSpecialization("General");
+		veterinarian.setAvailability("Lunes a viernes");
+		veterinarianRepository.save(veterinarian);
+
+		AdopterEntity adopterOne = new AdopterEntity();
+		adopterOne.setFirstName("Ana");
+		adopterOne.setLastName("Martínez");
+		adopterOne.setEmail("ana.martinez@pets.example");
+		adopterOne.setPassword("secret123");
+		adopterOne.setPhone("3102223344");
+		adopterOne.setAddress("Calle 10 # 5-20");
+		adopterOne.setNationalId("CC-1011122233");
+		adopterOne.setOccupation("Diseñadora");
+		adopterOne.setEarnings(2500000.0);
+		adopterOne.setHousingType("Apartamento");
+		adopterOne.setAllergies("Ninguna");
+		adopterOne.setHasChildren(true);
+		adopterOne.setHasOtherPets(false);
+		adopterRepository.save(adopterOne);
+
+		AdopterEntity adopterTwo = new AdopterEntity();
+		adopterTwo.setFirstName("Carlos");
+		adopterTwo.setLastName("Pérez");
+		adopterTwo.setEmail("carlos.perez@mail.com");
+		adopterTwo.setPassword("secret123");
+		adopterTwo.setPhone("3055556677");
+		adopterTwo.setAddress("Carrera 15 # 20-30");
+		adopterTwo.setNationalId("CC-1020304050");
+		adopterTwo.setOccupation("Ingeniero");
+		adopterTwo.setEarnings(3500000.0);
+		adopterTwo.setHousingType("Casa");
+		adopterTwo.setAllergies("Polvo");
+		adopterTwo.setHasChildren(true);
+		adopterTwo.setHasOtherPets(true);
+		adopterRepository.save(adopterTwo);
+	}
+
+	/**
+	 * Date relative to today, used only by the integration-tests seed.
+	 */
+	public static Date relativeDate(int daysFromToday) {
+		return Date.from(LocalDate.now().plusDays(daysFromToday).atStartOfDay(ZoneId.systemDefault()).toInstant());
 	}
 }

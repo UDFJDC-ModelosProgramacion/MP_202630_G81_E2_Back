@@ -17,6 +17,17 @@ import co.edu.udistrital.mdp.pets.repositories.FollowUpRepository;
 import co.edu.udistrital.mdp.pets.repositories.VeterinarianRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.context.event.ApplicationReadyEvent;
+import org.springframework.context.event.EventListener;
+import org.springframework.core.annotation.Order;
+import co.edu.udistrital.mdp.pets.entities.AdopterEntity;
+import co.edu.udistrital.mdp.pets.entities.AdoptionRequestEntity;
+import co.edu.udistrital.mdp.pets.entities.PetEntity;
+import co.edu.udistrital.mdp.pets.entities.ShelterEntity;
+import co.edu.udistrital.mdp.pets.repositories.AdopterRepository;
+import co.edu.udistrital.mdp.pets.repositories.AdoptionRequestRepository;
+import co.edu.udistrital.mdp.pets.repositories.PetRepository;
+import co.edu.udistrital.mdp.pets.repositories.ShelterRepository;
 
 @Slf4j
 @Service
@@ -33,6 +44,10 @@ public class FollowUpService {
 	private final FollowUpRepository followUpRepository;
 	private final AdoptionRepository adoptionRepository;
 	private final VeterinarianRepository veterinarianRepository;
+	private final ShelterRepository shelterRepository;
+	private final AdopterRepository adopterRepository;
+	private final PetRepository petRepository;
+	private final AdoptionRequestRepository adoptionRequestRepository;
 
 	/**
 	 * Creates a follow-up for a finalized adoption. Validates the date and
@@ -296,5 +311,75 @@ public class FollowUpService {
 			throws IllegalOperationException {
 		if (followUp.getAdoption() == null || !adoptionId.equals(followUp.getAdoption().getId()))
 			throw new IllegalOperationException("The follow-up is not associated with the adoption");
+	}
+
+	/**
+	 * Simulated adoption requests, finalized/pending adoptions and follow-ups for the
+	 * "integration-tests" profile. Uses the shelter, adopter and pets seeded earlier.
+	 */
+	@EventListener(value = ApplicationReadyEvent.class, condition = "@environment.matchesProfiles('integration-tests')")
+	@Order(3)
+	@Transactional
+	public void seedIntegrationTestData() {
+		if (followUpRepository.count() > 0)
+			return;
+
+		ShelterEntity shelter = shelterRepository.findById(1L).orElseThrow();
+		VeterinarianEntity veterinarian = veterinarianRepository.findById(1L).orElseThrow();
+		AdopterEntity adopterOne = adopterRepository.findById(2L).orElseThrow();
+		PetEntity petOne = petRepository.findById(1L).orElseThrow();
+		PetEntity petTwo = petRepository.findById(2L).orElseThrow();
+
+		AdoptionRequestEntity requestOne = new AdoptionRequestEntity();
+		requestOne.setStatus("APPROVED");
+		requestOne.setDate(AdopterService.relativeDate(-400));
+		requestOne.setDescription("Solicitud de adopción de Rocky");
+		requestOne.setPet(petOne);
+		requestOne.setShelter(shelter);
+		requestOne.setAdopter(adopterOne);
+		adoptionRequestRepository.save(requestOne);
+
+		AdoptionRequestEntity requestTwo = new AdoptionRequestEntity();
+		requestTwo.setStatus("APPROVED");
+		requestTwo.setDate(AdopterService.relativeDate(-100));
+		requestTwo.setDescription("Solicitud de adopción de Luna");
+		requestTwo.setPet(petTwo);
+		requestTwo.setShelter(shelter);
+		requestTwo.setAdopter(adopterOne);
+		adoptionRequestRepository.save(requestTwo);
+
+		AdoptionEntity adoptionOne = new AdoptionEntity();
+		adoptionOne.setDate(AdopterService.relativeDate(-365));
+		adoptionOne.setStatus("FINALIZED");
+		adoptionOne.setImportantNotes("Adopción finalizada exitosamente");
+		adoptionOne.setPet(petOne);
+		adoptionOne.setShelter(shelter);
+		adoptionOne.setAdopter(adopterOne);
+		adoptionOne.setAdoptionRequest(requestOne);
+		adoptionRepository.save(adoptionOne);
+
+		AdoptionEntity adoptionTwo = new AdoptionEntity();
+		adoptionTwo.setDate(AdopterService.relativeDate(-30));
+		adoptionTwo.setStatus("PENDING");
+		adoptionTwo.setImportantNotes("En proceso");
+		adoptionTwo.setPet(petTwo);
+		adoptionTwo.setShelter(shelter);
+		adoptionTwo.setAdopter(adopterOne);
+		adoptionTwo.setAdoptionRequest(requestTwo);
+		adoptionRepository.save(adoptionTwo);
+
+		saveSimulatedFollowUp(veterinarian, adoptionOne, AdopterService.relativeDate(7), "Seguimiento inicial");
+		saveSimulatedFollowUp(veterinarian, adoptionOne, AdopterService.relativeDate(30), "Seguimiento de control");
+		saveSimulatedFollowUp(veterinarian, adoptionOne, AdopterService.relativeDate(-30), "Seguimiento cerrado");
+	}
+
+	private void saveSimulatedFollowUp(VeterinarianEntity veterinarian, AdoptionEntity adoption, Date date,
+			String observation) {
+		FollowUpEntity followUp = new FollowUpEntity();
+		followUp.setVeterinarian(veterinarian);
+		followUp.setAdoption(adoption);
+		followUp.setDate(date);
+		followUp.setObservation(observation);
+		followUpRepository.save(followUp);
 	}
 }
