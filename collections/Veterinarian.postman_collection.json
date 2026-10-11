@@ -2,7 +2,7 @@
 	"info": {
 		"_postman_id": "b6e2a4c1-5f0d-4e0a-9c57-7d1c1b6f0a11",
 		"name": "Veterinarian",
-		"description": "Pruebas del API para el recurso Veterinarian (/veterinarians).\n\nOrden de ejecucion: crear -> listar/filtrar -> obtener -> editar -> borrar. Los emails se generan con Date.now(), asi que la coleccion se puede ejecutar varias veces sin reiniciar el back.\n\nVariables globales que deja la coleccion: veterinarian_id (se conserva, lo usan VeterinarianFollowUps y VeterinarianMedicalEvents), veterinarian_id_2 (se borra), veterinarian_email_1, veterinarian_email_2.\n\nPendiente (no hay endpoints para crear FollowUp/MedicalEvent): borrar un veterinario con seguimientos o eventos medicos (412).",
+		"description": "Pruebas del API para el recurso Veterinarian (/veterinarians).\n\nOrden de ejecucion: crear -> listar/filtrar -> obtener -> editar -> borrar. Los emails se generan con Date.now(), asi que la coleccion se puede ejecutar varias veces sin reiniciar el back.\n\nVariables globales que deja la coleccion: vet_main_id y veterinarian_id (se conservan; la segunda la usan VeterinarianFollowUps y VeterinarianMedicalEvents), vet_second_id (se borra), veterinarian_email_1, veterinarian_email_2.\n\nPendiente (no hay endpoints para crear FollowUp/MedicalEvent): borrar un veterinario con seguimientos o eventos medicos (412).",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
@@ -52,6 +52,7 @@
 						"exec": [
 							"var data = pm.response.json()",
 							"",
+							"pm.globals.set(\"vet_main_id\", data.id);",
 							"pm.globals.set(\"veterinarian_id\", data.id);",
 							"",
 							"pm.test(\"Status code is 201\", function () {",
@@ -117,7 +118,7 @@
 						"exec": [
 							"var data = pm.response.json()",
 							"",
-							"pm.globals.set(\"veterinarian_id_2\", data.id);",
+							"pm.globals.set(\"vet_second_id\", data.id);",
 							"",
 							"pm.test(\"Status code is 201\", function () {",
 							"   pm.response.to.have.status(201);",
@@ -614,13 +615,13 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{baseUrl}}/veterinarians/{{veterinarian_id}}",
+					"raw": "{{baseUrl}}/veterinarians/{{vet_main_id}}",
 					"host": [
 						"{{baseUrl}}"
 					],
 					"path": [
 						"veterinarians",
-						"{{veterinarian_id}}"
+						"{{vet_main_id}}"
 					]
 				}
 			},
@@ -634,10 +635,10 @@
 							"   pm.response.to.have.status(200);",
 							"});",
 							"",
-							"pm.test(\"Returned id matches veterinarian_id\", function () {",
+							"pm.test(\"Returned id matches the created veterinarian\", function () {",
 							"   var data = pm.response.json();",
 							"",
-							"   pm.expect(data.id).to.eql(parseInt(pm.globals.get(\"veterinarian_id\")));",
+							"   pm.expect(data.id).to.eql(parseInt(pm.variables.get(\"vet_main_id\")));",
 							"});",
 							"",
 							"pm.test(\"Detail includes followUps and medicalEvents lists\", function () {",
@@ -737,13 +738,13 @@
 					}
 				],
 				"url": {
-					"raw": "{{baseUrl}}/veterinarians/{{veterinarian_id}}",
+					"raw": "{{baseUrl}}/veterinarians/{{vet_main_id}}",
 					"host": [
 						"{{baseUrl}}"
 					],
 					"path": [
 						"veterinarians",
-						"{{veterinarian_id}}"
+						"{{vet_main_id}}"
 					]
 				},
 				"body": {
@@ -891,13 +892,13 @@
 					}
 				],
 				"url": {
-					"raw": "{{baseUrl}}/veterinarians/{{veterinarian_id}}",
+					"raw": "{{baseUrl}}/veterinarians/{{vet_main_id}}",
 					"host": [
 						"{{baseUrl}}"
 					],
 					"path": [
 						"veterinarians",
-						"{{veterinarian_id}}"
+						"{{vet_main_id}}"
 					]
 				},
 				"body": {
@@ -942,13 +943,13 @@
 					}
 				],
 				"url": {
-					"raw": "{{baseUrl}}/veterinarians/{{veterinarian_id}}",
+					"raw": "{{baseUrl}}/veterinarians/{{vet_main_id}}",
 					"host": [
 						"{{baseUrl}}"
 					],
 					"path": [
 						"veterinarians",
-						"{{veterinarian_id}}"
+						"{{vet_main_id}}"
 					]
 				},
 				"body": {
@@ -988,13 +989,13 @@
 				"method": "DELETE",
 				"header": [],
 				"url": {
-					"raw": "{{baseUrl}}/veterinarians/{{veterinarian_id_2}}",
+					"raw": "{{baseUrl}}/veterinarians/{{vet_second_id}}",
 					"host": [
 						"{{baseUrl}}"
 					],
 					"path": [
 						"veterinarians",
-						"{{veterinarian_id_2}}"
+						"{{vet_second_id}}"
 					]
 				}
 			},
@@ -1019,13 +1020,13 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{baseUrl}}/veterinarians/{{veterinarian_id_2}}",
+					"raw": "{{baseUrl}}/veterinarians/{{vet_second_id}}",
 					"host": [
 						"{{baseUrl}}"
 					],
 					"path": [
 						"veterinarians",
-						"{{veterinarian_id_2}}"
+						"{{vet_second_id}}"
 					]
 				}
 			},
