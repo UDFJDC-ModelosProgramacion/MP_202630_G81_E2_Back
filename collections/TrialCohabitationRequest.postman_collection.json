@@ -7,6 +7,194 @@
   },
   "item": [
     {
+      "name": "Preparar una solicitud para cancelar (setup)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"date\": \"2026-09-23T00:00:00-05:00\",\n    \"status\": \"PENDING\",\n    \"description\": \"Solicitud de prueba que luego se pasa a CANCELLED\",\n    \"startDate\": \"{{trial_start_date}}\",\n    \"endDate\": \"{{trial_end_date}}\",\n    \"shelter\": {\n        \"id\": {{shelter_id}}\n    },\n    \"adopter\": {\n        \"id\": {{adopter_id}}\n    },\n    \"pet\": {\n        \"id\": {{pet_id_inactive}}\n    }\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/trialCohabitationRequests",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "trialCohabitationRequests"
+          ]
+        },
+        "description": "Request de preparacion (setup), no es un caso de prueba de la actividad. Crea el dato que los tests de edicion y borrado bloqueado necesitan."
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "var data = pm.response.json();",
+              "pm.collectionVariables.set(\"request_id_cancelled\", data.id);",
+              "",
+              "pm.test(\"Status code is 201\", function () {",
+              "    pm.response.to.have.status(201);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Pasar la solicitud de prueba a CANCELLED (setup)",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"date\": \"2026-09-23T00:00:00-05:00\",\n    \"status\": \"CANCELLED\",\n    \"description\": \"Solicitud de prueba que luego se pasa a CANCELLED\",\n    \"startDate\": \"{{trial_start_date}}\",\n    \"endDate\": \"{{trial_end_date}}\",\n    \"shelter\": {\n        \"id\": {{shelter_id}}\n    },\n    \"adopter\": {\n        \"id\": {{adopter_id}}\n    },\n    \"pet\": {\n        \"id\": {{pet_id_inactive}}\n    }\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/trialCohabitationRequests/{{request_id_cancelled}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "trialCohabitationRequests",
+            "{{request_id_cancelled}}"
+          ]
+        },
+        "description": "Request de preparacion (setup), no es un caso de prueba de la actividad."
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Preparar una solicitud para finalizar (setup)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"date\": \"2026-09-23T00:00:00-05:00\",\n    \"status\": \"PENDING\",\n    \"description\": \"Solicitud de prueba que luego se pasa a APPROVED\",\n    \"startDate\": \"{{trial_start_date}}\",\n    \"endDate\": \"{{trial_end_date}}\",\n    \"shelter\": {\n        \"id\": {{shelter_id}}\n    },\n    \"adopter\": {\n        \"id\": {{adopter_id}}\n    },\n    \"pet\": {\n        \"id\": {{pet_id_2}}\n    }\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/trialCohabitationRequests",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "trialCohabitationRequests"
+          ]
+        },
+        "description": "Request de preparacion (setup), no es un caso de prueba de la actividad. Crea el dato que los tests de edicion y borrado bloqueado necesitan."
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "var data = pm.response.json();",
+              "pm.collectionVariables.set(\"request_id_finalized\", data.id);",
+              "",
+              "pm.test(\"Status code is 201\", function () {",
+              "    pm.response.to.have.status(201);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Pasar la solicitud de prueba a APPROVED (setup)",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"date\": \"2026-09-23T00:00:00-05:00\",\n    \"status\": \"APPROVED\",\n    \"description\": \"Solicitud de prueba que luego se pasa a APPROVED\",\n    \"startDate\": \"{{trial_start_date}}\",\n    \"endDate\": \"{{trial_end_date}}\",\n    \"shelter\": {\n        \"id\": {{shelter_id}}\n    },\n    \"adopter\": {\n        \"id\": {{adopter_id}}\n    },\n    \"pet\": {\n        \"id\": {{pet_id_2}}\n    }\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/trialCohabitationRequests/{{request_id_finalized}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "trialCohabitationRequests",
+            "{{request_id_finalized}}"
+          ]
+        },
+        "description": "Request de preparacion (setup), no es un caso de prueba de la actividad."
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
       "name": "Crear una solicitud de convivencia de prueba",
       "request": {
         "method": "POST",
@@ -2519,12 +2707,13 @@
               "    pm.response.to.have.status(204);",
               "});",
               "",
-              "pm.test(\"Resource no longer exists\", function (done) {",
+              "pm.test(\"The resource is gone\", function (done) {",
               "    pm.sendRequest({",
               "        url: pm.variables.replaceIn(\"{{baseUrl}}/trialCohabitationRequests/\" + pm.collectionVariables.get(\"request_id_cancelled\")),",
               "        method: \"GET\"",
               "    }, function (err, res) {",
-              "        done(err || (res.code === 404 ? null : new Error(\"Expected 404, got \" + res.code)));",
+              "        var expected = [404];",
+              "        done(err || (expected.indexOf(res.code) !== -1 ? null : new Error(\"Expected \" + expected.join(\"/\") + \", got \" + res.code)));",
               "    });",
               "});"
             ]

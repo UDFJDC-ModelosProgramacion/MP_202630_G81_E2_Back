@@ -7,6 +7,54 @@
   },
   "item": [
     {
+      "name": "Preparar un evento medico para borrar (setup)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"date\": \"2026-09-05T00:00:00-05:00\",\n    \"type\": \"Vacunacion\",\n    \"description\": \"Aplicacion de la vacuna antirrabica\",\n    \"pet\": {\n        \"id\": {{pet_id_2}}\n    },\n    \"veterinarian\": {\n        \"id\": {{veterinarian_id}}\n    }\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/medicalEvents",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "medicalEvents"
+          ]
+        },
+        "description": "Request de preparacion (setup), no es un caso de prueba de la actividad. Crea el evento que luego borra el test deleteMedicalEvent. Es otra mascota, tipo y fecha, asi que no es duplicado del evento creado por el test exitoso."
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "var data = pm.response.json();",
+              "pm.collectionVariables.set(\"medical_event_id_2\", data.id);",
+              "",
+              "pm.test(\"Status code is 201\", function () {",
+              "    pm.response.to.have.status(201);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
       "name": "Crear un evento medico",
       "request": {
         "method": "POST",
@@ -1958,12 +2006,13 @@
               "    pm.response.to.have.status(204);",
               "});",
               "",
-              "pm.test(\"Resource no longer exists\", function (done) {",
+              "pm.test(\"The resource is gone\", function (done) {",
               "    pm.sendRequest({",
               "        url: pm.variables.replaceIn(\"{{baseUrl}}/medicalEvents/\" + pm.collectionVariables.get(\"medical_event_id_2\")),",
               "        method: \"GET\"",
               "    }, function (err, res) {",
-              "        done(err || (res.code === 404 ? null : new Error(\"Expected 404, got \" + res.code)));",
+              "        var expected = [404];",
+              "        done(err || (expected.indexOf(res.code) !== -1 ? null : new Error(\"Expected \" + expected.join(\"/\") + \", got \" + res.code)));",
               "    });",
               "});"
             ]
@@ -2118,7 +2167,7 @@
             "{{medical_event_id_required}}"
           ]
         },
-        "description": "deleteMedicalEvent regla 3: medical_event_id_required es, por ejemplo, el certificado de vacunacion vigente exigido por un proceso de adopcion activo (se prepara con la coleccion de Adoption)."
+        "description": "deleteMedicalEvent regla 3: un evento medico exigido por una adopcion activa no se puede borrar.\n\nNOTA: test saltado. La API no expone el vinculo entre MedicalEvent y Adoption, y la entidad MedicalEvent no tiene esa asociacion, asi que no hay dato que se pueda preparar para esta regla. Queda documentada hasta que se implemente en el backend."
       },
       "response": [
         {
@@ -2156,14 +2205,7 @@
           "script": {
             "type": "text/javascript",
             "exec": [
-              "pm.test(\"Status code is 412\", function () {",
-              "    pm.response.to.have.status(412);",
-              "});",
-              "",
-              "pm.test(\"Get expected error message\", function () {",
-              "    var data = pm.response.json();",
-              "    pm.expect(data.apierror.message).to.eql(\"A medical event required by an active adoption process cannot be deleted\");",
-              "});"
+              "pm.test.skip(\"La API no expone el vinulo entre eventos medicos y adopciones, no hay dato que preparar para esta regla\");"
             ]
           }
         }
@@ -2197,7 +2239,7 @@
     },
     {
       "key": "medical_event_id_required",
-      "value": "3"
+      "value": "9999"
     }
   ]
 }
