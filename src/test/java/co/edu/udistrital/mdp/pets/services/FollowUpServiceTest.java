@@ -20,8 +20,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import co.edu.udistrital.mdp.pets.entities.AdopterEntity;
 import co.edu.udistrital.mdp.pets.entities.AdoptionEntity;
+import co.edu.udistrital.mdp.pets.entities.AdoptionRequestEntity;
 import co.edu.udistrital.mdp.pets.entities.FollowUpEntity;
 import co.edu.udistrital.mdp.pets.entities.PetEntity;
+import co.edu.udistrital.mdp.pets.entities.ShelterEntity;
 import co.edu.udistrital.mdp.pets.entities.VeterinarianEntity;
 import co.edu.udistrital.mdp.pets.exceptions.EntityNotFoundException;
 import co.edu.udistrital.mdp.pets.exceptions.IllegalOperationException;
@@ -274,6 +276,14 @@ class FollowUpServiceTest {
 	}
 
 	@Test
+	void testGetFollowUpWithNullRequesterAndAdminRole() throws EntityNotFoundException, IllegalOperationException {
+		FollowUpEntity entity = followUpList.get(0);
+		FollowUpEntity resultEntity = followUpService.getFollowUp(entity.getId(), null, "ADMIN");
+		assertNotNull(resultEntity);
+		assertEquals(entity.getId(), resultEntity.getId());
+	}
+
+	@Test
 	void testUpdateFollowUp() throws EntityNotFoundException, IllegalOperationException {
 		FollowUpEntity entity = followUpList.get(0);
 		FollowUpEntity pojoEntity = factory.manufacturePojo(FollowUpEntity.class);
@@ -427,5 +437,291 @@ class FollowUpServiceTest {
 		FollowUpEntity resp = entityManager.find(FollowUpEntity.class, entity.getId());
 		assertEquals("Observacion tras update con adoption nula", resp.getObservation());
 		assertEquals(entity.getAdoption().getId(), resp.getAdoption().getId());
+	}
+
+	@Test
+	void testCreateFollowUpWithVeterinarianNullId() {
+		assertThrows(IllegalOperationException.class, () -> {
+			FollowUpEntity newEntity = buildValidFollowUp(adoptionList.get(0), veterinarianList.get(0));
+			newEntity.setVeterinarian(new VeterinarianEntity());
+			followUpService.createFollowUp(newEntity);
+		});
+	}
+
+	@Test
+	void testCreateFollowUpWithAdoptionNullId() {
+		assertThrows(IllegalOperationException.class, () -> {
+			FollowUpEntity newEntity = buildValidFollowUp(adoptionList.get(0), veterinarianList.get(0));
+			newEntity.setAdoption(new AdoptionEntity());
+			followUpService.createFollowUp(newEntity);
+		});
+	}
+
+	@Test
+	void testUpdateFollowUpWithInvalidId() {
+		assertThrows(IllegalOperationException.class, () -> {
+			FollowUpEntity pojoEntity = factory.manufacturePojo(FollowUpEntity.class);
+			pojoEntity.setId(0L);
+			pojoEntity.setDate(futureDate());
+			pojoEntity.setObservation("Nueva observacion");
+			followUpService.updateFollowUp(0L, pojoEntity);
+		});
+	}
+
+	@Test
+	void testDeleteFollowUpWithInvalidId() {
+		assertThrows(IllegalOperationException.class, () -> {
+			followUpService.deleteFollowUp(0L);
+		});
+	}
+
+	@Test
+	void testGetFollowUpWithNullId() {
+		assertThrows(IllegalOperationException.class, () -> {
+			followUpService.getFollowUp(null);
+		});
+	}
+
+	@Test
+	void testGetFollowUpWithNullIdAndRequester() {
+		assertThrows(IllegalOperationException.class, () -> {
+			followUpService.getFollowUp(null, 1L, "ADMIN");
+		});
+	}
+
+	@Test
+	void testGetNonExistentFollowUpWithRequester() {
+		assertThrows(EntityNotFoundException.class, () -> {
+			followUpService.getFollowUp(1000L, 1L, "ADMIN");
+		});
+	}
+
+	@Test
+	void testCreateFollowUpWithEmptyObservation() {
+		assertThrows(IllegalOperationException.class, () -> {
+			FollowUpEntity newEntity = buildValidFollowUp(adoptionList.get(0), veterinarianList.get(0));
+			newEntity.setObservation("");
+			followUpService.createFollowUp(newEntity);
+		});
+	}
+
+	@Test
+	void testUpdateFollowUpWithEmptyObservation() {
+		assertThrows(IllegalOperationException.class, () -> {
+			FollowUpEntity entity = followUpList.get(0);
+			FollowUpEntity pojoEntity = factory.manufacturePojo(FollowUpEntity.class);
+			pojoEntity.setId(entity.getId());
+			pojoEntity.setDate(futureDate());
+			pojoEntity.setObservation("");
+			followUpService.updateFollowUp(entity.getId(), pojoEntity);
+		});
+	}
+
+	@Test
+	void testUpdateFollowUpWithNullId() {
+		assertThrows(IllegalOperationException.class, () -> {
+			FollowUpEntity pojoEntity = factory.manufacturePojo(FollowUpEntity.class);
+			pojoEntity.setDate(futureDate());
+			pojoEntity.setObservation("Observacion");
+			followUpService.updateFollowUp(null, pojoEntity);
+		});
+	}
+
+	@Test
+	void testUpdateFollowUpWithAdoptionNullIdKeepsOriginal() throws EntityNotFoundException, IllegalOperationException {
+		FollowUpEntity entity = followUpList.get(0);
+		FollowUpEntity pojoEntity = factory.manufacturePojo(FollowUpEntity.class);
+		pojoEntity.setId(entity.getId());
+		pojoEntity.setDate(futureDate());
+		pojoEntity.setObservation("Nueva observacion");
+		pojoEntity.setAdoption(new AdoptionEntity());
+
+		followUpService.updateFollowUp(entity.getId(), pojoEntity);
+
+		FollowUpEntity resp = entityManager.find(FollowUpEntity.class, entity.getId());
+		assertEquals("Nueva observacion", resp.getObservation());
+	}
+
+	@Test
+	void testDeleteFollowUpWithNullId() {
+		assertThrows(IllegalOperationException.class, () -> {
+			followUpService.deleteFollowUp(null);
+		});
+	}
+
+	@Test
+	void testDeleteFollowUpWithNullDate() throws EntityNotFoundException, IllegalOperationException {
+		FollowUpEntity followUp = buildValidFollowUp(adoptionList.get(0), veterinarianList.get(0));
+		followUp.setDate(null);
+		entityManager.persist(followUp);
+
+		followUpService.deleteFollowUp(followUp.getId());
+
+		assertNull(entityManager.find(FollowUpEntity.class, followUp.getId()));
+	}
+
+	@Test
+	void testCreateAdoptionFollowUp() throws EntityNotFoundException, IllegalOperationException {
+		AdoptionEntity adoption = adoptionList.get(0);
+		FollowUpEntity followUp = buildValidFollowUp(adoption, veterinarianList.get(0));
+
+		FollowUpEntity result = followUpService.createAdoptionFollowUp(adoption.getId(), followUp);
+
+		assertNotNull(result);
+		assertEquals(adoption.getId(), result.getAdoption().getId());
+	}
+
+	@Test
+	void testCreateAdoptionFollowUpWithInvalidAdoptionId() {
+		FollowUpEntity followUp = buildValidFollowUp(adoptionList.get(0), veterinarianList.get(0));
+		assertThrows(IllegalOperationException.class, () -> {
+			followUpService.createAdoptionFollowUp(0L, followUp);
+		});
+	}
+
+	@Test
+	void testCreateAdoptionFollowUpWithNonExistentAdoption() {
+		FollowUpEntity followUp = buildValidFollowUp(adoptionList.get(0), veterinarianList.get(0));
+		assertThrows(EntityNotFoundException.class, () -> {
+			followUpService.createAdoptionFollowUp(1000L, followUp);
+		});
+	}
+
+	@Test
+	void testCreateAdoptionFollowUpWithPendingAdoption() {
+		PetEntity pet = factory.manufacturePojo(PetEntity.class);
+		entityManager.persist(pet);
+		AdopterEntity adopter = factory.manufacturePojo(AdopterEntity.class);
+		entityManager.persist(adopter);
+		AdoptionEntity adoption = factory.manufacturePojo(AdoptionEntity.class);
+		adoption.setPet(pet);
+		adoption.setAdopter(adopter);
+		adoption.setStatus("PENDING");
+		entityManager.persist(adoption);
+
+		FollowUpEntity followUp = buildValidFollowUp(null, veterinarianList.get(0));
+		assertThrows(IllegalOperationException.class, () -> {
+			followUpService.createAdoptionFollowUp(adoption.getId(), followUp);
+		});
+	}
+
+	@Test
+	void testGetAdoptionFollowUps() throws EntityNotFoundException, IllegalOperationException {
+		List<FollowUpEntity> list = followUpService.getAdoptionFollowUps(adoptionList.get(0).getId());
+		assertEquals(1, list.size());
+	}
+
+	@Test
+	void testGetAdoptionFollowUpsWithInvalidAdoptionId() {
+		assertThrows(IllegalOperationException.class, () -> {
+			followUpService.getAdoptionFollowUps(0L);
+		});
+	}
+
+	@Test
+	void testGetAdoptionFollowUpsWithNonExistentAdoption() {
+		assertThrows(EntityNotFoundException.class, () -> {
+			followUpService.getAdoptionFollowUps(1000L);
+		});
+	}
+
+	@Test
+	void testGetAdoptionFollowUp() throws EntityNotFoundException, IllegalOperationException {
+		FollowUpEntity followUp = followUpList.get(0);
+		FollowUpEntity result = followUpService.getAdoptionFollowUp(followUp.getAdoption().getId(), followUp.getId());
+		assertEquals(followUp.getId(), result.getId());
+	}
+
+	@Test
+	void testGetAdoptionFollowUpFromAnotherAdoption() {
+		FollowUpEntity followUp = followUpList.get(0);
+		assertThrows(IllegalOperationException.class, () -> {
+			followUpService.getAdoptionFollowUp(adoptionList.get(1).getId(), followUp.getId());
+		});
+	}
+
+	@Test
+	void testUpdateAdoptionFollowUp() throws EntityNotFoundException, IllegalOperationException {
+		FollowUpEntity followUp = followUpList.get(0);
+		FollowUpEntity pojoEntity = factory.manufacturePojo(FollowUpEntity.class);
+		pojoEntity.setDate(futureDate());
+		pojoEntity.setObservation("Actualizado via adopcion");
+
+		followUpService.updateAdoptionFollowUp(followUp.getAdoption().getId(), followUp.getId(), pojoEntity);
+
+		FollowUpEntity resp = entityManager.find(FollowUpEntity.class, followUp.getId());
+		assertEquals("Actualizado via adopcion", resp.getObservation());
+	}
+
+	@Test
+	void testUpdateAdoptionFollowUpFromAnotherAdoption() {
+		FollowUpEntity followUp = followUpList.get(0);
+		FollowUpEntity pojoEntity = factory.manufacturePojo(FollowUpEntity.class);
+		pojoEntity.setDate(futureDate());
+		pojoEntity.setObservation("Actualizado via adopcion");
+		assertThrows(IllegalOperationException.class, () -> {
+			followUpService.updateAdoptionFollowUp(adoptionList.get(1).getId(), followUp.getId(), pojoEntity);
+		});
+	}
+
+	@Test
+	void testDeleteAdoptionFollowUp() throws EntityNotFoundException, IllegalOperationException {
+		FollowUpEntity followUp = followUpList.get(1);
+		followUpService.deleteAdoptionFollowUp(followUp.getAdoption().getId(), followUp.getId());
+		assertNull(entityManager.find(FollowUpEntity.class, followUp.getId()));
+	}
+
+	@Test
+	void testDeleteAdoptionFollowUpFromAnotherAdoption() {
+		FollowUpEntity followUp = followUpList.get(0);
+		assertThrows(IllegalOperationException.class, () -> {
+			followUpService.deleteAdoptionFollowUp(adoptionList.get(1).getId(), followUp.getId());
+		});
+	}
+
+	@Test
+	void testSeedIntegrationTestData() {
+		clearData();
+		resetIdentity("shelter_entity");
+		resetIdentity("user_entity");
+		resetIdentity("pet_entity");
+		entityManager.clear();
+
+		ShelterEntity shelter = factory.manufacturePojo(ShelterEntity.class);
+		entityManager.persist(shelter);
+		VeterinarianEntity veterinarian = factory.manufacturePojo(VeterinarianEntity.class);
+		entityManager.persist(veterinarian);
+		AdopterEntity adopter = factory.manufacturePojo(AdopterEntity.class);
+		entityManager.persist(adopter);
+		PetEntity petOne = factory.manufacturePojo(PetEntity.class);
+		entityManager.persist(petOne);
+		PetEntity petTwo = factory.manufacturePojo(PetEntity.class);
+		entityManager.persist(petTwo);
+		entityManager.flush();
+
+		assertEquals(1L, shelter.getId());
+		assertEquals(1L, veterinarian.getId());
+		assertEquals(2L, adopter.getId());
+		assertEquals(1L, petOne.getId());
+		assertEquals(2L, petTwo.getId());
+
+		followUpService.seedIntegrationTestData();
+
+		assertEquals(2L, countOf("AdoptionRequestEntity"));
+		assertEquals(2L, countOf("AdoptionEntity"));
+		assertEquals(3L, countOf("FollowUpEntity"));
+
+		followUpService.seedIntegrationTestData();
+		assertEquals(3L, countOf("FollowUpEntity"));
+	}
+
+	private void resetIdentity(String table) {
+		entityManager.getEntityManager()
+				.createNativeQuery("ALTER TABLE " + table + " ALTER COLUMN id RESTART WITH 1").executeUpdate();
+	}
+
+	private long countOf(String entity) {
+		return (Long) entityManager.getEntityManager()
+				.createQuery("select count(e) from " + entity + " e").getSingleResult();
 	}
 }
