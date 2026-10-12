@@ -10,4 +10,6 @@ public class ReviewDTO {
 	private String comment;
 	private Date date;
 	private Date time;
+	private PetDTO pet;
+	private AdoptionDTO adoption;
 }

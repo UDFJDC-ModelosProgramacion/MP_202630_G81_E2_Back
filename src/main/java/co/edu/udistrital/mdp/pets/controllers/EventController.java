@@ -22,53 +22,54 @@ import co.edu.udistrital.mdp.pets.exceptions.IllegalOperationException;
 import co.edu.udistrital.mdp.pets.services.EventService;
 import lombok.RequiredArgsConstructor;
 
-@RequiredArgsConstructor 
-@RestController 
+@RequiredArgsConstructor
+@RestController
 @RequestMapping("/shelters")
 public class EventController {
-    
+
     private final EventService eventService;
     private final ModelMapper modelMapper;
 
-    // create method
     @PostMapping(value = "/{shelterId}/events")
     @ResponseStatus(code = HttpStatus.CREATED)
-    public EventDTO createEvent(@PathVariable Long shelterId, @RequestBody EventDTO eventDTO) throws EntityNotFoundException, IllegalOperationException {
+    public EventDTO createEvent(@PathVariable Long shelterId, @RequestBody EventDTO eventDTO)
+            throws EntityNotFoundException, IllegalOperationException {
         EventEntity eventEntity = modelMapper.map(eventDTO, EventEntity.class);
+        eventEntity.setId(null);
         EventEntity newEvent = eventService.createEvent(shelterId, eventEntity);
         return modelMapper.map(newEvent, EventDTO.class);
     }
 
-    // getAll method
     @GetMapping(value = "/{shelterId}/events")
     @ResponseStatus(code = HttpStatus.OK)
-    public List<EventDTO> getEvents(@PathVariable Long shelterId) throws EntityNotFoundException, IllegalOperationException {
+    public List<EventDTO> getEvents(@PathVariable Long shelterId)
+            throws EntityNotFoundException, IllegalOperationException {
         List<EventEntity> events = eventService.getEvents(shelterId);
-        return modelMapper.map(events, new TypeToken<List<EventDTO>>() {     
+        return modelMapper.map(events, new TypeToken<List<EventDTO>>() {
         }.getType());
     }
 
-    // get method
     @GetMapping(value = "/{shelterId}/events/{eventId}")
     @ResponseStatus(code = HttpStatus.OK)
-    public EventDTO getEvent(@PathVariable Long shelterId, @PathVariable Long eventId) throws EntityNotFoundException, IllegalOperationException {
+    public EventDTO getEvent(@PathVariable Long shelterId, @PathVariable Long eventId)
+            throws EntityNotFoundException, IllegalOperationException {
         EventEntity eventEntity = eventService.getEvent(shelterId, eventId);
         return modelMapper.map(eventEntity, EventDTO.class);
     }
 
-    // update method
     @PutMapping(value = "/{shelterId}/events/{eventId}")
     @ResponseStatus(code = HttpStatus.OK)
-    public EventDTO updateEvent(@PathVariable Long shelterId, @PathVariable Long eventId, @RequestBody EventDTO eventDTO) throws EntityNotFoundException, IllegalOperationException {
+    public EventDTO updateEvent(@PathVariable Long shelterId, @PathVariable Long eventId,
+            @RequestBody EventDTO eventDTO) throws EntityNotFoundException, IllegalOperationException {
         EventEntity eventEntity = modelMapper.map(eventDTO, EventEntity.class);
-        EventEntity newEventEntity = eventService.updateEvent(shelterId, eventId, eventEntity);
-        return modelMapper.map(newEventEntity, EventDTO.class);
+        EventEntity updatedEvent = eventService.updateEvent(shelterId, eventId, eventEntity);
+        return modelMapper.map(updatedEvent, EventDTO.class);
     }
 
-    // delete method
     @DeleteMapping(value = "/{shelterId}/events/{eventId}")
     @ResponseStatus(code = HttpStatus.NO_CONTENT)
-    public void deleteEvent(@PathVariable Long shelterId, @PathVariable Long eventId) throws EntityNotFoundException, IllegalOperationException {
+    public void deleteEvent(@PathVariable Long shelterId, @PathVariable Long eventId)
+            throws EntityNotFoundException, IllegalOperationException {
         eventService.deleteEvent(shelterId, eventId);
     }
 }

@@ -753,4 +753,223 @@ class PetServiceTest {
 			petService.deletePet(entity.getId());
 		});
 	}
+
+	// ------------------------------------------------------------------
+	// Additional coverage tests
+	// ------------------------------------------------------------------
+
+	private PetEntity persistPet(ShelterEntity petShelter, String name, String species, Date admissionDate) {
+		PetEntity pet = factory.manufacturePojo(PetEntity.class);
+		pet.setShelter(petShelter);
+		pet.setName(name);
+		pet.setSpecies(species);
+		pet.setAdmissionDate(admissionDate);
+		pet.setCompatibilityChildren(true);
+		pet.setCompatibilityOtherPets(true);
+		entityManager.persist(pet);
+		return pet;
+	}
+
+	private PetEntity newUpdatePojo(Date admissionDate) {
+		PetEntity pojoEntity = factory.manufacturePojo(PetEntity.class);
+		pojoEntity.setCompatibilityChildren(true);
+		pojoEntity.setCompatibilityOtherPets(true);
+		pojoEntity.setAdmissionDate(admissionDate);
+		return pojoEntity;
+	}
+
+	// The inverse side (pet.vaccinationRecord) is not set by hand: PetEntity and VaccinationRecordEntity
+	// reference each other and Lombok's hashCode would recurse forever. Instead, the data is flushed and the
+	// persistence context is cleared so that the service loads the real association from the database.
+	private VaccinationRecordEntity persistVaccinationRecord(PetEntity ofPet) {
+		VaccinationRecordEntity recordVaccine = factory.manufacturePojo(VaccinationRecordEntity.class);
+		recordVaccine.setPet(ofPet);
+		entityManager.persist(recordVaccine);
+		return recordVaccine;
+	}
+
+	// null ids
+
+	@Test
+	void testGetPetWithNullId() {
+		assertThrows(IllegalOperationException.class, () -> petService.getPet(null));
+	}
+
+	@Test
+	void testUpdatePetWithNullId() {
+		assertThrows(IllegalOperationException.class, () -> petService.updatePet(null, newUpdatePojo(pastDate(1))));
+	}
+
+	@Test
+	void testDeletePetWithNullId() {
+		assertThrows(IllegalOperationException.class, () -> petService.deletePet(null));
+	}
+
+	// createPet: existing pets that look similar but are NOT duplicates
+
+	@Test
+	void testCreatePetIgnoresNonMatchingExistingPets() throws EntityNotFoundException, IllegalOperationException {
+		Date admission = pastDate(1);
+		persistPet(null, "Luna", "Dog", admission); // no shelter
+		persistPet(shelter, null, "Dog", admission); // no name
+		persistPet(shelter, "Luna", null, admission); // same name, no species
+		persistPet(shelter, "Luna", "Cat", admission); // same name, other species
+		persistPet(shelter, "Luna", "Dog", null); // same name and species, no admission date
+		persistPet(shelter, "Luna", "Dog", pastDate(60)); // same name and species, other admission date
+
+		PetEntity newEntity = newValidPet();
+		newEntity.setName("Luna");
+		newEntity.setSpecies("Dog");
+		newEntity.setAdmissionDate(admission);
+
+		assertNotNull(petService.createPet(newEntity));
+	}
+
+	// updatePet: shelter handling
+
+	@Test
+	void testUpdatePetWithShelterWithoutIdKeepsCurrentShelter()
+			throws EntityNotFoundException, IllegalOperationException {
+		PetEntity entity = petList.get(0);
+		PetEntity pojoEntity = newUpdatePojo(entity.getAdmissionDate());
+		pojoEntity.setShelter(new ShelterEntity());
+
+		petService.updatePet(entity.getId(), pojoEntity);
+
+		PetEntity resp = entityManager.find(PetEntity.class, entity.getId());
+		assertEquals(shelter.getId(), resp.getShelter().getId());
+	}
+
+	@Test
+	void testUpdatePetWithSameShelter() throws EntityNotFoundException, IllegalOperationException {
+		PetEntity entity = petList.get(0);
+		PetEntity pojoEntity = newUpdatePojo(entity.getAdmissionDate());
+		pojoEntity.setShelter(shelter);
+
+		petService.updatePet(entity.getId(), pojoEntity);
+
+		PetEntity resp = entityManager.find(PetEntity.class, entity.getId());
+		assertEquals(shelter.getId(), resp.getShelter().getId());
+	}
+
+	@Test
+	void testUpdatePetWithoutCurrentShelterAssignsShelter() throws EntityNotFoundException, IllegalOperationException {
+		PetEntity current = persistPet(null, "Pet without shelter", "Dog", pastDate(3));
+		PetEntity pojoEntity = newUpdatePojo(current.getAdmissionDate());
+		pojoEntity.setShelter(shelter);
+
+		petService.updatePet(current.getId(), pojoEntity);
+
+		PetEntity resp = entityManager.find(PetEntity.class, current.getId());
+		assertEquals(shelter.getId(), resp.getShelter().getId());
+	}
+
+	@Test
+	void testUpdatePetWithoutAnyShelter() throws EntityNotFoundException, IllegalOperationException {
+		PetEntity current = persistPet(null, "Pet without shelter", "Dog", pastDate(3));
+		PetEntity pojoEntity = newUpdatePojo(current.getAdmissionDate());
+
+		petService.updatePet(current.getId(), pojoEntity);
+
+		PetEntity resp = entityManager.find(PetEntity.class, current.getId());
+		assertNull(resp.getShelter());
+		assertEquals(pojoEntity.getName(), resp.getName());
+	}
+
+	@Test
+	void testUpdatePetWhenCurrentHasNoAdmissionDate() throws EntityNotFoundException, IllegalOperationException {
+		PetEntity current = persistPet(shelter, "Old name", "Dog", null);
+		persistPet(shelter, "Same name", "Same species", pastDate(5));
+		PetEntity pojoEntity = newUpdatePojo(pastDate(2));
+		pojoEntity.setName("Same name");
+		pojoEntity.setSpecies("Same species");
+
+		petService.updatePet(current.getId(), pojoEntity);
+
+		PetEntity resp = entityManager.find(PetEntity.class, current.getId());
+		assertEquals("Same name", resp.getName());
+		assertNull(resp.getAdmissionDate());
+	}
+
+	// deletePet: unrelated adoptions and cohabitations must not block the deletion
+
+	@Test
+	void testDeletePetIgnoresUnrelatedAdoptionsAndCohabitations()
+			throws EntityNotFoundException, IllegalOperationException {
+		PetEntity entity = petList.get(0);
+		PetEntity otherPet = petList.get(1);
+
+		AdoptionEntity adoptionOfOtherPet = factory.manufacturePojo(AdoptionEntity.class);
+		adoptionOfOtherPet.setPet(otherPet);
+		adoptionOfOtherPet.setShelter(shelter);
+		entityManager.persist(adoptionOfOtherPet);
+
+		AdoptionEntity adoptionWithoutPet = factory.manufacturePojo(AdoptionEntity.class);
+		adoptionWithoutPet.setShelter(shelter);
+		entityManager.persist(adoptionWithoutPet);
+
+		TrialCohabitationEntity cohabitationWithoutRequest = factory.manufacturePojo(TrialCohabitationEntity.class);
+		cohabitationWithoutRequest.setShelter(shelter);
+		entityManager.persist(cohabitationWithoutRequest);
+
+		TrialCohabitationRequestEntity requestWithoutPet = factory
+				.manufacturePojo(TrialCohabitationRequestEntity.class);
+		requestWithoutPet.setShelter(shelter);
+		entityManager.persist(requestWithoutPet);
+		TrialCohabitationEntity cohabitationWithoutPet = factory.manufacturePojo(TrialCohabitationEntity.class);
+		cohabitationWithoutPet.setShelter(shelter);
+		cohabitationWithoutPet.setTrialCohabitationRequest(requestWithoutPet);
+		entityManager.persist(cohabitationWithoutPet);
+
+		TrialCohabitationRequestEntity requestOfOtherPet = factory
+				.manufacturePojo(TrialCohabitationRequestEntity.class);
+		requestOfOtherPet.setShelter(shelter);
+		requestOfOtherPet.setPet(otherPet);
+		entityManager.persist(requestOfOtherPet);
+		TrialCohabitationEntity cohabitationOfOtherPet = factory.manufacturePojo(TrialCohabitationEntity.class);
+		cohabitationOfOtherPet.setShelter(shelter);
+		cohabitationOfOtherPet.setTrialCohabitationRequest(requestOfOtherPet);
+		entityManager.persist(cohabitationOfOtherPet);
+
+		petService.deletePet(entity.getId());
+
+		assertNull(entityManager.find(PetEntity.class, entity.getId()));
+	}
+
+	@Test
+	void testDeletePetWithNullMedicalEventsList() throws EntityNotFoundException, IllegalOperationException {
+		PetEntity entity = persistPet(shelter, "Pet without events", "Dog", pastDate(3));
+		entity.setMedicalEvents(null);
+
+		petService.deletePet(entity.getId());
+
+		assertNull(entityManager.find(PetEntity.class, entity.getId()));
+	}
+
+	// deletePet: vaccination recordVaccine as history
+
+	@Test
+	void testDeletePetWithVaccinesInVaccinationRecord() {
+		PetEntity entity = petList.get(0);
+		VaccinationRecordEntity recordVaccine = persistVaccinationRecord(entity);
+		VaccineEntity vaccine = factory.manufacturePojo(VaccineEntity.class);
+		vaccine.setVaccinationRecord(recordVaccine);
+		entityManager.persist(vaccine);
+		entityManager.flush();
+		entityManager.clear();
+
+		assertThrows(IllegalOperationException.class, () -> petService.deletePet(entity.getId()));
+	}
+
+	@Test
+	void testDeletePetWithEmptyVaccinationRecord() throws EntityNotFoundException, IllegalOperationException {
+		PetEntity entity = petList.get(0);
+		persistVaccinationRecord(entity);
+		entityManager.flush();
+		entityManager.clear();
+
+		petService.deletePet(entity.getId());
+
+		assertNull(entityManager.find(PetEntity.class, entity.getId()));
+	}
 }

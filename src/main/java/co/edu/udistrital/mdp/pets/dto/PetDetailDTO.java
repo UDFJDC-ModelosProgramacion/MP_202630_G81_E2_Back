@@ -8,8 +8,8 @@ import lombok.Data;
 @Data
 public class PetDetailDTO extends PetDTO{
     private List<PhotoDTO> photos = new ArrayList<>();
-    // AdoptionRequests
-    // Adoptions
+    private List<AdoptionRequestDTO> adoptionRequests = new ArrayList<>();
+    private List<AdoptionDTO> adoptions = new ArrayList<>();
     private List<ReviewDTO> reviews = new ArrayList<>();
-    // MedicalEvents
+    private List<MedicalEventDTO> medicalEvents = new ArrayList<>();
 }

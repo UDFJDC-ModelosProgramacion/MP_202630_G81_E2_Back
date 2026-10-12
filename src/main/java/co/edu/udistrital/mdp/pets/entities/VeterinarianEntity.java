@@ -4,9 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 import uk.co.jemos.podam.common.PodamExclude;
 
 @Data
@@ -18,9 +19,13 @@ public class VeterinarianEntity extends UserEntity {
 
     @PodamExclude 
     @OneToMany(mappedBy = "veterinarian")
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     private List<FollowUpEntity> followUps = new ArrayList<>();
 
     @PodamExclude
     @OneToMany(mappedBy = "veterinarian")
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     private List<MedicalEventEntity> medicalEvents = new ArrayList<>();
 }
