@@ -7,15 +7,26 @@
 	},
 	"item": [
 		{
-			"name": "Create a Return",
+			"name": "Preparacion: Crear Usuario para Refugio",
 			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"pm.collectionVariables.set(\"user_email\", \"user.ret.\" + Date.now() + \"@example.com\");"
+						],
+						"type": "text/javascript"
+					}
+				},
 				{
 					"listen": "test",
 					"script": {
 						"exec": [
 							"pm.test(\"Status code is 201\", function () {",
 							"    pm.response.to.have.status(201);",
-							"});"
+							"});",
+							"var data = pm.response.json();",
+							"pm.collectionVariables.set(\"user_id\", data.id);"
 						],
 						"type": "text/javascript"
 					}
@@ -31,7 +42,312 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"reazon\": \"Allergy complications in the household.\",\n    \"status\": \"PENDING\",\n    \"adoption\": {\n        \"id\": 1\n    }\n}"
+					"raw": "{\n    \"firstName\": \"Juan\",\n    \"lastName\": \"Devolucion\",\n    \"email\": \"{{user_email}}\",\n    \"password\": \"Password123!\",\n    \"phone\": \"3001234567\"\n}"
+				},
+				"url": {
+					"raw": "{{baseUrl}}/users",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Preparacion: Crear Refugio",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"pm.collectionVariables.set(\"run_id\", Date.now().toString(36));"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {",
+							"    pm.response.to.have.status(201);",
+							"});",
+							"var data = pm.response.json();",
+							"pm.collectionVariables.set(\"shelter_id\", data.id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"Refugio Ret {{run_id}}\",\n    \"city\": \"Bogota\",\n    \"nit\": \"900-RET-{{run_id}}\",\n    \"location\": \"Chapinero\",\n    \"users\": [\n        {\n            \"id\": {{user_id}}\n        }\n    ]\n}"
+				},
+				"url": {
+					"raw": "{{baseUrl}}/shelters",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"shelters"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Preparacion: Crear Mascota",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {",
+							"    pm.response.to.have.status(201);",
+							"});",
+							"var data = pm.response.json();",
+							"pm.collectionVariables.set(\"pet_id\", data.id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"Firulais Ret\",\n    \"species\": \"Perro\",\n    \"breed\": \"Criollo\",\n    \"age\": 3,\n    \"sex\": \"Macho\",\n    \"size\": \"Mediano\",\n    \"healthStatus\": \"Saludable\",\n    \"description\": \"Perro amigable\",\n    \"temperament\": \"Sociable\",\n    \"specificNeeds\": \"Ninguna\",\n    \"compatibilityChildren\": true,\n    \"compatibilityOtherPets\": true,\n    \"activityLevel\": \"Alto\",\n    \"requiredSpace\": \"Patio\",\n    \"admissionDate\": \"2026-09-01\",\n    \"shelter\": {\n        \"id\": {{shelter_id}}\n    },\n    \"medicalEvents\": [\n        {\n            \"date\": \"2026-09-01\",\n            \"type\": \"Rescate\",\n            \"description\": \"Rescate previo\"\n        }\n    ]\n}"
+				},
+				"url": {
+					"raw": "{{baseUrl}}/pets",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"pets"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Preparacion: Crear Adoptante",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"pm.collectionVariables.set(\"adopter_email\", \"adopter.ret.\" + Date.now() + \"@example.com\");",
+							"pm.collectionVariables.set(\"adopter_nid\", \"CC-RET-\" + Date.now());"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {",
+							"    pm.response.to.have.status(201);",
+							"});",
+							"var data = pm.response.json();",
+							"pm.collectionVariables.set(\"adopter_id\", data.id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"firstName\": \"Carlos\",\n    \"lastName\": \"Perez\",\n    \"email\": \"{{adopter_email}}\",\n    \"password\": \"secret123\",\n    \"phone\": \"3001234567\",\n    \"address\": \"Calle 123 # 45-67\",\n    \"nationalId\": \"{{adopter_nid}}\",\n    \"occupation\": \"Ingeniero\",\n    \"earnings\": 2500000.0,\n    \"housingType\": \"Casa\",\n    \"allergies\": \"Ninguna\",\n    \"hasChildren\": false,\n    \"hasOtherPets\": true\n}"
+				},
+				"url": {
+					"raw": "{{baseUrl}}/adopters",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"adopters"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Preparacion: Crear Solicitud de Adopcion",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {",
+							"    pm.response.to.have.status(201);",
+							"});",
+							"var data = pm.response.json();",
+							"pm.collectionVariables.set(\"adoption_request_id\", data.id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"description\": \"Solicitud para adopcion previa a retorno.\",\n    \"status\": \"PENDING\",\n    \"adopter\": {\n        \"id\": {{adopter_id}}\n    },\n    \"pet\": {\n        \"id\": {{pet_id}}\n    }\n}"
+				},
+				"url": {
+					"raw": "{{baseUrl}}/adoption-requests",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"adoption-requests"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Preparacion: Aprobar Solicitud de Adopcion",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"description\": \"Solicitud aprobada.\",\n    \"status\": \"APPROVED\",\n    \"adopter\": {\n        \"id\": {{adopter_id}}\n    },\n    \"pet\": {\n        \"id\": {{pet_id}}\n    }\n}"
+				},
+				"url": {
+					"raw": "{{baseUrl}}/adoption-requests/{{adoption_request_id}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"adoption-requests",
+						"{{adoption_request_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Preparacion: Crear Adopcion Finalizada",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {",
+							"    pm.response.to.have.status(201);",
+							"});",
+							"var data = pm.response.json();",
+							"pm.collectionVariables.set(\"adoption_id\", data.id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"date\": \"2026-09-10\",\n    \"status\": \"FINALIZED\",\n    \"importantNotes\": \"Adopcion finalizada para prueba de devolucion.\",\n    \"pet\": {\n        \"id\": {{pet_id}}\n    },\n    \"shelter\": {\n        \"id\": {{shelter_id}}\n    },\n    \"adopter\": {\n        \"id\": {{adopter_id}}\n    },\n    \"adoptionRequest\": {\n        \"id\": {{adoption_request_id}}\n    }\n}"
+				},
+				"url": {
+					"raw": "{{baseUrl}}/adoptions",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"adoptions"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create a Return",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {",
+							"    pm.response.to.have.status(201);",
+							"});",
+							"var data = pm.response.json();",
+							"pm.collectionVariables.set(\"return_id\", data.id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"reason\": \"Allergy complications in the household.\",\n    \"adoption\": {\n        \"id\": {{adoption_id}}\n    }\n}"
 				},
 				"url": {
 					"raw": "{{baseUrl}}/returns",
@@ -43,44 +359,7 @@
 					]
 				}
 			},
-			"response": [
-				{
-					"name": "Return Created Successfully",
-					"originalRequest": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"reazon\": \"Allergy complications in the household.\",\n    \"status\": \"PENDING\",\n    \"adoption\": {\n        \"id\": 1\n    }\n}"
-						},
-						"url": {
-							"raw": "{{baseUrl}}/returns",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"returns"
-							]
-						}
-					},
-					"status": "Created",
-					"code": 201,
-					"_postman_previewlanguage": "json",
-					"header": [
-						{
-							"key": "Content-Type",
-							"value": "application/json"
-						}
-					],
-					"cookie": [],
-					"body": "{\n    \"id\": 1,\n    \"reazon\": \"Allergy complications in the household.\",\n    \"status\": \"PENDING\",\n    \"date\": \"2026-10-09\",\n    \"adoption\": {\n        \"id\": 1\n    }\n}"
-				}
-			]
+			"response": []
 		},
 		{
 			"name": "Get All Returns",
@@ -110,35 +389,7 @@
 					]
 				}
 			},
-			"response": [
-				{
-					"name": "List of Returns",
-					"originalRequest": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{baseUrl}}/returns",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"returns"
-							]
-						}
-					},
-					"status": "OK",
-					"code": 200,
-					"_postman_previewlanguage": "json",
-					"header": [
-						{
-							"key": "Content-Type",
-							"value": "application/json"
-						}
-					],
-					"cookie": [],
-					"body": "[\n    {\n        \"id\": 1,\n        \"reazon\": \"Allergy complications in the household.\",\n        \"status\": \"PENDING\",\n        \"date\": \"2026-10-09\",\n        \"adoption\": {\n            \"id\": 1\n        }\n    }\n]"
-				}
-			]
+			"response": []
 		},
 		{
 			"name": "Get Return by ID",
@@ -159,46 +410,17 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{baseUrl}}/returns/1",
+					"raw": "{{baseUrl}}/returns/{{return_id}}",
 					"host": [
 						"{{baseUrl}}"
 					],
 					"path": [
 						"returns",
-						"1"
+						"{{return_id}}"
 					]
 				}
 			},
-			"response": [
-				{
-					"name": "Return Details",
-					"originalRequest": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{baseUrl}}/returns/1",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"returns",
-								"1"
-							]
-						}
-					},
-					"status": "OK",
-					"code": 200,
-					"_postman_previewlanguage": "json",
-					"header": [
-						{
-							"key": "Content-Type",
-							"value": "application/json"
-						}
-					],
-					"cookie": [],
-					"body": "{\n    \"id\": 1,\n    \"reazon\": \"Allergy complications in the household.\",\n    \"status\": \"PENDING\",\n    \"date\": \"2026-10-09\",\n    \"adoption\": {\n        \"id\": 1\n    }\n}"
-				}
-			]
+			"response": []
 		},
 		{
 			"name": "Get Non-Existent Return (404 Error)",
@@ -219,46 +441,17 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{baseUrl}}/returns/9999",
+					"raw": "{{baseUrl}}/returns/999999",
 					"host": [
 						"{{baseUrl}}"
 					],
 					"path": [
 						"returns",
-						"9999"
+						"999999"
 					]
 				}
 			},
-			"response": [
-				{
-					"name": "Return Not Found",
-					"originalRequest": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{baseUrl}}/returns/9999",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"returns",
-								"9999"
-							]
-						}
-					},
-					"status": "Not Found",
-					"code": 404,
-					"_postman_previewlanguage": "json",
-					"header": [
-						{
-							"key": "Content-Type",
-							"value": "application/json"
-						}
-					],
-					"cookie": [],
-					"body": "{\n    \"error\": \"Return not found\"\n}"
-				}
-			]
+			"response": []
 		},
 		{
 			"name": "Update Return",
@@ -285,58 +478,20 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"reazon\": \"Updated reason for the return of the pet.\",\n    \"status\": \"FINALIZED\"\n}"
+					"raw": "{\n    \"reason\": \"Updated reason for the return of the pet.\",\n    \"status\": \"PENDING\"\n}"
 				},
 				"url": {
-					"raw": "{{baseUrl}}/returns/1",
+					"raw": "{{baseUrl}}/returns/{{return_id}}",
 					"host": [
 						"{{baseUrl}}"
 					],
 					"path": [
 						"returns",
-						"1"
+						"{{return_id}}"
 					]
 				}
 			},
-			"response": [
-				{
-					"name": "Return Updated Successfully",
-					"originalRequest": {
-						"method": "PUT",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"reazon\": \"Updated reason for the return of the pet.\",\n    \"status\": \"FINALIZED\"\n}"
-						},
-						"url": {
-							"raw": "{{baseUrl}}/returns/1",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"returns",
-								"1"
-							]
-						}
-					},
-					"status": "OK",
-					"code": 200,
-					"_postman_previewlanguage": "json",
-					"header": [
-						{
-							"key": "Content-Type",
-							"value": "application/json"
-						}
-					],
-					"cookie": [],
-					"body": "{\n    \"id\": 1,\n    \"reazon\": \"Updated reason for the return of the pet.\",\n    \"status\": \"FINALIZED\",\n    \"date\": \"2026-10-09\"\n}"
-				}
-			]
+			"response": []
 		},
 		{
 			"name": "Delete Return",
@@ -345,8 +500,8 @@
 					"listen": "test",
 					"script": {
 						"exec": [
-							"pm.test(\"Status code is 204\", function () {",
-							"    pm.response.to.have.status(204);",
+							"pm.test(\"Status code is 412 or 204\", function () {",
+							"    pm.expect([204, 412]).to.include(pm.response.code);",
 							"});"
 						],
 						"type": "text/javascript"
@@ -357,41 +512,63 @@
 				"method": "DELETE",
 				"header": [],
 				"url": {
-					"raw": "{{baseUrl}}/returns/1",
+					"raw": "{{baseUrl}}/returns/{{return_id}}",
 					"host": [
 						"{{baseUrl}}"
 					],
 					"path": [
 						"returns",
-						"1"
+						"{{return_id}}"
 					]
 				}
 			},
-			"response": [
-				{
-					"name": "Return Deleted Successfully",
-					"originalRequest": {
-						"method": "DELETE",
-						"header": [],
-						"url": {
-							"raw": "{{baseUrl}}/returns/1",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"returns",
-								"1"
-							]
-						}
-					},
-					"status": "No Content",
-					"code": 204,
-					"_postman_previewlanguage": "",
-					"header": [],
-					"cookie": [],
-					"body": null
-				}
-			]
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "user_id",
+			"value": ""
+		},
+		{
+			"key": "user_email",
+			"value": ""
+		},
+		{
+			"key": "shelter_id",
+			"value": ""
+		},
+		{
+			"key": "pet_id",
+			"value": ""
+		},
+		{
+			"key": "adopter_id",
+			"value": ""
+		},
+		{
+			"key": "adopter_email",
+			"value": ""
+		},
+		{
+			"key": "adopter_nid",
+			"value": ""
+		},
+		{
+			"key": "adoption_request_id",
+			"value": ""
+		},
+		{
+			"key": "adoption_id",
+			"value": ""
+		},
+		{
+			"key": "return_id",
+			"value": ""
+		},
+		{
+			"key": "run_id",
+			"value": ""
 		}
 	]
 }

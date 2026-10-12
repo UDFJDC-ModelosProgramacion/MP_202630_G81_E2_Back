@@ -13,4 +13,7 @@ public class AdoptionDTO {
 
 	private ShelterDTO shelter;
 	private AdopterDTO adopter;
+	private PetDTO pet;
+	@com.fasterxml.jackson.annotation.JsonIgnoreProperties({"adoption", "adoptions"})
+	private AdoptionRequestDTO adoptionRequest;
 }

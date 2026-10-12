@@ -18,6 +18,7 @@ public class AdoptionRequestDTO extends RequestDTO {
     private AdopterDTO adopter;
 
     // Adoption associated with the request
+    @com.fasterxml.jackson.annotation.JsonIgnoreProperties("adoptionRequest")
     private AdoptionDTO adoption;
 
     // Trial cohabitation associated with the request

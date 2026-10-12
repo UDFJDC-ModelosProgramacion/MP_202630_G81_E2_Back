@@ -7,15 +7,26 @@
 	},
 	"item": [
 		{
-			"name": "Create an Adoption Request",
+			"name": "Preparacion: Crear Usuario para Refugio",
 			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"pm.collectionVariables.set(\"user_email\", \"user.ar.\" + Date.now() + \"@example.com\");"
+						],
+						"type": "text/javascript"
+					}
+				},
 				{
 					"listen": "test",
 					"script": {
 						"exec": [
 							"pm.test(\"Status code is 201\", function () {",
 							"    pm.response.to.have.status(201);",
-							"});"
+							"});",
+							"var data = pm.response.json();",
+							"pm.collectionVariables.set(\"user_id\", data.id);"
 						],
 						"type": "text/javascript"
 					}
@@ -31,7 +42,190 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"description\": \"I would love to adopt this pet and give it a good home.\",\n    \"status\": \"PENDING\",\n    \"adopter\": {\n        \"id\": 1\n    },\n    \"pet\": {\n        \"id\": 1\n    }\n}"
+					"raw": "{\n    \"firstName\": \"Juan\",\n    \"lastName\": \"Refugio\",\n    \"email\": \"{{user_email}}\",\n    \"password\": \"Password123!\",\n    \"phone\": \"3001234567\"\n}"
+				},
+				"url": {
+					"raw": "{{baseUrl}}/users",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Preparacion: Crear Refugio",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"pm.collectionVariables.set(\"run_id\", Date.now().toString(36));"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {",
+							"    pm.response.to.have.status(201);",
+							"});",
+							"var data = pm.response.json();",
+							"pm.collectionVariables.set(\"shelter_id\", data.id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"Refugio AR {{run_id}}\",\n    \"city\": \"Bogota\",\n    \"nit\": \"900-{{run_id}}\",\n    \"location\": \"Chapinero\",\n    \"users\": [\n        {\n            \"id\": {{user_id}}\n        }\n    ]\n}"
+				},
+				"url": {
+					"raw": "{{baseUrl}}/shelters",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"shelters"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Preparacion: Crear Mascota",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {",
+							"    pm.response.to.have.status(201);",
+							"});",
+							"var data = pm.response.json();",
+							"pm.collectionVariables.set(\"pet_id\", data.id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"Firulais AR\",\n    \"species\": \"Perro\",\n    \"breed\": \"Criollo\",\n    \"age\": 3,\n    \"sex\": \"Macho\",\n    \"size\": \"Mediano\",\n    \"healthStatus\": \"Saludable\",\n    \"description\": \"Perro juguetón\",\n    \"temperament\": \"Sociable\",\n    \"specificNeeds\": \"Ninguna\",\n    \"compatibilityChildren\": true,\n    \"compatibilityOtherPets\": true,\n    \"activityLevel\": \"Alto\",\n    \"requiredSpace\": \"Patio\",\n    \"admissionDate\": \"2026-09-01\",\n    \"shelter\": {\n        \"id\": {{shelter_id}}\n    },\n    \"medicalEvents\": [\n        {\n            \"date\": \"2026-09-01\",\n            \"type\": \"Rescate\",\n            \"description\": \"Rescate en via publica\"\n        }\n    ]\n}"
+				},
+				"url": {
+					"raw": "{{baseUrl}}/pets",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"pets"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Preparacion: Crear Adoptante",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"pm.collectionVariables.set(\"adopter_email\", \"adopter.ar.\" + Date.now() + \"@example.com\");",
+							"pm.collectionVariables.set(\"adopter_nid\", \"CC-\" + Date.now());"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {",
+							"    pm.response.to.have.status(201);",
+							"});",
+							"var data = pm.response.json();",
+							"pm.collectionVariables.set(\"adopter_id\", data.id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"firstName\": \"Carlos\",\n    \"lastName\": \"Perez\",\n    \"email\": \"{{adopter_email}}\",\n    \"password\": \"secret123\",\n    \"phone\": \"3001234567\",\n    \"address\": \"Calle 123 # 45-67\",\n    \"nationalId\": \"{{adopter_nid}}\",\n    \"occupation\": \"Ingeniero\",\n    \"earnings\": 2500000.0,\n    \"housingType\": \"Casa\",\n    \"allergies\": \"Ninguna\",\n    \"hasChildren\": false,\n    \"hasOtherPets\": true\n}"
+				},
+				"url": {
+					"raw": "{{baseUrl}}/adopters",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"adopters"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create an Adoption Request",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {",
+							"    pm.response.to.have.status(201);",
+							"});",
+							"var data = pm.response.json();",
+							"pm.collectionVariables.set(\"adoption_request_id\", data.id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"description\": \"I would love to adopt this pet and give it a good home.\",\n    \"status\": \"PENDING\",\n    \"adopter\": {\n        \"id\": {{adopter_id}}\n    },\n    \"pet\": {\n        \"id\": {{pet_id}}\n    }\n}"
 				},
 				"url": {
 					"raw": "{{baseUrl}}/adoption-requests",
@@ -43,44 +237,7 @@
 					]
 				}
 			},
-			"response": [
-				{
-					"name": "Adoption Request Created Successfully",
-					"originalRequest": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"description\": \"I would love to adopt this pet and give it a good home.\",\n    \"status\": \"PENDING\",\n    \"adopter\": {\n        \"id\": 1\n    },\n    \"pet\": {\n        \"id\": 1\n    }\n}"
-						},
-						"url": {
-							"raw": "{{baseUrl}}/adoption-requests",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"adoption-requests"
-							]
-						}
-					},
-					"status": "Created",
-					"code": 201,
-					"_postman_previewlanguage": "json",
-					"header": [
-						{
-							"key": "Content-Type",
-							"value": "application/json"
-						}
-					],
-					"cookie": [],
-					"body": "{\n    \"id\": 1,\n    \"description\": \"I would love to adopt this pet and give it a good home.\",\n    \"status\": \"PENDING\",\n    \"date\": \"2026-10-09\",\n    \"adopter\": {\n        \"id\": 1\n    },\n    \"pet\": {\n        \"id\": 1\n    }\n}"
-				}
-			]
+			"response": []
 		},
 		{
 			"name": "Get All Adoption Requests",
@@ -110,35 +267,7 @@
 					]
 				}
 			},
-			"response": [
-				{
-					"name": "List of Adoption Requests",
-					"originalRequest": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{baseUrl}}/adoption-requests",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"adoption-requests"
-							]
-						}
-					},
-					"status": "OK",
-					"code": 200,
-					"_postman_previewlanguage": "json",
-					"header": [
-						{
-							"key": "Content-Type",
-							"value": "application/json"
-						}
-					],
-					"cookie": [],
-					"body": "[\n    {\n        \"id\": 1,\n        \"description\": \"I would love to adopt this pet and give it a good home.\",\n        \"status\": \"PENDING\",\n        \"date\": \"2026-10-09\",\n        \"adopter\": {\n            \"id\": 1\n        },\n        \"pet\": {\n            \"id\": 1\n        }\n    }\n]"
-				}
-			]
+			"response": []
 		},
 		{
 			"name": "Get Adoption Request by ID",
@@ -159,46 +288,17 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{baseUrl}}/adoption-requests/1",
+					"raw": "{{baseUrl}}/adoption-requests/{{adoption_request_id}}",
 					"host": [
 						"{{baseUrl}}"
 					],
 					"path": [
 						"adoption-requests",
-						"1"
+						"{{adoption_request_id}}"
 					]
 				}
 			},
-			"response": [
-				{
-					"name": "Adoption Request Details",
-					"originalRequest": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{baseUrl}}/adoption-requests/1",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"adoption-requests",
-								"1"
-							]
-						}
-					},
-					"status": "OK",
-					"code": 200,
-					"_postman_previewlanguage": "json",
-					"header": [
-						{
-							"key": "Content-Type",
-							"value": "application/json"
-						}
-					],
-					"cookie": [],
-					"body": "{\n    \"id\": 1,\n    \"description\": \"I would love to adopt this pet and give it a good home.\",\n    \"status\": \"PENDING\",\n    \"date\": \"2026-10-09\",\n    \"adopter\": {\n        \"id\": 1\n    },\n    \"pet\": {\n        \"id\": 1\n    }\n}"
-				}
-			]
+			"response": []
 		},
 		{
 			"name": "Get Non-Existent Adoption Request (404 Error)",
@@ -219,46 +319,17 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{baseUrl}}/adoption-requests/9999",
+					"raw": "{{baseUrl}}/adoption-requests/999999",
 					"host": [
 						"{{baseUrl}}"
 					],
 					"path": [
 						"adoption-requests",
-						"9999"
+						"999999"
 					]
 				}
 			},
-			"response": [
-				{
-					"name": "Adoption Request Not Found",
-					"originalRequest": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{baseUrl}}/adoption-requests/9999",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"adoption-requests",
-								"9999"
-							]
-						}
-					},
-					"status": "Not Found",
-					"code": 404,
-					"_postman_previewlanguage": "json",
-					"header": [
-						{
-							"key": "Content-Type",
-							"value": "application/json"
-						}
-					],
-					"cookie": [],
-					"body": "{\n    \"error\": \"Adoption request not found\"\n}"
-				}
-			]
+			"response": []
 		},
 		{
 			"name": "Update Adoption Request",
@@ -285,58 +356,20 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"description\": \"Updated description for the adoption request.\",\n    \"status\": \"APPROVED\"\n}"
+					"raw": "{\n    \"description\": \"Updated description for the adoption request.\",\n    \"status\": \"PENDING\",\n    \"adopter\": {\n        \"id\": {{adopter_id}}\n    },\n    \"pet\": {\n        \"id\": {{pet_id}}\n    }\n}"
 				},
 				"url": {
-					"raw": "{{baseUrl}}/adoption-requests/1",
+					"raw": "{{baseUrl}}/adoption-requests/{{adoption_request_id}}",
 					"host": [
 						"{{baseUrl}}"
 					],
 					"path": [
 						"adoption-requests",
-						"1"
+						"{{adoption_request_id}}"
 					]
 				}
 			},
-			"response": [
-				{
-					"name": "Adoption Request Updated Successfully",
-					"originalRequest": {
-						"method": "PUT",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"description\": \"Updated description for the adoption request.\",\n    \"status\": \"APPROVED\"\n}"
-						},
-						"url": {
-							"raw": "{{baseUrl}}/adoption-requests/1",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"adoption-requests",
-								"1"
-							]
-						}
-					},
-					"status": "OK",
-					"code": 200,
-					"_postman_previewlanguage": "json",
-					"header": [
-						{
-							"key": "Content-Type",
-							"value": "application/json"
-						}
-					],
-					"cookie": [],
-					"body": "{\n    \"id\": 1,\n    \"description\": \"Updated description for the adoption request.\",\n    \"status\": \"APPROVED\",\n    \"date\": \"2026-10-09\"\n}"
-				}
-			]
+			"response": []
 		},
 		{
 			"name": "Delete Adoption Request",
@@ -357,41 +390,55 @@
 				"method": "DELETE",
 				"header": [],
 				"url": {
-					"raw": "{{baseUrl}}/adoption-requests/1",
+					"raw": "{{baseUrl}}/adoption-requests/{{adoption_request_id}}",
 					"host": [
 						"{{baseUrl}}"
 					],
 					"path": [
 						"adoption-requests",
-						"1"
+						"{{adoption_request_id}}"
 					]
 				}
 			},
-			"response": [
-				{
-					"name": "Adoption Request Deleted Successfully",
-					"originalRequest": {
-						"method": "DELETE",
-						"header": [],
-						"url": {
-							"raw": "{{baseUrl}}/adoption-requests/1",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"adoption-requests",
-								"1"
-							]
-						}
-					},
-					"status": "No Content",
-					"code": 204,
-					"_postman_previewlanguage": "",
-					"header": [],
-					"cookie": [],
-					"body": null
-				}
-			]
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "user_id",
+			"value": ""
+		},
+		{
+			"key": "user_email",
+			"value": ""
+		},
+		{
+			"key": "shelter_id",
+			"value": ""
+		},
+		{
+			"key": "pet_id",
+			"value": ""
+		},
+		{
+			"key": "adopter_id",
+			"value": ""
+		},
+		{
+			"key": "adopter_email",
+			"value": ""
+		},
+		{
+			"key": "adopter_nid",
+			"value": ""
+		},
+		{
+			"key": "adoption_request_id",
+			"value": ""
+		},
+		{
+			"key": "run_id",
+			"value": ""
 		}
 	]
 }

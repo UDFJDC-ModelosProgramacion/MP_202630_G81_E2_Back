@@ -16,7 +16,7 @@ import co.edu.udistrital.mdp.pets.exceptions.EntityNotFoundException;
 import co.edu.udistrital.mdp.pets.exceptions.IllegalOperationException;
 
 @RestController
-@RequestMapping("/api/returns")
+@RequestMapping("/returns")
 public class ReturnController {
 
     @Autowired
