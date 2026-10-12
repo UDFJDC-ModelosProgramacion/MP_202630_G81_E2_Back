@@ -23,6 +23,7 @@ import co.edu.udistrital.mdp.pets.entities.PetEntity;
 import co.edu.udistrital.mdp.pets.entities.ShelterEntity;
 import co.edu.udistrital.mdp.pets.entities.TrialCohabitationEntity;
 import co.edu.udistrital.mdp.pets.entities.TrialCohabitationRequestEntity;
+import co.edu.udistrital.mdp.pets.entities.VeterinarianEntity;
 import co.edu.udistrital.mdp.pets.exceptions.EntityNotFoundException;
 import co.edu.udistrital.mdp.pets.exceptions.IllegalOperationException;
 import uk.co.jemos.podam.api.PodamFactory;
@@ -545,5 +546,237 @@ class TrialCohabitationServiceTest {
 			newTrial.setShelter(new ShelterEntity());
 			trialCohabitationService.createTrial(newTrial);
 		});
+	}
+
+	@Test
+	void testCreateTrialWithEmptyStatus() throws EntityNotFoundException, IllegalOperationException {
+		ShelterEntity shelter = factory.manufacturePojo(ShelterEntity.class);
+		entityManager.persist(shelter);
+		PetEntity pet = factory.manufacturePojo(PetEntity.class);
+		entityManager.persist(pet);
+		AdopterEntity adopter = factory.manufacturePojo(AdopterEntity.class);
+		entityManager.persist(adopter);
+
+		TrialCohabitationRequestEntity request = buildFreshRequest(pet, adopter, shelter);
+		TrialCohabitationEntity newTrial = buildTrial(request, adopter, shelter, "");
+
+		TrialCohabitationEntity result = trialCohabitationService.createTrial(newTrial);
+
+		assertNotNull(result);
+		assertEquals("PENDING", result.getStatus());
+	}
+
+	@Test
+	void testCreateTrialResolvingPetFromRequestById() throws EntityNotFoundException, IllegalOperationException {
+		ShelterEntity shelter = factory.manufacturePojo(ShelterEntity.class);
+		entityManager.persist(shelter);
+		PetEntity pet = factory.manufacturePojo(PetEntity.class);
+		entityManager.persist(pet);
+		AdopterEntity adopter = factory.manufacturePojo(AdopterEntity.class);
+		entityManager.persist(adopter);
+
+		TrialCohabitationRequestEntity request = buildFreshRequest(pet, adopter, shelter);
+
+		TrialCohabitationEntity newTrial = factory.manufacturePojo(TrialCohabitationEntity.class);
+		newTrial.setStartDate(futureDate());
+		newTrial.setAdopter(adopter);
+		newTrial.setShelter(shelter);
+		TrialCohabitationRequestEntity reference = new TrialCohabitationRequestEntity();
+		reference.setId(request.getId());
+		newTrial.setTrialCohabitationRequest(reference);
+
+		TrialCohabitationEntity result = trialCohabitationService.createTrial(newTrial);
+
+		assertNotNull(result);
+		assertEquals(pet.getId(), result.getTrialCohabitationRequest().getPet().getId());
+	}
+
+	@Test
+	void testCreateTrialWhenOtherTrialHasNullRequest() throws EntityNotFoundException, IllegalOperationException {
+		ShelterEntity shelter = factory.manufacturePojo(ShelterEntity.class);
+		entityManager.persist(shelter);
+		PetEntity pet = factory.manufacturePojo(PetEntity.class);
+		entityManager.persist(pet);
+		AdopterEntity adopter = factory.manufacturePojo(AdopterEntity.class);
+		entityManager.persist(adopter);
+
+		TrialCohabitationEntity existing = factory.manufacturePojo(TrialCohabitationEntity.class);
+		existing.setStartDate(futureDate());
+		existing.setAdopter(adopter);
+		existing.setShelter(shelter);
+		existing.setTrialCohabitationRequest(null);
+		entityManager.persist(existing);
+
+		TrialCohabitationRequestEntity request = buildFreshRequest(pet, adopter, shelter);
+		TrialCohabitationEntity newTrial = buildTrial(request, adopter, shelter, "PENDING");
+
+		TrialCohabitationEntity result = trialCohabitationService.createTrial(newTrial);
+
+		assertNotNull(result);
+	}
+
+	@Test
+	void testCreateTrialWhenOtherTrialRequestHasNullPet() throws EntityNotFoundException, IllegalOperationException {
+		ShelterEntity shelter = factory.manufacturePojo(ShelterEntity.class);
+		entityManager.persist(shelter);
+		PetEntity pet = factory.manufacturePojo(PetEntity.class);
+		entityManager.persist(pet);
+		AdopterEntity adopter = factory.manufacturePojo(AdopterEntity.class);
+		entityManager.persist(adopter);
+
+		TrialCohabitationRequestEntity requestWithoutPet = factory.manufacturePojo(TrialCohabitationRequestEntity.class);
+		requestWithoutPet.setPet(null);
+		requestWithoutPet.setAdopter(adopter);
+		requestWithoutPet.setShelter(shelter);
+		entityManager.persist(requestWithoutPet);
+		TrialCohabitationEntity existing = buildTrial(requestWithoutPet, adopter, shelter, "PENDING");
+		entityManager.persist(existing);
+
+		TrialCohabitationRequestEntity request = buildFreshRequest(pet, adopter, shelter);
+		TrialCohabitationEntity newTrial = buildTrial(request, adopter, shelter, "PENDING");
+
+		TrialCohabitationEntity result = trialCohabitationService.createTrial(newTrial);
+
+		assertNotNull(result);
+	}
+
+	@Test
+	void testCreateTrialWhenOtherTrialHasNullStatus() throws EntityNotFoundException, IllegalOperationException {
+		ShelterEntity shelter = shelterList.get(0);
+		AdopterEntity adopter = adopterList.get(0);
+
+		TrialCohabitationRequestEntity existingRequest = buildFreshRequest(petList.get(0), adopter, shelter);
+		TrialCohabitationEntity existing = buildTrial(existingRequest, adopter, shelter, null);
+		entityManager.persist(existing);
+
+		TrialCohabitationRequestEntity newRequest = buildFreshRequest(petList.get(0), adopter, shelter);
+		TrialCohabitationEntity newTrial = buildTrial(newRequest, adopter, shelter, "PENDING");
+
+		TrialCohabitationEntity result = trialCohabitationService.createTrial(newTrial);
+
+		assertNotNull(result);
+	}
+
+	@Test
+	void testReadAllTrialsFilteringSkipsNullFields() throws IllegalOperationException {
+		TrialCohabitationRequestEntity request = buildFreshRequest(petList.get(0), adopterList.get(0), shelterList.get(0));
+		TrialCohabitationEntity weird = buildTrial(request, adopterList.get(0), shelterList.get(0), null);
+		weird.setStartDate(null);
+		entityManager.persist(weird);
+
+		List<TrialCohabitationEntity> list = trialCohabitationService.readAllTrials("PENDING", pastDate(), futureDate());
+		assertNotNull(list);
+	}
+
+	@Test
+	void testReadTrialWithNullId() {
+		assertThrows(IllegalOperationException.class, () -> {
+			trialCohabitationService.readTrial(null);
+		});
+	}
+
+	@Test
+	void testUpdateTrialWithNullId() {
+		assertThrows(IllegalOperationException.class, () -> {
+			TrialCohabitationEntity pojoEntity = factory.manufacturePojo(TrialCohabitationEntity.class);
+			pojoEntity.setStatus("PENDING");
+			trialCohabitationService.updateTrial(null, pojoEntity);
+		});
+	}
+
+	@Test
+	void testUpdateTrialWithEmptyStatus() {
+		assertThrows(IllegalOperationException.class, () -> {
+			TrialCohabitationEntity entity = trialList.get(0);
+			TrialCohabitationEntity pojoEntity = factory.manufacturePojo(TrialCohabitationEntity.class);
+			pojoEntity.setStartDate(futureDate());
+			pojoEntity.setEndDate(new Date(System.currentTimeMillis() + 60 * DAY));
+			pojoEntity.setStatus("");
+			pojoEntity.setObservations("Observacion");
+			trialCohabitationService.updateTrial(entity.getId(), pojoEntity);
+		});
+	}
+
+	@Test
+	void testUpdateTrialWithEmptyObservations() {
+		assertThrows(IllegalOperationException.class, () -> {
+			TrialCohabitationEntity entity = trialList.get(0);
+			TrialCohabitationEntity pojoEntity = factory.manufacturePojo(TrialCohabitationEntity.class);
+			pojoEntity.setStartDate(futureDate());
+			pojoEntity.setEndDate(new Date(System.currentTimeMillis() + 60 * DAY));
+			pojoEntity.setStatus("PENDING");
+			pojoEntity.setObservations("");
+			trialCohabitationService.updateTrial(entity.getId(), pojoEntity);
+		});
+	}
+
+	@Test
+	void testUpdateFinalizedTrialToFinalized() throws EntityNotFoundException, IllegalOperationException {
+		TrialCohabitationEntity entity = trialList.get(0);
+		entity.setStatus("FINALIZED");
+		entityManager.flush();
+
+		TrialCohabitationEntity pojoEntity = factory.manufacturePojo(TrialCohabitationEntity.class);
+		pojoEntity.setStartDate(futureDate());
+		pojoEntity.setEndDate(new Date(System.currentTimeMillis() + 60 * DAY));
+		pojoEntity.setStatus("FINALIZED");
+		pojoEntity.setObservations("Sigue finalizada");
+
+		trialCohabitationService.updateTrial(entity.getId(), pojoEntity);
+
+		TrialCohabitationEntity resp = entityManager.find(TrialCohabitationEntity.class, entity.getId());
+		assertEquals("FINALIZED", resp.getStatus());
+	}
+
+	@Test
+	void testDeleteTrialWithNullId() {
+		assertThrows(IllegalOperationException.class, () -> {
+			trialCohabitationService.deleteTrial(null);
+		});
+	}
+
+	@Test
+	void testSeedIntegrationTestData() {
+		clearData();
+		resetIdentity("shelter_entity");
+		resetIdentity("user_entity");
+		resetIdentity("pet_entity");
+		entityManager.clear();
+
+		ShelterEntity shelter = factory.manufacturePojo(ShelterEntity.class);
+		entityManager.persist(shelter);
+		VeterinarianEntity veterinarian = factory.manufacturePojo(VeterinarianEntity.class);
+		entityManager.persist(veterinarian);
+		AdopterEntity adopter = factory.manufacturePojo(AdopterEntity.class);
+		entityManager.persist(adopter);
+		PetEntity petOne = factory.manufacturePojo(PetEntity.class);
+		entityManager.persist(petOne);
+		PetEntity petTwo = factory.manufacturePojo(PetEntity.class);
+		entityManager.persist(petTwo);
+		entityManager.flush();
+
+		assertEquals(1L, shelter.getId());
+		assertEquals(1L, veterinarian.getId());
+		assertEquals(2L, adopter.getId());
+		assertEquals(1L, petOne.getId());
+		assertEquals(2L, petTwo.getId());
+
+		trialCohabitationService.seedIntegrationTestData();
+
+		assertEquals(5L, countOf("TrialCohabitationRequestEntity"));
+		assertEquals(4L, countOf("TrialCohabitationEntity"));
+
+		trialCohabitationService.seedIntegrationTestData();
+		assertEquals(4L, countOf("TrialCohabitationEntity"));
+	}
+
+	private void resetIdentity(String table) {
+		entityManager.getEntityManager()
+				.createNativeQuery("ALTER TABLE " + table + " ALTER COLUMN id RESTART WITH 1").executeUpdate();
+	}
+
+	private long countOf(String entity) {
+		return (Long) entityManager.getEntityManager()
+				.createQuery("select count(e) from " + entity + " e").getSingleResult();
 	}
 }
