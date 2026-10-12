@@ -10,7 +10,12 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class ApplicationConfig {
 	@Bean
 	public ModelMapper modelMapper() {
-		return new ModelMapper();
+		ModelMapper modelMapper = new ModelMapper();
+		// The entity graph has crossing references (request -> trial -> request), so
+		// some destination properties match more than one source hierarchy. Without
+		// this the mapping fails with a ConfigurationException.
+		modelMapper.getConfiguration().setAmbiguityIgnored(true);
+		return modelMapper;
 	}
 
 	@Bean

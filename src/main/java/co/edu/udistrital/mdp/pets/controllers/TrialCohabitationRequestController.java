@@ -16,6 +16,9 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import co.edu.udistrital.mdp.pets.dto.TrialCohabitationRequestDTO;
+import co.edu.udistrital.mdp.pets.entities.AdopterEntity;
+import co.edu.udistrital.mdp.pets.entities.PetEntity;
+import co.edu.udistrital.mdp.pets.entities.ShelterEntity;
 import co.edu.udistrital.mdp.pets.entities.TrialCohabitationRequestEntity;
 import co.edu.udistrital.mdp.pets.exceptions.EntityNotFoundException;
 import co.edu.udistrital.mdp.pets.exceptions.IllegalOperationException;
@@ -52,7 +55,7 @@ public class TrialCohabitationRequestController {
     @ResponseStatus(code = HttpStatus.CREATED)
     public TrialCohabitationRequestDTO create(@RequestBody TrialCohabitationRequestDTO requestDTO) throws IllegalOperationException, EntityNotFoundException {
         TrialCohabitationRequestEntity requestEntity = trialCohabitationRequestService
-                .createTrialCohabitationRequest(modelMapper.map(requestDTO, TrialCohabitationRequestEntity.class));
+                .createTrialCohabitationRequest(toEntity(requestDTO));
         return modelMapper.map(requestEntity, TrialCohabitationRequestDTO.class);
     }
 
@@ -61,8 +64,38 @@ public class TrialCohabitationRequestController {
     @ResponseStatus(code = HttpStatus.OK)
     public TrialCohabitationRequestDTO update(@PathVariable Long id, @RequestBody TrialCohabitationRequestDTO requestDTO) throws EntityNotFoundException, IllegalOperationException {
         TrialCohabitationRequestEntity requestEntity = trialCohabitationRequestService
-                .updateTrialCohabitationRequest(id, modelMapper.map(requestDTO, TrialCohabitationRequestEntity.class));
+                .updateTrialCohabitationRequest(id, toEntity(requestDTO));
         return modelMapper.map(requestEntity, TrialCohabitationRequestDTO.class);
+    }
+
+    /**
+     * Builds the entity from the DTO field by field. Mapping with ModelMapper leaves
+     * the {@code trialCohabitation} reference as an unsaved transient instance, which
+     * makes the save fail; mapping by hand keeps it null.
+     */
+    private TrialCohabitationRequestEntity toEntity(TrialCohabitationRequestDTO dto) {
+        TrialCohabitationRequestEntity entity = new TrialCohabitationRequestEntity();
+        entity.setStatus(dto.getStatus());
+        entity.setDate(dto.getDate());
+        entity.setDescription(dto.getDescription());
+        entity.setStartDate(dto.getStartDate());
+        entity.setEndDate(dto.getEndDate());
+        if (dto.getShelter() != null && dto.getShelter().getId() != null) {
+            ShelterEntity shelter = new ShelterEntity();
+            shelter.setId(dto.getShelter().getId());
+            entity.setShelter(shelter);
+        }
+        if (dto.getAdopter() != null && dto.getAdopter().getId() != null) {
+            AdopterEntity adopter = new AdopterEntity();
+            adopter.setId(dto.getAdopter().getId());
+            entity.setAdopter(adopter);
+        }
+        if (dto.getPet() != null && dto.getPet().getId() != null) {
+            PetEntity pet = new PetEntity();
+            pet.setId(dto.getPet().getId());
+            entity.setPet(pet);
+        }
+        return entity;
     }
 
     // delete method
