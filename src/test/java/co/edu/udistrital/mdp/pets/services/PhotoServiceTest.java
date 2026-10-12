@@ -462,4 +462,209 @@ class PhotoServiceTest {
 			photoService.updatePhoto(entity.getId(), pojoEntity);
 		});
 	}
+
+	@Test
+	void testUpdatePhotoWithEmptyUrl() {
+		PhotoEntity entity = photoList.get(0);
+		PhotoEntity pojoEntity = factory.manufacturePojo(PhotoEntity.class);
+		pojoEntity.setId(entity.getId());
+		pojoEntity.setUrl("");
+		pojoEntity.setType("JPG");
+		assertThrows(IllegalOperationException.class, () -> {
+			photoService.updatePhoto(entity.getId(), pojoEntity);
+		});
+	}
+
+	@Test
+	void testCreatePetPhoto() throws EntityNotFoundException, IllegalOperationException {
+		PetEntity pet = petList.get(0);
+
+		PhotoEntity newEntity = buildValidPhoto();
+		PhotoEntity result = photoService.createPetPhoto(pet.getId(), newEntity);
+
+		assertNotNull(result);
+		assertEquals(pet.getId(), result.getPet().getId());
+		assertNull(result.getShelter());
+		assertEquals(3, photoService.getPetPhotos(pet.getId()).size());
+	}
+
+	@Test
+	void testCreatePetPhotoWithInvalidPetId() {
+		assertThrows(IllegalOperationException.class, () -> {
+			PhotoEntity newEntity = buildValidPhoto();
+			photoService.createPetPhoto(0L, newEntity);
+		});
+	}
+
+	@Test
+	void testCreatePetPhotoWithNonExistentPet() {
+		assertThrows(EntityNotFoundException.class, () -> {
+			PhotoEntity newEntity = buildValidPhoto();
+			photoService.createPetPhoto(1000L, newEntity);
+		});
+	}
+
+	@Test
+	void testGetPetPhotos() throws EntityNotFoundException, IllegalOperationException {
+		List<PhotoEntity> list = photoService.getPetPhotos(petList.get(0).getId());
+		assertEquals(2, list.size());
+	}
+
+	@Test
+	void testGetPetPhotosWithInvalidPetId() {
+		assertThrows(IllegalOperationException.class, () -> {
+			photoService.getPetPhotos(0L);
+		});
+	}
+
+	@Test
+	void testGetPetPhotosWithNonExistentPet() {
+		assertThrows(EntityNotFoundException.class, () -> {
+			photoService.getPetPhotos(1000L);
+		});
+	}
+
+	@Test
+	void testGetPetPhoto() throws EntityNotFoundException, IllegalOperationException {
+		PhotoEntity photo = photoList.get(0);
+		PhotoEntity result = photoService.getPetPhoto(photo.getPet().getId(), photo.getId());
+		assertEquals(photo.getId(), result.getId());
+	}
+
+	@Test
+	void testGetPetPhotoFromAnotherPet() {
+		PhotoEntity photo = photoList.get(0);
+		assertThrows(IllegalOperationException.class, () -> {
+			photoService.getPetPhoto(petList.get(1).getId(), photo.getId());
+		});
+	}
+
+	@Test
+	void testGetPetPhotoWithNullPhotoId() {
+		assertThrows(IllegalOperationException.class, () -> {
+			photoService.getPetPhoto(petList.get(0).getId(), null);
+		});
+	}
+
+	@Test
+	void testUpdatePetPhoto() throws EntityNotFoundException, IllegalOperationException {
+		PhotoEntity photo = photoList.get(1);
+		PhotoEntity pojoEntity = factory.manufacturePojo(PhotoEntity.class);
+		pojoEntity.setUrl("https://shelter.example.com/photos/updated");
+		pojoEntity.setType("PNG");
+		pojoEntity.setDescription("Nueva descripcion");
+
+		photoService.updatePetPhoto(photo.getPet().getId(), photo.getId(), pojoEntity);
+
+		PhotoEntity persisted = entityManager.find(PhotoEntity.class, photo.getId());
+		assertEquals("https://shelter.example.com/photos/updated", persisted.getUrl());
+		assertEquals("PNG", persisted.getType());
+	}
+
+	@Test
+	void testUpdatePetPhotoFromAnotherPet() {
+		PhotoEntity photo = photoList.get(0);
+		PhotoEntity pojoEntity = factory.manufacturePojo(PhotoEntity.class);
+		pojoEntity.setUrl("https://shelter.example.com/photos/updated");
+		pojoEntity.setType("PNG");
+		assertThrows(IllegalOperationException.class, () -> {
+			photoService.updatePetPhoto(petList.get(1).getId(), photo.getId(), pojoEntity);
+		});
+	}
+
+	@Test
+	void testUpdatePetPhotoWithEmptyUrl() {
+		PhotoEntity photo = photoList.get(0);
+		PhotoEntity pojoEntity = factory.manufacturePojo(PhotoEntity.class);
+		pojoEntity.setUrl("");
+		pojoEntity.setType("JPG");
+		assertThrows(IllegalOperationException.class, () -> {
+			photoService.updatePetPhoto(photo.getPet().getId(), photo.getId(), pojoEntity);
+		});
+	}
+
+	@Test
+	void testDeletePetPhoto() throws EntityNotFoundException, IllegalOperationException {
+		PhotoEntity photo = photoList.get(0);
+		photoService.deletePetPhoto(photo.getPet().getId(), photo.getId());
+		PhotoEntity deleted = entityManager.find(PhotoEntity.class, photo.getId());
+		assertNull(deleted);
+	}
+
+	@Test
+	void testDeletePetPhotoFromAnotherPet() {
+		PhotoEntity photo = photoList.get(1);
+		assertThrows(IllegalOperationException.class, () -> {
+			photoService.deletePetPhoto(petList.get(0).getId(), photo.getId());
+		});
+	}
+
+	@Test
+	void testDeletePetPhotoOfMainPhoto() {
+		PetEntity pet = factory.manufacturePojo(PetEntity.class);
+		entityManager.persist(pet);
+
+		PhotoEntity photo = buildValidPhoto();
+		photo.setPet(pet);
+		pet.getPhotos().add(photo);
+		entityManager.persist(photo);
+
+		assertThrows(IllegalOperationException.class, () -> {
+			photoService.deletePetPhoto(pet.getId(), photo.getId());
+		});
+	}
+
+	@Test
+	void testGetPhotosByNonExistentShelter() {
+		assertThrows(EntityNotFoundException.class, () -> {
+			photoService.getPhotos(null, 1000L);
+		});
+	}
+
+	@Test
+	void testGetPhotosOfPetWithoutPhotos() throws EntityNotFoundException, IllegalOperationException {
+		PetEntity pet = factory.manufacturePojo(PetEntity.class);
+		entityManager.persist(pet);
+
+		List<PhotoEntity> list = photoService.getPhotos(pet.getId(), null);
+		assertTrue(list.isEmpty());
+	}
+
+	@Test
+	void testGetPhotosExcludesShelterOnlyPhotos() throws EntityNotFoundException, IllegalOperationException {
+		ShelterEntity shelter = shelterList.get(0);
+		PhotoEntity shelterPhoto = buildValidPhoto();
+		shelterPhoto.setShelter(shelter);
+		entityManager.persist(shelterPhoto);
+
+		List<PhotoEntity> list = photoService.getPhotos(petList.get(0).getId(), null);
+		assertEquals(2, list.size());
+		assertTrue(list.stream().noneMatch(p -> p.getShelter() != null && p.getPet() == null));
+	}
+
+	@Test
+	void testSeedIntegrationTestData() {
+		clearData();
+		entityManager.getEntityManager()
+				.createNativeQuery("ALTER TABLE shelter_entity ALTER COLUMN id RESTART WITH 1")
+				.executeUpdate();
+		ShelterEntity shelter = factory.manufacturePojo(ShelterEntity.class);
+		entityManager.persist(shelter);
+		entityManager.flush();
+		assertEquals(1L, shelter.getId());
+
+		photoService.seedIntegrationTestData();
+
+		List<PetEntity> pets = entityManager.getEntityManager()
+				.createQuery("select p from PetEntity p", PetEntity.class).getResultList();
+		assertEquals(3, pets.size());
+		List<PhotoEntity> photos = entityManager.getEntityManager()
+				.createQuery("select p from PhotoEntity p", PhotoEntity.class).getResultList();
+		assertEquals(3, photos.size());
+
+		photoService.seedIntegrationTestData();
+		pets = entityManager.getEntityManager()
+				.createQuery("select p from PetEntity p", PetEntity.class).getResultList();
+		assertEquals(3, pets.size());
+	}
 }
