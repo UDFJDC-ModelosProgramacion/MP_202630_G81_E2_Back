@@ -2,7 +2,7 @@
   "info": {
     "_postman_id": "0bf03370-92f1-45c5-91ce-e79b069b3274",
     "name": "VaccinationRecord",
-    "description": "Pruebas del API para el recurso VaccinationRecord: /vaccinationRecords. Representacion basica: id y pet. Representacion detallada: agrega la lista de vaccines.\nLas vacunas de un registro (/vaccinationRecords/{id}/vaccines) se prueban en la coleccion VaccinationRecordVaccines.\n\nLas rutas distinguen mayusculas: /vaccinationRecords (con R mayuscula). Los ids que no existen son 999999; los ids <= 0 responden 412.\n\nCarpeta A: no necesita datos previos (corre con el back recien levantado).\nCarpeta B: necesita mascotas. Hoy POST /pets y POST /shelters no pueden completarse con los DTO actuales (PetDTO no trae medicalEvents y ShelterDTO no trae users), asi que los ids de las mascotas deben definirse a mano en Globals antes de correr la carpeta B:\n  - pet_id_1: mascota activa en el refugio (sin adopcion FINALIZED y sin registro de vacunacion)\n  - pet_id_2: otra mascota activa (sin adopcion FINALIZED y sin registro de vacunacion)\n  - pet_id_adopted: mascota con una adopcion FINALIZED (sin registro de vacunacion)\n\nGUARDA POR PETICION: cada peticion de la carpeta B declara en su Pre-request que variables necesita y se OMITE (Skipped, no Failed) si falta alguna; asi las pruebas que si tienen sus datos se ejecutan igual.\nLa base de datos es en memoria: para volver a correr la carpeta B hay que reiniciar el back (un registro de una mascota activa no se puede borrar).\n\nDeja en globals: vaccination_record_id, vaccination_record_id_2 y vaccination_record_vaccine_id.",
+    "description": "Pruebas del API para el recurso VaccinationRecord: /vaccinationRecords. Representacion basica: id y pet. Representacion detallada: agrega la lista de vaccines.\nLas vacunas de un registro (/vaccinationRecords/{id}/vaccines) se prueban en la coleccion VaccinationRecordVaccines.\n\nLas rutas distinguen mayusculas: /vaccinationRecords (con R mayuscula). Los ids que no existen son 999999; los ids <= 0 responden 412.\n\nCarpeta A: no necesita datos previos (corre con el back recien levantado).\nCarpeta B: necesita mascotas. Hoy POST /pets y POST /shelters no pueden completarse con los DTO actuales (PetDTO no trae medicalEvents y ShelterDTO no trae users), asi que los ids de las mascotas deben definirse a mano en Globals antes de correr la carpeta B:\n  - pet_id_1: mascota activa en el refugio (sin adopcion FINALIZED y sin registro de vacunacion)\n  - pet_id_2: otra mascota activa (sin adopcion FINALIZED y sin registro de vacunacion)\n  - pet_id_adopted: mascota con una adopcion FINALIZED (sin registro de vacunacion)\n\nGUARDA POR PETICION: cada peticion de la carpeta B declara en su Pre-request que variables necesita y se OMITE (Skipped, no Failed) si falta alguna; asi las pruebas que si tienen sus datos se ejecutan igual.\nLa base de datos es en memoria: para volver a correr la carpeta B hay que reiniciar el back (un registro de una mascota activa no se puede borrar).\n\nDeja en globals: vacrec_id, vacrec_id_2 y vacrec_vaccine_id.",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "item": [
@@ -577,9 +577,9 @@
                   "// Prerrequisitos de esta peticion: pet_id_1",
                   "// Si falta alguno la peticion se omite (Skipped) en lugar de fallar.",
                   "// Se limpian los ids de corridas anteriores para no reutilizar datos viejos.",
-                  "pm.globals.unset(\"vaccination_record_id\");",
-                  "pm.globals.unset(\"vaccination_record_id_2\");",
-                  "pm.globals.unset(\"vaccination_record_vaccine_id\");",
+                  "pm.globals.unset(\"vacrec_id\");",
+                  "pm.globals.unset(\"vacrec_id_2\");",
+                  "pm.globals.unset(\"vacrec_vaccine_id\");",
                   "",
                   "var needs = [\"pet_id_1\"];",
                   "var missing = needs.filter(function (name) {",
@@ -608,7 +608,7 @@
                   "   var data = pm.response.json();",
                   "",
                   "   if (pm.response.code === 201) {",
-                  "      pm.globals.set(\"vaccination_record_id\", data.id);",
+                  "      pm.globals.set(\"vacrec_id\", data.id);",
                   "   }",
                   "",
                   "   pm.test(\"Status code is 201\", function () {",
@@ -618,7 +618,7 @@
                   "   pm.test(\"Record is linked to the pet\", function () {",
                   "      var data = pm.response.json();",
                   "",
-                  "      pm.expect(data.pet.id).to.eql(parseInt(pm.globals.get(\"pet_id_1\")));",
+                  "      pm.expect(data.pet.id).to.eql(parseInt(pm.variables.get(\"pet_id_1\")));",
                   "   });",
                   "}"
                 ]
@@ -691,7 +691,7 @@
                   "   var data = pm.response.json();",
                   "",
                   "   if (pm.response.code === 201) {",
-                  "      pm.globals.set(\"vaccination_record_id_2\", data.id);",
+                  "      pm.globals.set(\"vacrec_id_2\", data.id);",
                   "   }",
                   "",
                   "   pm.test(\"Status code is 201\", function () {",
@@ -739,9 +739,9 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "// Prerrequisitos de esta peticion: pet_id_1, vaccination_record_id",
+                  "// Prerrequisitos de esta peticion: pet_id_1, vacrec_id",
                   "// Si falta alguno la peticion se omite (Skipped) en lugar de fallar.",
-                  "var needs = [\"pet_id_1\", \"vaccination_record_id\"];",
+                  "var needs = [\"pet_id_1\", \"vacrec_id\"];",
                   "var missing = needs.filter(function (name) {",
                   "   var value = pm.variables.get(name);",
                   "   return value === undefined || value === null || value === \"\";",
@@ -802,9 +802,9 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "// Prerrequisitos de esta peticion: vaccination_record_id",
+                  "// Prerrequisitos de esta peticion: vacrec_id",
                   "// Si falta alguno la peticion se omite (Skipped) en lugar de fallar.",
-                  "var needs = [\"vaccination_record_id\"];",
+                  "var needs = [\"vacrec_id\"];",
                   "var missing = needs.filter(function (name) {",
                   "   var value = pm.variables.get(name);",
                   "   return value === undefined || value === null || value === \"\";",
@@ -849,13 +849,13 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{baseUrl}}/vaccinationRecords/{{vaccination_record_id}}",
+              "raw": "{{baseUrl}}/vaccinationRecords/{{vacrec_id}}",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
                 "vaccinationRecords",
-                "{{vaccination_record_id}}"
+                "{{vacrec_id}}"
               ]
             }
           },
@@ -866,9 +866,9 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "// Prerrequisitos de esta peticion: vaccination_record_id",
+                  "// Prerrequisitos de esta peticion: vacrec_id",
                   "// Si falta alguno la peticion se omite (Skipped) en lugar de fallar.",
-                  "var needs = [\"vaccination_record_id\"];",
+                  "var needs = [\"vacrec_id\"];",
                   "var missing = needs.filter(function (name) {",
                   "   var value = pm.variables.get(name);",
                   "   return value === undefined || value === null || value === \"\";",
@@ -896,10 +896,10 @@
                   "      pm.response.to.have.status(200);",
                   "   });",
                   "",
-                  "   pm.test(\"Returned id matches vaccination_record_id\", function () {",
+                  "   pm.test(\"Returned id matches vacrec_id\", function () {",
                   "      var data = pm.response.json();",
                   "",
-                  "      pm.expect(data.id).to.eql(parseInt(pm.globals.get(\"vaccination_record_id\")));",
+                  "      pm.expect(data.id).to.eql(parseInt(pm.variables.get(\"vacrec_id\")));",
                   "   });",
                   "",
                   "   pm.test(\"Detail includes the vaccines list\", function () {",
@@ -937,9 +937,9 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "// Prerrequisitos de esta peticion: pet_id_1, vaccination_record_id",
+                  "// Prerrequisitos de esta peticion: pet_id_1, vacrec_id",
                   "// Si falta alguno la peticion se omite (Skipped) en lugar de fallar.",
-                  "var needs = [\"pet_id_1\", \"vaccination_record_id\"];",
+                  "var needs = [\"pet_id_1\", \"vacrec_id\"];",
                   "var missing = needs.filter(function (name) {",
                   "   var value = pm.variables.get(name);",
                   "   return value === undefined || value === null || value === \"\";",
@@ -967,10 +967,10 @@
                   "      pm.response.to.have.status(200);",
                   "   });",
                   "",
-                  "   pm.test(\"Returned id matches vaccination_record_id\", function () {",
+                  "   pm.test(\"Returned id matches vacrec_id\", function () {",
                   "      var data = pm.response.json();",
                   "",
-                  "      pm.expect(data.id).to.eql(parseInt(pm.globals.get(\"vaccination_record_id\")));",
+                  "      pm.expect(data.id).to.eql(parseInt(pm.variables.get(\"vacrec_id\")));",
                   "   });",
                   "}"
                 ]
@@ -989,13 +989,13 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/vaccinationRecords/{{vaccination_record_id}}",
+              "raw": "{{baseUrl}}/vaccinationRecords/{{vacrec_id}}",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
                 "vaccinationRecords",
-                "{{vaccination_record_id}}"
+                "{{vacrec_id}}"
               ]
             },
             "body": {
@@ -1015,9 +1015,9 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "// Prerrequisitos de esta peticion: pet_id_1, vaccination_record_id",
+                  "// Prerrequisitos de esta peticion: pet_id_1, vacrec_id",
                   "// Si falta alguno la peticion se omite (Skipped) en lugar de fallar.",
-                  "var needs = [\"pet_id_1\", \"vaccination_record_id\"];",
+                  "var needs = [\"pet_id_1\", \"vacrec_id\"];",
                   "var missing = needs.filter(function (name) {",
                   "   var value = pm.variables.get(name);",
                   "   return value === undefined || value === null || value === \"\";",
@@ -1045,10 +1045,10 @@
                   "      pm.response.to.have.status(200);",
                   "   });",
                   "",
-                  "   pm.test(\"Returned id matches vaccination_record_id\", function () {",
+                  "   pm.test(\"Returned id matches vacrec_id\", function () {",
                   "      var data = pm.response.json();",
                   "",
-                  "      pm.expect(data.id).to.eql(parseInt(pm.globals.get(\"vaccination_record_id\")));",
+                  "      pm.expect(data.id).to.eql(parseInt(pm.variables.get(\"vacrec_id\")));",
                   "   });",
                   "}"
                 ]
@@ -1057,7 +1057,7 @@
           ]
         },
         {
-          "name": "Editar un registro de vacunacion con una mascota sin id",
+          "name": "Editar un registro de vacunacion sin enviar mascota",
           "request": {
             "method": "PUT",
             "header": [
@@ -1067,18 +1067,18 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/vaccinationRecords/{{vaccination_record_id}}",
+              "raw": "{{baseUrl}}/vaccinationRecords/{{vacrec_id}}",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
                 "vaccinationRecords",
-                "{{vaccination_record_id}}"
+                "{{vacrec_id}}"
               ]
             },
             "body": {
               "mode": "raw",
-              "raw": "{ \"pet\": {} }",
+              "raw": "{}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -1093,9 +1093,9 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "// Prerrequisitos de esta peticion: vaccination_record_id",
+                  "// Prerrequisitos de esta peticion: vacrec_id",
                   "// Si falta alguno la peticion se omite (Skipped) en lugar de fallar.",
-                  "var needs = [\"vaccination_record_id\"];",
+                  "var needs = [\"vacrec_id\"];",
                   "var missing = needs.filter(function (name) {",
                   "   var value = pm.variables.get(name);",
                   "   return value === undefined || value === null || value === \"\";",
@@ -1119,14 +1119,15 @@
                   "var skipped = !!pm.variables.get(\"skip_request\");",
                   "",
                   "if (!skipped) {",
-                  "   pm.test(\"Status code is 412\", function () {",
-                  "      pm.response.to.have.status(412);",
+                  "   pm.test(\"Status code is 200\", function () {",
+                  "      pm.response.to.have.status(200);",
                   "   });",
                   "",
-                  "   pm.test(\"Get expected error message\", function () {",
+                  "   pm.test(\"Record keeps its pet\", function () {",
                   "      var data = pm.response.json();",
                   "",
-                  "      pm.expect(data.apierror.message).to.eql(\"The vaccination record cannot be reassigned to a different pet\");",
+                  "      pm.expect(data.id).to.eql(parseInt(pm.variables.get(\"vacrec_id\")));",
+                  "      pm.expect(data.pet).to.be.an(\"object\");",
                   "   });",
                   "}"
                 ]
@@ -1145,13 +1146,13 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/vaccinationRecords/{{vaccination_record_id}}",
+              "raw": "{{baseUrl}}/vaccinationRecords/{{vacrec_id}}",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
                 "vaccinationRecords",
-                "{{vaccination_record_id}}"
+                "{{vacrec_id}}"
               ]
             },
             "body": {
@@ -1171,9 +1172,9 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "// Prerrequisitos de esta peticion: pet_id_2, vaccination_record_id",
+                  "// Prerrequisitos de esta peticion: pet_id_2, vacrec_id",
                   "// Si falta alguno la peticion se omite (Skipped) en lugar de fallar.",
-                  "var needs = [\"pet_id_2\", \"vaccination_record_id\"];",
+                  "var needs = [\"pet_id_2\", \"vacrec_id\"];",
                   "var missing = needs.filter(function (name) {",
                   "   var value = pm.variables.get(name);",
                   "   return value === undefined || value === null || value === \"\";",
@@ -1223,13 +1224,13 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/vaccinationRecords/{{vaccination_record_id}}/vaccines",
+              "raw": "{{baseUrl}}/vaccinationRecords/{{vacrec_id}}/vaccines",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
                 "vaccinationRecords",
-                "{{vaccination_record_id}}",
+                "{{vacrec_id}}",
                 "vaccines"
               ]
             },
@@ -1250,9 +1251,9 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "// Prerrequisitos de esta peticion: vaccination_record_id",
+                  "// Prerrequisitos de esta peticion: vacrec_id",
                   "// Si falta alguno la peticion se omite (Skipped) en lugar de fallar.",
-                  "var needs = [\"vaccination_record_id\"];",
+                  "var needs = [\"vacrec_id\"];",
                   "var missing = needs.filter(function (name) {",
                   "   var value = pm.variables.get(name);",
                   "   return value === undefined || value === null || value === \"\";",
@@ -1279,7 +1280,7 @@
                   "   var data = pm.response.json();",
                   "",
                   "   if (pm.response.code === 201) {",
-                  "      pm.globals.set(\"vaccination_record_vaccine_id\", data.id);",
+                  "      pm.globals.set(\"vacrec_vaccine_id\", data.id);",
                   "   }",
                   "",
                   "   pm.test(\"Status code is 201\", function () {",
@@ -1302,13 +1303,13 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/vaccinationRecords/{{vaccination_record_id}}",
+              "raw": "{{baseUrl}}/vaccinationRecords/{{vacrec_id}}",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
                 "vaccinationRecords",
-                "{{vaccination_record_id}}"
+                "{{vacrec_id}}"
               ]
             },
             "body": {
@@ -1328,9 +1329,9 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "// Prerrequisitos de esta peticion: pet_id_1, vaccination_record_id",
+                  "// Prerrequisitos de esta peticion: pet_id_1, vacrec_id",
                   "// Si falta alguno la peticion se omite (Skipped) en lugar de fallar.",
-                  "var needs = [\"pet_id_1\", \"vaccination_record_id\"];",
+                  "var needs = [\"pet_id_1\", \"vacrec_id\"];",
                   "var missing = needs.filter(function (name) {",
                   "   var value = pm.variables.get(name);",
                   "   return value === undefined || value === null || value === \"\";",
@@ -1369,13 +1370,13 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{baseUrl}}/vaccinationRecords/{{vaccination_record_id}}",
+              "raw": "{{baseUrl}}/vaccinationRecords/{{vacrec_id}}",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
                 "vaccinationRecords",
-                "{{vaccination_record_id}}"
+                "{{vacrec_id}}"
               ]
             }
           },
@@ -1386,9 +1387,9 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "// Prerrequisitos de esta peticion: vaccination_record_id",
+                  "// Prerrequisitos de esta peticion: vacrec_id",
                   "// Si falta alguno la peticion se omite (Skipped) en lugar de fallar.",
-                  "var needs = [\"vaccination_record_id\"];",
+                  "var needs = [\"vacrec_id\"];",
                   "var missing = needs.filter(function (name) {",
                   "   var value = pm.variables.get(name);",
                   "   return value === undefined || value === null || value === \"\";",
@@ -1433,13 +1434,13 @@
             "method": "DELETE",
             "header": [],
             "url": {
-              "raw": "{{baseUrl}}/vaccinationRecords/{{vaccination_record_id}}",
+              "raw": "{{baseUrl}}/vaccinationRecords/{{vacrec_id}}",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
                 "vaccinationRecords",
-                "{{vaccination_record_id}}"
+                "{{vacrec_id}}"
               ]
             }
           },
@@ -1450,9 +1451,9 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "// Prerrequisitos de esta peticion: vaccination_record_id",
+                  "// Prerrequisitos de esta peticion: vacrec_id",
                   "// Si falta alguno la peticion se omite (Skipped) en lugar de fallar.",
-                  "var needs = [\"vaccination_record_id\"];",
+                  "var needs = [\"vacrec_id\"];",
                   "var missing = needs.filter(function (name) {",
                   "   var value = pm.variables.get(name);",
                   "   return value === undefined || value === null || value === \"\";",
@@ -1497,13 +1498,13 @@
             "method": "DELETE",
             "header": [],
             "url": {
-              "raw": "{{baseUrl}}/vaccinationRecords/{{vaccination_record_id_2}}",
+              "raw": "{{baseUrl}}/vaccinationRecords/{{vacrec_id_2}}",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
                 "vaccinationRecords",
-                "{{vaccination_record_id_2}}"
+                "{{vacrec_id_2}}"
               ]
             }
           },
@@ -1514,9 +1515,9 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "// Prerrequisitos de esta peticion: vaccination_record_id_2",
+                  "// Prerrequisitos de esta peticion: vacrec_id_2",
                   "// Si falta alguno la peticion se omite (Skipped) en lugar de fallar.",
-                  "var needs = [\"vaccination_record_id_2\"];",
+                  "var needs = [\"vacrec_id_2\"];",
                   "var missing = needs.filter(function (name) {",
                   "   var value = pm.variables.get(name);",
                   "   return value === undefined || value === null || value === \"\";",
@@ -1555,13 +1556,13 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{baseUrl}}/vaccinationRecords/{{vaccination_record_id_2}}",
+              "raw": "{{baseUrl}}/vaccinationRecords/{{vacrec_id_2}}",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
                 "vaccinationRecords",
-                "{{vaccination_record_id_2}}"
+                "{{vacrec_id_2}}"
               ]
             }
           },
@@ -1572,9 +1573,9 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "// Prerrequisitos de esta peticion: vaccination_record_id_2",
+                  "// Prerrequisitos de esta peticion: vacrec_id_2",
                   "// Si falta alguno la peticion se omite (Skipped) en lugar de fallar.",
-                  "var needs = [\"vaccination_record_id_2\"];",
+                  "var needs = [\"vacrec_id_2\"];",
                   "var missing = needs.filter(function (name) {",
                   "   var value = pm.variables.get(name);",
                   "   return value === undefined || value === null || value === \"\";",
