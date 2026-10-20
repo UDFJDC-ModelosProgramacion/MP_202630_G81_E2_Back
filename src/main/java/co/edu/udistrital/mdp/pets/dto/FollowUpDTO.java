@@ -8,7 +8,4 @@ public class FollowUpDTO {
 	private Long id;
 	private Date date;
 	private String observation;
-
-	private VeterinarianDTO veterinarian;
-	private AdoptionDTO adoption;
 }
