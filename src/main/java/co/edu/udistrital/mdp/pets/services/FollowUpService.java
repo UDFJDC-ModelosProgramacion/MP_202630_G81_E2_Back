@@ -17,17 +17,6 @@ import co.edu.udistrital.mdp.pets.repositories.FollowUpRepository;
 import co.edu.udistrital.mdp.pets.repositories.VeterinarianRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.boot.context.event.ApplicationReadyEvent;
-import org.springframework.context.event.EventListener;
-import org.springframework.core.annotation.Order;
-import co.edu.udistrital.mdp.pets.entities.AdopterEntity;
-import co.edu.udistrital.mdp.pets.entities.AdoptionRequestEntity;
-import co.edu.udistrital.mdp.pets.entities.PetEntity;
-import co.edu.udistrital.mdp.pets.entities.ShelterEntity;
-import co.edu.udistrital.mdp.pets.repositories.AdopterRepository;
-import co.edu.udistrital.mdp.pets.repositories.AdoptionRequestRepository;
-import co.edu.udistrital.mdp.pets.repositories.PetRepository;
-import co.edu.udistrital.mdp.pets.repositories.ShelterRepository;
 
 @Slf4j
 @Service
@@ -44,10 +33,6 @@ public class FollowUpService {
 	private final FollowUpRepository followUpRepository;
 	private final AdoptionRepository adoptionRepository;
 	private final VeterinarianRepository veterinarianRepository;
-	private final ShelterRepository shelterRepository;
-	private final AdopterRepository adopterRepository;
-	private final PetRepository petRepository;
-	private final AdoptionRequestRepository adoptionRequestRepository;
 
 	/**
 	 * Creates a follow-up for a finalized adoption. Validates the date and
@@ -64,11 +49,6 @@ public class FollowUpService {
 	 */
 	@Transactional
 	public FollowUpEntity createFollowUp(FollowUpEntity followUp)
-			throws EntityNotFoundException, IllegalOperationException {
-		return persistFollowUp(followUp);
-	}
-
-	private FollowUpEntity persistFollowUp(FollowUpEntity followUp)
 			throws EntityNotFoundException, IllegalOperationException {
 		log.info("Initiate the process of creating the tracking mechanism.");
 
@@ -114,10 +94,6 @@ public class FollowUpService {
 
 	@Transactional
 	public List<FollowUpEntity> getFollowUps(Long adoptionId) {
-		return findFollowUpsByAdoption(adoptionId);
-	}
-
-	private List<FollowUpEntity> findFollowUpsByAdoption(Long adoptionId) {
 		log.info("Initiate the process of checking adoption follow-ups with id = {}", adoptionId);
 		List<FollowUpEntity> followUps = followUpRepository.findAll().stream()
 				.filter(f -> f.getAdoption() != null && adoptionId.equals(f.getAdoption().getId()))
@@ -215,11 +191,6 @@ public class FollowUpService {
 	@Transactional
 	public FollowUpEntity updateFollowUp(Long followUpId, FollowUpEntity followUp)
 			throws EntityNotFoundException, IllegalOperationException {
-		return applyFollowUpUpdate(followUpId, followUp);
-	}
-
-	private FollowUpEntity applyFollowUpUpdate(Long followUpId, FollowUpEntity followUp)
-			throws EntityNotFoundException, IllegalOperationException {
 		log.info("Initiating the process to update the tracking with id = {}", followUpId);
 		if (followUpId == null || followUpId <= 0)
 			throw new IllegalOperationException(FOLLOW_UP_ID_INVALID);
@@ -256,10 +227,6 @@ public class FollowUpService {
 	 */
 	@Transactional
 	public void deleteFollowUp(Long followUpId) throws EntityNotFoundException, IllegalOperationException {
-		removeFollowUp(followUpId);
-	}
-
-	private void removeFollowUp(Long followUpId) throws EntityNotFoundException, IllegalOperationException {
 		log.info("Starting the process to delete the tracking with id = {}", followUpId);
 		if (followUpId == null || followUpId <= 0)
 			throw new IllegalOperationException(FOLLOW_UP_ID_INVALID);
@@ -275,131 +242,5 @@ public class FollowUpService {
 
 		followUpRepository.deleteById(followUpId);
 		log.info("Finished the process of deleting the tracking with id = {}", followUpId);
-	}
-
-	@Transactional
-	public FollowUpEntity createAdoptionFollowUp(Long adoptionId, FollowUpEntity followUp)
-			throws EntityNotFoundException, IllegalOperationException {
-		AdoptionEntity adoption = findAdoptionOrThrow(adoptionId);
-		followUp.setAdoption(adoption);
-		return persistFollowUp(followUp);
-	}
-
-	@Transactional(readOnly = true)
-	public List<FollowUpEntity> getAdoptionFollowUps(Long adoptionId)
-			throws EntityNotFoundException, IllegalOperationException {
-		findAdoptionOrThrow(adoptionId);
-		return findFollowUpsByAdoption(adoptionId);
-	}
-
-	@Transactional(readOnly = true)
-	public FollowUpEntity getAdoptionFollowUp(Long adoptionId, Long followUpId)
-			throws EntityNotFoundException, IllegalOperationException {
-		return findAdoptionFollowUp(adoptionId, followUpId);
-	}
-
-	@Transactional
-	public FollowUpEntity updateAdoptionFollowUp(Long adoptionId, Long followUpId, FollowUpEntity followUp)
-			throws EntityNotFoundException, IllegalOperationException {
-		findAdoptionFollowUp(adoptionId, followUpId);
-		return applyFollowUpUpdate(followUpId, followUp);
-	}
-
-	@Transactional
-	public void deleteAdoptionFollowUp(Long adoptionId, Long followUpId)
-			throws EntityNotFoundException, IllegalOperationException {
-		findAdoptionFollowUp(adoptionId, followUpId);
-		removeFollowUp(followUpId);
-	}
-
-	private FollowUpEntity findAdoptionFollowUp(Long adoptionId, Long followUpId)
-			throws EntityNotFoundException, IllegalOperationException {
-		findAdoptionOrThrow(adoptionId);
-		FollowUpEntity followUp = fetchFollowUpById(followUpId);
-		validateFollowUpBelongsToAdoption(followUp, adoptionId);
-		return followUp;
-	}
-
-	private AdoptionEntity findAdoptionOrThrow(Long adoptionId) throws EntityNotFoundException, IllegalOperationException {
-		if (adoptionId == null || adoptionId <= 0)
-			throw new IllegalOperationException("Adoption id is not valid");
-		return adoptionRepository.findById(adoptionId)
-				.orElseThrow(() -> new EntityNotFoundException("Adoption not found"));
-	}
-
-	private void validateFollowUpBelongsToAdoption(FollowUpEntity followUp, Long adoptionId)
-			throws IllegalOperationException {
-		if (followUp.getAdoption() == null || !adoptionId.equals(followUp.getAdoption().getId()))
-			throw new IllegalOperationException("The follow-up is not associated with the adoption");
-	}
-
-	/**
-	 * Simulated adoption requests, finalized/pending adoptions and follow-ups for the
-	 * "integration-tests" profile. Uses the shelter, adopter and pets seeded earlier.
-	 */
-	@EventListener(value = ApplicationReadyEvent.class, condition = "@environment.matchesProfiles('integration-tests')")
-	@Order(3)
-	@Transactional
-	public void seedIntegrationTestData() {
-		if (followUpRepository.count() > 0)
-			return;
-
-		ShelterEntity shelter = shelterRepository.findById(1L).orElseThrow();
-		VeterinarianEntity veterinarian = veterinarianRepository.findById(1L).orElseThrow();
-		AdopterEntity adopterOne = adopterRepository.findById(2L).orElseThrow();
-		PetEntity petOne = petRepository.findById(1L).orElseThrow();
-		PetEntity petTwo = petRepository.findById(2L).orElseThrow();
-
-		AdoptionRequestEntity requestOne = new AdoptionRequestEntity();
-		requestOne.setStatus("APPROVED");
-		requestOne.setDate(AdopterService.relativeDate(-400));
-		requestOne.setDescription("Solicitud de adopción de Rocky");
-		requestOne.setPet(petOne);
-		requestOne.setShelter(shelter);
-		requestOne.setAdopter(adopterOne);
-		adoptionRequestRepository.save(requestOne);
-
-		AdoptionRequestEntity requestTwo = new AdoptionRequestEntity();
-		requestTwo.setStatus("APPROVED");
-		requestTwo.setDate(AdopterService.relativeDate(-100));
-		requestTwo.setDescription("Solicitud de adopción de Luna");
-		requestTwo.setPet(petTwo);
-		requestTwo.setShelter(shelter);
-		requestTwo.setAdopter(adopterOne);
-		adoptionRequestRepository.save(requestTwo);
-
-		AdoptionEntity adoptionOne = new AdoptionEntity();
-		adoptionOne.setDate(AdopterService.relativeDate(-365));
-		adoptionOne.setStatus("FINALIZED");
-		adoptionOne.setImportantNotes("Adopción finalizada exitosamente");
-		adoptionOne.setPet(petOne);
-		adoptionOne.setShelter(shelter);
-		adoptionOne.setAdopter(adopterOne);
-		adoptionOne.setAdoptionRequest(requestOne);
-		adoptionRepository.save(adoptionOne);
-
-		AdoptionEntity adoptionTwo = new AdoptionEntity();
-		adoptionTwo.setDate(AdopterService.relativeDate(-30));
-		adoptionTwo.setStatus("PENDING");
-		adoptionTwo.setImportantNotes("En proceso");
-		adoptionTwo.setPet(petTwo);
-		adoptionTwo.setShelter(shelter);
-		adoptionTwo.setAdopter(adopterOne);
-		adoptionTwo.setAdoptionRequest(requestTwo);
-		adoptionRepository.save(adoptionTwo);
-
-		saveSimulatedFollowUp(veterinarian, adoptionOne, AdopterService.relativeDate(7), "Seguimiento inicial");
-		saveSimulatedFollowUp(veterinarian, adoptionOne, AdopterService.relativeDate(30), "Seguimiento de control");
-		saveSimulatedFollowUp(veterinarian, adoptionOne, AdopterService.relativeDate(-30), "Seguimiento cerrado");
-	}
-
-	private void saveSimulatedFollowUp(VeterinarianEntity veterinarian, AdoptionEntity adoption, Date date,
-			String observation) {
-		FollowUpEntity followUp = new FollowUpEntity();
-		followUp.setVeterinarian(veterinarian);
-		followUp.setAdoption(adoption);
-		followUp.setDate(date);
-		followUp.setObservation(observation);
-		followUpRepository.save(followUp);
 	}
 }

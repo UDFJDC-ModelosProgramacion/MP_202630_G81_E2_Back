@@ -27,7 +27,7 @@
         },
         "body": {
           "mode": "raw",
-          "raw": "{\n    \"startDate\": \"{{future_date}}\",\n    \"endDate\": \"2026-12-20T00:00:00-05:00\",\n    \"status\": \"PENDING\",\n    \"observations\": \"Periodo de adaptacion\",\n    \"adopter\": {\n        \"id\": \"{{adopter_id_1}}\"\n    },\n    \"shelter\": {\n        \"id\": \"{{shelter_id_1}}\"\n    },\n    \"trialCohabitationRequest\": {\n        \"id\": \"{{trial_request_id_1}}\"\n    }\n}",
+          "raw": "{\n    \"startDate\": \"2026-10-20T00:00:00-05:00\",\n    \"endDate\": \"2026-12-20T00:00:00-05:00\",\n    \"status\": \"PENDING\",\n    \"observations\": \"Periodo de adaptacion\",\n    \"adopter\": {\n        \"id\": \"{{adopter_id_1}}\"\n    },\n    \"shelter\": {\n        \"id\": \"{{shelter_id_1}}\"\n    },\n    \"trialCohabitationRequest\": {\n        \"id\": \"{{trial_request_id_1}}\"\n    }\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -57,7 +57,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"startDate\": \"{{future_date}}\",\n    \"endDate\": \"2026-12-20T00:00:00-05:00\",\n    \"status\": \"PENDING\",\n    \"observations\": \"Periodo de adaptacion\",\n    \"adopter\": {\n        \"id\": \"{{adopter_id_1}}\"\n    },\n    \"shelter\": {\n        \"id\": \"{{shelter_id_1}}\"\n    },\n    \"trialCohabitationRequest\": {\n        \"id\": \"{{trial_request_id_1}}\"\n    }\n}",
+              "raw": "{\n    \"startDate\": \"2026-10-20T00:00:00-05:00\",\n    \"endDate\": \"2026-12-20T00:00:00-05:00\",\n    \"status\": \"PENDING\",\n    \"observations\": \"Periodo de adaptacion\",\n    \"adopter\": {\n        \"id\": \"{{adopter_id_1}}\"\n    },\n    \"shelter\": {\n        \"id\": \"{{shelter_id_1}}\"\n    },\n    \"trialCohabitationRequest\": {\n        \"id\": \"{{trial_request_id_1}}\"\n    }\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -76,22 +76,6 @@
           ],
           "cookie": [],
           "body": "{\n    \"id\": 1,\n    \"startDate\": \"2026-10-20\",\n    \"endDate\": \"2026-12-20\",\n    \"status\": \"PENDING\",\n    \"observations\": \"Periodo de adaptacion\"\n}"
-        }
-      ],
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "exec": [
-              "var id = pm.response.json().id;",
-              "pm.test(\"Response has id\", function () { pm.expect(id).to.not.be.undefined; });",
-              "pm.collectionVariables.set(\"trial_id_1\", id);",
-              "",
-              "",
-              ""
-            ],
-            "type": "text/javascript"
-          }
         }
       ]
     },
@@ -161,19 +145,6 @@
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"26-09-2026 10:05:28\",\n        \"message\": \"Trial start date cannot be null\"\n    }\n}"
         }
-      ],
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "exec": [
-              "pm.test(\"Request: Crear una convivencia sin fecha de inicio\", function () {",
-              "    pm.response.to.have.status(412);",
-              "});"
-            ],
-            "type": "text/javascript"
-          }
-        }
       ]
     },
     {
@@ -242,19 +213,6 @@
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"26-09-2026 10:05:28\",\n        \"message\": \"The trial start date cannot be before the current date\"\n    }\n}"
         }
-      ],
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "exec": [
-              "pm.test(\"Request: Crear una convivencia con fecha de inicio pasada\", function () {",
-              "    pm.response.to.have.status(412);",
-              "});"
-            ],
-            "type": "text/javascript"
-          }
-        }
       ]
     },
     {
@@ -278,7 +236,7 @@
         },
         "body": {
           "mode": "raw",
-          "raw": "{\n    \"startDate\": \"{{future_date}}\",\n    \"endDate\": \"2026-12-20T00:00:00-05:00\",\n    \"status\": \"PENDING\",\n    \"observations\": \"Periodo de adaptacion\",\n    \"adopter\": null,\n    \"shelter\": {\n        \"id\": \"{{shelter_id_1}}\"\n    },\n    \"trialCohabitationRequest\": {\n        \"id\": \"{{trial_request_id_1}}\"\n    }\n}",
+          "raw": "{\n    \"startDate\": \"2026-10-20T00:00:00-05:00\",\n    \"endDate\": \"2026-12-20T00:00:00-05:00\",\n    \"status\": \"PENDING\",\n    \"observations\": \"Periodo de adaptacion\",\n    \"adopter\": null,\n    \"shelter\": {\n        \"id\": \"{{shelter_id_1}}\"\n    },\n    \"trialCohabitationRequest\": {\n        \"id\": \"{{trial_request_id_1}}\"\n    }\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -308,7 +266,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"startDate\": \"{{future_date}}\",\n    \"endDate\": \"2026-12-20T00:00:00-05:00\",\n    \"status\": \"PENDING\",\n    \"observations\": \"Periodo de adaptacion\",\n    \"adopter\": null,\n    \"shelter\": {\n        \"id\": \"{{shelter_id_1}}\"\n    },\n    \"trialCohabitationRequest\": {\n        \"id\": \"{{trial_request_id_1}}\"\n    }\n}",
+              "raw": "{\n    \"startDate\": \"2026-10-20T00:00:00-05:00\",\n    \"endDate\": \"2026-12-20T00:00:00-05:00\",\n    \"status\": \"PENDING\",\n    \"observations\": \"Periodo de adaptacion\",\n    \"adopter\": null,\n    \"shelter\": {\n        \"id\": \"{{shelter_id_1}}\"\n    },\n    \"trialCohabitationRequest\": {\n        \"id\": \"{{trial_request_id_1}}\"\n    }\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -322,19 +280,6 @@
           "header": [],
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"26-09-2026 10:05:28\",\n        \"message\": \"Trial must be associated with an existing adopter\"\n    }\n}"
-        }
-      ],
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "exec": [
-              "pm.test(\"Request: Crear una convivencia sin adoptante\", function () {",
-              "    pm.response.to.have.status(412);",
-              "});"
-            ],
-            "type": "text/javascript"
-          }
         }
       ]
     },
@@ -359,7 +304,7 @@
         },
         "body": {
           "mode": "raw",
-          "raw": "{\n    \"startDate\": \"{{future_date}}\",\n    \"endDate\": \"2026-12-20T00:00:00-05:00\",\n    \"status\": \"PENDING\",\n    \"observations\": \"Periodo de adaptacion\",\n    \"adopter\": {\n        \"id\": \"{{adopter_id_1}}\"\n    },\n    \"shelter\": null,\n    \"trialCohabitationRequest\": {\n        \"id\": \"{{trial_request_id_1}}\"\n    }\n}",
+          "raw": "{\n    \"startDate\": \"2026-10-20T00:00:00-05:00\",\n    \"endDate\": \"2026-12-20T00:00:00-05:00\",\n    \"status\": \"PENDING\",\n    \"observations\": \"Periodo de adaptacion\",\n    \"adopter\": {\n        \"id\": \"{{adopter_id_1}}\"\n    },\n    \"shelter\": null,\n    \"trialCohabitationRequest\": {\n        \"id\": \"{{trial_request_id_1}}\"\n    }\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -389,7 +334,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"startDate\": \"{{future_date}}\",\n    \"endDate\": \"2026-12-20T00:00:00-05:00\",\n    \"status\": \"PENDING\",\n    \"observations\": \"Periodo de adaptacion\",\n    \"adopter\": {\n        \"id\": \"{{adopter_id_1}}\"\n    },\n    \"shelter\": null,\n    \"trialCohabitationRequest\": {\n        \"id\": \"{{trial_request_id_1}}\"\n    }\n}",
+              "raw": "{\n    \"startDate\": \"2026-10-20T00:00:00-05:00\",\n    \"endDate\": \"2026-12-20T00:00:00-05:00\",\n    \"status\": \"PENDING\",\n    \"observations\": \"Periodo de adaptacion\",\n    \"adopter\": {\n        \"id\": \"{{adopter_id_1}}\"\n    },\n    \"shelter\": null,\n    \"trialCohabitationRequest\": {\n        \"id\": \"{{trial_request_id_1}}\"\n    }\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -403,19 +348,6 @@
           "header": [],
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"26-09-2026 10:05:28\",\n        \"message\": \"Trial must be associated with an existing shelter\"\n    }\n}"
-        }
-      ],
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "exec": [
-              "pm.test(\"Request: Crear una convivencia sin refugio\", function () {",
-              "    pm.response.to.have.status(412);",
-              "});"
-            ],
-            "type": "text/javascript"
-          }
         }
       ]
     },
@@ -440,7 +372,7 @@
         },
         "body": {
           "mode": "raw",
-          "raw": "{\n    \"startDate\": \"{{future_date}}\",\n    \"endDate\": \"2026-12-20T00:00:00-05:00\",\n    \"status\": \"PENDING\",\n    \"observations\": \"Periodo de adaptacion\",\n    \"adopter\": {\n        \"id\": \"{{adopter_id_1}}\"\n    },\n    \"shelter\": {\n        \"id\": \"{{shelter_id_1}}\"\n    },\n    \"trialCohabitationRequest\": null\n}",
+          "raw": "{\n    \"startDate\": \"2026-10-20T00:00:00-05:00\",\n    \"endDate\": \"2026-12-20T00:00:00-05:00\",\n    \"status\": \"PENDING\",\n    \"observations\": \"Periodo de adaptacion\",\n    \"adopter\": {\n        \"id\": \"{{adopter_id_1}}\"\n    },\n    \"shelter\": {\n        \"id\": \"{{shelter_id_1}}\"\n    },\n    \"trialCohabitationRequest\": null\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -470,7 +402,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"startDate\": \"{{future_date}}\",\n    \"endDate\": \"2026-12-20T00:00:00-05:00\",\n    \"status\": \"PENDING\",\n    \"observations\": \"Periodo de adaptacion\",\n    \"adopter\": {\n        \"id\": \"{{adopter_id_1}}\"\n    },\n    \"shelter\": {\n        \"id\": \"{{shelter_id_1}}\"\n    },\n    \"trialCohabitationRequest\": null\n}",
+              "raw": "{\n    \"startDate\": \"2026-10-20T00:00:00-05:00\",\n    \"endDate\": \"2026-12-20T00:00:00-05:00\",\n    \"status\": \"PENDING\",\n    \"observations\": \"Periodo de adaptacion\",\n    \"adopter\": {\n        \"id\": \"{{adopter_id_1}}\"\n    },\n    \"shelter\": {\n        \"id\": \"{{shelter_id_1}}\"\n    },\n    \"trialCohabitationRequest\": null\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -484,19 +416,6 @@
           "header": [],
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"26-09-2026 10:05:28\",\n        \"message\": \"Trial must be associated with a cohabitation request that references an existing pet\"\n    }\n}"
-        }
-      ],
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "exec": [
-              "pm.test(\"Request: Crear una convivencia sin solicitud\", function () {",
-              "    pm.response.to.have.status(412);",
-              "});"
-            ],
-            "type": "text/javascript"
-          }
         }
       ]
     },
@@ -521,7 +440,7 @@
         },
         "body": {
           "mode": "raw",
-          "raw": "{\n    \"startDate\": \"{{future_date}}\",\n    \"endDate\": \"2026-12-20T00:00:00-05:00\",\n    \"status\": \"PENDING\",\n    \"observations\": \"Periodo de adaptacion\",\n    \"adopter\": {\n        \"id\": 0\n    },\n    \"shelter\": {\n        \"id\": \"{{shelter_id_1}}\"\n    },\n    \"trialCohabitationRequest\": {\n        \"id\": \"{{trial_request_id_1}}\"\n    }\n}",
+          "raw": "{\n    \"startDate\": \"2026-10-20T00:00:00-05:00\",\n    \"endDate\": \"2026-12-20T00:00:00-05:00\",\n    \"status\": \"PENDING\",\n    \"observations\": \"Periodo de adaptacion\",\n    \"adopter\": {\n        \"id\": 0\n    },\n    \"shelter\": {\n        \"id\": \"{{shelter_id_1}}\"\n    },\n    \"trialCohabitationRequest\": {\n        \"id\": \"{{trial_request_id_1}}\"\n    }\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -551,7 +470,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"startDate\": \"{{future_date}}\",\n    \"endDate\": \"2026-12-20T00:00:00-05:00\",\n    \"status\": \"PENDING\",\n    \"observations\": \"Periodo de adaptacion\",\n    \"adopter\": {\n        \"id\": 0\n    },\n    \"shelter\": {\n        \"id\": \"{{shelter_id_1}}\"\n    },\n    \"trialCohabitationRequest\": {\n        \"id\": \"{{trial_request_id_1}}\"\n    }\n}",
+              "raw": "{\n    \"startDate\": \"2026-10-20T00:00:00-05:00\",\n    \"endDate\": \"2026-12-20T00:00:00-05:00\",\n    \"status\": \"PENDING\",\n    \"observations\": \"Periodo de adaptacion\",\n    \"adopter\": {\n        \"id\": 0\n    },\n    \"shelter\": {\n        \"id\": \"{{shelter_id_1}}\"\n    },\n    \"trialCohabitationRequest\": {\n        \"id\": \"{{trial_request_id_1}}\"\n    }\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -565,19 +484,6 @@
           "header": [],
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"NOT_FOUND\",\n        \"timestamp\": \"26-09-2026 10:05:28\",\n        \"message\": \"Adopter not found\"\n    }\n}"
-        }
-      ],
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "exec": [
-              "pm.test(\"Request: Crear una convivencia con adoptante inexistente\", function () {",
-              "    pm.response.to.have.status(404);",
-              "});"
-            ],
-            "type": "text/javascript"
-          }
         }
       ]
     },
@@ -602,7 +508,7 @@
         },
         "body": {
           "mode": "raw",
-          "raw": "{\n    \"startDate\": \"{{future_date}}\",\n    \"endDate\": \"2026-12-20T00:00:00-05:00\",\n    \"status\": \"PENDING\",\n    \"observations\": \"Periodo de adaptacion\",\n    \"adopter\": {\n        \"id\": \"{{adopter_id_1}}\"\n    },\n    \"shelter\": {\n        \"id\": 0\n    },\n    \"trialCohabitationRequest\": {\n        \"id\": \"{{trial_request_id_1}}\"\n    }\n}",
+          "raw": "{\n    \"startDate\": \"2026-10-20T00:00:00-05:00\",\n    \"endDate\": \"2026-12-20T00:00:00-05:00\",\n    \"status\": \"PENDING\",\n    \"observations\": \"Periodo de adaptacion\",\n    \"adopter\": {\n        \"id\": \"{{adopter_id_1}}\"\n    },\n    \"shelter\": {\n        \"id\": 0\n    },\n    \"trialCohabitationRequest\": {\n        \"id\": \"{{trial_request_id_1}}\"\n    }\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -632,7 +538,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"startDate\": \"{{future_date}}\",\n    \"endDate\": \"2026-12-20T00:00:00-05:00\",\n    \"status\": \"PENDING\",\n    \"observations\": \"Periodo de adaptacion\",\n    \"adopter\": {\n        \"id\": \"{{adopter_id_1}}\"\n    },\n    \"shelter\": {\n        \"id\": 0\n    },\n    \"trialCohabitationRequest\": {\n        \"id\": \"{{trial_request_id_1}}\"\n    }\n}",
+              "raw": "{\n    \"startDate\": \"2026-10-20T00:00:00-05:00\",\n    \"endDate\": \"2026-12-20T00:00:00-05:00\",\n    \"status\": \"PENDING\",\n    \"observations\": \"Periodo de adaptacion\",\n    \"adopter\": {\n        \"id\": \"{{adopter_id_1}}\"\n    },\n    \"shelter\": {\n        \"id\": 0\n    },\n    \"trialCohabitationRequest\": {\n        \"id\": \"{{trial_request_id_1}}\"\n    }\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -646,19 +552,6 @@
           "header": [],
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"NOT_FOUND\",\n        \"timestamp\": \"26-09-2026 10:05:28\",\n        \"message\": \"Shelter not found\"\n    }\n}"
-        }
-      ],
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "exec": [
-              "pm.test(\"Request: Crear una convivencia con refugio inexistente\", function () {",
-              "    pm.response.to.have.status(404);",
-              "});"
-            ],
-            "type": "text/javascript"
-          }
         }
       ]
     },
@@ -683,7 +576,7 @@
         },
         "body": {
           "mode": "raw",
-          "raw": "{\n    \"startDate\": \"{{future_date}}\",\n    \"endDate\": \"2026-12-20T00:00:00-05:00\",\n    \"status\": \"PENDING\",\n    \"observations\": \"Periodo de adaptacion\",\n    \"adopter\": {\n        \"id\": \"{{adopter_id_1}}\"\n    },\n    \"shelter\": {\n        \"id\": \"{{shelter_id_1}}\"\n    },\n    \"trialCohabitationRequest\": {\n        \"id\": 0\n    }\n}",
+          "raw": "{\n    \"startDate\": \"2026-10-20T00:00:00-05:00\",\n    \"endDate\": \"2026-12-20T00:00:00-05:00\",\n    \"status\": \"PENDING\",\n    \"observations\": \"Periodo de adaptacion\",\n    \"adopter\": {\n        \"id\": \"{{adopter_id_1}}\"\n    },\n    \"shelter\": {\n        \"id\": \"{{shelter_id_1}}\"\n    },\n    \"trialCohabitationRequest\": {\n        \"id\": 0\n    }\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -713,7 +606,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"startDate\": \"{{future_date}}\",\n    \"endDate\": \"2026-12-20T00:00:00-05:00\",\n    \"status\": \"PENDING\",\n    \"observations\": \"Periodo de adaptacion\",\n    \"adopter\": {\n        \"id\": \"{{adopter_id_1}}\"\n    },\n    \"shelter\": {\n        \"id\": \"{{shelter_id_1}}\"\n    },\n    \"trialCohabitationRequest\": {\n        \"id\": 0\n    }\n}",
+              "raw": "{\n    \"startDate\": \"2026-10-20T00:00:00-05:00\",\n    \"endDate\": \"2026-12-20T00:00:00-05:00\",\n    \"status\": \"PENDING\",\n    \"observations\": \"Periodo de adaptacion\",\n    \"adopter\": {\n        \"id\": \"{{adopter_id_1}}\"\n    },\n    \"shelter\": {\n        \"id\": \"{{shelter_id_1}}\"\n    },\n    \"trialCohabitationRequest\": {\n        \"id\": 0\n    }\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -727,19 +620,6 @@
           "header": [],
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"NOT_FOUND\",\n        \"timestamp\": \"26-09-2026 10:05:28\",\n        \"message\": \"Pet not found\"\n    }\n}"
-        }
-      ],
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "exec": [
-              "pm.test(\"Request: Crear una convivencia con solicitud inexistente o mascota inexistente\", function () {",
-              "    pm.response.to.have.status(404);",
-              "});"
-            ],
-            "type": "text/javascript"
-          }
         }
       ]
     },
@@ -764,7 +644,7 @@
         },
         "body": {
           "mode": "raw",
-          "raw": "{\n    \"startDate\": \"{{future_date}}\",\n    \"endDate\": \"2026-12-20T00:00:00-05:00\",\n    \"status\": \"IN_PROGRESS\",\n    \"observations\": \"Periodo de adaptacion\",\n    \"adopter\": {\n        \"id\": \"{{adopter_id_1}}\"\n    },\n    \"shelter\": {\n        \"id\": \"{{shelter_id_1}}\"\n    },\n    \"trialCohabitationRequest\": {\n        \"id\": \"{{trial_request_existing}}\"\n    }\n}",
+          "raw": "{\n    \"startDate\": \"2026-10-20T00:00:00-05:00\",\n    \"endDate\": \"2026-12-20T00:00:00-05:00\",\n    \"status\": \"IN_PROGRESS\",\n    \"observations\": \"Periodo de adaptacion\",\n    \"adopter\": {\n        \"id\": \"{{adopter_id_1}}\"\n    },\n    \"shelter\": {\n        \"id\": \"{{shelter_id_1}}\"\n    },\n    \"trialCohabitationRequest\": {\n        \"id\": \"{{trial_request_existing}}\"\n    }\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -794,7 +674,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"startDate\": \"{{future_date}}\",\n    \"endDate\": \"2026-12-20T00:00:00-05:00\",\n    \"status\": \"IN_PROGRESS\",\n    \"observations\": \"Periodo de adaptacion\",\n    \"adopter\": {\n        \"id\": \"{{adopter_id_1}}\"\n    },\n    \"shelter\": {\n        \"id\": \"{{shelter_id_1}}\"\n    },\n    \"trialCohabitationRequest\": {\n        \"id\": \"{{trial_request_existing}}\"\n    }\n}",
+              "raw": "{\n    \"startDate\": \"2026-10-20T00:00:00-05:00\",\n    \"endDate\": \"2026-12-20T00:00:00-05:00\",\n    \"status\": \"IN_PROGRESS\",\n    \"observations\": \"Periodo de adaptacion\",\n    \"adopter\": {\n        \"id\": \"{{adopter_id_1}}\"\n    },\n    \"shelter\": {\n        \"id\": \"{{shelter_id_1}}\"\n    },\n    \"trialCohabitationRequest\": {\n        \"id\": \"{{trial_request_existing}}\"\n    }\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -808,19 +688,6 @@
           "header": [],
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"26-09-2026 10:05:28\",\n        \"message\": \"The requested pet is already involved in another in-progress trial cohabitation\"\n    }\n}"
-        }
-      ],
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "exec": [
-              "pm.test(\"Request: Crear una convivencia de una mascota en otra convivencia en curso\", function () {",
-              "    pm.response.to.have.status(412);",
-              "});"
-            ],
-            "type": "text/javascript"
-          }
         }
       ]
     },
@@ -866,19 +733,6 @@
           ],
           "cookie": [],
           "body": "[\n    {\n        \"id\": 1,\n        \"startDate\": \"2026-10-20\",\n        \"endDate\": \"2026-12-20\",\n        \"status\": \"PENDING\",\n        \"observations\": \"Periodo de adaptacion\"\n    }\n]"
-        }
-      ],
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "exec": [
-              "pm.test(\"Request: Obtener todas las convivencias de prueba\", function () {",
-              "    pm.response.to.have.status(200);",
-              "});"
-            ],
-            "type": "text/javascript"
-          }
         }
       ]
     },
@@ -937,19 +791,6 @@
           "cookie": [],
           "body": "[\n    {\n        \"id\": 1,\n        \"startDate\": \"2026-10-20\",\n        \"endDate\": \"2026-12-20\",\n        \"status\": \"PENDING\",\n        \"observations\": \"Periodo de adaptacion\"\n    }\n]"
         }
-      ],
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "exec": [
-              "pm.test(\"Request: Obtener convivencias por estado\", function () {",
-              "    pm.response.to.have.status(200);",
-              "});"
-            ],
-            "type": "text/javascript"
-          }
-        }
       ]
     },
     {
@@ -994,7 +835,7 @@
               "query": [
                 {
                   "key": "startDate",
-                  "value": "{{future_date}}"
+                  "value": "2026-10-20T00:00:00-05:00"
                 },
                 {
                   "key": "endDate",
@@ -1014,19 +855,6 @@
           ],
           "cookie": [],
           "body": "[\n    {\n        \"id\": 1,\n        \"startDate\": \"2026-10-20\",\n        \"endDate\": \"2026-12-20\",\n        \"status\": \"PENDING\",\n        \"observations\": \"Periodo de adaptacion\"\n    }\n]"
-        }
-      ],
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "exec": [
-              "pm.test(\"Request: Obtener convivencias por rango de fechas\", function () {",
-              "    pm.response.to.have.status(200);",
-              "});"
-            ],
-            "type": "text/javascript"
-          }
         }
       ]
     },
@@ -1080,7 +908,7 @@
                 },
                 {
                   "key": "startDate",
-                  "value": "{{future_date}}"
+                  "value": "2026-10-20T00:00:00-05:00"
                 },
                 {
                   "key": "endDate",
@@ -1100,19 +928,6 @@
           ],
           "cookie": [],
           "body": "[\n    {\n        \"id\": 1,\n        \"startDate\": \"2026-10-20\",\n        \"endDate\": \"2026-12-20\",\n        \"status\": \"PENDING\",\n        \"observations\": \"Periodo de adaptacion\"\n    }\n]"
-        }
-      ],
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "exec": [
-              "pm.test(\"Request: Obtener convivencias con todos los filtros combinados\", function () {",
-              "    pm.response.to.have.status(200);",
-              "});"
-            ],
-            "type": "text/javascript"
-          }
         }
       ]
     },
@@ -1171,19 +986,6 @@
           "cookie": [],
           "body": "[]"
         }
-      ],
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "exec": [
-              "pm.test(\"Request: Obtener convivencias con filtros que no coinciden\", function () {",
-              "    pm.response.to.have.status(200);",
-              "});"
-            ],
-            "type": "text/javascript"
-          }
-        }
       ]
     },
     {
@@ -1231,19 +1033,6 @@
           "cookie": [],
           "body": "{\n    \"id\": 1,\n    \"startDate\": \"2026-10-20\",\n    \"endDate\": \"2026-12-20\",\n    \"status\": \"PENDING\",\n    \"observations\": \"Periodo de adaptacion\"\n}"
         }
-      ],
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "exec": [
-              "pm.test(\"Request: Obtener una convivencia por id\", function () {",
-              "    pm.response.to.have.status(200);",
-              "});"
-            ],
-            "type": "text/javascript"
-          }
-        }
       ]
     },
     {
@@ -1280,24 +1069,11 @@
             }
           },
           "status": "Not Found",
-          "code": 412,
+          "code": 404,
           "_postman_previewlanguage": "json",
           "header": [],
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"NOT_FOUND\",\n        \"timestamp\": \"26-09-2026 10:05:28\",\n        \"message\": \"Trial cohabitation not found\"\n    }\n}"
-        }
-      ],
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "exec": [
-              "pm.test(\"Request: Obtener una convivencia que no existe\", function () {",
-              "    pm.response.to.have.status(412);",
-              "});"
-            ],
-            "type": "text/javascript"
-          }
         }
       ]
     },
@@ -1341,19 +1117,6 @@
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"26-09-2026 10:05:28\",\n        \"message\": \"Trial id is not valid\"\n    }\n}"
         }
-      ],
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "exec": [
-              "pm.test(\"Request: Obtener una convivencia con id invalido\", function () {",
-              "    pm.response.to.have.status(412);",
-              "});"
-            ],
-            "type": "text/javascript"
-          }
-        }
       ]
     },
     {
@@ -1378,7 +1141,7 @@
         },
         "body": {
           "mode": "raw",
-          "raw": "{\n    \"startDate\": \"{{future_date}}\",\n    \"endDate\": \"2026-12-20T00:00:00-05:00\",\n    \"status\": \"IN_PROGRESS\",\n    \"observations\": \"Observacion actualizada\",\n    \"adopter\": {\n        \"id\": \"{{adopter_id_1}}\"\n    },\n    \"shelter\": {\n        \"id\": \"{{shelter_id_1}}\"\n    },\n    \"trialCohabitationRequest\": {\n        \"id\": \"{{trial_request_id_1}}\"\n    }\n}",
+          "raw": "{\n    \"startDate\": \"2026-10-20T00:00:00-05:00\",\n    \"endDate\": \"2026-12-20T00:00:00-05:00\",\n    \"status\": \"IN_PROGRESS\",\n    \"observations\": \"Observacion actualizada\",\n    \"adopter\": {\n        \"id\": \"{{adopter_id_1}}\"\n    },\n    \"shelter\": {\n        \"id\": \"{{shelter_id_1}}\"\n    },\n    \"trialCohabitationRequest\": {\n        \"id\": \"{{trial_request_id_1}}\"\n    }\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -1409,7 +1172,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"startDate\": \"{{future_date}}\",\n    \"endDate\": \"2026-12-20T00:00:00-05:00\",\n    \"status\": \"IN_PROGRESS\",\n    \"observations\": \"Observacion actualizada\",\n    \"adopter\": {\n        \"id\": \"{{adopter_id_1}}\"\n    },\n    \"shelter\": {\n        \"id\": \"{{shelter_id_1}}\"\n    },\n    \"trialCohabitationRequest\": {\n        \"id\": \"{{trial_request_id_1}}\"\n    }\n}",
+              "raw": "{\n    \"startDate\": \"2026-10-20T00:00:00-05:00\",\n    \"endDate\": \"2026-12-20T00:00:00-05:00\",\n    \"status\": \"IN_PROGRESS\",\n    \"observations\": \"Observacion actualizada\",\n    \"adopter\": {\n        \"id\": \"{{adopter_id_1}}\"\n    },\n    \"shelter\": {\n        \"id\": \"{{shelter_id_1}}\"\n    },\n    \"trialCohabitationRequest\": {\n        \"id\": \"{{trial_request_id_1}}\"\n    }\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -1428,19 +1191,6 @@
           ],
           "cookie": [],
           "body": "{\n    \"id\": 1,\n    \"startDate\": \"2026-10-20\",\n    \"endDate\": \"2026-12-20\",\n    \"status\": \"IN_PROGRESS\",\n    \"observations\": \"Observacion actualizada\"\n}"
-        }
-      ],
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "exec": [
-              "pm.test(\"Request: Editar una convivencia de prueba\", function () {",
-              "    pm.response.to.have.status(200);",
-              "});"
-            ],
-            "type": "text/javascript"
-          }
         }
       ]
     },
@@ -1466,7 +1216,7 @@
         },
         "body": {
           "mode": "raw",
-          "raw": "{\n    \"startDate\": \"{{future_date}}\",\n    \"endDate\": \"2026-12-20T00:00:00-05:00\",\n    \"status\": \"PENDING\",\n    \"observations\": \"Periodo de adaptacion\",\n    \"adopter\": {\n        \"id\": \"{{adopter_id_1}}\"\n    },\n    \"shelter\": {\n        \"id\": \"{{shelter_id_1}}\"\n    },\n    \"trialCohabitationRequest\": {\n        \"id\": \"{{trial_request_id_1}}\"\n    }\n}",
+          "raw": "{\n    \"startDate\": \"2026-10-20T00:00:00-05:00\",\n    \"endDate\": \"2026-12-20T00:00:00-05:00\",\n    \"status\": \"PENDING\",\n    \"observations\": \"Periodo de adaptacion\",\n    \"adopter\": {\n        \"id\": \"{{adopter_id_1}}\"\n    },\n    \"shelter\": {\n        \"id\": \"{{shelter_id_1}}\"\n    },\n    \"trialCohabitationRequest\": {\n        \"id\": \"{{trial_request_id_1}}\"\n    }\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -1497,7 +1247,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"startDate\": \"{{future_date}}\",\n    \"endDate\": \"2026-12-20T00:00:00-05:00\",\n    \"status\": \"PENDING\",\n    \"observations\": \"Periodo de adaptacion\",\n    \"adopter\": {\n        \"id\": \"{{adopter_id_1}}\"\n    },\n    \"shelter\": {\n        \"id\": \"{{shelter_id_1}}\"\n    },\n    \"trialCohabitationRequest\": {\n        \"id\": \"{{trial_request_id_1}}\"\n    }\n}",
+              "raw": "{\n    \"startDate\": \"2026-10-20T00:00:00-05:00\",\n    \"endDate\": \"2026-12-20T00:00:00-05:00\",\n    \"status\": \"PENDING\",\n    \"observations\": \"Periodo de adaptacion\",\n    \"adopter\": {\n        \"id\": \"{{adopter_id_1}}\"\n    },\n    \"shelter\": {\n        \"id\": \"{{shelter_id_1}}\"\n    },\n    \"trialCohabitationRequest\": {\n        \"id\": \"{{trial_request_id_1}}\"\n    }\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -1506,24 +1256,11 @@
             }
           },
           "status": "Not Found",
-          "code": 412,
+          "code": 404,
           "_postman_previewlanguage": "json",
           "header": [],
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"NOT_FOUND\",\n        \"timestamp\": \"26-09-2026 10:05:28\",\n        \"message\": \"Trial cohabitation not found\"\n    }\n}"
-        }
-      ],
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "exec": [
-              "pm.test(\"Request: Editar una convivencia que no existe\", function () {",
-              "    pm.response.to.have.status(412);",
-              "});"
-            ],
-            "type": "text/javascript"
-          }
         }
       ]
     },
@@ -1549,7 +1286,7 @@
         },
         "body": {
           "mode": "raw",
-          "raw": "{\n    \"startDate\": \"{{future_date}}\",\n    \"endDate\": \"2026-12-20T00:00:00-05:00\",\n    \"status\": \"PENDING\",\n    \"observations\": \"Periodo de adaptacion\",\n    \"adopter\": {\n        \"id\": \"{{adopter_id_1}}\"\n    },\n    \"shelter\": {\n        \"id\": \"{{shelter_id_1}}\"\n    },\n    \"trialCohabitationRequest\": {\n        \"id\": \"{{trial_request_id_1}}\"\n    }\n}",
+          "raw": "{\n    \"startDate\": \"2026-10-20T00:00:00-05:00\",\n    \"endDate\": \"2026-12-20T00:00:00-05:00\",\n    \"status\": \"PENDING\",\n    \"observations\": \"Periodo de adaptacion\",\n    \"adopter\": {\n        \"id\": \"{{adopter_id_1}}\"\n    },\n    \"shelter\": {\n        \"id\": \"{{shelter_id_1}}\"\n    },\n    \"trialCohabitationRequest\": {\n        \"id\": \"{{trial_request_id_1}}\"\n    }\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -1580,7 +1317,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"startDate\": \"{{future_date}}\",\n    \"endDate\": \"2026-12-20T00:00:00-05:00\",\n    \"status\": \"PENDING\",\n    \"observations\": \"Periodo de adaptacion\",\n    \"adopter\": {\n        \"id\": \"{{adopter_id_1}}\"\n    },\n    \"shelter\": {\n        \"id\": \"{{shelter_id_1}}\"\n    },\n    \"trialCohabitationRequest\": {\n        \"id\": \"{{trial_request_id_1}}\"\n    }\n}",
+              "raw": "{\n    \"startDate\": \"2026-10-20T00:00:00-05:00\",\n    \"endDate\": \"2026-12-20T00:00:00-05:00\",\n    \"status\": \"PENDING\",\n    \"observations\": \"Periodo de adaptacion\",\n    \"adopter\": {\n        \"id\": \"{{adopter_id_1}}\"\n    },\n    \"shelter\": {\n        \"id\": \"{{shelter_id_1}}\"\n    },\n    \"trialCohabitationRequest\": {\n        \"id\": \"{{trial_request_id_1}}\"\n    }\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -1594,19 +1331,6 @@
           "header": [],
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"26-09-2026 10:05:28\",\n        \"message\": \"Trial id is not valid\"\n    }\n}"
-        }
-      ],
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "exec": [
-              "pm.test(\"Request: Editar una convivencia con id invalido\", function () {",
-              "    pm.response.to.have.status(412);",
-              "});"
-            ],
-            "type": "text/javascript"
-          }
         }
       ]
     },
@@ -1632,7 +1356,7 @@
         },
         "body": {
           "mode": "raw",
-          "raw": "{\n    \"startDate\": \"{{future_date}}\",\n    \"endDate\": \"2026-12-20T00:00:00-05:00\",\n    \"status\": \"IN_PROGRESS\",\n    \"observations\": \"Periodo de adaptacion\",\n    \"adopter\": {\n        \"id\": \"{{adopter_id_1}}\"\n    },\n    \"shelter\": {\n        \"id\": \"{{shelter_id_1}}\"\n    },\n    \"trialCohabitationRequest\": {\n        \"id\": \"{{trial_request_final}}\"\n    }\n}",
+          "raw": "{\n    \"startDate\": \"2026-10-20T00:00:00-05:00\",\n    \"endDate\": \"2026-12-20T00:00:00-05:00\",\n    \"status\": \"IN_PROGRESS\",\n    \"observations\": \"Periodo de adaptacion\",\n    \"adopter\": {\n        \"id\": \"{{adopter_id_1}}\"\n    },\n    \"shelter\": {\n        \"id\": \"{{shelter_id_1}}\"\n    },\n    \"trialCohabitationRequest\": {\n        \"id\": \"{{trial_request_final}}\"\n    }\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -1663,7 +1387,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"startDate\": \"{{future_date}}\",\n    \"endDate\": \"2026-12-20T00:00:00-05:00\",\n    \"status\": \"IN_PROGRESS\",\n    \"observations\": \"Periodo de adaptacion\",\n    \"adopter\": {\n        \"id\": \"{{adopter_id_1}}\"\n    },\n    \"shelter\": {\n        \"id\": \"{{shelter_id_1}}\"\n    },\n    \"trialCohabitationRequest\": {\n        \"id\": \"{{trial_request_final}}\"\n    }\n}",
+              "raw": "{\n    \"startDate\": \"2026-10-20T00:00:00-05:00\",\n    \"endDate\": \"2026-12-20T00:00:00-05:00\",\n    \"status\": \"IN_PROGRESS\",\n    \"observations\": \"Periodo de adaptacion\",\n    \"adopter\": {\n        \"id\": \"{{adopter_id_1}}\"\n    },\n    \"shelter\": {\n        \"id\": \"{{shelter_id_1}}\"\n    },\n    \"trialCohabitationRequest\": {\n        \"id\": \"{{trial_request_final}}\"\n    }\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -1677,19 +1401,6 @@
           "header": [],
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"26-09-2026 10:05:28\",\n        \"message\": \"A finalized trial cohabitation cannot be changed back to an in-progress state\"\n    }\n}"
-        }
-      ],
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "exec": [
-              "pm.test(\"Request: Editar una convivencia finalizada volviendo a en curso\", function () {",
-              "    pm.response.to.have.status(412);",
-              "});"
-            ],
-            "type": "text/javascript"
-          }
         }
       ]
     },
@@ -1761,19 +1472,6 @@
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"26-09-2026 10:05:28\",\n        \"message\": \"Trial start date cannot be null\"\n    }\n}"
         }
-      ],
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "exec": [
-              "pm.test(\"Request: Editar una convivencia sin fecha de inicio\", function () {",
-              "    pm.response.to.have.status(412);",
-              "});"
-            ],
-            "type": "text/javascript"
-          }
-        }
       ]
     },
     {
@@ -1798,7 +1496,7 @@
         },
         "body": {
           "mode": "raw",
-          "raw": "{\n    \"startDate\": \"{{future_date}}\",\n    \"endDate\": null,\n    \"status\": \"PENDING\",\n    \"observations\": \"Periodo de adaptacion\",\n    \"adopter\": {\n        \"id\": \"{{adopter_id_1}}\"\n    },\n    \"shelter\": {\n        \"id\": \"{{shelter_id_1}}\"\n    },\n    \"trialCohabitationRequest\": {\n        \"id\": \"{{trial_request_id_1}}\"\n    }\n}",
+          "raw": "{\n    \"startDate\": \"2026-10-20T00:00:00-05:00\",\n    \"endDate\": null,\n    \"status\": \"PENDING\",\n    \"observations\": \"Periodo de adaptacion\",\n    \"adopter\": {\n        \"id\": \"{{adopter_id_1}}\"\n    },\n    \"shelter\": {\n        \"id\": \"{{shelter_id_1}}\"\n    },\n    \"trialCohabitationRequest\": {\n        \"id\": \"{{trial_request_id_1}}\"\n    }\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -1829,7 +1527,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"startDate\": \"{{future_date}}\",\n    \"endDate\": null,\n    \"status\": \"PENDING\",\n    \"observations\": \"Periodo de adaptacion\",\n    \"adopter\": {\n        \"id\": \"{{adopter_id_1}}\"\n    },\n    \"shelter\": {\n        \"id\": \"{{shelter_id_1}}\"\n    },\n    \"trialCohabitationRequest\": {\n        \"id\": \"{{trial_request_id_1}}\"\n    }\n}",
+              "raw": "{\n    \"startDate\": \"2026-10-20T00:00:00-05:00\",\n    \"endDate\": null,\n    \"status\": \"PENDING\",\n    \"observations\": \"Periodo de adaptacion\",\n    \"adopter\": {\n        \"id\": \"{{adopter_id_1}}\"\n    },\n    \"shelter\": {\n        \"id\": \"{{shelter_id_1}}\"\n    },\n    \"trialCohabitationRequest\": {\n        \"id\": \"{{trial_request_id_1}}\"\n    }\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -1843,19 +1541,6 @@
           "header": [],
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"26-09-2026 10:05:28\",\n        \"message\": \"Trial end date cannot be null\"\n    }\n}"
-        }
-      ],
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "exec": [
-              "pm.test(\"Request: Editar una convivencia sin fecha de fin\", function () {",
-              "    pm.response.to.have.status(412);",
-              "});"
-            ],
-            "type": "text/javascript"
-          }
         }
       ]
     },
@@ -1881,7 +1566,7 @@
         },
         "body": {
           "mode": "raw",
-          "raw": "{\n    \"startDate\": \"{{future_date}}\",\n    \"endDate\": \"2026-12-20T00:00:00-05:00\",\n    \"status\": null,\n    \"observations\": \"Periodo de adaptacion\",\n    \"adopter\": {\n        \"id\": \"{{adopter_id_1}}\"\n    },\n    \"shelter\": {\n        \"id\": \"{{shelter_id_1}}\"\n    },\n    \"trialCohabitationRequest\": {\n        \"id\": \"{{trial_request_id_1}}\"\n    }\n}",
+          "raw": "{\n    \"startDate\": \"2026-10-20T00:00:00-05:00\",\n    \"endDate\": \"2026-12-20T00:00:00-05:00\",\n    \"status\": null,\n    \"observations\": \"Periodo de adaptacion\",\n    \"adopter\": {\n        \"id\": \"{{adopter_id_1}}\"\n    },\n    \"shelter\": {\n        \"id\": \"{{shelter_id_1}}\"\n    },\n    \"trialCohabitationRequest\": {\n        \"id\": \"{{trial_request_id_1}}\"\n    }\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -1912,7 +1597,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"startDate\": \"{{future_date}}\",\n    \"endDate\": \"2026-12-20T00:00:00-05:00\",\n    \"status\": null,\n    \"observations\": \"Periodo de adaptacion\",\n    \"adopter\": {\n        \"id\": \"{{adopter_id_1}}\"\n    },\n    \"shelter\": {\n        \"id\": \"{{shelter_id_1}}\"\n    },\n    \"trialCohabitationRequest\": {\n        \"id\": \"{{trial_request_id_1}}\"\n    }\n}",
+              "raw": "{\n    \"startDate\": \"2026-10-20T00:00:00-05:00\",\n    \"endDate\": \"2026-12-20T00:00:00-05:00\",\n    \"status\": null,\n    \"observations\": \"Periodo de adaptacion\",\n    \"adopter\": {\n        \"id\": \"{{adopter_id_1}}\"\n    },\n    \"shelter\": {\n        \"id\": \"{{shelter_id_1}}\"\n    },\n    \"trialCohabitationRequest\": {\n        \"id\": \"{{trial_request_id_1}}\"\n    }\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -1926,19 +1611,6 @@
           "header": [],
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"26-09-2026 10:05:28\",\n        \"message\": \"Trial status cannot be null or empty\"\n    }\n}"
-        }
-      ],
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "exec": [
-              "pm.test(\"Request: Editar una convivencia sin estado\", function () {",
-              "    pm.response.to.have.status(412);",
-              "});"
-            ],
-            "type": "text/javascript"
-          }
         }
       ]
     },
@@ -1964,7 +1636,7 @@
         },
         "body": {
           "mode": "raw",
-          "raw": "{\n    \"startDate\": \"{{future_date}}\",\n    \"endDate\": \"2026-12-20T00:00:00-05:00\",\n    \"status\": \"PENDING\",\n    \"observations\": null,\n    \"adopter\": {\n        \"id\": \"{{adopter_id_1}}\"\n    },\n    \"shelter\": {\n        \"id\": \"{{shelter_id_1}}\"\n    },\n    \"trialCohabitationRequest\": {\n        \"id\": \"{{trial_request_id_1}}\"\n    }\n}",
+          "raw": "{\n    \"startDate\": \"2026-10-20T00:00:00-05:00\",\n    \"endDate\": \"2026-12-20T00:00:00-05:00\",\n    \"status\": \"PENDING\",\n    \"observations\": null,\n    \"adopter\": {\n        \"id\": \"{{adopter_id_1}}\"\n    },\n    \"shelter\": {\n        \"id\": \"{{shelter_id_1}}\"\n    },\n    \"trialCohabitationRequest\": {\n        \"id\": \"{{trial_request_id_1}}\"\n    }\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -1995,7 +1667,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"startDate\": \"{{future_date}}\",\n    \"endDate\": \"2026-12-20T00:00:00-05:00\",\n    \"status\": \"PENDING\",\n    \"observations\": null,\n    \"adopter\": {\n        \"id\": \"{{adopter_id_1}}\"\n    },\n    \"shelter\": {\n        \"id\": \"{{shelter_id_1}}\"\n    },\n    \"trialCohabitationRequest\": {\n        \"id\": \"{{trial_request_id_1}}\"\n    }\n}",
+              "raw": "{\n    \"startDate\": \"2026-10-20T00:00:00-05:00\",\n    \"endDate\": \"2026-12-20T00:00:00-05:00\",\n    \"status\": \"PENDING\",\n    \"observations\": null,\n    \"adopter\": {\n        \"id\": \"{{adopter_id_1}}\"\n    },\n    \"shelter\": {\n        \"id\": \"{{shelter_id_1}}\"\n    },\n    \"trialCohabitationRequest\": {\n        \"id\": \"{{trial_request_id_1}}\"\n    }\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -2010,18 +1682,47 @@
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"26-09-2026 10:05:28\",\n        \"message\": \"Trial observations cannot be null or empty\"\n    }\n}"
         }
-      ],
-      "event": [
+      ]
+    },
+    {
+      "name": "Borrar una convivencia en estado pendiente",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/trialCohabitations/{{trial_id_2}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "trialCohabitations",
+            "{{trial_id_2}}"
+          ]
+        }
+      },
+      "response": [
         {
-          "listen": "test",
-          "script": {
-            "exec": [
-              "pm.test(\"Request: Editar una convivencia sin observaciones\", function () {",
-              "    pm.response.to.have.status(412);",
-              "});"
-            ],
-            "type": "text/javascript"
-          }
+          "name": "DELETE trialCohabitations/{{trial_id_2}}",
+          "originalRequest": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/trialCohabitations/{{trial_id_2}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "trialCohabitations",
+                "{{trial_id_2}}"
+              ]
+            }
+          },
+          "status": "No Content",
+          "code": 204,
+          "_postman_previewlanguage": "json",
+          "header": [],
+          "cookie": [],
+          "body": ""
         }
       ]
     },
@@ -2065,19 +1766,6 @@
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"26-09-2026 10:05:28\",\n        \"message\": \"Only trial cohabitations in pending status can be deleted; those in progress or finalized cannot\"\n    }\n}"
         }
-      ],
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "exec": [
-              "pm.test(\"Request: Borrar una convivencia en curso\", function () {",
-              "    pm.response.to.have.status(412);",
-              "});"
-            ],
-            "type": "text/javascript"
-          }
-        }
       ]
     },
     {
@@ -2120,19 +1808,6 @@
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"26-09-2026 10:05:28\",\n        \"message\": \"Only trial cohabitations in pending status can be deleted; those in progress or finalized cannot\"\n    }\n}"
         }
-      ],
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "exec": [
-              "pm.test(\"Request: Borrar una convivencia finalizada\", function () {",
-              "    pm.response.to.have.status(412);",
-              "});"
-            ],
-            "type": "text/javascript"
-          }
-        }
       ]
     },
     {
@@ -2169,24 +1844,11 @@
             }
           },
           "status": "Not Found",
-          "code": 412,
+          "code": 404,
           "_postman_previewlanguage": "json",
           "header": [],
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"NOT_FOUND\",\n        \"timestamp\": \"26-09-2026 10:05:28\",\n        \"message\": \"Trial cohabitation not found\"\n    }\n}"
-        }
-      ],
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "exec": [
-              "pm.test(\"Request: Borrar una convivencia que no existe\", function () {",
-              "    pm.response.to.have.status(412);",
-              "});"
-            ],
-            "type": "text/javascript"
-          }
         }
       ]
     },
@@ -2230,116 +1892,6 @@
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"26-09-2026 10:05:28\",\n        \"message\": \"Trial id is not valid\"\n    }\n}"
         }
-      ],
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "exec": [
-              "pm.test(\"Request: Borrar una convivencia con id invalido\", function () {",
-              "    pm.response.to.have.status(412);",
-              "});"
-            ],
-            "type": "text/javascript"
-          }
-        }
-      ]
-    },
-    {
-      "name": "Restaurar convivencia de prueba a pendiente",
-      "request": {
-        "method": "PUT",
-        "header": [
-          {
-            "key": "Content-Type",
-            "value": "application/json"
-          }
-        ],
-        "url": {
-          "raw": "{{baseUrl}}/trialCohabitations/{{trial_id_1}}",
-          "host": [
-            "{{baseUrl}}"
-          ],
-          "path": [
-            "trialCohabitations",
-            "{{trial_id_1}}"
-          ]
-        },
-        "body": {
-          "mode": "raw",
-          "raw": "{\n    \"startDate\": \"{{future_date}}\",\n    \"endDate\": \"2026-12-20T00:00:00-05:00\",\n    \"status\": \"PENDING\",\n    \"observations\": \"Observacion actualizada\",\n    \"adopter\": {\n        \"id\": \"{{adopter_id_1}}\"\n    },\n    \"shelter\": {\n        \"id\": \"{{shelter_id_1}}\"\n    },\n    \"trialCohabitationRequest\": {\n        \"id\": \"{{trial_request_id_1}}\"\n    }\n}",
-          "options": {
-            "raw": {
-              "language": "json"
-            }
-          }
-        }
-      },
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "type": "text/javascript",
-            "exec": [
-              "pm.test(\"Request: Restaurar convivencia de prueba a pendiente\", function () { pm.response.to.have.status(200); });"
-            ]
-          }
-        }
-      ]
-    },
-    {
-      "name": "Borrar una convivencia en estado pendiente",
-      "request": {
-        "method": "DELETE",
-        "header": [],
-        "url": {
-          "raw": "{{baseUrl}}/trialCohabitations/{{trial_id_1}}",
-          "host": [
-            "{{baseUrl}}"
-          ],
-          "path": [
-            "trialCohabitations",
-            "{{trial_id_1}}"
-          ]
-        }
-      },
-      "response": [
-        {
-          "name": "DELETE trialCohabitations/{{trial_id_2}}",
-          "originalRequest": {
-            "method": "DELETE",
-            "header": [],
-            "url": {
-              "raw": "{{baseUrl}}/trialCohabitations/{{trial_id_1}}",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "trialCohabitations",
-                "{{trial_id_1}}"
-              ]
-            }
-          },
-          "status": "No Content",
-          "code": 204,
-          "_postman_previewlanguage": "json",
-          "header": [],
-          "cookie": [],
-          "body": ""
-        }
-      ],
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "exec": [
-              "pm.test(\"Request: Borrar una convivencia en estado pendiente\", function () {",
-              "    pm.response.to.have.status(204);",
-              "});"
-            ],
-            "type": "text/javascript"
-          }
-        }
       ]
     }
   ],
@@ -2362,7 +1914,7 @@
     },
     {
       "key": "adopter_id_1",
-      "value": "2"
+      "value": "1"
     },
     {
       "key": "shelter_id_1",
@@ -2379,21 +1931,6 @@
     {
       "key": "trial_request_final",
       "value": "3"
-    },
-    {
-      "key": "future_date",
-      "value": ""
-    }
-  ],
-  "event": [
-    {
-      "listen": "prerequest",
-      "script": {
-        "type": "text/javascript",
-        "exec": [
-          "pm.collectionVariables.set('future_date', new Date(Date.now() + 3 * 86400000).toISOString());"
-        ]
-      }
     }
   ]
 }
