@@ -1,390 +1,397 @@
 {
-  "info": {
-    "_postman_id": "a1b2c3d4-e5f6-4789-a012-messagecoll01",
-    "name": "Message Collection ",
-    "description": "Cada corrida prepara por API los dos usuarios que participan en la conversacion y captura el id del mensaje creado.",
-    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
-  },
-  "event": [
-    {
-      "listen": "prerequest",
-      "script": {
-        "type": "text/javascript",
-        "exec": [
-          "pm.collectionVariables.set(\"run_id\", Date.now().toString());"
-        ]
-      }
-    }
-  ],
-  "item": [
-    {
-      "name": "Preparar adoptante remitente (setup)",
-      "request": {
-        "method": "POST",
-        "header": [
-          {
-            "key": "Content-Type",
-            "value": "application/json"
-          }
-        ],
-        "body": {
-          "mode": "raw",
-          "raw": "{\n    \"firstName\": \"Laura\",\n    \"lastName\": \"Gomez\",\n    \"email\": \"msg_remitente_{{run_id}}@mail.com\",\n    \"password\": \"1234\",\n    \"phone\": \"3000000000\",\n    \"address\": \"Calle 1\",\n    \"nationalId\": \"MSG-remitente-{{run_id}}\",\n    \"occupation\": \"Docente\",\n    \"earnings\": 2500,\n    \"housingType\": \"Apartamento\",\n    \"allergies\": \"Ninguna\",\n    \"hasChildren\": false,\n    \"hasOtherPets\": true\n}",
-          "options": {
-            "raw": {
-              "language": "json"
-            }
-          }
-        },
-        "url": {
-          "raw": "{{baseUrl}}/adopters",
-          "host": [
-            "{{baseUrl}}"
-          ],
-          "path": [
-            "adopters"
-          ]
-        },
-        "description": "Preparacion por API (setup)."
-      },
-      "response": [],
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "type": "text/javascript",
-            "exec": [
-              "if (pm.response.code === 201) {",
-              "    pm.collectionVariables.set(\"sender_id\", pm.response.json().id);",
-              "}",
-              "pm.test(\"Status code is 201\", function () {",
-              "    pm.response.to.have.status(201);",
-              "});"
-            ]
-          }
-        }
-      ]
-    },
-    {
-      "name": "Preparar adoptante destinatario (setup)",
-      "request": {
-        "method": "POST",
-        "header": [
-          {
-            "key": "Content-Type",
-            "value": "application/json"
-          }
-        ],
-        "body": {
-          "mode": "raw",
-          "raw": "{\n    \"firstName\": \"Laura\",\n    \"lastName\": \"Gomez\",\n    \"email\": \"msg_destinatario_{{run_id}}@mail.com\",\n    \"password\": \"1234\",\n    \"phone\": \"3000000000\",\n    \"address\": \"Calle 1\",\n    \"nationalId\": \"MSG-destinatario-{{run_id}}\",\n    \"occupation\": \"Docente\",\n    \"earnings\": 2500,\n    \"housingType\": \"Apartamento\",\n    \"allergies\": \"Ninguna\",\n    \"hasChildren\": false,\n    \"hasOtherPets\": true\n}",
-          "options": {
-            "raw": {
-              "language": "json"
-            }
-          }
-        },
-        "url": {
-          "raw": "{{baseUrl}}/adopters",
-          "host": [
-            "{{baseUrl}}"
-          ],
-          "path": [
-            "adopters"
-          ]
-        },
-        "description": "Preparacion por API (setup)."
-      },
-      "response": [],
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "type": "text/javascript",
-            "exec": [
-              "if (pm.response.code === 201) {",
-              "    pm.collectionVariables.set(\"receiver_id\", pm.response.json().id);",
-              "}",
-              "pm.test(\"Status code is 201\", function () {",
-              "    pm.response.to.have.status(201);",
-              "});"
-            ]
-          }
-        }
-      ]
-    },
-    {
-      "name": "Create a Message",
-      "request": {
-        "method": "POST",
-        "header": [
-          {
-            "key": "Content-Type",
-            "value": "application/json"
-          }
-        ],
-        "url": {
-          "raw": "{{baseUrl}}/messages?currentUserId={{sender_id}}",
-          "host": [
-            "{{baseUrl}}"
-          ],
-          "path": [
-            "messages?currentUserId={{sender_id}}"
-          ]
-        },
-        "body": {
-          "mode": "raw",
-          "raw": "{\n    \"message\": \"Hola, estoy interesado en adoptar una mascota.\",\n    \"sendUser\": {\n        \"id\": \"{{sender_id}}\"\n    },\n    \"receivesUser\": {\n        \"id\": \"{{receiver_id}}\"\n    }\n}",
-          "options": {
-            "raw": {
-              "language": "json"
-            }
-          }
-        },
-        "description": "Crea un mensaje entre dos usuarios existentes (adoptantes)."
-      },
-      "response": [],
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "type": "text/javascript",
-            "exec": [
-              "pm.test(\"Status code is 201\", function () {",
-              "    pm.response.to.have.status(201);",
-              "});",
-              "pm.test(\"Message is stored with sender and recipient\", function () {",
-              "    var data = pm.response.json();",
-              "    pm.expect(data.message).to.eql(\"Hola, estoy interesado en adoptar una mascota.\");",
-              "    pm.expect(data.sendUser.id).to.eql(Number(pm.collectionVariables.get(\"sender_id\")));",
-              "    pm.expect(data.receivesUser.id).to.eql(Number(pm.collectionVariables.get(\"receiver_id\")));",
-              "});",
-              "if (pm.response.code === 201) {",
-              "    pm.collectionVariables.set(\"message_id\", pm.response.json().id);",
-              "}"
-            ]
-          }
-        }
-      ]
-    },
-    {
-      "name": "Get All Messages",
-      "request": {
-        "method": "GET",
-        "header": [],
-        "url": {
-          "raw": "{{baseUrl}}/messages?currentUserId={{sender_id}}",
-          "host": [
-            "{{baseUrl}}"
-          ],
-          "path": [
-            "messages?currentUserId={{sender_id}}"
-          ]
-        },
-        "description": "Devuelve solo los mensajes visibles para el usuario indicado."
-      },
-      "response": [],
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "type": "text/javascript",
-            "exec": [
-              "pm.test(\"Status code is 200\", function () {",
-              "    pm.response.to.have.status(200);",
-              "});",
-              "pm.test(\"The list contains the created message\", function () {",
-              "    var data = pm.response.json();",
-              "    pm.expect(data.some(function (m) { return m.id === Number(pm.collectionVariables.get(\"message_id\")); })).to.be.true;",
-              "});"
-            ]
-          }
-        }
-      ]
-    },
-    {
-      "name": "Get Message by ID",
-      "request": {
-        "method": "GET",
-        "header": [],
-        "url": {
-          "raw": "{{baseUrl}}/messages/{{message_id}}?currentUserId={{receiver_id}}",
-          "host": [
-            "{{baseUrl}}"
-          ],
-          "path": [
-            "messages",
-            "{{message_id}}?currentUserId={{receiver_id}}"
-          ]
-        }
-      },
-      "response": [],
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "type": "text/javascript",
-            "exec": [
-              "pm.test(\"Status code is 200\", function () {",
-              "    pm.response.to.have.status(200);",
-              "});",
-              "pm.test(\"The message can be read by the recipient\", function () {",
-              "    var data = pm.response.json();",
-              "    pm.expect(data.id).to.eql(Number(pm.collectionVariables.get(\"message_id\")));",
-              "    pm.expect(data.isRead).to.be.false;",
-              "});"
-            ]
-          }
-        }
-      ]
-    },
-    {
-      "name": "Get Non-Existent Message (404 Error)",
-      "request": {
-        "method": "GET",
-        "header": [],
-        "url": {
-          "raw": "{{baseUrl}}/messages/9999?currentUserId={{sender_id}}",
-          "host": [
-            "{{baseUrl}}"
-          ],
-          "path": [
-            "messages",
-            "9999?currentUserId={{sender_id}}"
-          ]
-        }
-      },
-      "response": [],
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "type": "text/javascript",
-            "exec": [
-              "pm.test(\"Status code is 404\", function () {",
-              "    pm.response.to.have.status(404);",
-              "});"
-            ]
-          }
-        }
-      ]
-    },
-    {
-      "name": "Update Message",
-      "request": {
-        "method": "PUT",
-        "header": [
-          {
-            "key": "Content-Type",
-            "value": "application/json"
-          }
-        ],
-        "url": {
-          "raw": "{{baseUrl}}/messages/{{message_id}}?currentUserId={{receiver_id}}",
-          "host": [
-            "{{baseUrl}}"
-          ],
-          "path": [
-            "messages",
-            "{{message_id}}?currentUserId={{receiver_id}}"
-          ]
-        },
-        "body": {
-          "mode": "raw",
-          "raw": "{\n    \"isRead\": true\n}",
-          "options": {
-            "raw": {
-              "language": "json"
-            }
-          }
-        },
-        "description": "Solo el destinatario puede marcar el mensaje como leido."
-      },
-      "response": [],
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "type": "text/javascript",
-            "exec": [
-              "pm.test(\"Status code is 200\", function () {",
-              "    pm.response.to.have.status(200);",
-              "});",
-              "pm.test(\"The message is marked as read\", function () {",
-              "    pm.expect(pm.response.json().isRead).to.be.true;",
-              "});",
-              "pm.test(\"Only the recipient can mark a message as read\", function () {",
-              "    pm.sendRequest({",
-              "        url: pm.collectionVariables.get(\"baseUrl\") + \"/messages/\" + pm.collectionVariables.get(\"message_id\") + \"?currentUserId=\" + pm.collectionVariables.get(\"sender_id\"),",
-              "        method: \"PUT\",",
-              "        header: { \"Content-Type\": \"application/json\" },",
-              "        body: { mode: \"raw\", raw: JSON.stringify({ isRead: false }) }",
-              "    }, function (err, res) {",
-              "        pm.expect(res.code).to.eql(412);",
-              "    });",
-              "});"
-            ]
-          }
-        }
-      ]
-    },
-    {
-      "name": "Delete Message",
-      "request": {
-        "method": "DELETE",
-        "header": [],
-        "url": {
-          "raw": "{{baseUrl}}/messages/{{message_id}}?currentUserId={{sender_id}}",
-          "host": [
-            "{{baseUrl}}"
-          ],
-          "path": [
-            "messages",
-            "{{message_id}}?currentUserId={{sender_id}}"
-          ]
-        },
-        "description": "El borrado es logico: el mensaje desaparece para el usuario que lo solicita."
-      },
-      "response": [],
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "type": "text/javascript",
-            "exec": [
-              "pm.test(\"Status code is 204\", function () {",
-              "    pm.response.to.have.status(204);",
-              "});",
-              "pm.test(\"The message is no longer visible for the sender\", function () {",
-              "    pm.sendRequest({",
-              "        url: pm.collectionVariables.get(\"baseUrl\") + \"/messages/\" + pm.collectionVariables.get(\"message_id\") + \"?currentUserId=\" + pm.collectionVariables.get(\"sender_id\"),",
-              "        method: \"GET\"",
-              "    }, function (err, res) {",
-              "        pm.expect(res.code).to.eql(404);",
-              "    });",
-              "});"
-            ]
-          }
-        }
-      ]
-    }
-  ],
-  "variable": [
-    {
-      "key": "run_id",
-      "value": ""
-    },
-    {
-      "key": "sender_id",
-      "value": ""
-    },
-    {
-      "key": "receiver_id",
-      "value": ""
-    },
-    {
-      "key": "message_id",
-      "value": ""
-    }
-  ]
+	"info": {
+		"_postman_id": "a1b2c3d4-e5f6-4789-a012-messagecoll01",
+		"name": "Message Collection ",
+		"description": "PENDING",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Create a Message",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {",
+							"    pm.response.to.have.status(201);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"message\": \"Hello, I am interested in adopting a pet.\",\n    \"date\": \"2026-09-02\",\n    \"timestamp\": \"2026-09-02T10:30:00.000Z\",\n    \"isRead\": false\n}"
+				},
+				"url": {
+					"raw": "{{baseUrl}}/messages",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"messages"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Message Created Successfully",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"message\": \"Hello, I am interested in adopting a pet.\",\n    \"date\": \"2026-09-02\",\n    \"timestamp\": \"2026-09-02T10:30:00.000Z\",\n    \"isRead\": false\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/messages",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"messages"
+							]
+						}
+					},
+					"status": "Created",
+					"code": 201,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"id\": 1,\n    \"message\": \"Hello, I am interested in adopting a pet.\",\n    \"date\": \"2026-09-02\",\n    \"timestamp\": \"2026-09-02T10:30:00.000Z\",\n    \"isRead\": false\n}"
+				}
+			]
+		},
+		{
+			"name": "Get All Messages",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/messages",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"messages"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "List of Messages",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/messages",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"messages"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						}
+					],
+					"cookie": [],
+					"body": "[\n    {\n        \"id\": 1,\n        \"message\": \"Hello, I am interested in adopting a pet.\",\n        \"date\": \"2026-09-02\",\n        \"timestamp\": \"2026-09-02T10:30:00.000Z\",\n        \"isRead\": false\n    }\n]"
+				}
+			]
+		},
+		{
+			"name": "Get Message by ID",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/messages/1",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"messages",
+						"1"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Message Details",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/messages/1",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"messages",
+								"1"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"id\": 1,\n    \"message\": \"Hello, I am interested in adopting a pet.\",\n    \"date\": \"2026-09-02\",\n    \"timestamp\": \"2026-09-02T10:30:00.000Z\",\n    \"isRead\": false\n}"
+				}
+			]
+		},
+		{
+			"name": "Get Non-Existent Message (404 Error)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 404\", function () {",
+							"    pm.response.to.have.status(404);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/messages/9999",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"messages",
+						"9999"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Message Not Found",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/messages/9999",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"messages",
+								"9999"
+							]
+						}
+					},
+					"status": "Not Found",
+					"code": 404,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"error\": \"Message with ID 9999 not found\"\n}"
+				}
+			]
+		},
+		{
+			"name": "Update Message",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"message\": \"Hello, I am interested in adopting a pet (Updated).\",\n    \"date\": \"2026-09-02\",\n    \"timestamp\": \"2026-09-02T10:30:00.000Z\",\n    \"isRead\": true\n}"
+				},
+				"url": {
+					"raw": "{{baseUrl}}/messages/1",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"messages",
+						"1"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Message Updated Successfully",
+					"originalRequest": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"message\": \"Hello, I am interested in adopting a pet (Updated).\",\n    \"date\": \"2026-09-02\",\n    \"timestamp\": \"2026-09-02T10:30:00.000Z\",\n    \"isRead\": true\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/messages/1",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"messages",
+								"1"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"id\": 1,\n    \"message\": \"Hello, I am interested in adopting a pet (Updated).\",\n    \"date\": \"2026-09-02\",\n    \"timestamp\": \"2026-09-02T10:30:00.000Z\",\n    \"isRead\": true\n}"
+				}
+			]
+		},
+		{
+			"name": "Delete Message",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 204\", function () {",
+							"    pm.response.to.have.status(204);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/messages/1",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"messages",
+						"1"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Message Deleted Successfully",
+					"originalRequest": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/messages/1",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"messages",
+								"1"
+							]
+						}
+					},
+					"status": "No Content",
+					"code": 204,
+					"_postman_previewlanguage": "",
+					"header": [],
+					"cookie": [],
+					"body": null
+				}
+			]
+		}
+	]
 }

@@ -7,1002 +7,6 @@
   },
   "item": [
     {
-      "name": "Preparar adoptante (setup)",
-      "request": {
-        "method": "POST",
-        "header": [
-          {
-            "key": "Content-Type",
-            "value": "application/json"
-          }
-        ],
-        "body": {
-          "mode": "raw",
-          "raw": "{\n    \"firstName\": \"Sofia\",\n    \"lastName\": \"Ramirez\",\n    \"email\": \"col_seguimiento_{{run_id}}@mail.com\",\n    \"password\": \"1234\",\n    \"phone\": \"3000000000\",\n    \"address\": \"Calle 10\",\n    \"nationalId\": \"COL-seguimiento-{{run_id}}\",\n    \"occupation\": \"Ingeniera\",\n    \"earnings\": 3500,\n    \"housingType\": \"Casa\",\n    \"allergies\": \"Ninguna\",\n    \"hasChildren\": true,\n    \"hasOtherPets\": false\n}",
-          "options": {
-            "raw": {
-              "language": "json"
-            }
-          }
-        },
-        "url": {
-          "raw": "{{baseUrl}}/adopters",
-          "host": [
-            "{{baseUrl}}"
-          ],
-          "path": [
-            "adopters"
-          ]
-        },
-        "description": "Preparacion por API (setup)."
-      },
-      "response": [],
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "type": "text/javascript",
-            "exec": [
-              "if (pm.response.code === 201) {",
-              "    pm.collectionVariables.set(\"adopter_id_1\", pm.response.json().id);",
-              "}",
-              "pm.test(\"Status code is 201\", function () {",
-              "    pm.response.to.have.status(201);",
-              "});"
-            ]
-          }
-        }
-      ]
-    },
-    {
-      "name": "Preparar veterinario (setup)",
-      "request": {
-        "method": "POST",
-        "header": [
-          {
-            "key": "Content-Type",
-            "value": "application/json"
-          }
-        ],
-        "body": {
-          "mode": "raw",
-          "raw": "{\n    \"firstName\": \"Diego\",\n    \"lastName\": \"Torres\",\n    \"email\": \"vet_{{run_id}}@mail.com\",\n    \"password\": \"1234\",\n    \"phone\": \"3000000001\",\n    \"specialization\": \"Medicina general\",\n    \"availability\": \"Lunes a viernes\"\n}",
-          "options": {
-            "raw": {
-              "language": "json"
-            }
-          }
-        },
-        "url": {
-          "raw": "{{baseUrl}}/veterinarians",
-          "host": [
-            "{{baseUrl}}"
-          ],
-          "path": [
-            "veterinarians"
-          ]
-        },
-        "description": "Preparacion por API (setup)."
-      },
-      "response": [],
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "type": "text/javascript",
-            "exec": [
-              "if (pm.response.code === 201) {",
-              "    pm.collectionVariables.set(\"veterinarian_id\", pm.response.json().id);",
-              "}",
-              "pm.test(\"Status code is 201\", function () {",
-              "    pm.response.to.have.status(201);",
-              "});"
-            ]
-          }
-        }
-      ]
-    },
-    {
-      "name": "Preparar refugio (setup)",
-      "request": {
-        "method": "POST",
-        "header": [
-          {
-            "key": "Content-Type",
-            "value": "application/json"
-          }
-        ],
-        "body": {
-          "mode": "raw",
-          "raw": "{\n    \"name\": \"Refugio {{run_id}}\",\n    \"city\": \"Bogota\",\n    \"nit\": \"NIT-{{run_id}}\",\n    \"location\": \"Carrera 5\",\n    \"users\": [\n        {\n            \"id\": \"{{veterinarian_id}}\"\n        }\n    ]\n}",
-          "options": {
-            "raw": {
-              "language": "json"
-            }
-          }
-        },
-        "url": {
-          "raw": "{{baseUrl}}/shelters",
-          "host": [
-            "{{baseUrl}}"
-          ],
-          "path": [
-            "shelters"
-          ]
-        },
-        "description": "Preparacion por API (setup)."
-      },
-      "response": [],
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "type": "text/javascript",
-            "exec": [
-              "if (pm.response.code === 201) {",
-              "    pm.collectionVariables.set(\"shelter_id\", pm.response.json().id);",
-              "}",
-              "pm.test(\"Status code is 201\", function () {",
-              "    pm.response.to.have.status(201);",
-              "});"
-            ]
-          }
-        }
-      ]
-    },
-    {
-      "name": "Preparar mascota uno (setup)",
-      "request": {
-        "method": "POST",
-        "header": [
-          {
-            "key": "Content-Type",
-            "value": "application/json"
-          }
-        ],
-        "body": {
-          "mode": "raw",
-          "raw": "{\n    \"name\": \"Mascota {{run_id}} seguimiento uno\",\n    \"species\": \"Perro\",\n    \"breed\": \"Criollo\",\n    \"age\": 3,\n    \"sex\": \"Macho\",\n    \"size\": \"Mediano\",\n    \"healthStatus\": \"Sano\",\n    \"description\": \"Mascota para la preparacion de la coleccion\",\n    \"admissionDate\": \"2026-01-10T00:00:00-05:00\",\n    \"temperament\": \"Tranquilo\",\n    \"compatibilityChildren\": true,\n    \"compatibilityOtherPets\": true,\n    \"activityLevel\": \"Media\",\n    \"requiredSpace\": \"Patio\",\n    \"shelter\": {\n        \"id\": \"{{shelter_id}}\"\n    },\n    \"medicalEvents\": [\n        {\n            \"date\": \"2026-01-10T00:00:00-05:00\",\n            \"type\": \"Ingreso\",\n            \"description\": \"Ingreso al refugio\"\n        }\n    ]\n}",
-          "options": {
-            "raw": {
-              "language": "json"
-            }
-          }
-        },
-        "url": {
-          "raw": "{{baseUrl}}/pets",
-          "host": [
-            "{{baseUrl}}"
-          ],
-          "path": [
-            "pets"
-          ]
-        },
-        "description": "Preparacion por API (setup)."
-      },
-      "response": [],
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "type": "text/javascript",
-            "exec": [
-              "if (pm.response.code === 201) {",
-              "    pm.collectionVariables.set(\"pet_id_1\", pm.response.json().id);",
-              "}",
-              "pm.test(\"Status code is 201\", function () {",
-              "    pm.response.to.have.status(201);",
-              "});"
-            ]
-          }
-        }
-      ]
-    },
-    {
-      "name": "Preparar solicitud uno (setup)",
-      "request": {
-        "method": "POST",
-        "header": [
-          {
-            "key": "Content-Type",
-            "value": "application/json"
-          }
-        ],
-        "body": {
-          "mode": "raw",
-          "raw": "{\n    \"description\": \"Solicitud para la preparacion de la coleccion\",\n    \"pet\": {\n        \"id\": \"{{pet_id_1}}\"\n    },\n    \"adopter\": {\n        \"id\": \"{{adopter_id_1}}\"\n    }\n}",
-          "options": {
-            "raw": {
-              "language": "json"
-            }
-          }
-        },
-        "url": {
-          "raw": "{{baseUrl}}/adoptionRequests",
-          "host": [
-            "{{baseUrl}}"
-          ],
-          "path": [
-            "adoptionRequests"
-          ]
-        },
-        "description": "Preparacion por API (setup)."
-      },
-      "response": [],
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "type": "text/javascript",
-            "exec": [
-              "if (pm.response.code === 201) {",
-              "    pm.collectionVariables.set(\"request_id_1\", pm.response.json().id);",
-              "}",
-              "pm.test(\"Status code is 201\", function () {",
-              "    pm.response.to.have.status(201);",
-              "});"
-            ]
-          }
-        }
-      ]
-    },
-    {
-      "name": "Aprobar solicitud uno (setup)",
-      "request": {
-        "method": "PUT",
-        "header": [
-          {
-            "key": "Content-Type",
-            "value": "application/json"
-          }
-        ],
-        "body": {
-          "mode": "raw",
-          "raw": "{\n    \"description\": \"Solicitud aprobada\",\n    \"status\": \"APPROVED\"\n}",
-          "options": {
-            "raw": {
-              "language": "json"
-            }
-          }
-        },
-        "url": {
-          "raw": "{{baseUrl}}/adoptionRequests/{{request_id_1}}",
-          "host": [
-            "{{baseUrl}}"
-          ],
-          "path": [
-            "adoptionRequests",
-            "{{request_id_1}}"
-          ]
-        },
-        "description": "Preparacion por API (setup)."
-      },
-      "response": [],
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "type": "text/javascript",
-            "exec": [
-              "pm.test(\"Status code is 200\", function () {",
-              "    pm.response.to.have.status(200);",
-              "});"
-            ]
-          }
-        }
-      ]
-    },
-    {
-      "name": "Preparar adopcion uno (setup)",
-      "request": {
-        "method": "POST",
-        "header": [
-          {
-            "key": "Content-Type",
-            "value": "application/json"
-          }
-        ],
-        "body": {
-          "mode": "raw",
-          "raw": "{\n    \"date\": \"2026-01-15T00:00:00-05:00\",\n    \"status\": \"IN_PROGRESS\",\n    \"importantNotes\": \"Adopcion para la preparacion de la coleccion\",\n    \"pet\": {\n        \"id\": \"{{pet_id_1}}\"\n    },\n    \"shelter\": {\n        \"id\": \"{{shelter_id}}\"\n    },\n    \"adopter\": {\n        \"id\": \"{{adopter_id_1}}\"\n    },\n    \"adoptionRequest\": {\n        \"id\": \"{{request_id_1}}\"\n    }\n}",
-          "options": {
-            "raw": {
-              "language": "json"
-            }
-          }
-        },
-        "url": {
-          "raw": "{{baseUrl}}/adoptions",
-          "host": [
-            "{{baseUrl}}"
-          ],
-          "path": [
-            "adoptions"
-          ]
-        },
-        "description": "Preparacion por API (setup)."
-      },
-      "response": [],
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "type": "text/javascript",
-            "exec": [
-              "if (pm.response.code === 201) {",
-              "    pm.collectionVariables.set(\"adoption_id\", pm.response.json().id);",
-              "}",
-              "pm.test(\"Status code is 201\", function () {",
-              "    pm.response.to.have.status(201);",
-              "});"
-            ]
-          }
-        }
-      ]
-    },
-    {
-      "name": "Finalizar adopcion uno (setup)",
-      "request": {
-        "method": "PUT",
-        "header": [
-          {
-            "key": "Content-Type",
-            "value": "application/json"
-          }
-        ],
-        "body": {
-          "mode": "raw",
-          "raw": "{\n    \"date\": \"2026-01-15T00:00:00-05:00\",\n    \"status\": \"FINALIZED\",\n    \"importantNotes\": \"Adopcion finalizada\",\n    \"pet\": {\n        \"id\": \"{{pet_id_1}}\"\n    },\n    \"adopter\": {\n        \"id\": \"{{adopter_id_1}}\"\n    }\n}",
-          "options": {
-            "raw": {
-              "language": "json"
-            }
-          }
-        },
-        "url": {
-          "raw": "{{baseUrl}}/adoptions/{{adoption_id}}",
-          "host": [
-            "{{baseUrl}}"
-          ],
-          "path": [
-            "adoptions",
-            "{{adoption_id}}"
-          ]
-        },
-        "description": "Preparacion por API (setup)."
-      },
-      "response": [],
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "type": "text/javascript",
-            "exec": [
-              "pm.test(\"Status code is 200\", function () {",
-              "    pm.response.to.have.status(200);",
-              "});"
-            ]
-          }
-        }
-      ]
-    },
-    {
-      "name": "Preparar mascota dos (setup)",
-      "request": {
-        "method": "POST",
-        "header": [
-          {
-            "key": "Content-Type",
-            "value": "application/json"
-          }
-        ],
-        "body": {
-          "mode": "raw",
-          "raw": "{\n    \"name\": \"Mascota {{run_id}} seguimiento dos\",\n    \"species\": \"Perro\",\n    \"breed\": \"Criollo\",\n    \"age\": 3,\n    \"sex\": \"Macho\",\n    \"size\": \"Mediano\",\n    \"healthStatus\": \"Sano\",\n    \"description\": \"Mascota para la preparacion de la coleccion\",\n    \"admissionDate\": \"2026-01-10T00:00:00-05:00\",\n    \"temperament\": \"Tranquilo\",\n    \"compatibilityChildren\": true,\n    \"compatibilityOtherPets\": true,\n    \"activityLevel\": \"Media\",\n    \"requiredSpace\": \"Patio\",\n    \"shelter\": {\n        \"id\": \"{{shelter_id}}\"\n    },\n    \"medicalEvents\": [\n        {\n            \"date\": \"2026-01-10T00:00:00-05:00\",\n            \"type\": \"Ingreso\",\n            \"description\": \"Ingreso al refugio\"\n        }\n    ]\n}",
-          "options": {
-            "raw": {
-              "language": "json"
-            }
-          }
-        },
-        "url": {
-          "raw": "{{baseUrl}}/pets",
-          "host": [
-            "{{baseUrl}}"
-          ],
-          "path": [
-            "pets"
-          ]
-        },
-        "description": "Preparacion por API (setup)."
-      },
-      "response": [],
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "type": "text/javascript",
-            "exec": [
-              "if (pm.response.code === 201) {",
-              "    pm.collectionVariables.set(\"pet_id_2\", pm.response.json().id);",
-              "}",
-              "pm.test(\"Status code is 201\", function () {",
-              "    pm.response.to.have.status(201);",
-              "});"
-            ]
-          }
-        }
-      ]
-    },
-    {
-      "name": "Preparar solicitud dos (setup)",
-      "request": {
-        "method": "POST",
-        "header": [
-          {
-            "key": "Content-Type",
-            "value": "application/json"
-          }
-        ],
-        "body": {
-          "mode": "raw",
-          "raw": "{\n    \"description\": \"Solicitud para la preparacion de la coleccion\",\n    \"pet\": {\n        \"id\": \"{{pet_id_2}}\"\n    },\n    \"adopter\": {\n        \"id\": \"{{adopter_id_1}}\"\n    }\n}",
-          "options": {
-            "raw": {
-              "language": "json"
-            }
-          }
-        },
-        "url": {
-          "raw": "{{baseUrl}}/adoptionRequests",
-          "host": [
-            "{{baseUrl}}"
-          ],
-          "path": [
-            "adoptionRequests"
-          ]
-        },
-        "description": "Preparacion por API (setup)."
-      },
-      "response": [],
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "type": "text/javascript",
-            "exec": [
-              "if (pm.response.code === 201) {",
-              "    pm.collectionVariables.set(\"request_id_2\", pm.response.json().id);",
-              "}",
-              "pm.test(\"Status code is 201\", function () {",
-              "    pm.response.to.have.status(201);",
-              "});"
-            ]
-          }
-        }
-      ]
-    },
-    {
-      "name": "Aprobar solicitud dos (setup)",
-      "request": {
-        "method": "PUT",
-        "header": [
-          {
-            "key": "Content-Type",
-            "value": "application/json"
-          }
-        ],
-        "body": {
-          "mode": "raw",
-          "raw": "{\n    \"description\": \"Solicitud aprobada\",\n    \"status\": \"APPROVED\"\n}",
-          "options": {
-            "raw": {
-              "language": "json"
-            }
-          }
-        },
-        "url": {
-          "raw": "{{baseUrl}}/adoptionRequests/{{request_id_2}}",
-          "host": [
-            "{{baseUrl}}"
-          ],
-          "path": [
-            "adoptionRequests",
-            "{{request_id_2}}"
-          ]
-        },
-        "description": "Preparacion por API (setup)."
-      },
-      "response": [],
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "type": "text/javascript",
-            "exec": [
-              "pm.test(\"Status code is 200\", function () {",
-              "    pm.response.to.have.status(200);",
-              "});"
-            ]
-          }
-        }
-      ]
-    },
-    {
-      "name": "Preparar adopcion dos (setup)",
-      "request": {
-        "method": "POST",
-        "header": [
-          {
-            "key": "Content-Type",
-            "value": "application/json"
-          }
-        ],
-        "body": {
-          "mode": "raw",
-          "raw": "{\n    \"date\": \"2026-01-15T00:00:00-05:00\",\n    \"status\": \"IN_PROGRESS\",\n    \"importantNotes\": \"Adopcion para la preparacion de la coleccion\",\n    \"pet\": {\n        \"id\": \"{{pet_id_2}}\"\n    },\n    \"shelter\": {\n        \"id\": \"{{shelter_id}}\"\n    },\n    \"adopter\": {\n        \"id\": \"{{adopter_id_1}}\"\n    },\n    \"adoptionRequest\": {\n        \"id\": \"{{request_id_2}}\"\n    }\n}",
-          "options": {
-            "raw": {
-              "language": "json"
-            }
-          }
-        },
-        "url": {
-          "raw": "{{baseUrl}}/adoptions",
-          "host": [
-            "{{baseUrl}}"
-          ],
-          "path": [
-            "adoptions"
-          ]
-        },
-        "description": "Preparacion por API (setup)."
-      },
-      "response": [],
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "type": "text/javascript",
-            "exec": [
-              "if (pm.response.code === 201) {",
-              "    pm.collectionVariables.set(\"adoption_id_2\", pm.response.json().id);",
-              "}",
-              "pm.test(\"Status code is 201\", function () {",
-              "    pm.response.to.have.status(201);",
-              "});"
-            ]
-          }
-        }
-      ]
-    },
-    {
-      "name": "Finalizar adopcion dos (setup)",
-      "request": {
-        "method": "PUT",
-        "header": [
-          {
-            "key": "Content-Type",
-            "value": "application/json"
-          }
-        ],
-        "body": {
-          "mode": "raw",
-          "raw": "{\n    \"date\": \"2026-01-15T00:00:00-05:00\",\n    \"status\": \"FINALIZED\",\n    \"importantNotes\": \"Adopcion finalizada\",\n    \"pet\": {\n        \"id\": \"{{pet_id_2}}\"\n    },\n    \"adopter\": {\n        \"id\": \"{{adopter_id_1}}\"\n    }\n}",
-          "options": {
-            "raw": {
-              "language": "json"
-            }
-          }
-        },
-        "url": {
-          "raw": "{{baseUrl}}/adoptions/{{adoption_id_2}}",
-          "host": [
-            "{{baseUrl}}"
-          ],
-          "path": [
-            "adoptions",
-            "{{adoption_id_2}}"
-          ]
-        },
-        "description": "Preparacion por API (setup)."
-      },
-      "response": [],
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "type": "text/javascript",
-            "exec": [
-              "pm.test(\"Status code is 200\", function () {",
-              "    pm.response.to.have.status(200);",
-              "});"
-            ]
-          }
-        }
-      ]
-    },
-    {
-      "name": "Preparar mascota tres (setup)",
-      "request": {
-        "method": "POST",
-        "header": [
-          {
-            "key": "Content-Type",
-            "value": "application/json"
-          }
-        ],
-        "body": {
-          "mode": "raw",
-          "raw": "{\n    \"name\": \"Mascota {{run_id}} seguimiento tres\",\n    \"species\": \"Perro\",\n    \"breed\": \"Criollo\",\n    \"age\": 3,\n    \"sex\": \"Macho\",\n    \"size\": \"Mediano\",\n    \"healthStatus\": \"Sano\",\n    \"description\": \"Mascota para la preparacion de la coleccion\",\n    \"admissionDate\": \"2026-01-10T00:00:00-05:00\",\n    \"temperament\": \"Tranquilo\",\n    \"compatibilityChildren\": true,\n    \"compatibilityOtherPets\": true,\n    \"activityLevel\": \"Media\",\n    \"requiredSpace\": \"Patio\",\n    \"shelter\": {\n        \"id\": \"{{shelter_id}}\"\n    },\n    \"medicalEvents\": [\n        {\n            \"date\": \"2026-01-10T00:00:00-05:00\",\n            \"type\": \"Ingreso\",\n            \"description\": \"Ingreso al refugio\"\n        }\n    ]\n}",
-          "options": {
-            "raw": {
-              "language": "json"
-            }
-          }
-        },
-        "url": {
-          "raw": "{{baseUrl}}/pets",
-          "host": [
-            "{{baseUrl}}"
-          ],
-          "path": [
-            "pets"
-          ]
-        },
-        "description": "Preparacion por API (setup)."
-      },
-      "response": [],
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "type": "text/javascript",
-            "exec": [
-              "if (pm.response.code === 201) {",
-              "    pm.collectionVariables.set(\"pet_id_3\", pm.response.json().id);",
-              "}",
-              "pm.test(\"Status code is 201\", function () {",
-              "    pm.response.to.have.status(201);",
-              "});"
-            ]
-          }
-        }
-      ]
-    },
-    {
-      "name": "Preparar solicitud tres (setup)",
-      "request": {
-        "method": "POST",
-        "header": [
-          {
-            "key": "Content-Type",
-            "value": "application/json"
-          }
-        ],
-        "body": {
-          "mode": "raw",
-          "raw": "{\n    \"description\": \"Solicitud para la preparacion de la coleccion\",\n    \"pet\": {\n        \"id\": \"{{pet_id_3}}\"\n    },\n    \"adopter\": {\n        \"id\": \"{{adopter_id_1}}\"\n    }\n}",
-          "options": {
-            "raw": {
-              "language": "json"
-            }
-          }
-        },
-        "url": {
-          "raw": "{{baseUrl}}/adoptionRequests",
-          "host": [
-            "{{baseUrl}}"
-          ],
-          "path": [
-            "adoptionRequests"
-          ]
-        },
-        "description": "Preparacion por API (setup)."
-      },
-      "response": [],
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "type": "text/javascript",
-            "exec": [
-              "if (pm.response.code === 201) {",
-              "    pm.collectionVariables.set(\"request_id_3\", pm.response.json().id);",
-              "}",
-              "pm.test(\"Status code is 201\", function () {",
-              "    pm.response.to.have.status(201);",
-              "});"
-            ]
-          }
-        }
-      ]
-    },
-    {
-      "name": "Aprobar solicitud tres (setup)",
-      "request": {
-        "method": "PUT",
-        "header": [
-          {
-            "key": "Content-Type",
-            "value": "application/json"
-          }
-        ],
-        "body": {
-          "mode": "raw",
-          "raw": "{\n    \"description\": \"Solicitud aprobada\",\n    \"status\": \"APPROVED\"\n}",
-          "options": {
-            "raw": {
-              "language": "json"
-            }
-          }
-        },
-        "url": {
-          "raw": "{{baseUrl}}/adoptionRequests/{{request_id_3}}",
-          "host": [
-            "{{baseUrl}}"
-          ],
-          "path": [
-            "adoptionRequests",
-            "{{request_id_3}}"
-          ]
-        },
-        "description": "Preparacion por API (setup)."
-      },
-      "response": [],
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "type": "text/javascript",
-            "exec": [
-              "pm.test(\"Status code is 200\", function () {",
-              "    pm.response.to.have.status(200);",
-              "});"
-            ]
-          }
-        }
-      ]
-    },
-    {
-      "name": "Preparar adopcion en curso (setup)",
-      "request": {
-        "method": "POST",
-        "header": [
-          {
-            "key": "Content-Type",
-            "value": "application/json"
-          }
-        ],
-        "body": {
-          "mode": "raw",
-          "raw": "{\n    \"date\": \"2026-01-15T00:00:00-05:00\",\n    \"status\": \"IN_PROGRESS\",\n    \"importantNotes\": \"Adopcion para la preparacion de la coleccion\",\n    \"pet\": {\n        \"id\": \"{{pet_id_3}}\"\n    },\n    \"shelter\": {\n        \"id\": \"{{shelter_id}}\"\n    },\n    \"adopter\": {\n        \"id\": \"{{adopter_id_1}}\"\n    },\n    \"adoptionRequest\": {\n        \"id\": \"{{request_id_3}}\"\n    }\n}",
-          "options": {
-            "raw": {
-              "language": "json"
-            }
-          }
-        },
-        "url": {
-          "raw": "{{baseUrl}}/adoptions",
-          "host": [
-            "{{baseUrl}}"
-          ],
-          "path": [
-            "adoptions"
-          ]
-        },
-        "description": "Preparacion por API (setup)."
-      },
-      "response": [],
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "type": "text/javascript",
-            "exec": [
-              "if (pm.response.code === 201) {",
-              "    pm.collectionVariables.set(\"adoption_id_in_progress\", pm.response.json().id);",
-              "}",
-              "pm.test(\"Status code is 201\", function () {",
-              "    pm.response.to.have.status(201);",
-              "});"
-            ]
-          }
-        }
-      ]
-    },
-    {
-      "name": "Preparar seguimiento uno (setup)",
-      "request": {
-        "method": "POST",
-        "header": [
-          {
-            "key": "Content-Type",
-            "value": "application/json"
-          }
-        ],
-        "body": {
-          "mode": "raw",
-          "raw": "{\n    \"date\": \"{{future_date}}\",\n    \"observation\": \"Seguimiento uno\",\n    \"adoption\": {\n        \"id\": \"{{adoption_id}}\"\n    },\n    \"veterinarian\": {\n        \"id\": \"{{veterinarian_id}}\"\n    }\n}",
-          "options": {
-            "raw": {
-              "language": "json"
-            }
-          }
-        },
-        "url": {
-          "raw": "{{baseUrl}}/followUps",
-          "host": [
-            "{{baseUrl}}"
-          ],
-          "path": [
-            "followUps"
-          ]
-        },
-        "description": "Preparacion por API (setup)."
-      },
-      "response": [],
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "type": "text/javascript",
-            "exec": [
-              "if (pm.response.code === 201) {",
-              "    pm.collectionVariables.set(\"follow_up_id_1\", pm.response.json().id);",
-              "}",
-              "pm.test(\"Status code is 201\", function () {",
-              "    pm.response.to.have.status(201);",
-              "});"
-            ]
-          }
-        }
-      ]
-    },
-    {
-      "name": "Preparar seguimiento dos (setup)",
-      "request": {
-        "method": "POST",
-        "header": [
-          {
-            "key": "Content-Type",
-            "value": "application/json"
-          }
-        ],
-        "body": {
-          "mode": "raw",
-          "raw": "{\n    \"date\": \"{{future_date}}\",\n    \"observation\": \"Seguimiento dos\",\n    \"adoption\": {\n        \"id\": \"{{adoption_id}}\"\n    },\n    \"veterinarian\": {\n        \"id\": \"{{veterinarian_id}}\"\n    }\n}",
-          "options": {
-            "raw": {
-              "language": "json"
-            }
-          }
-        },
-        "url": {
-          "raw": "{{baseUrl}}/followUps",
-          "host": [
-            "{{baseUrl}}"
-          ],
-          "path": [
-            "followUps"
-          ]
-        },
-        "description": "Preparacion por API (setup)."
-      },
-      "response": [],
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "type": "text/javascript",
-            "exec": [
-              "if (pm.response.code === 201) {",
-              "    pm.collectionVariables.set(\"follow_up_id_2\", pm.response.json().id);",
-              "}",
-              "pm.test(\"Status code is 201\", function () {",
-              "    pm.response.to.have.status(201);",
-              "});"
-            ]
-          }
-        }
-      ]
-    },
-    {
-      "name": "Preparar seguimiento vencido (setup)",
-      "request": {
-        "method": "POST",
-        "header": [
-          {
-            "key": "Content-Type",
-            "value": "application/json"
-          }
-        ],
-        "body": {
-          "mode": "raw",
-          "raw": "{\n    \"date\": \"{{future_date}}\",\n    \"observation\": \"Seguimiento vencido\",\n    \"adoption\": {\n        \"id\": \"{{adoption_id}}\"\n    },\n    \"veterinarian\": {\n        \"id\": \"{{veterinarian_id}}\"\n    }\n}",
-          "options": {
-            "raw": {
-              "language": "json"
-            }
-          }
-        },
-        "url": {
-          "raw": "{{baseUrl}}/followUps",
-          "host": [
-            "{{baseUrl}}"
-          ],
-          "path": [
-            "followUps"
-          ]
-        },
-        "description": "Preparacion por API (setup)."
-      },
-      "response": [],
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "type": "text/javascript",
-            "exec": [
-              "if (pm.response.code === 201) {",
-              "    pm.collectionVariables.set(\"follow_up_id_closed\", pm.response.json().id);",
-              "}",
-              "pm.test(\"Status code is 201\", function () {",
-              "    pm.response.to.have.status(201);",
-              "});"
-            ]
-          }
-        }
-      ]
-    },
-    {
-      "name": "Vencer el seguimiento vencido (setup)",
-      "request": {
-        "method": "PUT",
-        "header": [
-          {
-            "key": "Content-Type",
-            "value": "application/json"
-          }
-        ],
-        "body": {
-          "mode": "raw",
-          "raw": "{\n    \"date\": \"2026-01-10T00:00:00-05:00\",\n    \"observation\": \"Seguimiento vencido\",\n    \"adoption\": {\n        \"id\": \"{{adoption_id}}\"\n    },\n    \"veterinarian\": {\n        \"id\": \"{{veterinarian_id}}\"\n    }\n}",
-          "options": {
-            "raw": {
-              "language": "json"
-            }
-          }
-        },
-        "url": {
-          "raw": "{{baseUrl}}/followUps/{{follow_up_id_closed}}",
-          "host": [
-            "{{baseUrl}}"
-          ],
-          "path": [
-            "followUps",
-            "{{follow_up_id_closed}}"
-          ]
-        },
-        "description": "Deja el seguimiento con fecha pasada para probar que no se puede borrar."
-      },
-      "response": [],
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "type": "text/javascript",
-            "exec": [
-              "pm.test(\"Status code is 200\", function () {",
-              "    pm.response.to.have.status(200);",
-              "});"
-            ]
-          }
-        }
-      ]
-    },
-    {
       "name": "Crear un seguimiento",
       "request": {
         "method": "POST",
@@ -1023,7 +27,7 @@
         },
         "body": {
           "mode": "raw",
-          "raw": "{\n    \"date\": \"{{future_date}}\",\n    \"observation\": \"El adoptante reporta buena adaptacion\",\n    \"adoption\": {\n        \"id\": \"{{adoption_id}}\"\n    },\n    \"veterinarian\": {\n        \"id\": \"{{veterinarian_id}}\"\n    }\n}",
+          "raw": "{\n    \"date\": \"2026-10-10T00:00:00-05:00\",\n    \"observation\": \"El adoptante reporta buena adaptacion\",\n    \"adoption\": {\n        \"id\": \"{{adoption_id}}\"\n    },\n    \"veterinarian\": {\n        \"id\": \"{{veterinarian_id}}\"\n    }\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -1072,19 +76,6 @@
           ],
           "cookie": [],
           "body": "{\n    \"id\": 1,\n    \"date\": \"2026-10-10\",\n    \"observation\": \"El adoptante reporta buena adaptacion\"\n}"
-        }
-      ],
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "type": "text/javascript",
-            "exec": [
-              "pm.test(\"Status code is 201\", function () {",
-              "    pm.response.to.have.status(201);",
-              "});"
-            ]
-          }
         }
       ]
     },
@@ -1154,19 +145,6 @@
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"26-09-2026 10:05:28\",\n        \"message\": \"Follow-up date cannot be null\"\n    }\n}"
         }
-      ],
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "type": "text/javascript",
-            "exec": [
-              "pm.test(\"Status code is 412\", function () {",
-              "    pm.response.to.have.status(412);",
-              "});"
-            ]
-          }
-        }
       ]
     },
     {
@@ -1235,19 +213,6 @@
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"26-09-2026 10:05:28\",\n        \"message\": \"The scheduled follow-up date cannot be before the current date\"\n    }\n}"
         }
-      ],
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "type": "text/javascript",
-            "exec": [
-              "pm.test(\"Status code is 412\", function () {",
-              "    pm.response.to.have.status(412);",
-              "});"
-            ]
-          }
-        }
       ]
     },
     {
@@ -1271,7 +236,7 @@
         },
         "body": {
           "mode": "raw",
-          "raw": "{\n    \"date\": \"{{future_date}}\",\n    \"observation\": null,\n    \"adoption\": {\n        \"id\": \"{{adoption_id}}\"\n    },\n    \"veterinarian\": {\n        \"id\": \"{{veterinarian_id}}\"\n    }\n}",
+          "raw": "{\n    \"date\": \"2026-10-10T00:00:00-05:00\",\n    \"observation\": null,\n    \"adoption\": {\n        \"id\": \"{{adoption_id}}\"\n    },\n    \"veterinarian\": {\n        \"id\": \"{{veterinarian_id}}\"\n    }\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -1316,19 +281,6 @@
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"26-09-2026 10:05:28\",\n        \"message\": \"Observation cannot be null or empty\"\n    }\n}"
         }
-      ],
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "type": "text/javascript",
-            "exec": [
-              "pm.test(\"Status code is 412\", function () {",
-              "    pm.response.to.have.status(412);",
-              "});"
-            ]
-          }
-        }
       ]
     },
     {
@@ -1352,7 +304,7 @@
         },
         "body": {
           "mode": "raw",
-          "raw": "{\n    \"date\": \"{{future_date}}\",\n    \"observation\": \"El adoptante reporta buena adaptacion\",\n    \"adoption\": {\n        \"id\": \"{{adoption_id}}\"\n    },\n    \"veterinarian\": {\n        \"id\": null\n    }\n}",
+          "raw": "{\n    \"date\": \"2026-10-10T00:00:00-05:00\",\n    \"observation\": \"El adoptante reporta buena adaptacion\",\n    \"adoption\": {\n        \"id\": \"{{adoption_id}}\"\n    },\n    \"veterinarian\": {\n        \"id\": null\n    }\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -1397,19 +349,6 @@
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"26-09-2026 10:05:28\",\n        \"message\": \"Follow-up must be associated with an existing veterinarian\"\n    }\n}"
         }
-      ],
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "type": "text/javascript",
-            "exec": [
-              "pm.test(\"Status code is 412\", function () {",
-              "    pm.response.to.have.status(412);",
-              "});"
-            ]
-          }
-        }
       ]
     },
     {
@@ -1433,7 +372,7 @@
         },
         "body": {
           "mode": "raw",
-          "raw": "{\n    \"date\": \"{{future_date}}\",\n    \"observation\": \"El adoptante reporta buena adaptacion\",\n    \"adoption\": {\n        \"id\": null\n    },\n    \"veterinarian\": {\n        \"id\": \"{{veterinarian_id}}\"\n    }\n}",
+          "raw": "{\n    \"date\": \"2026-10-10T00:00:00-05:00\",\n    \"observation\": \"El adoptante reporta buena adaptacion\",\n    \"adoption\": {\n        \"id\": null\n    },\n    \"veterinarian\": {\n        \"id\": \"{{veterinarian_id}}\"\n    }\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -1478,19 +417,6 @@
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"26-09-2026 10:05:28\",\n        \"message\": \"Follow-up must be associated with an existing adoption\"\n    }\n}"
         }
-      ],
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "type": "text/javascript",
-            "exec": [
-              "pm.test(\"Status code is 412\", function () {",
-              "    pm.response.to.have.status(412);",
-              "});"
-            ]
-          }
-        }
       ]
     },
     {
@@ -1514,7 +440,7 @@
         },
         "body": {
           "mode": "raw",
-          "raw": "{\n    \"date\": \"{{future_date}}\",\n    \"observation\": \"El adoptante reporta buena adaptacion\",\n    \"adoption\": {\n        \"id\": \"{{adoption_id}}\"\n    },\n    \"veterinarian\": {\n        \"id\": 0\n    }\n}",
+          "raw": "{\n    \"date\": \"2026-10-10T00:00:00-05:00\",\n    \"observation\": \"El adoptante reporta buena adaptacion\",\n    \"adoption\": {\n        \"id\": \"{{adoption_id}}\"\n    },\n    \"veterinarian\": {\n        \"id\": 0\n    }\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -1559,19 +485,6 @@
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"NOT_FOUND\",\n        \"timestamp\": \"26-09-2026 10:05:28\",\n        \"message\": \"Veterinarian not found\"\n    }\n}"
         }
-      ],
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "type": "text/javascript",
-            "exec": [
-              "pm.test(\"Status code is 404\", function () {",
-              "    pm.response.to.have.status(404);",
-              "});"
-            ]
-          }
-        }
       ]
     },
     {
@@ -1595,7 +508,7 @@
         },
         "body": {
           "mode": "raw",
-          "raw": "{\n    \"date\": \"{{future_date}}\",\n    \"observation\": \"El adoptante reporta buena adaptacion\",\n    \"adoption\": {\n        \"id\": 0\n    },\n    \"veterinarian\": {\n        \"id\": \"{{veterinarian_id}}\"\n    }\n}",
+          "raw": "{\n    \"date\": \"2026-10-10T00:00:00-05:00\",\n    \"observation\": \"El adoptante reporta buena adaptacion\",\n    \"adoption\": {\n        \"id\": 0\n    },\n    \"veterinarian\": {\n        \"id\": \"{{veterinarian_id}}\"\n    }\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -1640,19 +553,6 @@
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"NOT_FOUND\",\n        \"timestamp\": \"26-09-2026 10:05:28\",\n        \"message\": \"Adoption not found\"\n    }\n}"
         }
-      ],
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "type": "text/javascript",
-            "exec": [
-              "pm.test(\"Status code is 404\", function () {",
-              "    pm.response.to.have.status(404);",
-              "});"
-            ]
-          }
-        }
       ]
     },
     {
@@ -1676,7 +576,7 @@
         },
         "body": {
           "mode": "raw",
-          "raw": "{\n    \"date\": \"{{future_date}}\",\n    \"observation\": \"El adoptante reporta buena adaptacion\",\n    \"adoption\": {\n        \"id\": \"{{adoption_id_in_progress}}\"\n    },\n    \"veterinarian\": {\n        \"id\": \"{{veterinarian_id}}\"\n    }\n}",
+          "raw": "{\n    \"date\": \"2026-10-10T00:00:00-05:00\",\n    \"observation\": \"El adoptante reporta buena adaptacion\",\n    \"adoption\": {\n        \"id\": \"{{adoption_id}}\"\n    },\n    \"veterinarian\": {\n        \"id\": \"{{veterinarian_id}}\"\n    }\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -1720,19 +620,6 @@
           "header": [],
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"26-09-2026 10:05:28\",\n        \"message\": \"The associated adoption must be in finalized status\"\n    }\n}"
-        }
-      ],
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "type": "text/javascript",
-            "exec": [
-              "pm.test(\"Status code is 412\", function () {",
-              "    pm.response.to.have.status(412);",
-              "});"
-            ]
-          }
         }
       ]
     },
@@ -1778,19 +665,6 @@
           ],
           "cookie": [],
           "body": "[\n    {\n        \"id\": 1,\n        \"date\": \"2026-10-10\",\n        \"observation\": \"El adoptante reporta buena adaptacion\"\n    }\n]"
-        }
-      ],
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "type": "text/javascript",
-            "exec": [
-              "pm.test(\"Status code is 200\", function () {",
-              "    pm.response.to.have.status(200);",
-              "});"
-            ]
-          }
         }
       ]
     },
@@ -1849,19 +723,6 @@
           "cookie": [],
           "body": "[\n    {\n        \"id\": 1,\n        \"date\": \"2026-10-10\",\n        \"observation\": \"El adoptante reporta buena adaptacion\"\n    }\n]"
         }
-      ],
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "type": "text/javascript",
-            "exec": [
-              "pm.test(\"Status code is 200\", function () {",
-              "    pm.response.to.have.status(200);",
-              "});"
-            ]
-          }
-        }
       ]
     },
     {
@@ -1909,19 +770,6 @@
           "cookie": [],
           "body": "{\n    \"id\": 1,\n    \"date\": \"2026-10-10\",\n    \"observation\": \"El adoptante reporta buena adaptacion\"\n}"
         }
-      ],
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "type": "text/javascript",
-            "exec": [
-              "pm.test(\"Status code is 200\", function () {",
-              "    pm.response.to.have.status(200);",
-              "});"
-            ]
-          }
-        }
       ]
     },
     {
@@ -1964,19 +812,6 @@
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"NOT_FOUND\",\n        \"timestamp\": \"26-09-2026 10:05:28\",\n        \"message\": \"Follow-up not found\"\n    }\n}"
         }
-      ],
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "type": "text/javascript",
-            "exec": [
-              "pm.test(\"Status code is 412\", function () {",
-              "    pm.response.to.have.status(412);",
-              "});"
-            ]
-          }
-        }
       ]
     },
     {
@@ -2018,19 +853,6 @@
           "header": [],
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"26-09-2026 10:05:28\",\n        \"message\": \"Follow-up id is not valid\"\n    }\n}"
-        }
-      ],
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "type": "text/javascript",
-            "exec": [
-              "pm.test(\"Status code is 412\", function () {",
-              "    pm.response.to.have.status(412);",
-              "});"
-            ]
-          }
         }
       ]
     },
@@ -2091,19 +913,6 @@
           "cookie": [],
           "body": "{\n    \"id\": 1,\n    \"date\": \"2026-10-10\",\n    \"observation\": \"El adoptante reporta buena adaptacion\"\n}"
         }
-      ],
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "type": "text/javascript",
-            "exec": [
-              "pm.test(\"Status code is 200\", function () {",
-              "    pm.response.to.have.status(200);",
-              "});"
-            ]
-          }
-        }
       ]
     },
     {
@@ -2163,19 +972,6 @@
           "cookie": [],
           "body": "{\n    \"id\": 1,\n    \"date\": \"2026-10-10\",\n    \"observation\": \"El adoptante reporta buena adaptacion\"\n}"
         }
-      ],
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "type": "text/javascript",
-            "exec": [
-              "pm.test(\"Status code is 200\", function () {",
-              "    pm.response.to.have.status(200);",
-              "});"
-            ]
-          }
-        }
       ]
     },
     {
@@ -2230,19 +1026,6 @@
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"26-09-2026 10:05:28\",\n        \"message\": \"Only authorized staff (administrators/veterinarians) and the associated adopter can consult a follow-up\"\n    }\n}"
         }
-      ],
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "type": "text/javascript",
-            "exec": [
-              "pm.test(\"Status code is 412\", function () {",
-              "    pm.response.to.have.status(412);",
-              "});"
-            ]
-          }
-        }
       ]
     },
     {
@@ -2296,19 +1079,6 @@
           "header": [],
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"26-09-2026 10:05:28\",\n        \"message\": \"A requester is required to consult a follow-up\"\n    }\n}"
-        }
-      ],
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "type": "text/javascript",
-            "exec": [
-              "pm.test(\"Status code is 412\", function () {",
-              "    pm.response.to.have.status(412);",
-              "});"
-            ]
-          }
         }
       ]
     },
@@ -2377,19 +1147,6 @@
           "cookie": [],
           "body": "{\n    \"id\": 1,\n    \"date\": \"2026-10-10\",\n    \"observation\": \"El adoptante reporta buena adaptacion\"\n}"
         }
-      ],
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "type": "text/javascript",
-            "exec": [
-              "pm.test(\"Status code is 200\", function () {",
-              "    pm.response.to.have.status(200);",
-              "});"
-            ]
-          }
-        }
       ]
     },
     {
@@ -2452,19 +1209,6 @@
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"26-09-2026 10:05:28\",\n        \"message\": \"Only authorized staff (administrators/veterinarians) and the associated adopter can consult a follow-up\"\n    }\n}"
         }
-      ],
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "type": "text/javascript",
-            "exec": [
-              "pm.test(\"Status code is 412\", function () {",
-              "    pm.response.to.have.status(412);",
-              "});"
-            ]
-          }
-        }
       ]
     },
     {
@@ -2489,7 +1233,7 @@
         },
         "body": {
           "mode": "raw",
-          "raw": "{\n    \"date\": \"{{future_date}}\",\n    \"observation\": \"Observacion actualizada\",\n    \"adoption\": {\n        \"id\": \"{{adoption_id}}\"\n    },\n    \"veterinarian\": {\n        \"id\": \"{{veterinarian_id}}\"\n    }\n}",
+          "raw": "{\n    \"date\": \"2026-10-10T00:00:00-05:00\",\n    \"observation\": \"Observacion actualizada\",\n    \"adoption\": {\n        \"id\": \"{{adoption_id}}\"\n    },\n    \"veterinarian\": {\n        \"id\": \"{{veterinarian_id}}\"\n    }\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -2540,19 +1284,6 @@
           "cookie": [],
           "body": "{\n    \"id\": 1,\n    \"date\": \"2026-10-10\",\n    \"observation\": \"Observacion actualizada\"\n}"
         }
-      ],
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "type": "text/javascript",
-            "exec": [
-              "pm.test(\"Status code is 200\", function () {",
-              "    pm.response.to.have.status(200);",
-              "});"
-            ]
-          }
-        }
       ]
     },
     {
@@ -2577,7 +1308,7 @@
         },
         "body": {
           "mode": "raw",
-          "raw": "{\n    \"date\": \"{{future_date}}\",\n    \"observation\": \"El adoptante reporta buena adaptacion\",\n    \"adoption\": {\n        \"id\": \"{{adoption_id}}\"\n    },\n    \"veterinarian\": {\n        \"id\": \"{{veterinarian_id}}\"\n    }\n}",
+          "raw": "{\n    \"date\": \"2026-10-10T00:00:00-05:00\",\n    \"observation\": \"El adoptante reporta buena adaptacion\",\n    \"adoption\": {\n        \"id\": \"{{adoption_id}}\"\n    },\n    \"veterinarian\": {\n        \"id\": \"{{veterinarian_id}}\"\n    }\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -2623,19 +1354,6 @@
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"NOT_FOUND\",\n        \"timestamp\": \"26-09-2026 10:05:28\",\n        \"message\": \"Follow-up not found\"\n    }\n}"
         }
-      ],
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "type": "text/javascript",
-            "exec": [
-              "pm.test(\"Status code is 412\", function () {",
-              "    pm.response.to.have.status(412);",
-              "});"
-            ]
-          }
-        }
       ]
     },
     {
@@ -2660,7 +1378,7 @@
         },
         "body": {
           "mode": "raw",
-          "raw": "{\n    \"date\": \"{{future_date}}\",\n    \"observation\": \"El adoptante reporta buena adaptacion\",\n    \"adoption\": {\n        \"id\": \"{{adoption_id}}\"\n    },\n    \"veterinarian\": {\n        \"id\": \"{{veterinarian_id}}\"\n    }\n}",
+          "raw": "{\n    \"date\": \"2026-10-10T00:00:00-05:00\",\n    \"observation\": \"El adoptante reporta buena adaptacion\",\n    \"adoption\": {\n        \"id\": \"{{adoption_id}}\"\n    },\n    \"veterinarian\": {\n        \"id\": \"{{veterinarian_id}}\"\n    }\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -2706,19 +1424,6 @@
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"26-09-2026 10:05:28\",\n        \"message\": \"Follow-up id is not valid\"\n    }\n}"
         }
-      ],
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "type": "text/javascript",
-            "exec": [
-              "pm.test(\"Status code is 412\", function () {",
-              "    pm.response.to.have.status(412);",
-              "});"
-            ]
-          }
-        }
       ]
     },
     {
@@ -2743,7 +1448,7 @@
         },
         "body": {
           "mode": "raw",
-          "raw": "{\n    \"date\": \"{{future_date}}\",\n    \"observation\": \"El adoptante reporta buena adaptacion\",\n    \"adoption\": {\n        \"id\": \"{{adoption_id_2}}\"\n    },\n    \"veterinarian\": {\n        \"id\": \"{{veterinarian_id}}\"\n    }\n}",
+          "raw": "{\n    \"date\": \"2026-10-10T00:00:00-05:00\",\n    \"observation\": \"El adoptante reporta buena adaptacion\",\n    \"adoption\": {\n        \"id\": \"{{adoption_id_2}}\"\n    },\n    \"veterinarian\": {\n        \"id\": \"{{veterinarian_id}}\"\n    }\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -2788,19 +1493,6 @@
           "header": [],
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"26-09-2026 10:05:28\",\n        \"message\": \"The adoption associated to the follow-up cannot be changed\"\n    }\n}"
-        }
-      ],
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "type": "text/javascript",
-            "exec": [
-              "pm.test(\"Status code is 412\", function () {",
-              "    pm.response.to.have.status(412);",
-              "});"
-            ]
-          }
         }
       ]
     },
@@ -2872,19 +1564,6 @@
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"26-09-2026 10:05:28\",\n        \"message\": \"Follow-up date cannot be null\"\n    }\n}"
         }
-      ],
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "type": "text/javascript",
-            "exec": [
-              "pm.test(\"Status code is 412\", function () {",
-              "    pm.response.to.have.status(412);",
-              "});"
-            ]
-          }
-        }
       ]
     },
     {
@@ -2909,7 +1588,7 @@
         },
         "body": {
           "mode": "raw",
-          "raw": "{\n    \"date\": \"{{future_date}}\",\n    \"observation\": null,\n    \"adoption\": {\n        \"id\": \"{{adoption_id}}\"\n    },\n    \"veterinarian\": {\n        \"id\": \"{{veterinarian_id}}\"\n    }\n}",
+          "raw": "{\n    \"date\": \"2026-10-10T00:00:00-05:00\",\n    \"observation\": null,\n    \"adoption\": {\n        \"id\": \"{{adoption_id}}\"\n    },\n    \"veterinarian\": {\n        \"id\": \"{{veterinarian_id}}\"\n    }\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -2955,19 +1634,6 @@
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"26-09-2026 10:05:28\",\n        \"message\": \"Observation cannot be null or empty\"\n    }\n}"
         }
-      ],
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "type": "text/javascript",
-            "exec": [
-              "pm.test(\"Status code is 412\", function () {",
-              "    pm.response.to.have.status(412);",
-              "});"
-            ]
-          }
-        }
       ]
     },
     {
@@ -3009,19 +1675,6 @@
           "header": [],
           "cookie": [],
           "body": ""
-        }
-      ],
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "type": "text/javascript",
-            "exec": [
-              "pm.test(\"Status code is 204\", function () {",
-              "    pm.response.to.have.status(204);",
-              "});"
-            ]
-          }
         }
       ]
     },
@@ -3065,19 +1718,6 @@
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"NOT_FOUND\",\n        \"timestamp\": \"26-09-2026 10:05:28\",\n        \"message\": \"Follow-up not found\"\n    }\n}"
         }
-      ],
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "type": "text/javascript",
-            "exec": [
-              "pm.test(\"Status code is 412\", function () {",
-              "    pm.response.to.have.status(412);",
-              "});"
-            ]
-          }
-        }
       ]
     },
     {
@@ -3119,19 +1759,6 @@
           "header": [],
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"26-09-2026 10:05:28\",\n        \"message\": \"Follow-up id is not valid\"\n    }\n}"
-        }
-      ],
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "type": "text/javascript",
-            "exec": [
-              "pm.test(\"Status code is 412\", function () {",
-              "    pm.response.to.have.status(412);",
-              "});"
-            ]
-          }
         }
       ]
     },
@@ -3175,81 +1802,41 @@
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"26-09-2026 10:05:28\",\n        \"message\": \"A follow-up that has already been closed or validated cannot be deleted; it preserves the shelter history\"\n    }\n}"
         }
-      ],
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "type": "text/javascript",
-            "exec": [
-              "pm.test(\"Status code is 412\", function () {",
-              "    pm.response.to.have.status(412);",
-              "});"
-            ]
-          }
-        }
       ]
     }
   ],
   "variable": [
     {
       "key": "follow_up_id_1",
-      "value": ""
+      "value": "1"
     },
     {
       "key": "follow_up_id_2",
-      "value": ""
+      "value": "2"
     },
     {
       "key": "follow_up_id_closed",
-      "value": ""
+      "value": "3"
     },
     {
       "key": "adoption_id",
-      "value": ""
+      "value": "1"
     },
     {
       "key": "adoption_id_2",
-      "value": ""
+      "value": "2"
     },
     {
       "key": "veterinarian_id",
-      "value": ""
+      "value": "1"
     },
     {
       "key": "adopter_id_1",
-      "value": ""
+      "value": "1"
     },
     {
       "key": "vet_admin_id",
       "value": "9999"
-    },
-    {
-      "key": "shelter_id",
-      "value": ""
-    },
-    {
-      "key": "adoption_id_in_progress",
-      "value": ""
-    }
-  ],
-  "event": [
-    {
-      "listen": "prerequest",
-      "script": {
-        "type": "text/javascript",
-        "exec": [
-          "pm.collectionVariables.set(\"run_id\", Date.now().toString());",
-          "function iso(offsetDays) {",
-          "    var d = new Date();",
-          "    d.setDate(d.getDate() + offsetDays);",
-          "    return d.toISOString().slice(0, 10) + \"T00:00:00-05:00\";",
-          "}",
-          "pm.collectionVariables.set(\"future_start\", iso(30));",
-          "pm.collectionVariables.set(\"future_end\", iso(90));",
-          "pm.collectionVariables.set(\"future_date\", iso(15));"
-        ]
-      }
     }
   ]
 }

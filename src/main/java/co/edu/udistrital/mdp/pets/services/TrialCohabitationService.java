@@ -10,14 +10,12 @@ import org.springframework.transaction.annotation.Transactional;
 import co.edu.udistrital.mdp.pets.entities.AdopterEntity;
 import co.edu.udistrital.mdp.pets.entities.ShelterEntity;
 import co.edu.udistrital.mdp.pets.entities.TrialCohabitationEntity;
-import co.edu.udistrital.mdp.pets.entities.TrialCohabitationRequestEntity;
 import co.edu.udistrital.mdp.pets.exceptions.EntityNotFoundException;
 import co.edu.udistrital.mdp.pets.exceptions.IllegalOperationException;
 import co.edu.udistrital.mdp.pets.repositories.AdopterRepository;
 import co.edu.udistrital.mdp.pets.repositories.PetRepository;
 import co.edu.udistrital.mdp.pets.repositories.ShelterRepository;
 import co.edu.udistrital.mdp.pets.repositories.TrialCohabitationRepository;
-import co.edu.udistrital.mdp.pets.repositories.TrialCohabitationRequestRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -34,7 +32,6 @@ public class TrialCohabitationService {
 	private static final String TRIAL_NOT_FOUND = "Trial cohabitation not found";
 
 	private final TrialCohabitationRepository trialCohabitationRepository;
-	private final TrialCohabitationRequestRepository trialCohabitationRequestRepository;
 	private final AdopterRepository adopterRepository;
 	private final ShelterRepository shelterRepository;
 	private final PetRepository petRepository;
@@ -99,24 +96,12 @@ public class TrialCohabitationService {
 	}
 
 	private Long resolvePetId(TrialCohabitationEntity trial) throws EntityNotFoundException, IllegalOperationException {
-		TrialCohabitationRequestEntity reference = trial.getTrialCohabitationRequest();
-		if (reference == null || (reference.getId() == null && reference.getPet() == null))
+		if (trial.getTrialCohabitationRequest() == null)
 			throw new IllegalOperationException(
 					"Trial must be associated with a cohabitation request that references an existing pet");
 
-		Long petId;
-		if (reference.getId() != null) {
-			// La solicitud entrante solo trae el id: hay que leer la mascota de la solicitud guardada.
-			TrialCohabitationRequestEntity request = trialCohabitationRequestRepository
-					.findById(reference.getId())
-					.orElseThrow(() -> new EntityNotFoundException("Trial cohabitation request not found"));
-			petId = request.getPet() == null ? null : request.getPet().getId();
-			trial.setTrialCohabitationRequest(request);
-		} else {
-			// Tambien se admite la solicitud anidada completa cuando no tiene id.
-			petId = reference.getPet().getId();
-		}
-
+		Long petId = trial.getTrialCohabitationRequest().getPet() == null ? null
+				: trial.getTrialCohabitationRequest().getPet().getId();
 		if (petId == null || petRepository.findById(petId).isEmpty())
 			throw new EntityNotFoundException("Pet not found");
 		return petId;
