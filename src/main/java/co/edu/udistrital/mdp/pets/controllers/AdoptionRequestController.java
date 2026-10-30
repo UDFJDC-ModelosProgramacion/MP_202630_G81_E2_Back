@@ -57,7 +57,8 @@ public class AdoptionRequestController {
     public List<AdoptionRequestDTO> findAll(@RequestParam(required = false) Long adopterId,
             @RequestParam(required = false) Long petId, @RequestParam(required = false) String status,
             @RequestParam(required = false) Long currentUserId,
-            @RequestParam(required = false, defaultValue = DEFAULT_ROLE) String currentUserRole) {
+            @RequestParam(required = false, defaultValue = DEFAULT_ROLE) String currentUserRole)
+            throws IllegalOperationException {
         List<AdoptionRequestEntity> requests = adoptionRequestService.readAllAdoptionRequests(adopterId, petId, status,
                 currentUserId, currentUserRole);
         return requests.stream().map(this::toDto).toList();
