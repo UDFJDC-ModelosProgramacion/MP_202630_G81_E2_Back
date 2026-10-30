@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -33,8 +34,10 @@ public class MedicalEventController {
     // FindAll method
     @GetMapping
     @ResponseStatus(code = HttpStatus.OK)
-    public List<MedicalEventDTO> findAll() {
-        List<MedicalEventEntity> medicalEvents = medicalEventService.getMedicalEvents();
+    public List<MedicalEventDTO> findAll(@RequestParam(required = false) Long petId,
+            @RequestParam(required = false) String type, @RequestParam(required = false) String date)
+            throws IllegalOperationException {
+        List<MedicalEventEntity> medicalEvents = medicalEventService.getMedicalEvents(petId, type, date);
         return modelMapper.map(medicalEvents, new TypeToken<List<MedicalEventDTO>>() {
         }.getType());
     }

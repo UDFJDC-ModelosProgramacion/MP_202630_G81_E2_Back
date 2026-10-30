@@ -249,6 +249,8 @@ public class AdopterService {
 		current.setAllergies(adopter.getAllergies());
 		current.setHasChildren(adopter.getHasChildren());
 		current.setHasOtherPets(adopter.getHasOtherPets());
+		if (adopter.getActive() != null)
+			current.setActive(adopter.getActive());
 	}
  
 	/**

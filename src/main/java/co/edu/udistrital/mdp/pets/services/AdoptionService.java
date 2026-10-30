@@ -20,6 +20,7 @@ import co.edu.udistrital.mdp.pets.repositories.AdoptionRepository;
 import co.edu.udistrital.mdp.pets.repositories.AdoptionRequestRepository;
 import co.edu.udistrital.mdp.pets.repositories.PetRepository;
 import co.edu.udistrital.mdp.pets.repositories.ShelterRepository;
+import co.edu.udistrital.mdp.pets.repositories.TrialCohabitationRequestRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -30,6 +31,7 @@ public class AdoptionService {
 
 	public static final String FINALIZED_STATUS = "FINALIZED";
 	public static final String CANCELLED_STATUS = "CANCELLED";
+	public static final String IN_PROGRESS_STATUS = "IN_PROGRESS";
 
 	private static final String ADOPTION_ID_NOT_VALID = "Adoption id is not valid";
 	private static final String ADOPTION_NOT_VALID = "Adoption is not valid";
@@ -37,6 +39,19 @@ public class AdoptionService {
 	private static final String STATUS_NOT_VALID = "Adoption status cannot be null or empty";
 	private static final String DATE_NOT_VALID = "Adoption date cannot be null or empty";
 	private static final String NOTES_NOT_VALID = "Adoption important notes cannot be null or empty";
+	private static final String PET_ID_NOT_VALID = "Pet id is not valid";
+	private static final String ADOPTER_ID_NOT_VALID = "Adopter id is not valid";
+	private static final String SHELTER_ID_NOT_VALID = "Shelter id is not valid";
+	private static final String PET_NOT_ACTIVE = "The pet is not active in the system";
+	private static final String ADOPTER_NOT_ACTIVE = "The adopter is not active in the system";
+	private static final String PET_NOT_AVAILABLE = "The pet is not available for adoption";
+	private static final String PET_ALREADY_ADOPTED = "An adoption already exists for this pet";
+	private static final String REQUEST_NOT_APPROVED = "An adoption can only be created from an approved adoption request";
+	private static final String REQUEST_ALREADY_USED = "Unable to create adoption because the request already has one";
+	private static final String CLOSED_CANNOT_BE_MODIFIED = "A finalized or cancelled adoption cannot be modified";
+	private static final String PET_OR_ADOPTER_CANNOT_BE_MODIFIED =
+			"The pet and the adopter of an adoption cannot be modified";
+	private static final String IN_PROGRESS_CANNOT_BE_DELETED = "An adoption in progress cannot be deleted";
 	private static final String PET_LABEL = "Pet";
 	private static final String SHELTER_LABEL = "Shelter";
 	private static final String ADOPTER_LABEL = "Adopter";
@@ -47,16 +62,18 @@ public class AdoptionService {
 	private final ShelterRepository shelterRepository;
 	private final AdopterRepository adopterRepository;
 	private final AdoptionRequestRepository adoptionRequestRepository;
+	private final TrialCohabitationRequestRepository trialCohabitationRequestRepository;
 
 	/**
 	 * Crea una nueva adopción.
 	 *
 	 * Reglas de negocio:
 	 * 1. Ningún atributo obligatorio puede ser nulo o vacío.
-	 * 2. La mascota, el refugio y el adoptante deben existir.
-	 * 3. La solicitud de adopción (adoptionRequest) debe existir y estar aprobada (status = "APPROVED").
-	 * 4. La mascota no puede tener ya una adopción vigente (las canceladas no cuentan).
-	 * 5. La solicitud de adopción no puede estar ya asociada a otra adopción.
+	 * 2. La mascota, el refugio, el adoptante y la solicitud de adopción deben existir.
+	 * 3. La mascota y el adoptante deben estar activos.
+	 * 4. La mascota no puede estar ya adoptada (las adopciones canceladas no cuentan).
+	 * 5. La mascota no puede estar en una convivencia de prueba pendiente.
+	 * 6. La solicitud de adopción debe estar aprobada y no puede tener ya otra adopción.
 	 */
 	@Transactional
 	public AdoptionEntity createAdoption(AdoptionEntity adoption)
@@ -73,14 +90,18 @@ public class AdoptionService {
 		AdoptionRequestEntity adoptionRequest = findReference(adoption.getAdoptionRequest(),
 				adoptionRequestRepository, ADOPTION_REQUEST_LABEL);
 
-		if (!AdoptionRequestService.APPROVED_STATUS.equalsIgnoreCase(adoptionRequest.getStatus()))
-			throw new IllegalOperationException("An adoption can only be created from an approved adoption request");
-
-		if (adoptionRequest.getAdoption() != null)
-			throw new IllegalOperationException("Unable to create adoption because the request already has one");
-
+		if (!isActive(pet.getActive()))
+			throw new IllegalOperationException(PET_NOT_ACTIVE);
+		if (!isActive(adopter.getActive()))
+			throw new IllegalOperationException(ADOPTER_NOT_ACTIVE);
 		if (hasActiveAdoption(pet))
-			throw new IllegalOperationException("An adoption already exists for this pet");
+			throw new IllegalOperationException(PET_ALREADY_ADOPTED);
+		if (hasPendingTrialCohabitation(pet))
+			throw new IllegalOperationException(PET_NOT_AVAILABLE);
+		if (!AdoptionRequestService.APPROVED_STATUS.equalsIgnoreCase(adoptionRequest.getStatus()))
+			throw new IllegalOperationException(REQUEST_NOT_APPROVED);
+		if (adoptionRequest.getAdoption() != null)
+			throw new IllegalOperationException(REQUEST_ALREADY_USED);
 
 		adoption.setPet(pet);
 		adoption.setShelter(shelter);
@@ -97,6 +118,25 @@ public class AdoptionService {
 		return adoptionRepository.findAll();
 	}
 
+	/** Consulta con filtros opcionales por mascota, adoptante, refugio y estado. */
+	@Transactional(readOnly = true)
+	public List<AdoptionEntity> getAdoptions(Long petId, Long adopterId, Long shelterId, String status)
+			throws IllegalOperationException {
+		log.info("Inicia proceso de consultar las adopciones con filtros");
+		if (petId != null && petId < 0)
+			throw new IllegalOperationException(PET_ID_NOT_VALID);
+		if (adopterId != null && adopterId < 0)
+			throw new IllegalOperationException(ADOPTER_ID_NOT_VALID);
+		if (shelterId != null && shelterId < 0)
+			throw new IllegalOperationException(SHELTER_ID_NOT_VALID);
+		return adoptionRepository.findAll().stream()
+				.filter(a -> petId == null || (a.getPet() != null && petId.equals(a.getPet().getId())))
+				.filter(a -> adopterId == null || (a.getAdopter() != null && adopterId.equals(a.getAdopter().getId())))
+				.filter(a -> shelterId == null || (a.getShelter() != null && shelterId.equals(a.getShelter().getId())))
+				.filter(a -> status == null || status.equalsIgnoreCase(a.getStatus()))
+				.toList();
+	}
+
 	@Transactional(readOnly = true)
 	public AdoptionEntity getAdoption(Long adoptionId) throws EntityNotFoundException, IllegalOperationException {
 		log.info("Inicia proceso de consultar la adopción con id = {}", adoptionId);
@@ -110,7 +150,7 @@ public class AdoptionService {
 	 *
 	 * Reglas de negocio:
 	 * 1. No se aceptan identificadores inválidos ni atributos nulos.
-	 * 2. La mascota, el adoptante, el refugio y la solicitud de adopción no pueden modificarse tras la creación.
+	 * 2. La mascota y el adoptante no pueden modificarse tras la creación.
 	 * 3. No se puede modificar una adopción finalizada o cancelada.
 	 */
 	@Transactional
@@ -122,7 +162,11 @@ public class AdoptionService {
 		validateAdoption(adoptionUpdate);
 
 		if (isClosed(current))
-			throw new IllegalOperationException("A finalized or cancelled adoption cannot be modified");
+			throw new IllegalOperationException(CLOSED_CANNOT_BE_MODIFIED);
+
+		if (isDifferentReference(adoptionUpdate.getPet(), current.getPet())
+				|| isDifferentReference(adoptionUpdate.getAdopter(), current.getAdopter()))
+			throw new IllegalOperationException(PET_OR_ADOPTER_CANNOT_BE_MODIFIED);
 
 		current.setStatus(adoptionUpdate.getStatus());
 		current.setImportantNotes(adoptionUpdate.getImportantNotes());
@@ -139,13 +183,17 @@ public class AdoptionService {
 	 * Reglas de negocio:
 	 * 1. No se aceptan identificadores inválidos.
 	 * 2. Si el identificador no existe, se lanza una excepción.
-	 * 3. No se puede eliminar una adopción que tenga reseñas (reviews) o seguimientos (followUps) asociados.
+	 * 3. No se puede eliminar una adopción en curso (status = "IN_PROGRESS").
+	 * 4. No se puede eliminar una adopción que tenga reseñas (reviews) o seguimientos (followUps).
 	 */
 	@Transactional
 	public void deleteAdoption(Long adoptionId) throws EntityNotFoundException, IllegalOperationException {
 		log.info("Inicia proceso de borrar la adopción con id = {}", adoptionId);
 
 		AdoptionEntity adoption = findAdoption(adoptionId);
+
+		if (IN_PROGRESS_STATUS.equalsIgnoreCase(adoption.getStatus()))
+			throw new IllegalOperationException(IN_PROGRESS_CANNOT_BE_DELETED);
 
 		if (!isNullOrEmpty(adoption.getReviews()))
 			throw new IllegalOperationException("Unable to delete adoption because it has associated reviews");
@@ -157,8 +205,9 @@ public class AdoptionService {
 		log.info("Termina proceso de borrar la adopción con id = {}", adoptionId);
 	}
 
+	/** Un id negativo no es válido; el cero se trata como un id que no existe. */
 	private AdoptionEntity findAdoption(Long adoptionId) throws EntityNotFoundException, IllegalOperationException {
-		if (adoptionId == null || adoptionId <= 0)
+		if (adoptionId == null || adoptionId < 0)
 			throw new IllegalOperationException(ADOPTION_ID_NOT_VALID);
 		return adoptionRepository.findById(adoptionId)
 				.orElseThrow(() -> new EntityNotFoundException(ADOPTION_NOT_FOUND));
@@ -186,10 +235,25 @@ public class AdoptionService {
 				() -> new EntityNotFoundException("The " + label.toLowerCase() + " with the given id was not found"));
 	}
 
+	private boolean isActive(Boolean active) {
+		return !Boolean.FALSE.equals(active);
+	}
+
 	/** Una mascota ya está adoptada mientras tenga una adopción que no haya sido cancelada. */
 	private boolean hasActiveAdoption(PetEntity pet) {
 		return pet.getAdoptions() != null
 				&& pet.getAdoptions().stream().anyMatch(a -> !CANCELLED_STATUS.equalsIgnoreCase(a.getStatus()));
+	}
+
+	private boolean hasPendingTrialCohabitation(PetEntity pet) {
+		return trialCohabitationRequestRepository.findAll().stream()
+				.anyMatch(r -> r.getPet() != null && pet.getId().equals(r.getPet().getId())
+						&& TrialCohabitationRequestService.PENDING_STATUS.equals(r.getStatus()));
+	}
+
+	private boolean isDifferentReference(BaseEntity incoming, BaseEntity current) {
+		return incoming != null && incoming.getId() != null
+				&& (current == null || !incoming.getId().equals(current.getId()));
 	}
 
 	private boolean isClosed(AdoptionEntity adoption) {

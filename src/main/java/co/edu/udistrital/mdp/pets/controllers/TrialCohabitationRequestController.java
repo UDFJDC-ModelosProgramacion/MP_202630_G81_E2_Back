@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -36,8 +37,10 @@ public class TrialCohabitationRequestController {
     // FindAll method
     @GetMapping
     @ResponseStatus(code = HttpStatus.OK)
-    public List<TrialCohabitationRequestDTO> findAll() {
-        List<TrialCohabitationRequestEntity> requests = trialCohabitationRequestService.getTrialCohabitationRequests();
+    public List<TrialCohabitationRequestDTO> findAll(@RequestParam(required = false) Long adopterId,
+            @RequestParam(required = false) Long petId, @RequestParam(required = false) String status)
+            throws IllegalOperationException {
+        List<TrialCohabitationRequestEntity> requests = trialCohabitationRequestService.getTrialCohabitationRequests(adopterId, petId, status);
         return modelMapper.map(requests, new TypeToken<List<TrialCohabitationRequestDTO>>() {
         }.getType());
     }

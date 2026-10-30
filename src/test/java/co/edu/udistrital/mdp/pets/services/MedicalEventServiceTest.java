@@ -35,6 +35,7 @@ class MedicalEventServiceTest {
 
 	private static final Long NON_EXISTENT_ID = 1000L;
 	private static final Long INVALID_ID = 0L;
+    private static final Long NEGATIVE_ID = -1L;
 
 	@Autowired
 	private MedicalEventService medicalEventService;
@@ -211,7 +212,7 @@ class MedicalEventServiceTest {
 
 	@Test
 	void testGetMedicalEventInvalidId() {
-		assertThrows(IllegalOperationException.class, () -> medicalEventService.getMedicalEvent(INVALID_ID));
+		assertThrows(IllegalOperationException.class, () -> medicalEventService.getMedicalEvent(NEGATIVE_ID));
 	}
 
 	@Test
@@ -250,7 +251,7 @@ class MedicalEventServiceTest {
 	@Test
 	void testUpdateMedicalEventInvalidId() {
 		MedicalEventEntity update = newMedicalEvent(pastDate(), null, null);
-		assertThrows(IllegalOperationException.class, () -> medicalEventService.updateMedicalEvent(INVALID_ID, update));
+		assertThrows(IllegalOperationException.class, () -> medicalEventService.updateMedicalEvent(NEGATIVE_ID, update));
 	}
 
 	@Test
@@ -300,7 +301,7 @@ class MedicalEventServiceTest {
 
 	@Test
 	void testDeleteMedicalEventInvalidId() {
-		assertThrows(IllegalOperationException.class, () -> medicalEventService.deleteMedicalEvent(INVALID_ID));
+		assertThrows(IllegalOperationException.class, () -> medicalEventService.deleteMedicalEvent(NEGATIVE_ID));
 	}
 
 	@Test

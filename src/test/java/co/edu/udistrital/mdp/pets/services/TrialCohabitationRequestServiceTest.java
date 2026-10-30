@@ -37,6 +37,7 @@ class TrialCohabitationRequestServiceTest {
 	private static final String APPROVED = TrialCohabitationRequestService.APPROVED_STATUS;
 	private static final Long NON_EXISTENT_ID = 1000L;
 	private static final Long INVALID_ID = 0L;
+    private static final Long NEGATIVE_ID = -1L;
 
 	@Autowired
 	private TrialCohabitationRequestService trialCohabitationRequestService;
@@ -313,7 +314,7 @@ class TrialCohabitationRequestServiceTest {
 	@Test
 	void testGetTrialCohabitationRequestInvalidId() {
 		assertThrows(IllegalOperationException.class,
-				() -> trialCohabitationRequestService.getTrialCohabitationRequest(INVALID_ID));
+				() -> trialCohabitationRequestService.getTrialCohabitationRequest(NEGATIVE_ID));
 	}
 
 	@Test
@@ -391,7 +392,7 @@ class TrialCohabitationRequestServiceTest {
 		TrialCohabitationRequestEntity update = newValidRequest();
 		update.setStatus(APPROVED);
 		assertThrows(IllegalOperationException.class,
-				() -> trialCohabitationRequestService.updateTrialCohabitationRequest(INVALID_ID, update));
+				() -> trialCohabitationRequestService.updateTrialCohabitationRequest(NEGATIVE_ID, update));
 	}
 
 	@Test
@@ -478,7 +479,7 @@ class TrialCohabitationRequestServiceTest {
 	@Test
 	void testDeleteTrialCohabitationRequestInvalidId() {
 		assertThrows(IllegalOperationException.class,
-				() -> trialCohabitationRequestService.deleteTrialCohabitationRequest(INVALID_ID));
+				() -> trialCohabitationRequestService.deleteTrialCohabitationRequest(NEGATIVE_ID));
 	}
 
 	@Test

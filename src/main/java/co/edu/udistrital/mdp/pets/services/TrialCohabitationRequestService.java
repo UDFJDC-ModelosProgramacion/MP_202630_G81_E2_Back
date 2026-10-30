@@ -44,6 +44,11 @@ public class TrialCohabitationRequestService {
 	private static final String DATE_NOT_VALID = "Trial cohabitation request date cannot be null or empty";
 	private static final String DESCRIPTION_NOT_VALID =
 			"Trial cohabitation request description cannot be null or empty";
+	private static final String ADOPTER_ID_NOT_VALID = "Adopter id is not valid";
+	private static final String PET_ID_NOT_VALID = "Pet id is not valid";
+	private static final String ADOPTER_NOT_ACTIVE = "The adopter is not active in the system";
+	private static final String PET_NOT_ACTIVE = "The pet is not active in the system";
+	private static final String PET_NOT_AVAILABLE = "The pet is not available for trial cohabitation";
 	private static final String DUPLICATE_REQUEST =
 			"The adopter already has an active trial cohabitation request for this pet";
 	private static final String PERIOD_NOT_DEFINED =
@@ -70,10 +75,11 @@ public class TrialCohabitationRequestService {
 	 * Reglas de negocio:
 	 * 1. Ningún atributo obligatorio puede ser nulo o vacío.
 	 * 2. El refugio, el adoptante y la mascota deben existir.
-	 * 3. El adoptante no puede tener otra solicitud de convivencia activa (status = "PENDING")
-	 *    para la misma mascota.
-	 * 4. Debe definirse un periodo de convivencia (startDate y endDate) válido: la fecha de inicio
-	 *    no puede ser anterior a la fecha actual y la fecha de fin no puede ser anterior a la de inicio.
+	 * 3. El adoptante y la mascota deben estar activos.
+	 * 4. El adoptante no puede tener otra solicitud pendiente para la misma mascota.
+	 * 5. La mascota no puede estar adoptada ni en otra convivencia pendiente.
+	 * 6. Debe definirse un periodo válido: el inicio no puede ser anterior a hoy y el fin no puede
+	 *    ser anterior al inicio.
 	 */
 	@Transactional
 	public TrialCohabitationRequestEntity createTrialCohabitationRequest(TrialCohabitationRequestEntity request)
@@ -89,8 +95,14 @@ public class TrialCohabitationRequestService {
 		AdopterEntity adopter = findReference(request.getAdopter(), adopterRepository, ADOPTER_LABEL);
 		PetEntity pet = findReference(request.getPet(), petRepository, PET_LABEL);
 
+		if (!isActive(adopter.getActive()))
+			throw new IllegalOperationException(ADOPTER_NOT_ACTIVE);
+		if (!isActive(pet.getActive()))
+			throw new IllegalOperationException(PET_NOT_ACTIVE);
 		if (hasPendingRequestForPet(adopter, pet.getId()))
 			throw new IllegalOperationException(DUPLICATE_REQUEST);
+		if (isAdopted(pet) || hasPendingRequestForPetFromAnyAdopter(pet.getId()))
+			throw new IllegalOperationException(PET_NOT_AVAILABLE);
 
 		request.setShelter(shelter);
 		request.setAdopter(adopter);
@@ -104,6 +116,22 @@ public class TrialCohabitationRequestService {
 	public List<TrialCohabitationRequestEntity> getTrialCohabitationRequests() {
 		log.info("Inicia proceso de consultar todas las solicitudes de convivencia de prueba");
 		return trialCohabitationRequestRepository.findAll();
+	}
+
+	/** Consulta con filtros opcionales por adoptante, mascota y estado. */
+	@Transactional(readOnly = true)
+	public List<TrialCohabitationRequestEntity> getTrialCohabitationRequests(Long adopterId, Long petId,
+			String status) throws IllegalOperationException {
+		log.info("Inicia proceso de consultar las solicitudes de convivencia de prueba con filtros");
+		if (adopterId != null && adopterId < 0)
+			throw new IllegalOperationException(ADOPTER_ID_NOT_VALID);
+		if (petId != null && petId < 0)
+			throw new IllegalOperationException(PET_ID_NOT_VALID);
+		return trialCohabitationRequestRepository.findAll().stream()
+				.filter(r -> adopterId == null || (r.getAdopter() != null && adopterId.equals(r.getAdopter().getId())))
+				.filter(r -> petId == null || (r.getPet() != null && petId.equals(r.getPet().getId())))
+				.filter(r -> status == null || status.equalsIgnoreCase(r.getStatus()))
+				.toList();
 	}
 
 	@Transactional(readOnly = true)
@@ -123,8 +151,7 @@ public class TrialCohabitationRequestService {
 	 * 2. El adoptante y la mascota no pueden modificarse tras la creación.
 	 * 3. No se puede modificar una solicitud que ya generó una convivencia de prueba, ni una que
 	 *    esté finalizada (aprobada, rechazada o cancelada).
-	 * 4. Si se envían startDate o endDate, el periodo resultante debe ser válido: la fecha de fin no puede
-	 *    ser anterior a la de inicio. Si no se envían, se conservan las actuales.
+	 * 4. Si se envían startDate o endDate, el periodo resultante debe ser válido.
 	 */
 	@Transactional
 	public TrialCohabitationRequestEntity updateTrialCohabitationRequest(Long requestId,
@@ -189,7 +216,7 @@ public class TrialCohabitationRequestService {
 
 	private TrialCohabitationRequestEntity findRequest(Long requestId)
 			throws EntityNotFoundException, IllegalOperationException {
-		if (requestId == null || requestId <= 0)
+		if (requestId == null || requestId < 0)
 			throw new IllegalOperationException(REQUEST_ID_NOT_VALID);
 		return trialCohabitationRequestRepository.findById(requestId)
 				.orElseThrow(() -> new EntityNotFoundException(REQUEST_NOT_FOUND));
@@ -243,8 +270,24 @@ public class TrialCohabitationRequestService {
 				() -> new EntityNotFoundException("The " + label.toLowerCase() + " with the given id was not found"));
 	}
 
+	private boolean isActive(Boolean active) {
+		return !Boolean.FALSE.equals(active);
+	}
+
+	/** Una mascota adoptada tiene una adopción que no fue cancelada. */
+	private boolean isAdopted(PetEntity pet) {
+		return pet.getAdoptions() != null
+				&& pet.getAdoptions().stream().anyMatch(a -> !CANCELLED_STATUS.equalsIgnoreCase(a.getStatus()));
+	}
+
 	private boolean hasPendingRequestForPet(AdopterEntity adopter, Long petId) {
 		return adopter.getCohabitationRequests() != null && adopter.getCohabitationRequests().stream()
+				.anyMatch(r -> r.getPet() != null && petId.equals(r.getPet().getId())
+						&& PENDING_STATUS.equals(r.getStatus()));
+	}
+
+	private boolean hasPendingRequestForPetFromAnyAdopter(Long petId) {
+		return trialCohabitationRequestRepository.findAll().stream()
 				.anyMatch(r -> r.getPet() != null && petId.equals(r.getPet().getId())
 						&& PENDING_STATUS.equals(r.getStatus()));
 	}
