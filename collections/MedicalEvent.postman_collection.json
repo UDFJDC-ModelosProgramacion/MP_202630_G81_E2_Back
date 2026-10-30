@@ -7,6 +7,297 @@
   },
   "item": [
     {
+      "name": "Preparar veterinario (setup)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"firstName\": \"Ana\",\n    \"lastName\": \"Ruiz\",\n    \"email\": \"vet_{{run_id}}@mail.com\",\n    \"password\": \"1234\",\n    \"phone\": \"3000000001\",\n    \"specialization\": \"Cirugia\",\n    \"availability\": \"Lunes\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/veterinarians",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "veterinarians"
+          ]
+        },
+        "description": "Preparacion por API (setup). Crea el dato que la coleccion necesita."
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "if (pm.response.code === 201) {",
+              "    pm.collectionVariables.set(\"veterinarian_id\", pm.response.json().id);",
+              "}",
+              "",
+              "pm.test(\"Status code is 201\", function () {",
+              "    pm.response.to.have.status(201);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Preparar refugio (setup)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"name\": \"Refugio {{run_id}}\",\n    \"city\": \"Bogota\",\n    \"nit\": \"NIT-{{run_id}}\",\n    \"location\": \"Calle {{run_id}}\",\n    \"users\": [\n        {\n            \"id\": \"{{veterinarian_id}}\"\n        }\n    ]\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/shelters",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "shelters"
+          ]
+        },
+        "description": "Preparacion por API (setup). Crea el dato que la coleccion necesita."
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "if (pm.response.code === 201) {",
+              "    pm.collectionVariables.set(\"shelter_id\", pm.response.json().id);",
+              "}",
+              "",
+              "pm.test(\"Status code is 201\", function () {",
+              "    pm.response.to.have.status(201);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Preparar mascota uno (setup)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"name\": \"Mascota {{run_id}} uno\",\n    \"species\": \"Perro\",\n    \"breed\": \"Criollo\",\n    \"age\": 3,\n    \"sex\": \"Hembra\",\n    \"size\": \"Mediano\",\n    \"healthStatus\": \"Sano\",\n    \"description\": \"Mascota de prueba para las colecciones\",\n    \"admissionDate\": \"2026-01-10T00:00:00-05:00\",\n    \"temperament\": \"Dulce\",\n    \"compatibilityChildren\": true,\n    \"compatibilityOtherPets\": true,\n    \"activityLevel\": \"Alta\",\n    \"requiredSpace\": \"Patio\",\n    \"shelter\": {\n        \"id\": \"{{shelter_id}}\"\n    },\n    \"medicalEvents\": [\n        {\n            \"date\": \"2026-01-10T00:00:00-05:00\",\n            \"type\": \"Ingreso\",\n            \"description\": \"Llego al refugio\"\n        }\n    ]\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/pets",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "pets"
+          ]
+        },
+        "description": "Preparacion por API (setup). Crea el dato que la coleccion necesita."
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "if (pm.response.code === 201) {",
+              "    pm.collectionVariables.set(\"pet_id_1\", pm.response.json().id);",
+              "}",
+              "",
+              "pm.test(\"Status code is 201\", function () {",
+              "    pm.response.to.have.status(201);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Preparar mascota dos (setup)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"name\": \"Mascota {{run_id}} dos\",\n    \"species\": \"Perro\",\n    \"breed\": \"Criollo\",\n    \"age\": 3,\n    \"sex\": \"Hembra\",\n    \"size\": \"Mediano\",\n    \"healthStatus\": \"Sano\",\n    \"description\": \"Mascota de prueba para las colecciones\",\n    \"admissionDate\": \"2026-01-10T00:00:00-05:00\",\n    \"temperament\": \"Dulce\",\n    \"compatibilityChildren\": true,\n    \"compatibilityOtherPets\": true,\n    \"activityLevel\": \"Alta\",\n    \"requiredSpace\": \"Patio\",\n    \"shelter\": {\n        \"id\": \"{{shelter_id}}\"\n    },\n    \"medicalEvents\": [\n        {\n            \"date\": \"2026-01-10T00:00:00-05:00\",\n            \"type\": \"Ingreso\",\n            \"description\": \"Llego al refugio\"\n        }\n    ]\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/pets",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "pets"
+          ]
+        },
+        "description": "Preparacion por API (setup). Crea el dato que la coleccion necesita."
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "if (pm.response.code === 201) {",
+              "    pm.collectionVariables.set(\"pet_id_2\", pm.response.json().id);",
+              "}",
+              "",
+              "pm.test(\"Status code is 201\", function () {",
+              "    pm.response.to.have.status(201);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Preparar mascota inactiva (setup)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"name\": \"Mascota {{run_id}} inactiva\",\n    \"species\": \"Perro\",\n    \"breed\": \"Criollo\",\n    \"age\": 3,\n    \"sex\": \"Hembra\",\n    \"size\": \"Mediano\",\n    \"healthStatus\": \"Sano\",\n    \"description\": \"Mascota de prueba para las colecciones\",\n    \"admissionDate\": \"2026-01-10T00:00:00-05:00\",\n    \"temperament\": \"Dulce\",\n    \"compatibilityChildren\": true,\n    \"compatibilityOtherPets\": true,\n    \"activityLevel\": \"Alta\",\n    \"requiredSpace\": \"Patio\",\n    \"shelter\": {\n        \"id\": \"{{shelter_id}}\"\n    },\n    \"medicalEvents\": [\n        {\n            \"date\": \"2026-01-10T00:00:00-05:00\",\n            \"type\": \"Ingreso\",\n            \"description\": \"Llego al refugio\"\n        }\n    ]\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/pets",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "pets"
+          ]
+        },
+        "description": "Preparacion por API (setup). Crea el dato que la coleccion necesita."
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "if (pm.response.code === 201) {",
+              "    pm.collectionVariables.set(\"pet_id_inactive\", pm.response.json().id);",
+              "}",
+              "",
+              "pm.test(\"Status code is 201\", function () {",
+              "    pm.response.to.have.status(201);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Desactivar mascota inactiva (setup)",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"name\": \"Mascota {{run_id}} inactiva\",\n    \"species\": \"Perro\",\n    \"breed\": \"Criollo\",\n    \"age\": 3,\n    \"sex\": \"Hembra\",\n    \"size\": \"Mediano\",\n    \"healthStatus\": \"Sano\",\n    \"description\": \"Mascota de prueba para las colecciones\",\n    \"admissionDate\": \"2026-01-10T00:00:00-05:00\",\n    \"temperament\": \"Dulce\",\n    \"compatibilityChildren\": true,\n    \"compatibilityOtherPets\": true,\n    \"activityLevel\": \"Alta\",\n    \"requiredSpace\": \"Patio\",\n    \"shelter\": {\n        \"id\": \"{{shelter_id}}\"\n    },\n    \"medicalEvents\": [\n        {\n            \"date\": \"2026-01-10T00:00:00-05:00\",\n            \"type\": \"Ingreso\",\n            \"description\": \"Llego al refugio\"\n        }\n    ],\n    \"active\": false\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/pets/{{pet_id_inactive}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "pets",
+            "{{pet_id_inactive}}"
+          ]
+        },
+        "description": "Deja la mascota inactiva para los tests de rechazo por mascota inactiva."
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
       "name": "Preparar un evento medico para borrar (setup)",
       "request": {
         "method": "POST",
@@ -361,7 +652,7 @@
             "medicalEvents"
           ]
         },
-        "description": "createMedicalEvent regla 1: ningun atributo puede ser nulo o vacio.\n\nNOTA: test saltado. La descripcion ya no se valida en el servicio, una descripcion vacia crea el evento (201)."
+        "description": "createMedicalEvent regla 1: ningun atributo puede ser nulo o vacio."
       },
       "response": [
         {
@@ -412,7 +703,14 @@
           "script": {
             "type": "text/javascript",
             "exec": [
-              "pm.test.skip(\"La descripcion ya no se valida en el servicio, una descripcion vacia crea el evento (201).\");"
+              "pm.test(\"Status code is 412\", function () {",
+              "    pm.response.to.have.status(412);",
+              "});",
+              "",
+              "pm.test(\"Get expected error message\", function () {",
+              "    var data = pm.response.json();",
+              "    pm.expect(data.apierror.message).to.eql(\"Description is not valid\");",
+              "});"
             ]
           }
         }
@@ -538,7 +836,7 @@
             "medicalEvents"
           ]
         },
-        "description": "createMedicalEvent regla 2: la mascota debe estar activa en el sistema. pet_id_inactive existe pero esta inactiva.\n\nNOTA: test saltado. El servicio ya no distingue mascota activa de inactiva; no hay campo active que validar."
+        "description": "createMedicalEvent regla 2: la mascota debe estar activa en el sistema. pet_id_inactive existe pero esta inactiva."
       },
       "response": [
         {
@@ -589,7 +887,14 @@
           "script": {
             "type": "text/javascript",
             "exec": [
-              "pm.test.skip(\"El servicio ya no distingue mascota activa de inactiva; no hay campo active que validar.\");"
+              "pm.test(\"Status code is 412\", function () {",
+              "    pm.response.to.have.status(412);",
+              "});",
+              "",
+              "pm.test(\"Get expected error message\", function () {",
+              "    var data = pm.response.json();",
+              "    pm.expect(data.apierror.message).to.eql(\"The pet is not active in the system\");",
+              "});"
             ]
           }
         }
@@ -715,7 +1020,7 @@
             "medicalEvents"
           ]
         },
-        "description": "createMedicalEvent regla 4: duplicado = misma mascota, tipo y fecha (se repite el body del primer request).\n\nNOTA: test saltado. El servicio ya no valida el duplicado por mascota, tipo y fecha."
+        "description": "createMedicalEvent regla 4: duplicado = misma mascota, tipo y fecha (se repite el body del primer request)."
       },
       "response": [
         {
@@ -766,7 +1071,14 @@
           "script": {
             "type": "text/javascript",
             "exec": [
-              "pm.test.skip(\"El servicio ya no valida el duplicado por mascota, tipo y fecha.\");"
+              "pm.test(\"Status code is 412\", function () {",
+              "    pm.response.to.have.status(412);",
+              "});",
+              "",
+              "pm.test(\"Get expected error message\", function () {",
+              "    var data = pm.response.json();",
+              "    pm.expect(data.apierror.message).to.eql(\"A medical event with the same pet, type and date already exists\");",
+              "});"
             ]
           }
         }
@@ -1774,7 +2086,7 @@
             "{{medical_event_id_1}}"
           ]
         },
-        "description": "updateMedicalEvent regla 2: la mascota no se puede modificar despues de crear el evento.\n\nNOTA: test saltado. El servicio ya no valida que la mascota se mantenga, la ignora en la actualizacion."
+        "description": "updateMedicalEvent regla 2: la mascota no se puede modificar despues de crear el evento."
       },
       "response": [
         {
@@ -1826,7 +2138,14 @@
           "script": {
             "type": "text/javascript",
             "exec": [
-              "pm.test.skip(\"El servicio ya no valida que la mascota se mantenga, la ignora en la actualizacion.\");"
+              "pm.test(\"Status code is 412\", function () {",
+              "    pm.response.to.have.status(412);",
+              "});",
+              "",
+              "pm.test(\"Get expected error message\", function () {",
+              "    var data = pm.response.json();",
+              "    pm.expect(data.apierror.message).to.eql(\"The pet of a medical event cannot be modified\");",
+              "});"
             ]
           }
         }
@@ -2187,31 +2506,55 @@
   "variable": [
     {
       "key": "pet_id_1",
-      "value": "1"
+      "value": ""
     },
     {
       "key": "pet_id_2",
-      "value": "2"
+      "value": ""
     },
     {
       "key": "pet_id_inactive",
-      "value": "3"
+      "value": ""
     },
     {
       "key": "veterinarian_id",
-      "value": "2"
+      "value": ""
     },
     {
       "key": "medical_event_id_1",
-      "value": "1"
+      "value": ""
     },
     {
       "key": "medical_event_id_2",
-      "value": "2"
+      "value": ""
     },
     {
       "key": "medical_event_id_required",
       "value": "9999"
+    },
+    {
+      "key": "run_id",
+      "value": ""
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          "pm.collectionVariables.set(\"run_id\", Date.now().toString());",
+          "var start = new Date();",
+          "start.setDate(start.getDate() + 30);",
+          "var end = new Date(start);",
+          "end.setDate(end.getDate() + 14);",
+          "function toDate(d) {",
+          "    return d.toISOString().slice(0, 10) + \"T00:00:00-05:00\";",
+          "}",
+          "pm.collectionVariables.set(\"trial_start_date\", toDate(start));",
+          "pm.collectionVariables.set(\"trial_end_date\", toDate(end));"
+        ]
+      }
     }
   ]
 }

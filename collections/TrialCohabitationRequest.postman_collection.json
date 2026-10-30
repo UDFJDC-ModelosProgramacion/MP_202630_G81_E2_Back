@@ -7,6 +7,584 @@
   },
   "item": [
     {
+      "name": "Preparar adoptante A (setup)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"firstName\": \"Carlos\",\n    \"lastName\": \"Perez\",\n    \"email\": \"adopter_A_{{run_id}}@mail.com\",\n    \"password\": \"1234\",\n    \"phone\": \"3000000000\",\n    \"address\": \"Cra 1\",\n    \"nationalId\": \"CC-A-{{run_id}}\",\n    \"occupation\": \"Ingeniero\",\n    \"earnings\": 3000,\n    \"housingType\": \"Casa\",\n    \"allergies\": \"Ninguna\",\n    \"hasChildren\": false,\n    \"hasOtherPets\": false\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/adopters",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "adopters"
+          ]
+        },
+        "description": "Preparacion por API (setup). Crea el dato que la coleccion necesita."
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "if (pm.response.code === 201) {",
+              "    pm.collectionVariables.set(\"adopter_id\", pm.response.json().id);",
+              "}",
+              "",
+              "pm.test(\"Status code is 201\", function () {",
+              "    pm.response.to.have.status(201);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Preparar adoptante B (setup)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"firstName\": \"Carlos\",\n    \"lastName\": \"Perez\",\n    \"email\": \"adopter_B_{{run_id}}@mail.com\",\n    \"password\": \"1234\",\n    \"phone\": \"3000000000\",\n    \"address\": \"Cra 1\",\n    \"nationalId\": \"CC-B-{{run_id}}\",\n    \"occupation\": \"Ingeniero\",\n    \"earnings\": 3000,\n    \"housingType\": \"Casa\",\n    \"allergies\": \"Ninguna\",\n    \"hasChildren\": false,\n    \"hasOtherPets\": false\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/adopters",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "adopters"
+          ]
+        },
+        "description": "Preparacion por API (setup). Crea el dato que la coleccion necesita."
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "if (pm.response.code === 201) {",
+              "    pm.collectionVariables.set(\"adopter_id_inactive\", pm.response.json().id);",
+              "}",
+              "",
+              "pm.test(\"Status code is 201\", function () {",
+              "    pm.response.to.have.status(201);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Desactivar adoptante B (setup)",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"firstName\": \"Carlos\",\n    \"lastName\": \"Perez\",\n    \"email\": \"adopter_B_{{run_id}}@mail.com\",\n    \"password\": \"1234\",\n    \"phone\": \"3000000000\",\n    \"address\": \"Cra 1\",\n    \"nationalId\": \"CC-B-{{run_id}}\",\n    \"occupation\": \"Ingeniero\",\n    \"earnings\": 3000,\n    \"housingType\": \"Casa\",\n    \"allergies\": \"Ninguna\",\n    \"hasChildren\": false,\n    \"hasOtherPets\": false,\n    \"active\": false\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/adopters/{{adopter_id_inactive}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "adopters",
+            "{{adopter_id_inactive}}"
+          ]
+        },
+        "description": "Deja al adoptante inactivo para los tests de rechazo por adoptante inactivo."
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Preparar adoptante C (setup)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"firstName\": \"Carlos\",\n    \"lastName\": \"Perez\",\n    \"email\": \"adopter_C_{{run_id}}@mail.com\",\n    \"password\": \"1234\",\n    \"phone\": \"3000000000\",\n    \"address\": \"Cra 1\",\n    \"nationalId\": \"CC-C-{{run_id}}\",\n    \"occupation\": \"Ingeniero\",\n    \"earnings\": 3000,\n    \"housingType\": \"Casa\",\n    \"allergies\": \"Ninguna\",\n    \"hasChildren\": false,\n    \"hasOtherPets\": false\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/adopters",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "adopters"
+          ]
+        },
+        "description": "Preparacion por API (setup). Crea el dato que la coleccion necesita."
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "if (pm.response.code === 201) {",
+              "    pm.collectionVariables.set(\"adopter_trial_id\", pm.response.json().id);",
+              "}",
+              "",
+              "pm.test(\"Status code is 201\", function () {",
+              "    pm.response.to.have.status(201);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Preparar refugio (setup)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"name\": \"Refugio {{run_id}}\",\n    \"city\": \"Bogota\",\n    \"nit\": \"NIT-{{run_id}}\",\n    \"location\": \"Calle {{run_id}}\",\n    \"users\": [\n        {\n            \"id\": \"{{adopter_id}}\"\n        }\n    ]\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/shelters",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "shelters"
+          ]
+        },
+        "description": "Preparacion por API (setup). Crea el dato que la coleccion necesita."
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "if (pm.response.code === 201) {",
+              "    pm.collectionVariables.set(\"shelter_id\", pm.response.json().id);",
+              "}",
+              "",
+              "pm.test(\"Status code is 201\", function () {",
+              "    pm.response.to.have.status(201);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Preparar mascota uno (setup)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"name\": \"Mascota {{run_id}} uno\",\n    \"species\": \"Perro\",\n    \"breed\": \"Criollo\",\n    \"age\": 3,\n    \"sex\": \"Hembra\",\n    \"size\": \"Mediano\",\n    \"healthStatus\": \"Sano\",\n    \"description\": \"Mascota de prueba para las colecciones\",\n    \"admissionDate\": \"2026-01-10T00:00:00-05:00\",\n    \"temperament\": \"Dulce\",\n    \"compatibilityChildren\": true,\n    \"compatibilityOtherPets\": true,\n    \"activityLevel\": \"Alta\",\n    \"requiredSpace\": \"Patio\",\n    \"shelter\": {\n        \"id\": \"{{shelter_id}}\"\n    },\n    \"medicalEvents\": [\n        {\n            \"date\": \"2026-01-10T00:00:00-05:00\",\n            \"type\": \"Ingreso\",\n            \"description\": \"Llego al refugio\"\n        }\n    ]\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/pets",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "pets"
+          ]
+        },
+        "description": "Preparacion por API (setup). Crea el dato que la coleccion necesita."
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "if (pm.response.code === 201) {",
+              "    pm.collectionVariables.set(\"pet_id_1\", pm.response.json().id);",
+              "}",
+              "",
+              "pm.test(\"Status code is 201\", function () {",
+              "    pm.response.to.have.status(201);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Preparar mascota dos (setup)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"name\": \"Mascota {{run_id}} dos\",\n    \"species\": \"Perro\",\n    \"breed\": \"Criollo\",\n    \"age\": 3,\n    \"sex\": \"Hembra\",\n    \"size\": \"Mediano\",\n    \"healthStatus\": \"Sano\",\n    \"description\": \"Mascota de prueba para las colecciones\",\n    \"admissionDate\": \"2026-01-10T00:00:00-05:00\",\n    \"temperament\": \"Dulce\",\n    \"compatibilityChildren\": true,\n    \"compatibilityOtherPets\": true,\n    \"activityLevel\": \"Alta\",\n    \"requiredSpace\": \"Patio\",\n    \"shelter\": {\n        \"id\": \"{{shelter_id}}\"\n    },\n    \"medicalEvents\": [\n        {\n            \"date\": \"2026-01-10T00:00:00-05:00\",\n            \"type\": \"Ingreso\",\n            \"description\": \"Llego al refugio\"\n        }\n    ]\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/pets",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "pets"
+          ]
+        },
+        "description": "Preparacion por API (setup). Crea el dato que la coleccion necesita."
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "if (pm.response.code === 201) {",
+              "    pm.collectionVariables.set(\"pet_id_2\", pm.response.json().id);",
+              "}",
+              "",
+              "pm.test(\"Status code is 201\", function () {",
+              "    pm.response.to.have.status(201);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Preparar mascota inactiva (setup)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"name\": \"Mascota {{run_id}} inactiva\",\n    \"species\": \"Perro\",\n    \"breed\": \"Criollo\",\n    \"age\": 3,\n    \"sex\": \"Hembra\",\n    \"size\": \"Mediano\",\n    \"healthStatus\": \"Sano\",\n    \"description\": \"Mascota de prueba para las colecciones\",\n    \"admissionDate\": \"2026-01-10T00:00:00-05:00\",\n    \"temperament\": \"Dulce\",\n    \"compatibilityChildren\": true,\n    \"compatibilityOtherPets\": true,\n    \"activityLevel\": \"Alta\",\n    \"requiredSpace\": \"Patio\",\n    \"shelter\": {\n        \"id\": \"{{shelter_id}}\"\n    },\n    \"medicalEvents\": [\n        {\n            \"date\": \"2026-01-10T00:00:00-05:00\",\n            \"type\": \"Ingreso\",\n            \"description\": \"Llego al refugio\"\n        }\n    ]\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/pets",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "pets"
+          ]
+        },
+        "description": "Preparacion por API (setup). Crea el dato que la coleccion necesita."
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "if (pm.response.code === 201) {",
+              "    pm.collectionVariables.set(\"pet_id_inactive\", pm.response.json().id);",
+              "}",
+              "",
+              "pm.test(\"Status code is 201\", function () {",
+              "    pm.response.to.have.status(201);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Desactivar mascota inactiva (setup)",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"name\": \"Mascota {{run_id}} inactiva\",\n    \"species\": \"Perro\",\n    \"breed\": \"Criollo\",\n    \"age\": 3,\n    \"sex\": \"Hembra\",\n    \"size\": \"Mediano\",\n    \"healthStatus\": \"Sano\",\n    \"description\": \"Mascota de prueba para las colecciones\",\n    \"admissionDate\": \"2026-01-10T00:00:00-05:00\",\n    \"temperament\": \"Dulce\",\n    \"compatibilityChildren\": true,\n    \"compatibilityOtherPets\": true,\n    \"activityLevel\": \"Alta\",\n    \"requiredSpace\": \"Patio\",\n    \"shelter\": {\n        \"id\": \"{{shelter_id}}\"\n    },\n    \"medicalEvents\": [\n        {\n            \"date\": \"2026-01-10T00:00:00-05:00\",\n            \"type\": \"Ingreso\",\n            \"description\": \"Llego al refugio\"\n        }\n    ],\n    \"active\": false\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/pets/{{pet_id_inactive}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "pets",
+            "{{pet_id_inactive}}"
+          ]
+        },
+        "description": "Deja la mascota inactiva para los tests de rechazo por mascota inactiva."
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Preparar mascota no disponible (setup)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"name\": \"Mascota {{run_id}} no disponible\",\n    \"species\": \"Perro\",\n    \"breed\": \"Criollo\",\n    \"age\": 3,\n    \"sex\": \"Hembra\",\n    \"size\": \"Mediano\",\n    \"healthStatus\": \"Sano\",\n    \"description\": \"Mascota de prueba para las colecciones\",\n    \"admissionDate\": \"2026-01-10T00:00:00-05:00\",\n    \"temperament\": \"Dulce\",\n    \"compatibilityChildren\": true,\n    \"compatibilityOtherPets\": true,\n    \"activityLevel\": \"Alta\",\n    \"requiredSpace\": \"Patio\",\n    \"shelter\": {\n        \"id\": \"{{shelter_id}}\"\n    },\n    \"medicalEvents\": [\n        {\n            \"date\": \"2026-01-10T00:00:00-05:00\",\n            \"type\": \"Ingreso\",\n            \"description\": \"Llego al refugio\"\n        }\n    ]\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/pets",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "pets"
+          ]
+        },
+        "description": "Preparacion por API (setup). Crea el dato que la coleccion necesita."
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "if (pm.response.code === 201) {",
+              "    pm.collectionVariables.set(\"pet_id_unavailable\", pm.response.json().id);",
+              "}",
+              "",
+              "pm.test(\"Status code is 201\", function () {",
+              "    pm.response.to.have.status(201);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Preparar mascota cancelable (setup)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"name\": \"Mascota {{run_id}} cancelable\",\n    \"species\": \"Perro\",\n    \"breed\": \"Criollo\",\n    \"age\": 3,\n    \"sex\": \"Hembra\",\n    \"size\": \"Mediano\",\n    \"healthStatus\": \"Sano\",\n    \"description\": \"Mascota de prueba para las colecciones\",\n    \"admissionDate\": \"2026-01-10T00:00:00-05:00\",\n    \"temperament\": \"Dulce\",\n    \"compatibilityChildren\": true,\n    \"compatibilityOtherPets\": true,\n    \"activityLevel\": \"Alta\",\n    \"requiredSpace\": \"Patio\",\n    \"shelter\": {\n        \"id\": \"{{shelter_id}}\"\n    },\n    \"medicalEvents\": [\n        {\n            \"date\": \"2026-01-10T00:00:00-05:00\",\n            \"type\": \"Ingreso\",\n            \"description\": \"Llego al refugio\"\n        }\n    ]\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/pets",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "pets"
+          ]
+        },
+        "description": "Preparacion por API (setup). Crea el dato que la coleccion necesita."
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "if (pm.response.code === 201) {",
+              "    pm.collectionVariables.set(\"pet_id_cancel\", pm.response.json().id);",
+              "}",
+              "",
+              "pm.test(\"Status code is 201\", function () {",
+              "    pm.response.to.have.status(201);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Preparar convivencia que deja la mascota no disponible (setup)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"date\": \"2026-09-23T00:00:00-05:00\",\n    \"status\": \"PENDING\",\n    \"description\": \"Convivencia de prueba de otro adoptante sobre la mascota no disponible\",\n    \"startDate\": \"{{trial_start_date}}\",\n    \"endDate\": \"{{trial_end_date}}\",\n    \"shelter\": {\n        \"id\": \"{{shelter_id}}\"\n    },\n    \"adopter\": {\n        \"id\": \"{{adopter_trial_id}}\"\n    },\n    \"pet\": {\n        \"id\": \"{{pet_id_unavailable}}\"\n    }\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/trialCohabitationRequests",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "trialCohabitationRequests"
+          ]
+        },
+        "description": "Preparacion (setup): otro adoptante tiene una convivencia pendiente sobre la mascota."
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 201\", function () {",
+              "    pm.response.to.have.status(201);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
       "name": "Preparar una solicitud para cancelar (setup)",
       "request": {
         "method": "POST",
@@ -18,7 +596,7 @@
         ],
         "body": {
           "mode": "raw",
-          "raw": "{\n    \"date\": \"2026-09-23T00:00:00-05:00\",\n    \"status\": \"PENDING\",\n    \"description\": \"Solicitud de prueba que luego se pasa a CANCELLED\",\n    \"startDate\": \"{{trial_start_date}}\",\n    \"endDate\": \"{{trial_end_date}}\",\n    \"shelter\": {\n        \"id\": {{shelter_id}}\n    },\n    \"adopter\": {\n        \"id\": {{adopter_id}}\n    },\n    \"pet\": {\n        \"id\": {{pet_id_inactive}}\n    }\n}",
+          "raw": "{\n    \"date\": \"2026-09-23T00:00:00-05:00\",\n    \"status\": \"PENDING\",\n    \"description\": \"Solicitud de prueba que luego se pasa a CANCELLED\",\n    \"startDate\": \"{{trial_start_date}}\",\n    \"endDate\": \"{{trial_end_date}}\",\n    \"shelter\": {\n        \"id\": {{shelter_id}}\n    },\n    \"adopter\": {\n        \"id\": {{adopter_id}}\n    },\n    \"pet\": {\n        \"id\": {{pet_id_cancel}}\n    }\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -66,7 +644,7 @@
         ],
         "body": {
           "mode": "raw",
-          "raw": "{\n    \"date\": \"2026-09-23T00:00:00-05:00\",\n    \"status\": \"CANCELLED\",\n    \"description\": \"Solicitud de prueba que luego se pasa a CANCELLED\",\n    \"startDate\": \"{{trial_start_date}}\",\n    \"endDate\": \"{{trial_end_date}}\",\n    \"shelter\": {\n        \"id\": {{shelter_id}}\n    },\n    \"adopter\": {\n        \"id\": {{adopter_id}}\n    },\n    \"pet\": {\n        \"id\": {{pet_id_inactive}}\n    }\n}",
+          "raw": "{\n    \"date\": \"2026-09-23T00:00:00-05:00\",\n    \"status\": \"CANCELLED\",\n    \"description\": \"Solicitud de prueba que luego se pasa a CANCELLED\",\n    \"startDate\": \"{{trial_start_date}}\",\n    \"endDate\": \"{{trial_end_date}}\",\n    \"shelter\": {\n        \"id\": {{shelter_id}}\n    },\n    \"adopter\": {\n        \"id\": {{adopter_id}}\n    },\n    \"pet\": {\n        \"id\": {{pet_id_cancel}}\n    }\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -2923,43 +3501,43 @@
   "variable": [
     {
       "key": "shelter_id",
-      "value": "1"
+      "value": ""
     },
     {
       "key": "adopter_id",
-      "value": "1"
+      "value": ""
     },
     {
       "key": "adopter_id_inactive",
-      "value": "2"
+      "value": ""
     },
     {
       "key": "pet_id_1",
-      "value": "1"
+      "value": ""
     },
     {
       "key": "pet_id_2",
-      "value": "2"
+      "value": ""
     },
     {
       "key": "pet_id_inactive",
-      "value": "3"
+      "value": ""
     },
     {
       "key": "pet_id_unavailable",
-      "value": "4"
+      "value": ""
     },
     {
       "key": "request_id_1",
-      "value": "1"
+      "value": ""
     },
     {
       "key": "request_id_finalized",
-      "value": "2"
+      "value": ""
     },
     {
       "key": "request_id_cancelled",
-      "value": "3"
+      "value": ""
     },
     {
       "key": "trial_start_date",
@@ -2967,6 +3545,18 @@
     },
     {
       "key": "trial_end_date",
+      "value": ""
+    },
+    {
+      "key": "run_id",
+      "value": ""
+    },
+    {
+      "key": "adopter_trial_id",
+      "value": ""
+    },
+    {
+      "key": "pet_id_cancel",
       "value": ""
     }
   ],
@@ -2976,15 +3566,14 @@
       "script": {
         "type": "text/javascript",
         "exec": [
+          "pm.collectionVariables.set(\"run_id\", Date.now().toString());",
           "var start = new Date();",
           "start.setDate(start.getDate() + 30);",
           "var end = new Date(start);",
           "end.setDate(end.getDate() + 14);",
-          "",
           "function toDate(d) {",
           "    return d.toISOString().slice(0, 10) + \"T00:00:00-05:00\";",
           "}",
-          "",
           "pm.collectionVariables.set(\"trial_start_date\", toDate(start));",
           "pm.collectionVariables.set(\"trial_end_date\", toDate(end));"
         ]
