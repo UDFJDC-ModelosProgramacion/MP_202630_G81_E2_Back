@@ -7,6 +7,630 @@
   },
   "item": [
     {
+      "name": "Preparar adoptante (setup)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"firstName\": \"Sofia\",\n    \"lastName\": \"Ramirez\",\n    \"email\": \"col_convivencia_{{run_id}}@mail.com\",\n    \"password\": \"1234\",\n    \"phone\": \"3000000000\",\n    \"address\": \"Calle 10\",\n    \"nationalId\": \"COL-convivencia-{{run_id}}\",\n    \"occupation\": \"Ingeniera\",\n    \"earnings\": 3500,\n    \"housingType\": \"Casa\",\n    \"allergies\": \"Ninguna\",\n    \"hasChildren\": true,\n    \"hasOtherPets\": false\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/adopters",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "adopters"
+          ]
+        },
+        "description": "Preparacion por API (setup)."
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "if (pm.response.code === 201) {",
+              "    pm.collectionVariables.set(\"adopter_id_1\", pm.response.json().id);",
+              "}",
+              "pm.test(\"Status code is 201\", function () {",
+              "    pm.response.to.have.status(201);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Preparar refugio (setup)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"name\": \"Refugio {{run_id}}\",\n    \"city\": \"Bogota\",\n    \"nit\": \"NIT-{{run_id}}\",\n    \"location\": \"Carrera 5\",\n    \"users\": [\n        {\n            \"id\": \"{{adopter_id_1}}\"\n        }\n    ]\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/shelters",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "shelters"
+          ]
+        },
+        "description": "Preparacion por API (setup)."
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "if (pm.response.code === 201) {",
+              "    pm.collectionVariables.set(\"shelter_id_1\", pm.response.json().id);",
+              "}",
+              "pm.test(\"Status code is 201\", function () {",
+              "    pm.response.to.have.status(201);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Preparar mascota 1 (setup)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"name\": \"Mascota {{run_id}} convivencia 1\",\n    \"species\": \"Perro\",\n    \"breed\": \"Criollo\",\n    \"age\": 3,\n    \"sex\": \"Macho\",\n    \"size\": \"Mediano\",\n    \"healthStatus\": \"Sano\",\n    \"description\": \"Mascota para la preparacion de la coleccion\",\n    \"admissionDate\": \"2026-01-10T00:00:00-05:00\",\n    \"temperament\": \"Tranquilo\",\n    \"compatibilityChildren\": true,\n    \"compatibilityOtherPets\": true,\n    \"activityLevel\": \"Media\",\n    \"requiredSpace\": \"Patio\",\n    \"shelter\": {\n        \"id\": \"{{shelter_id_1}}\"\n    },\n    \"medicalEvents\": [\n        {\n            \"date\": \"2026-01-10T00:00:00-05:00\",\n            \"type\": \"Ingreso\",\n            \"description\": \"Ingreso al refugio\"\n        }\n    ]\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/pets",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "pets"
+          ]
+        },
+        "description": "Preparacion por API (setup)."
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "if (pm.response.code === 201) {",
+              "    pm.collectionVariables.set(\"pet_id_1\", pm.response.json().id);",
+              "}",
+              "pm.test(\"Status code is 201\", function () {",
+              "    pm.response.to.have.status(201);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Preparar mascota 2 (setup)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"name\": \"Mascota {{run_id}} convivencia 2\",\n    \"species\": \"Perro\",\n    \"breed\": \"Criollo\",\n    \"age\": 3,\n    \"sex\": \"Macho\",\n    \"size\": \"Mediano\",\n    \"healthStatus\": \"Sano\",\n    \"description\": \"Mascota para la preparacion de la coleccion\",\n    \"admissionDate\": \"2026-01-10T00:00:00-05:00\",\n    \"temperament\": \"Tranquilo\",\n    \"compatibilityChildren\": true,\n    \"compatibilityOtherPets\": true,\n    \"activityLevel\": \"Media\",\n    \"requiredSpace\": \"Patio\",\n    \"shelter\": {\n        \"id\": \"{{shelter_id_1}}\"\n    },\n    \"medicalEvents\": [\n        {\n            \"date\": \"2026-01-10T00:00:00-05:00\",\n            \"type\": \"Ingreso\",\n            \"description\": \"Ingreso al refugio\"\n        }\n    ]\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/pets",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "pets"
+          ]
+        },
+        "description": "Preparacion por API (setup)."
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "if (pm.response.code === 201) {",
+              "    pm.collectionVariables.set(\"pet_id_2\", pm.response.json().id);",
+              "}",
+              "pm.test(\"Status code is 201\", function () {",
+              "    pm.response.to.have.status(201);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Preparar mascota 3 (setup)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"name\": \"Mascota {{run_id}} convivencia 3\",\n    \"species\": \"Perro\",\n    \"breed\": \"Criollo\",\n    \"age\": 3,\n    \"sex\": \"Macho\",\n    \"size\": \"Mediano\",\n    \"healthStatus\": \"Sano\",\n    \"description\": \"Mascota para la preparacion de la coleccion\",\n    \"admissionDate\": \"2026-01-10T00:00:00-05:00\",\n    \"temperament\": \"Tranquilo\",\n    \"compatibilityChildren\": true,\n    \"compatibilityOtherPets\": true,\n    \"activityLevel\": \"Media\",\n    \"requiredSpace\": \"Patio\",\n    \"shelter\": {\n        \"id\": \"{{shelter_id_1}}\"\n    },\n    \"medicalEvents\": [\n        {\n            \"date\": \"2026-01-10T00:00:00-05:00\",\n            \"type\": \"Ingreso\",\n            \"description\": \"Ingreso al refugio\"\n        }\n    ]\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/pets",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "pets"
+          ]
+        },
+        "description": "Preparacion por API (setup)."
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "if (pm.response.code === 201) {",
+              "    pm.collectionVariables.set(\"pet_id_3\", pm.response.json().id);",
+              "}",
+              "pm.test(\"Status code is 201\", function () {",
+              "    pm.response.to.have.status(201);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Preparar mascota 4 (setup)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"name\": \"Mascota {{run_id}} convivencia 4\",\n    \"species\": \"Perro\",\n    \"breed\": \"Criollo\",\n    \"age\": 3,\n    \"sex\": \"Macho\",\n    \"size\": \"Mediano\",\n    \"healthStatus\": \"Sano\",\n    \"description\": \"Mascota para la preparacion de la coleccion\",\n    \"admissionDate\": \"2026-01-10T00:00:00-05:00\",\n    \"temperament\": \"Tranquilo\",\n    \"compatibilityChildren\": true,\n    \"compatibilityOtherPets\": true,\n    \"activityLevel\": \"Media\",\n    \"requiredSpace\": \"Patio\",\n    \"shelter\": {\n        \"id\": \"{{shelter_id_1}}\"\n    },\n    \"medicalEvents\": [\n        {\n            \"date\": \"2026-01-10T00:00:00-05:00\",\n            \"type\": \"Ingreso\",\n            \"description\": \"Ingreso al refugio\"\n        }\n    ]\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/pets",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "pets"
+          ]
+        },
+        "description": "Preparacion por API (setup)."
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "if (pm.response.code === 201) {",
+              "    pm.collectionVariables.set(\"pet_id_4\", pm.response.json().id);",
+              "}",
+              "pm.test(\"Status code is 201\", function () {",
+              "    pm.response.to.have.status(201);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Preparar solicitud 1 (setup)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"date\": \"2026-01-20T00:00:00-05:00\",\n    \"status\": \"PENDING\",\n    \"description\": \"Solicitud de convivencia 1\",\n    \"startDate\": \"{{future_start}}\",\n    \"endDate\": \"{{future_end}}\",\n    \"shelter\": {\n        \"id\": \"{{shelter_id_1}}\"\n    },\n    \"adopter\": {\n        \"id\": \"{{adopter_id_1}}\"\n    },\n    \"pet\": {\n        \"id\": \"{{pet_id_1}}\"\n    }\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/trialCohabitationRequests",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "trialCohabitationRequests"
+          ]
+        },
+        "description": "Preparacion por API (setup)."
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "if (pm.response.code === 201) {",
+              "    pm.collectionVariables.set(\"trial_request_id_1\", pm.response.json().id);",
+              "}",
+              "pm.test(\"Status code is 201\", function () {",
+              "    pm.response.to.have.status(201);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Preparar solicitud 2 (setup)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"date\": \"2026-01-20T00:00:00-05:00\",\n    \"status\": \"PENDING\",\n    \"description\": \"Solicitud de convivencia 2\",\n    \"startDate\": \"{{future_start}}\",\n    \"endDate\": \"{{future_end}}\",\n    \"shelter\": {\n        \"id\": \"{{shelter_id_1}}\"\n    },\n    \"adopter\": {\n        \"id\": \"{{adopter_id_1}}\"\n    },\n    \"pet\": {\n        \"id\": \"{{pet_id_2}}\"\n    }\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/trialCohabitationRequests",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "trialCohabitationRequests"
+          ]
+        },
+        "description": "Preparacion por API (setup)."
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "if (pm.response.code === 201) {",
+              "    pm.collectionVariables.set(\"trial_request_id_2\", pm.response.json().id);",
+              "}",
+              "pm.test(\"Status code is 201\", function () {",
+              "    pm.response.to.have.status(201);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Preparar solicitud en curso (setup)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"date\": \"2026-01-20T00:00:00-05:00\",\n    \"status\": \"PENDING\",\n    \"description\": \"Solicitud de convivencia en curso\",\n    \"startDate\": \"{{future_start}}\",\n    \"endDate\": \"{{future_end}}\",\n    \"shelter\": {\n        \"id\": \"{{shelter_id_1}}\"\n    },\n    \"adopter\": {\n        \"id\": \"{{adopter_id_1}}\"\n    },\n    \"pet\": {\n        \"id\": \"{{pet_id_3}}\"\n    }\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/trialCohabitationRequests",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "trialCohabitationRequests"
+          ]
+        },
+        "description": "Preparacion por API (setup)."
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "if (pm.response.code === 201) {",
+              "    pm.collectionVariables.set(\"trial_request_existing\", pm.response.json().id);",
+              "}",
+              "pm.test(\"Status code is 201\", function () {",
+              "    pm.response.to.have.status(201);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Preparar solicitud finalizada (setup)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"date\": \"2026-01-20T00:00:00-05:00\",\n    \"status\": \"PENDING\",\n    \"description\": \"Solicitud de convivencia finalizada\",\n    \"startDate\": \"{{future_start}}\",\n    \"endDate\": \"{{future_end}}\",\n    \"shelter\": {\n        \"id\": \"{{shelter_id_1}}\"\n    },\n    \"adopter\": {\n        \"id\": \"{{adopter_id_1}}\"\n    },\n    \"pet\": {\n        \"id\": \"{{pet_id_4}}\"\n    }\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/trialCohabitationRequests",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "trialCohabitationRequests"
+          ]
+        },
+        "description": "Preparacion por API (setup)."
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "if (pm.response.code === 201) {",
+              "    pm.collectionVariables.set(\"trial_request_final\", pm.response.json().id);",
+              "}",
+              "pm.test(\"Status code is 201\", function () {",
+              "    pm.response.to.have.status(201);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Preparar convivencia pendiente 2 (setup)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"startDate\": \"{{future_start}}\",\n    \"endDate\": \"{{future_end}}\",\n    \"status\": \"PENDING\",\n    \"observations\": \"Convivencia pendiente 2\",\n    \"adopter\": {\n        \"id\": \"{{adopter_id_1}}\"\n    },\n    \"shelter\": {\n        \"id\": \"{{shelter_id_1}}\"\n    },\n    \"trialCohabitationRequest\": {\n        \"id\": \"{{trial_request_id_2}}\"\n    }\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/trialCohabitations",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "trialCohabitations"
+          ]
+        },
+        "description": "Preparacion por API (setup)."
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "if (pm.response.code === 201) {",
+              "    pm.collectionVariables.set(\"trial_id_2\", pm.response.json().id);",
+              "}",
+              "pm.test(\"Status code is 201\", function () {",
+              "    pm.response.to.have.status(201);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Preparar convivencia en curso (setup)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"startDate\": \"{{future_start}}\",\n    \"endDate\": \"{{future_end}}\",\n    \"status\": \"IN_PROGRESS\",\n    \"observations\": \"Convivencia en curso\",\n    \"adopter\": {\n        \"id\": \"{{adopter_id_1}}\"\n    },\n    \"shelter\": {\n        \"id\": \"{{shelter_id_1}}\"\n    },\n    \"trialCohabitationRequest\": {\n        \"id\": \"{{trial_request_existing}}\"\n    }\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/trialCohabitations",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "trialCohabitations"
+          ]
+        },
+        "description": "Preparacion por API (setup)."
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "if (pm.response.code === 201) {",
+              "    pm.collectionVariables.set(\"trial_id_inprogress\", pm.response.json().id);",
+              "}",
+              "pm.test(\"Status code is 201\", function () {",
+              "    pm.response.to.have.status(201);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Preparar convivencia finalizada (setup)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"startDate\": \"{{future_start}}\",\n    \"endDate\": \"{{future_end}}\",\n    \"status\": \"FINALIZED\",\n    \"observations\": \"Convivencia finalizada\",\n    \"adopter\": {\n        \"id\": \"{{adopter_id_1}}\"\n    },\n    \"shelter\": {\n        \"id\": \"{{shelter_id_1}}\"\n    },\n    \"trialCohabitationRequest\": {\n        \"id\": \"{{trial_request_final}}\"\n    }\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/trialCohabitations",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "trialCohabitations"
+          ]
+        },
+        "description": "Preparacion por API (setup)."
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "if (pm.response.code === 201) {",
+              "    pm.collectionVariables.set(\"trial_id_final\", pm.response.json().id);",
+              "}",
+              "pm.test(\"Status code is 201\", function () {",
+              "    pm.response.to.have.status(201);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
       "name": "Crear una convivencia de prueba",
       "request": {
         "method": "POST",
@@ -27,7 +651,7 @@
         },
         "body": {
           "mode": "raw",
-          "raw": "{\n    \"startDate\": \"2026-10-20T00:00:00-05:00\",\n    \"endDate\": \"2026-12-20T00:00:00-05:00\",\n    \"status\": \"PENDING\",\n    \"observations\": \"Periodo de adaptacion\",\n    \"adopter\": {\n        \"id\": \"{{adopter_id_1}}\"\n    },\n    \"shelter\": {\n        \"id\": \"{{shelter_id_1}}\"\n    },\n    \"trialCohabitationRequest\": {\n        \"id\": \"{{trial_request_id_1}}\"\n    }\n}",
+          "raw": "{\n    \"startDate\": \"{{future_start}}\",\n    \"endDate\": \"{{future_end}}\",\n    \"status\": \"PENDING\",\n    \"observations\": \"Periodo de adaptacion\",\n    \"adopter\": {\n        \"id\": \"{{adopter_id_1}}\"\n    },\n    \"shelter\": {\n        \"id\": \"{{shelter_id_1}}\"\n    },\n    \"trialCohabitationRequest\": {\n        \"id\": \"{{trial_request_id_1}}\"\n    }\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -77,6 +701,22 @@
           "cookie": [],
           "body": "{\n    \"id\": 1,\n    \"startDate\": \"2026-10-20\",\n    \"endDate\": \"2026-12-20\",\n    \"status\": \"PENDING\",\n    \"observations\": \"Periodo de adaptacion\"\n}"
         }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "if (pm.response.code === 201) {",
+              "    pm.collectionVariables.set(\"trial_id_1\", pm.response.json().id);",
+              "}",
+              "pm.test(\"Status code is 201\", function () {",
+              "    pm.response.to.have.status(201);",
+              "});"
+            ]
+          }
+        }
       ]
     },
     {
@@ -100,7 +740,7 @@
         },
         "body": {
           "mode": "raw",
-          "raw": "{\n    \"startDate\": null,\n    \"endDate\": \"2026-12-20T00:00:00-05:00\",\n    \"status\": \"PENDING\",\n    \"observations\": \"Periodo de adaptacion\",\n    \"adopter\": {\n        \"id\": \"{{adopter_id_1}}\"\n    },\n    \"shelter\": {\n        \"id\": \"{{shelter_id_1}}\"\n    },\n    \"trialCohabitationRequest\": {\n        \"id\": \"{{trial_request_id_1}}\"\n    }\n}",
+          "raw": "{\n    \"startDate\": null,\n    \"endDate\": \"{{future_end}}\",\n    \"status\": \"PENDING\",\n    \"observations\": \"Periodo de adaptacion\",\n    \"adopter\": {\n        \"id\": \"{{adopter_id_1}}\"\n    },\n    \"shelter\": {\n        \"id\": \"{{shelter_id_1}}\"\n    },\n    \"trialCohabitationRequest\": {\n        \"id\": \"{{trial_request_id_1}}\"\n    }\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -145,6 +785,19 @@
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"26-09-2026 10:05:28\",\n        \"message\": \"Trial start date cannot be null\"\n    }\n}"
         }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 412\", function () {",
+              "    pm.response.to.have.status(412);",
+              "});"
+            ]
+          }
+        }
       ]
     },
     {
@@ -168,7 +821,7 @@
         },
         "body": {
           "mode": "raw",
-          "raw": "{\n    \"startDate\": \"2026-01-10T00:00:00-05:00\",\n    \"endDate\": \"2026-12-20T00:00:00-05:00\",\n    \"status\": \"PENDING\",\n    \"observations\": \"Periodo de adaptacion\",\n    \"adopter\": {\n        \"id\": \"{{adopter_id_1}}\"\n    },\n    \"shelter\": {\n        \"id\": \"{{shelter_id_1}}\"\n    },\n    \"trialCohabitationRequest\": {\n        \"id\": \"{{trial_request_id_1}}\"\n    }\n}",
+          "raw": "{\n    \"startDate\": \"2026-01-10T00:00:00-05:00\",\n    \"endDate\": \"{{future_end}}\",\n    \"status\": \"PENDING\",\n    \"observations\": \"Periodo de adaptacion\",\n    \"adopter\": {\n        \"id\": \"{{adopter_id_1}}\"\n    },\n    \"shelter\": {\n        \"id\": \"{{shelter_id_1}}\"\n    },\n    \"trialCohabitationRequest\": {\n        \"id\": \"{{trial_request_id_1}}\"\n    }\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -213,6 +866,19 @@
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"26-09-2026 10:05:28\",\n        \"message\": \"The trial start date cannot be before the current date\"\n    }\n}"
         }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 412\", function () {",
+              "    pm.response.to.have.status(412);",
+              "});"
+            ]
+          }
+        }
       ]
     },
     {
@@ -236,7 +902,7 @@
         },
         "body": {
           "mode": "raw",
-          "raw": "{\n    \"startDate\": \"2026-10-20T00:00:00-05:00\",\n    \"endDate\": \"2026-12-20T00:00:00-05:00\",\n    \"status\": \"PENDING\",\n    \"observations\": \"Periodo de adaptacion\",\n    \"adopter\": null,\n    \"shelter\": {\n        \"id\": \"{{shelter_id_1}}\"\n    },\n    \"trialCohabitationRequest\": {\n        \"id\": \"{{trial_request_id_1}}\"\n    }\n}",
+          "raw": "{\n    \"startDate\": \"{{future_start}}\",\n    \"endDate\": \"{{future_end}}\",\n    \"status\": \"PENDING\",\n    \"observations\": \"Periodo de adaptacion\",\n    \"adopter\": null,\n    \"shelter\": {\n        \"id\": \"{{shelter_id_1}}\"\n    },\n    \"trialCohabitationRequest\": {\n        \"id\": \"{{trial_request_id_1}}\"\n    }\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -281,6 +947,19 @@
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"26-09-2026 10:05:28\",\n        \"message\": \"Trial must be associated with an existing adopter\"\n    }\n}"
         }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 412\", function () {",
+              "    pm.response.to.have.status(412);",
+              "});"
+            ]
+          }
+        }
       ]
     },
     {
@@ -304,7 +983,7 @@
         },
         "body": {
           "mode": "raw",
-          "raw": "{\n    \"startDate\": \"2026-10-20T00:00:00-05:00\",\n    \"endDate\": \"2026-12-20T00:00:00-05:00\",\n    \"status\": \"PENDING\",\n    \"observations\": \"Periodo de adaptacion\",\n    \"adopter\": {\n        \"id\": \"{{adopter_id_1}}\"\n    },\n    \"shelter\": null,\n    \"trialCohabitationRequest\": {\n        \"id\": \"{{trial_request_id_1}}\"\n    }\n}",
+          "raw": "{\n    \"startDate\": \"{{future_start}}\",\n    \"endDate\": \"{{future_end}}\",\n    \"status\": \"PENDING\",\n    \"observations\": \"Periodo de adaptacion\",\n    \"adopter\": {\n        \"id\": \"{{adopter_id_1}}\"\n    },\n    \"shelter\": null,\n    \"trialCohabitationRequest\": {\n        \"id\": \"{{trial_request_id_1}}\"\n    }\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -349,6 +1028,19 @@
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"26-09-2026 10:05:28\",\n        \"message\": \"Trial must be associated with an existing shelter\"\n    }\n}"
         }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 412\", function () {",
+              "    pm.response.to.have.status(412);",
+              "});"
+            ]
+          }
+        }
       ]
     },
     {
@@ -372,7 +1064,7 @@
         },
         "body": {
           "mode": "raw",
-          "raw": "{\n    \"startDate\": \"2026-10-20T00:00:00-05:00\",\n    \"endDate\": \"2026-12-20T00:00:00-05:00\",\n    \"status\": \"PENDING\",\n    \"observations\": \"Periodo de adaptacion\",\n    \"adopter\": {\n        \"id\": \"{{adopter_id_1}}\"\n    },\n    \"shelter\": {\n        \"id\": \"{{shelter_id_1}}\"\n    },\n    \"trialCohabitationRequest\": null\n}",
+          "raw": "{\n    \"startDate\": \"{{future_start}}\",\n    \"endDate\": \"{{future_end}}\",\n    \"status\": \"PENDING\",\n    \"observations\": \"Periodo de adaptacion\",\n    \"adopter\": {\n        \"id\": \"{{adopter_id_1}}\"\n    },\n    \"shelter\": {\n        \"id\": \"{{shelter_id_1}}\"\n    },\n    \"trialCohabitationRequest\": null\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -417,6 +1109,19 @@
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"26-09-2026 10:05:28\",\n        \"message\": \"Trial must be associated with a cohabitation request that references an existing pet\"\n    }\n}"
         }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 412\", function () {",
+              "    pm.response.to.have.status(412);",
+              "});"
+            ]
+          }
+        }
       ]
     },
     {
@@ -440,7 +1145,7 @@
         },
         "body": {
           "mode": "raw",
-          "raw": "{\n    \"startDate\": \"2026-10-20T00:00:00-05:00\",\n    \"endDate\": \"2026-12-20T00:00:00-05:00\",\n    \"status\": \"PENDING\",\n    \"observations\": \"Periodo de adaptacion\",\n    \"adopter\": {\n        \"id\": 0\n    },\n    \"shelter\": {\n        \"id\": \"{{shelter_id_1}}\"\n    },\n    \"trialCohabitationRequest\": {\n        \"id\": \"{{trial_request_id_1}}\"\n    }\n}",
+          "raw": "{\n    \"startDate\": \"{{future_start}}\",\n    \"endDate\": \"{{future_end}}\",\n    \"status\": \"PENDING\",\n    \"observations\": \"Periodo de adaptacion\",\n    \"adopter\": {\n        \"id\": 0\n    },\n    \"shelter\": {\n        \"id\": \"{{shelter_id_1}}\"\n    },\n    \"trialCohabitationRequest\": {\n        \"id\": \"{{trial_request_id_1}}\"\n    }\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -485,6 +1190,19 @@
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"NOT_FOUND\",\n        \"timestamp\": \"26-09-2026 10:05:28\",\n        \"message\": \"Adopter not found\"\n    }\n}"
         }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 404\", function () {",
+              "    pm.response.to.have.status(404);",
+              "});"
+            ]
+          }
+        }
       ]
     },
     {
@@ -508,7 +1226,7 @@
         },
         "body": {
           "mode": "raw",
-          "raw": "{\n    \"startDate\": \"2026-10-20T00:00:00-05:00\",\n    \"endDate\": \"2026-12-20T00:00:00-05:00\",\n    \"status\": \"PENDING\",\n    \"observations\": \"Periodo de adaptacion\",\n    \"adopter\": {\n        \"id\": \"{{adopter_id_1}}\"\n    },\n    \"shelter\": {\n        \"id\": 0\n    },\n    \"trialCohabitationRequest\": {\n        \"id\": \"{{trial_request_id_1}}\"\n    }\n}",
+          "raw": "{\n    \"startDate\": \"{{future_start}}\",\n    \"endDate\": \"{{future_end}}\",\n    \"status\": \"PENDING\",\n    \"observations\": \"Periodo de adaptacion\",\n    \"adopter\": {\n        \"id\": \"{{adopter_id_1}}\"\n    },\n    \"shelter\": {\n        \"id\": 0\n    },\n    \"trialCohabitationRequest\": {\n        \"id\": \"{{trial_request_id_1}}\"\n    }\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -553,6 +1271,19 @@
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"NOT_FOUND\",\n        \"timestamp\": \"26-09-2026 10:05:28\",\n        \"message\": \"Shelter not found\"\n    }\n}"
         }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 404\", function () {",
+              "    pm.response.to.have.status(404);",
+              "});"
+            ]
+          }
+        }
       ]
     },
     {
@@ -576,7 +1307,7 @@
         },
         "body": {
           "mode": "raw",
-          "raw": "{\n    \"startDate\": \"2026-10-20T00:00:00-05:00\",\n    \"endDate\": \"2026-12-20T00:00:00-05:00\",\n    \"status\": \"PENDING\",\n    \"observations\": \"Periodo de adaptacion\",\n    \"adopter\": {\n        \"id\": \"{{adopter_id_1}}\"\n    },\n    \"shelter\": {\n        \"id\": \"{{shelter_id_1}}\"\n    },\n    \"trialCohabitationRequest\": {\n        \"id\": 0\n    }\n}",
+          "raw": "{\n    \"startDate\": \"{{future_start}}\",\n    \"endDate\": \"{{future_end}}\",\n    \"status\": \"PENDING\",\n    \"observations\": \"Periodo de adaptacion\",\n    \"adopter\": {\n        \"id\": \"{{adopter_id_1}}\"\n    },\n    \"shelter\": {\n        \"id\": \"{{shelter_id_1}}\"\n    },\n    \"trialCohabitationRequest\": {\n        \"id\": 0\n    }\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -621,6 +1352,19 @@
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"NOT_FOUND\",\n        \"timestamp\": \"26-09-2026 10:05:28\",\n        \"message\": \"Pet not found\"\n    }\n}"
         }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 404\", function () {",
+              "    pm.response.to.have.status(404);",
+              "});"
+            ]
+          }
+        }
       ]
     },
     {
@@ -644,7 +1388,7 @@
         },
         "body": {
           "mode": "raw",
-          "raw": "{\n    \"startDate\": \"2026-10-20T00:00:00-05:00\",\n    \"endDate\": \"2026-12-20T00:00:00-05:00\",\n    \"status\": \"IN_PROGRESS\",\n    \"observations\": \"Periodo de adaptacion\",\n    \"adopter\": {\n        \"id\": \"{{adopter_id_1}}\"\n    },\n    \"shelter\": {\n        \"id\": \"{{shelter_id_1}}\"\n    },\n    \"trialCohabitationRequest\": {\n        \"id\": \"{{trial_request_existing}}\"\n    }\n}",
+          "raw": "{\n    \"startDate\": \"{{future_start}}\",\n    \"endDate\": \"{{future_end}}\",\n    \"status\": \"IN_PROGRESS\",\n    \"observations\": \"Periodo de adaptacion\",\n    \"adopter\": {\n        \"id\": \"{{adopter_id_1}}\"\n    },\n    \"shelter\": {\n        \"id\": \"{{shelter_id_1}}\"\n    },\n    \"trialCohabitationRequest\": {\n        \"id\": \"{{trial_request_existing}}\"\n    }\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -688,6 +1432,19 @@
           "header": [],
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"26-09-2026 10:05:28\",\n        \"message\": \"The requested pet is already involved in another in-progress trial cohabitation\"\n    }\n}"
+        }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 412\", function () {",
+              "    pm.response.to.have.status(412);",
+              "});"
+            ]
+          }
         }
       ]
     },
@@ -733,6 +1490,19 @@
           ],
           "cookie": [],
           "body": "[\n    {\n        \"id\": 1,\n        \"startDate\": \"2026-10-20\",\n        \"endDate\": \"2026-12-20\",\n        \"status\": \"PENDING\",\n        \"observations\": \"Periodo de adaptacion\"\n    }\n]"
+        }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});"
+            ]
+          }
         }
       ]
     },
@@ -791,6 +1561,19 @@
           "cookie": [],
           "body": "[\n    {\n        \"id\": 1,\n        \"startDate\": \"2026-10-20\",\n        \"endDate\": \"2026-12-20\",\n        \"status\": \"PENDING\",\n        \"observations\": \"Periodo de adaptacion\"\n    }\n]"
         }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});"
+            ]
+          }
+        }
       ]
     },
     {
@@ -799,7 +1582,7 @@
         "method": "GET",
         "header": [],
         "url": {
-          "raw": "{{baseUrl}}/trialCohabitations?startDate=2026-10-20T00:00:00-05:00&endDate=2026-12-20T00:00:00-05:00",
+          "raw": "{{baseUrl}}/trialCohabitations?startDate={{future_start}}&endDate={{future_end}}",
           "host": [
             "{{baseUrl}}"
           ],
@@ -856,6 +1639,19 @@
           "cookie": [],
           "body": "[\n    {\n        \"id\": 1,\n        \"startDate\": \"2026-10-20\",\n        \"endDate\": \"2026-12-20\",\n        \"status\": \"PENDING\",\n        \"observations\": \"Periodo de adaptacion\"\n    }\n]"
         }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});"
+            ]
+          }
+        }
       ]
     },
     {
@@ -864,7 +1660,7 @@
         "method": "GET",
         "header": [],
         "url": {
-          "raw": "{{baseUrl}}/trialCohabitations?status=PENDING&startDate=2026-10-20T00:00:00-05:00&endDate=2026-12-20T00:00:00-05:00",
+          "raw": "{{baseUrl}}/trialCohabitations?status=PENDING&startDate={{future_start}}&endDate={{future_end}}",
           "host": [
             "{{baseUrl}}"
           ],
@@ -929,6 +1725,19 @@
           "cookie": [],
           "body": "[\n    {\n        \"id\": 1,\n        \"startDate\": \"2026-10-20\",\n        \"endDate\": \"2026-12-20\",\n        \"status\": \"PENDING\",\n        \"observations\": \"Periodo de adaptacion\"\n    }\n]"
         }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});"
+            ]
+          }
+        }
       ]
     },
     {
@@ -986,6 +1795,19 @@
           "cookie": [],
           "body": "[]"
         }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});"
+            ]
+          }
+        }
       ]
     },
     {
@@ -1033,6 +1855,19 @@
           "cookie": [],
           "body": "{\n    \"id\": 1,\n    \"startDate\": \"2026-10-20\",\n    \"endDate\": \"2026-12-20\",\n    \"status\": \"PENDING\",\n    \"observations\": \"Periodo de adaptacion\"\n}"
         }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});"
+            ]
+          }
+        }
       ]
     },
     {
@@ -1074,6 +1909,19 @@
           "header": [],
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"NOT_FOUND\",\n        \"timestamp\": \"26-09-2026 10:05:28\",\n        \"message\": \"Trial cohabitation not found\"\n    }\n}"
+        }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 412\", function () {",
+              "    pm.response.to.have.status(412);",
+              "});"
+            ]
+          }
         }
       ]
     },
@@ -1117,6 +1965,19 @@
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"26-09-2026 10:05:28\",\n        \"message\": \"Trial id is not valid\"\n    }\n}"
         }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 412\", function () {",
+              "    pm.response.to.have.status(412);",
+              "});"
+            ]
+          }
+        }
       ]
     },
     {
@@ -1141,7 +2002,7 @@
         },
         "body": {
           "mode": "raw",
-          "raw": "{\n    \"startDate\": \"2026-10-20T00:00:00-05:00\",\n    \"endDate\": \"2026-12-20T00:00:00-05:00\",\n    \"status\": \"IN_PROGRESS\",\n    \"observations\": \"Observacion actualizada\",\n    \"adopter\": {\n        \"id\": \"{{adopter_id_1}}\"\n    },\n    \"shelter\": {\n        \"id\": \"{{shelter_id_1}}\"\n    },\n    \"trialCohabitationRequest\": {\n        \"id\": \"{{trial_request_id_1}}\"\n    }\n}",
+          "raw": "{\n    \"startDate\": \"{{future_start}}\",\n    \"endDate\": \"{{future_end}}\",\n    \"status\": \"IN_PROGRESS\",\n    \"observations\": \"Observacion actualizada\",\n    \"adopter\": {\n        \"id\": \"{{adopter_id_1}}\"\n    },\n    \"shelter\": {\n        \"id\": \"{{shelter_id_1}}\"\n    },\n    \"trialCohabitationRequest\": {\n        \"id\": \"{{trial_request_id_1}}\"\n    }\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -1192,6 +2053,19 @@
           "cookie": [],
           "body": "{\n    \"id\": 1,\n    \"startDate\": \"2026-10-20\",\n    \"endDate\": \"2026-12-20\",\n    \"status\": \"IN_PROGRESS\",\n    \"observations\": \"Observacion actualizada\"\n}"
         }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});"
+            ]
+          }
+        }
       ]
     },
     {
@@ -1216,7 +2090,7 @@
         },
         "body": {
           "mode": "raw",
-          "raw": "{\n    \"startDate\": \"2026-10-20T00:00:00-05:00\",\n    \"endDate\": \"2026-12-20T00:00:00-05:00\",\n    \"status\": \"PENDING\",\n    \"observations\": \"Periodo de adaptacion\",\n    \"adopter\": {\n        \"id\": \"{{adopter_id_1}}\"\n    },\n    \"shelter\": {\n        \"id\": \"{{shelter_id_1}}\"\n    },\n    \"trialCohabitationRequest\": {\n        \"id\": \"{{trial_request_id_1}}\"\n    }\n}",
+          "raw": "{\n    \"startDate\": \"{{future_start}}\",\n    \"endDate\": \"{{future_end}}\",\n    \"status\": \"PENDING\",\n    \"observations\": \"Periodo de adaptacion\",\n    \"adopter\": {\n        \"id\": \"{{adopter_id_1}}\"\n    },\n    \"shelter\": {\n        \"id\": \"{{shelter_id_1}}\"\n    },\n    \"trialCohabitationRequest\": {\n        \"id\": \"{{trial_request_id_1}}\"\n    }\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -1262,6 +2136,19 @@
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"NOT_FOUND\",\n        \"timestamp\": \"26-09-2026 10:05:28\",\n        \"message\": \"Trial cohabitation not found\"\n    }\n}"
         }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 412\", function () {",
+              "    pm.response.to.have.status(412);",
+              "});"
+            ]
+          }
+        }
       ]
     },
     {
@@ -1286,7 +2173,7 @@
         },
         "body": {
           "mode": "raw",
-          "raw": "{\n    \"startDate\": \"2026-10-20T00:00:00-05:00\",\n    \"endDate\": \"2026-12-20T00:00:00-05:00\",\n    \"status\": \"PENDING\",\n    \"observations\": \"Periodo de adaptacion\",\n    \"adopter\": {\n        \"id\": \"{{adopter_id_1}}\"\n    },\n    \"shelter\": {\n        \"id\": \"{{shelter_id_1}}\"\n    },\n    \"trialCohabitationRequest\": {\n        \"id\": \"{{trial_request_id_1}}\"\n    }\n}",
+          "raw": "{\n    \"startDate\": \"{{future_start}}\",\n    \"endDate\": \"{{future_end}}\",\n    \"status\": \"PENDING\",\n    \"observations\": \"Periodo de adaptacion\",\n    \"adopter\": {\n        \"id\": \"{{adopter_id_1}}\"\n    },\n    \"shelter\": {\n        \"id\": \"{{shelter_id_1}}\"\n    },\n    \"trialCohabitationRequest\": {\n        \"id\": \"{{trial_request_id_1}}\"\n    }\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -1332,6 +2219,19 @@
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"26-09-2026 10:05:28\",\n        \"message\": \"Trial id is not valid\"\n    }\n}"
         }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 412\", function () {",
+              "    pm.response.to.have.status(412);",
+              "});"
+            ]
+          }
+        }
       ]
     },
     {
@@ -1356,7 +2256,7 @@
         },
         "body": {
           "mode": "raw",
-          "raw": "{\n    \"startDate\": \"2026-10-20T00:00:00-05:00\",\n    \"endDate\": \"2026-12-20T00:00:00-05:00\",\n    \"status\": \"IN_PROGRESS\",\n    \"observations\": \"Periodo de adaptacion\",\n    \"adopter\": {\n        \"id\": \"{{adopter_id_1}}\"\n    },\n    \"shelter\": {\n        \"id\": \"{{shelter_id_1}}\"\n    },\n    \"trialCohabitationRequest\": {\n        \"id\": \"{{trial_request_final}}\"\n    }\n}",
+          "raw": "{\n    \"startDate\": \"{{future_start}}\",\n    \"endDate\": \"{{future_end}}\",\n    \"status\": \"IN_PROGRESS\",\n    \"observations\": \"Periodo de adaptacion\",\n    \"adopter\": {\n        \"id\": \"{{adopter_id_1}}\"\n    },\n    \"shelter\": {\n        \"id\": \"{{shelter_id_1}}\"\n    },\n    \"trialCohabitationRequest\": {\n        \"id\": \"{{trial_request_final}}\"\n    }\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -1402,6 +2302,19 @@
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"26-09-2026 10:05:28\",\n        \"message\": \"A finalized trial cohabitation cannot be changed back to an in-progress state\"\n    }\n}"
         }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 412\", function () {",
+              "    pm.response.to.have.status(412);",
+              "});"
+            ]
+          }
+        }
       ]
     },
     {
@@ -1426,7 +2339,7 @@
         },
         "body": {
           "mode": "raw",
-          "raw": "{\n    \"startDate\": null,\n    \"endDate\": \"2026-12-20T00:00:00-05:00\",\n    \"status\": \"PENDING\",\n    \"observations\": \"Periodo de adaptacion\",\n    \"adopter\": {\n        \"id\": \"{{adopter_id_1}}\"\n    },\n    \"shelter\": {\n        \"id\": \"{{shelter_id_1}}\"\n    },\n    \"trialCohabitationRequest\": {\n        \"id\": \"{{trial_request_id_1}}\"\n    }\n}",
+          "raw": "{\n    \"startDate\": null,\n    \"endDate\": \"{{future_end}}\",\n    \"status\": \"PENDING\",\n    \"observations\": \"Periodo de adaptacion\",\n    \"adopter\": {\n        \"id\": \"{{adopter_id_1}}\"\n    },\n    \"shelter\": {\n        \"id\": \"{{shelter_id_1}}\"\n    },\n    \"trialCohabitationRequest\": {\n        \"id\": \"{{trial_request_id_1}}\"\n    }\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -1472,6 +2385,19 @@
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"26-09-2026 10:05:28\",\n        \"message\": \"Trial start date cannot be null\"\n    }\n}"
         }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 412\", function () {",
+              "    pm.response.to.have.status(412);",
+              "});"
+            ]
+          }
+        }
       ]
     },
     {
@@ -1496,7 +2422,7 @@
         },
         "body": {
           "mode": "raw",
-          "raw": "{\n    \"startDate\": \"2026-10-20T00:00:00-05:00\",\n    \"endDate\": null,\n    \"status\": \"PENDING\",\n    \"observations\": \"Periodo de adaptacion\",\n    \"adopter\": {\n        \"id\": \"{{adopter_id_1}}\"\n    },\n    \"shelter\": {\n        \"id\": \"{{shelter_id_1}}\"\n    },\n    \"trialCohabitationRequest\": {\n        \"id\": \"{{trial_request_id_1}}\"\n    }\n}",
+          "raw": "{\n    \"startDate\": \"{{future_start}}\",\n    \"endDate\": null,\n    \"status\": \"PENDING\",\n    \"observations\": \"Periodo de adaptacion\",\n    \"adopter\": {\n        \"id\": \"{{adopter_id_1}}\"\n    },\n    \"shelter\": {\n        \"id\": \"{{shelter_id_1}}\"\n    },\n    \"trialCohabitationRequest\": {\n        \"id\": \"{{trial_request_id_1}}\"\n    }\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -1542,6 +2468,19 @@
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"26-09-2026 10:05:28\",\n        \"message\": \"Trial end date cannot be null\"\n    }\n}"
         }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 412\", function () {",
+              "    pm.response.to.have.status(412);",
+              "});"
+            ]
+          }
+        }
       ]
     },
     {
@@ -1566,7 +2505,7 @@
         },
         "body": {
           "mode": "raw",
-          "raw": "{\n    \"startDate\": \"2026-10-20T00:00:00-05:00\",\n    \"endDate\": \"2026-12-20T00:00:00-05:00\",\n    \"status\": null,\n    \"observations\": \"Periodo de adaptacion\",\n    \"adopter\": {\n        \"id\": \"{{adopter_id_1}}\"\n    },\n    \"shelter\": {\n        \"id\": \"{{shelter_id_1}}\"\n    },\n    \"trialCohabitationRequest\": {\n        \"id\": \"{{trial_request_id_1}}\"\n    }\n}",
+          "raw": "{\n    \"startDate\": \"{{future_start}}\",\n    \"endDate\": \"{{future_end}}\",\n    \"status\": null,\n    \"observations\": \"Periodo de adaptacion\",\n    \"adopter\": {\n        \"id\": \"{{adopter_id_1}}\"\n    },\n    \"shelter\": {\n        \"id\": \"{{shelter_id_1}}\"\n    },\n    \"trialCohabitationRequest\": {\n        \"id\": \"{{trial_request_id_1}}\"\n    }\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -1612,6 +2551,19 @@
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"26-09-2026 10:05:28\",\n        \"message\": \"Trial status cannot be null or empty\"\n    }\n}"
         }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 412\", function () {",
+              "    pm.response.to.have.status(412);",
+              "});"
+            ]
+          }
+        }
       ]
     },
     {
@@ -1636,7 +2588,7 @@
         },
         "body": {
           "mode": "raw",
-          "raw": "{\n    \"startDate\": \"2026-10-20T00:00:00-05:00\",\n    \"endDate\": \"2026-12-20T00:00:00-05:00\",\n    \"status\": \"PENDING\",\n    \"observations\": null,\n    \"adopter\": {\n        \"id\": \"{{adopter_id_1}}\"\n    },\n    \"shelter\": {\n        \"id\": \"{{shelter_id_1}}\"\n    },\n    \"trialCohabitationRequest\": {\n        \"id\": \"{{trial_request_id_1}}\"\n    }\n}",
+          "raw": "{\n    \"startDate\": \"{{future_start}}\",\n    \"endDate\": \"{{future_end}}\",\n    \"status\": \"PENDING\",\n    \"observations\": null,\n    \"adopter\": {\n        \"id\": \"{{adopter_id_1}}\"\n    },\n    \"shelter\": {\n        \"id\": \"{{shelter_id_1}}\"\n    },\n    \"trialCohabitationRequest\": {\n        \"id\": \"{{trial_request_id_1}}\"\n    }\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -1682,6 +2634,19 @@
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"26-09-2026 10:05:28\",\n        \"message\": \"Trial observations cannot be null or empty\"\n    }\n}"
         }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 412\", function () {",
+              "    pm.response.to.have.status(412);",
+              "});"
+            ]
+          }
+        }
       ]
     },
     {
@@ -1723,6 +2688,19 @@
           "header": [],
           "cookie": [],
           "body": ""
+        }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 204\", function () {",
+              "    pm.response.to.have.status(204);",
+              "});"
+            ]
+          }
         }
       ]
     },
@@ -1766,6 +2744,19 @@
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"26-09-2026 10:05:28\",\n        \"message\": \"Only trial cohabitations in pending status can be deleted; those in progress or finalized cannot\"\n    }\n}"
         }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 412\", function () {",
+              "    pm.response.to.have.status(412);",
+              "});"
+            ]
+          }
+        }
       ]
     },
     {
@@ -1807,6 +2798,19 @@
           "header": [],
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"26-09-2026 10:05:28\",\n        \"message\": \"Only trial cohabitations in pending status can be deleted; those in progress or finalized cannot\"\n    }\n}"
+        }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 412\", function () {",
+              "    pm.response.to.have.status(412);",
+              "});"
+            ]
+          }
         }
       ]
     },
@@ -1850,6 +2854,19 @@
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"NOT_FOUND\",\n        \"timestamp\": \"26-09-2026 10:05:28\",\n        \"message\": \"Trial cohabitation not found\"\n    }\n}"
         }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 412\", function () {",
+              "    pm.response.to.have.status(412);",
+              "});"
+            ]
+          }
+        }
       ]
     },
     {
@@ -1892,45 +2909,97 @@
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"26-09-2026 10:05:28\",\n        \"message\": \"Trial id is not valid\"\n    }\n}"
         }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 412\", function () {",
+              "    pm.response.to.have.status(412);",
+              "});"
+            ]
+          }
+        }
       ]
     }
   ],
   "variable": [
     {
       "key": "trial_id_1",
-      "value": "1"
+      "value": ""
     },
     {
       "key": "trial_id_2",
-      "value": "2"
+      "value": ""
     },
     {
       "key": "trial_id_final",
-      "value": "3"
+      "value": ""
     },
     {
       "key": "trial_id_inprogress",
-      "value": "4"
+      "value": ""
     },
     {
       "key": "adopter_id_1",
-      "value": "1"
+      "value": ""
     },
     {
       "key": "shelter_id_1",
-      "value": "1"
+      "value": ""
     },
     {
       "key": "trial_request_id_1",
-      "value": "1"
+      "value": ""
     },
     {
       "key": "trial_request_existing",
-      "value": "2"
+      "value": ""
     },
     {
       "key": "trial_request_final",
-      "value": "3"
+      "value": ""
+    },
+    {
+      "key": "pet_id_1",
+      "value": ""
+    },
+    {
+      "key": "pet_id_2",
+      "value": ""
+    },
+    {
+      "key": "pet_id_3",
+      "value": ""
+    },
+    {
+      "key": "pet_id_4",
+      "value": ""
+    },
+    {
+      "key": "trial_request_id_2",
+      "value": ""
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          "pm.collectionVariables.set(\"run_id\", Date.now().toString());",
+          "function iso(offsetDays) {",
+          "    var d = new Date();",
+          "    d.setDate(d.getDate() + offsetDays);",
+          "    return d.toISOString().slice(0, 10) + \"T00:00:00-05:00\";",
+          "}",
+          "pm.collectionVariables.set(\"future_start\", iso(30));",
+          "pm.collectionVariables.set(\"future_end\", iso(90));",
+          "pm.collectionVariables.set(\"future_date\", iso(15));"
+        ]
+      }
     }
   ]
 }
