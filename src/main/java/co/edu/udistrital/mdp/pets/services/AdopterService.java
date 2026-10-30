@@ -21,8 +21,6 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor 
 public class AdopterService {
 
-	private static final Set<String> ACTIVE_REQUEST_STATUSES = Set.of("PENDING", "APPROVED", "IN_PROGRESS");
-
 	private static final String ADOPTER_NOT_FOUND = "Adopter not found";
 	private static final String ADOPTER_ID_NOT_VALID = "Adopter id is not valid";
 	private static final String SEARCH_FILTERS_CANNOT_BE_EMPTY = "Search filters cannot be empty";
@@ -272,15 +270,23 @@ public class AdopterService {
 		if (adopter.isEmpty())
 			throw new EntityNotFoundException(ADOPTER_NOT_FOUND);
 
-		boolean hasActiveRequests = adoptionRequestRepository.findAll().stream()
-				.anyMatch(r -> r.getAdopter() != null && r.getAdopter().getId().equals(adopterId)
-						&& r.getStatus() != null
-						&& ACTIVE_REQUEST_STATUSES.contains(r.getStatus().toUpperCase()));
-		if (hasActiveRequests)
+		AdopterEntity current = adopter.get();
+
+		// Cualquier historial asociado (solicitudes, adopciones o convivencias) impide el borrado
+		// fisico: las claves foraneas lo bloquearian y el adoptante debe desactivarse en su lugar.
+		boolean hasHistory = !isNullOrEmpty(current.getAdoptionRequests())
+				|| !isNullOrEmpty(current.getAdoptions())
+				|| !isNullOrEmpty(current.getCohabitationRequests())
+				|| !isNullOrEmpty(current.getTrialCohabitions());
+		if (hasHistory)
 			throw new IllegalOperationException(
-					"An adopter with approved or in-progress adoption requests cannot be deleted; deactivate it instead");
+					"An adopter with adoption history cannot be deleted; deactivate it instead");
 
 		adopterRepository.deleteById(adopterId);
 		log.info("Finished the process of deleting the adopter with id = {}", adopterId);
+	}
+
+	private boolean isNullOrEmpty(java.util.Collection<?> collection) {
+		return collection == null || collection.isEmpty();
 	}
 }
