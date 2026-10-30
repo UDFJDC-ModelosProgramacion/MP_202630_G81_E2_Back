@@ -216,6 +216,12 @@ class MedicalEventServiceTest {
 	}
 
 	@Test
+	void testGetMedicalEventWithZeroIdIsInvalid() {
+		// El cero no es un id valido: la coleccion PetMedicalEvents espera 412.
+		assertThrows(IllegalOperationException.class, () -> medicalEventService.getMedicalEvent(0L));
+	}
+
+	@Test
 	void testGetNonExistentMedicalEvent() {
 		assertThrows(EntityNotFoundException.class, () -> medicalEventService.getMedicalEvent(NON_EXISTENT_ID));
 	}

@@ -1602,13 +1602,13 @@
           "script": {
             "type": "text/javascript",
             "exec": [
-              "pm.test(\"Status code is 404\", function () {",
-              "    pm.response.to.have.status(404);",
+              "pm.test(\"Status code is 412\", function () {",
+              "    pm.response.to.have.status(412);",
               "});",
-              "",
               "pm.test(\"Get expected error message\", function () {",
               "    var data = pm.response.json();",
-              "    pm.expect(data.apierror.message).to.eql(\"Medical event was not found\");",
+              "    pm.expect(data.apierror.status).to.eql(\"PRECONDITION_FAILED\");",
+              "    pm.expect(data.apierror.message).to.eql(\"Medical event id is not valid\");",
               "});"
             ]
           }
@@ -1856,13 +1856,13 @@
           "script": {
             "type": "text/javascript",
             "exec": [
-              "pm.test(\"Status code is 404\", function () {",
-              "    pm.response.to.have.status(404);",
+              "pm.test(\"Status code is 412\", function () {",
+              "    pm.response.to.have.status(412);",
               "});",
-              "",
               "pm.test(\"Get expected error message\", function () {",
               "    var data = pm.response.json();",
-              "    pm.expect(data.apierror.message).to.eql(\"Medical event was not found\");",
+              "    pm.expect(data.apierror.status).to.eql(\"PRECONDITION_FAILED\");",
+              "    pm.expect(data.apierror.message).to.eql(\"Medical event id is not valid\");",
               "});"
             ]
           }
@@ -2364,13 +2364,13 @@
           "script": {
             "type": "text/javascript",
             "exec": [
-              "pm.test(\"Status code is 404\", function () {",
-              "    pm.response.to.have.status(404);",
+              "pm.test(\"Status code is 412\", function () {",
+              "    pm.response.to.have.status(412);",
               "});",
-              "",
               "pm.test(\"Get expected error message\", function () {",
               "    var data = pm.response.json();",
-              "    pm.expect(data.apierror.message).to.eql(\"Medical event was not found\");",
+              "    pm.expect(data.apierror.status).to.eql(\"PRECONDITION_FAILED\");",
+              "    pm.expect(data.apierror.message).to.eql(\"Medical event id is not valid\");",
               "});"
             ]
           }

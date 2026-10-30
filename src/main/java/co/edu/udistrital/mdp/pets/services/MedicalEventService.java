@@ -217,10 +217,10 @@ public class MedicalEventService {
 			throw new IllegalOperationException("The medical event is not associated with the pet");
 	}
 
-	/** Un id negativo no es válido; el cero se trata como un id que no existe. */
+	/** Un id nulo o no positivo no es válido. */
 	private MedicalEventEntity findMedicalEvent(Long medicalEventId)
 			throws EntityNotFoundException, IllegalOperationException {
-		if (medicalEventId == null || medicalEventId < 0)
+		if (medicalEventId == null || medicalEventId <= 0)
 			throw new IllegalOperationException(MEDICAL_EVENT_ID_NOT_VALID);
 		return medicalEventRepository.findById(medicalEventId)
 				.orElseThrow(() -> new EntityNotFoundException(MEDICAL_EVENT_NOT_FOUND));
