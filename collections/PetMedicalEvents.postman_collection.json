@@ -7,6 +7,54 @@
   },
   "item": [
     {
+      "name": "Preparacion: crear veterinario",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"firstName\": \"Diego\",\n    \"lastName\": \"Torres\",\n    \"email\": \"vet_pme_{{run_id}}@mail.com\",\n    \"password\": \"1234\",\n    \"phone\": \"3000000001\",\n    \"specialization\": \"Medicina general\",\n    \"availability\": \"Lunes a viernes\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/veterinarians",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "veterinarians"
+          ]
+        },
+        "description": "Preparacion por API (setup)."
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "if (pm.response.code === 201) {",
+              "    pm.collectionVariables.set(\"veterinarian_id\", pm.response.json().id);",
+              "}",
+              "pm.test(\"Status code is 201\", function () {",
+              "    pm.response.to.have.status(201);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
       "name": "00 Preparacion",
       "item": [
         {
@@ -2242,6 +2290,10 @@
                   "   pm.expect(ids).to.include(Number(pm.collectionVariables.get(\"medical_event_id\")));",
                   "   pm.expect(ids).to.include(Number(pm.collectionVariables.get(\"medical_event_id_2\")));",
                   "   pm.expect(ids).to.not.include(Number(pm.collectionVariables.get(\"medical_event_id_other\")));",
+                  "});",
+                  "",
+                  "pm.test(\"Se registra el numero de eventos de la mascota\", function () {",
+                  "    pm.collectionVariables.set(\"medical_events_before_delete\", pm.response.json().medicalEvents.length);",
                   "});"
                 ]
               }
@@ -2717,7 +2769,7 @@
                   "   var data = pm.response.json();",
                   "   const ids = data.medicalEvents.map(e => e.id);",
                   "   pm.expect(ids).to.not.include(Number(pm.collectionVariables.get(\"medical_event_id_2\")));",
-                  "   pm.expect(ids).to.have.lengthOf(1);",
+                  "    pm.expect(ids).to.have.lengthOf(Number(pm.collectionVariables.get(\"medical_events_before_delete\")) - 1);",
                   "});"
                 ]
               }
