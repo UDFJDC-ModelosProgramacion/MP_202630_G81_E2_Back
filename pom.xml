@@ -78,7 +78,7 @@
 						<profile>integration-tests</profile>
 					</profiles>
 					<arguments>
-						<argument>--server.port=8080</argument>
+						<argument>--server.port=8999</argument>
 					</arguments>
 					<excludes>
 						<exclude>
