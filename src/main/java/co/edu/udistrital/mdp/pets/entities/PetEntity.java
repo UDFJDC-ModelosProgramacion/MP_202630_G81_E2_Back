@@ -62,6 +62,8 @@ public class PetEntity extends BaseEntity {
 	@ManyToOne
 	private ShelterEntity shelter;
 
+	private Boolean active;
+
 	@PodamExclude
 	@OneToMany(mappedBy = "pet", cascade = CascadeType.REMOVE)
 	private List<MedicalEventEntity> medicalEvents = new ArrayList<>();
