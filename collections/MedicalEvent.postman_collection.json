@@ -2501,6 +2501,191 @@
           }
         }
       ]
+    },
+    {
+      "name": "Obtener eventos medicos filtrados por fecha",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/medicalEvents?date=2026-09-10",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "medicalEvents?date=2026-09-10"
+          ]
+        },
+        "description": "getMedicalEvents: filtro por fecha sola (yyyy-MM-dd)."
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test(\"All events match the date filter\", function () {",
+              "    var data = pm.response.json();",
+              "    pm.expect(data.length).to.greaterThan(0);",
+              "    data.forEach(function (e) {",
+              "        pm.expect(e.date).to.eql(\"2026-09-10\");",
+              "    });",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Obtener eventos medicos con una fecha invalida en los filtros",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/medicalEvents?date=no-es-una-fecha",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "medicalEvents?date=no-es-una-fecha"
+          ]
+        },
+        "description": "getMedicalEvents: una fecha con formato invalido responde 412."
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 412\", function () {",
+              "    pm.response.to.have.status(412);",
+              "});",
+              "",
+              "pm.test(\"Get expected error message\", function () {",
+              "    var data = pm.response.json();",
+              "    pm.expect(data.apierror.message).to.eql(\"Date is not valid\");",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Crear un evento medico sin veterinario",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/medicalEvents",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "medicalEvents"
+          ]
+        },
+        "description": "createMedicalEvent: el veterinario es obligatorio.",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"date\": \"2026-09-12T00:00:00-05:00\",\n    \"type\": \"Vacunacion\",\n    \"description\": \"Refuerzo de vacuna sin veterinario asignado\",\n    \"pet\": {\n        \"id\": {{pet_id_1}}\n    }\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 412\", function () {",
+              "    pm.response.to.have.status(412);",
+              "});",
+              "",
+              "pm.test(\"Get expected error message\", function () {",
+              "    var data = pm.response.json();",
+              "    pm.expect(data.apierror.message).to.eql(\"Veterinarian is not valid\");",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Crear un evento medico con un veterinario que no existe",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/medicalEvents",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "medicalEvents"
+          ]
+        },
+        "description": "createMedicalEvent: el veterinario debe existir.",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"date\": \"2026-09-12T00:00:00-05:00\",\n    \"type\": \"Vacunacion\",\n    \"description\": \"Refuerzo de vacuna con un veterinario inexistente\",\n    \"pet\": {\n        \"id\": {{pet_id_1}}\n    },\n    \"veterinarian\": {\n        \"id\": 999999\n    }\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 404\", function () {",
+              "    pm.response.to.have.status(404);",
+              "});",
+              "",
+              "pm.test(\"Get expected error message\", function () {",
+              "    var data = pm.response.json();",
+              "    pm.expect(data.apierror.message).to.eql(\"Veterinarian was not found\");",
+              "});"
+            ]
+          }
+        }
+      ]
     }
   ],
   "variable": [

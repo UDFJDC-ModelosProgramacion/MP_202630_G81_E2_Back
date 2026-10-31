@@ -1061,6 +1061,440 @@
       ]
     },
     {
+      "name": "Preparar mascota cinco (setup)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/pets",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "pets"
+          ]
+        },
+        "description": "Preparacion (setup): mascota que luego se desactiva para el caso de mascota inactiva.",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"name\": \"Mascota {{run_id}} cinco\",\n    \"species\": \"Perro\",\n    \"breed\": \"Criollo\",\n    \"age\": 3,\n    \"sex\": \"Hembra\",\n    \"size\": \"Mediano\",\n    \"healthStatus\": \"Sano\",\n    \"description\": \"Mascota de prueba para las colecciones\",\n    \"admissionDate\": \"2026-01-10T00:00:00-05:00\",\n    \"temperament\": \"Dulce\",\n    \"compatibilityChildren\": true,\n    \"compatibilityOtherPets\": true,\n    \"activityLevel\": \"Alta\",\n    \"requiredSpace\": \"Patio\",\n    \"shelter\": {\n        \"id\": \"{{shelter_id}}\"\n    },\n    \"medicalEvents\": [\n        {\n            \"date\": \"2026-01-10T00:00:00-05:00\",\n            \"type\": \"Ingreso\",\n            \"description\": \"Llego al refugio\"\n        }\n    ]\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "if (pm.response.code === 201) {",
+              "    pm.collectionVariables.set(\"pet_id_5\", pm.response.json().id);",
+              "}",
+              "",
+              "pm.test(\"Status code is 201\", function () {",
+              "    pm.response.to.have.status(201);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Preparar solicitud para la mascota inactiva (setup)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/adoptionRequests",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "adoptionRequests"
+          ]
+        },
+        "description": "Preparacion (setup): la adopcion exige que la solicitud exista; se crea antes de desactivar la mascota.",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"description\": \"Solicitud de prueba para la mascota que luego se desactiva\",\n    \"pet\": {\n        \"id\": {{pet_id_5}}\n    },\n    \"adopter\": {\n        \"id\": {{adopter_id}}\n    }\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "if (pm.response.code === 201) {",
+              "    pm.collectionVariables.set(\"adoption_request_id_inactive\", pm.response.json().id);",
+              "}",
+              "",
+              "pm.test(\"Status code is 201\", function () {",
+              "    pm.response.to.have.status(201);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Desactivar la mascota inactiva (setup)",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/pets/{{pet_id_5}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "pets",
+            "{{pet_id_5}}"
+          ]
+        },
+        "description": "Preparacion (setup): deja la mascota inactiva para el caso PET_NOT_ACTIVE.",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"name\": \"Mascota {{run_id}} inactiva\",\n    \"species\": \"Perro\",\n    \"breed\": \"Criollo\",\n    \"age\": 3,\n    \"sex\": \"Hembra\",\n    \"size\": \"Mediano\",\n    \"healthStatus\": \"Sano\",\n    \"description\": \"Mascota de prueba para las colecciones\",\n    \"admissionDate\": \"2026-01-10T00:00:00-05:00\",\n    \"temperament\": \"Dulce\",\n    \"compatibilityChildren\": true,\n    \"compatibilityOtherPets\": true,\n    \"activityLevel\": \"Alta\",\n    \"requiredSpace\": \"Patio\",\n    \"shelter\": {\n        \"id\": \"{{shelter_id}}\"\n    },\n    \"medicalEvents\": [\n        {\n            \"date\": \"2026-01-10T00:00:00-05:00\",\n            \"type\": \"Ingreso\",\n            \"description\": \"Llego al refugio\"\n        }\n    ],\n    \"active\": false\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Preparar mascota seis (setup)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/pets",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "pets"
+          ]
+        },
+        "description": "Preparacion (setup): mascota libre para el caso de solicitud ya utilizada.",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"name\": \"Mascota {{run_id}} seis\",\n    \"species\": \"Perro\",\n    \"breed\": \"Criollo\",\n    \"age\": 3,\n    \"sex\": \"Hembra\",\n    \"size\": \"Mediano\",\n    \"healthStatus\": \"Sano\",\n    \"description\": \"Mascota de prueba para las colecciones\",\n    \"admissionDate\": \"2026-01-10T00:00:00-05:00\",\n    \"temperament\": \"Dulce\",\n    \"compatibilityChildren\": true,\n    \"compatibilityOtherPets\": true,\n    \"activityLevel\": \"Alta\",\n    \"requiredSpace\": \"Patio\",\n    \"shelter\": {\n        \"id\": \"{{shelter_id}}\"\n    },\n    \"medicalEvents\": [\n        {\n            \"date\": \"2026-01-10T00:00:00-05:00\",\n            \"type\": \"Ingreso\",\n            \"description\": \"Llego al refugio\"\n        }\n    ]\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "if (pm.response.code === 201) {",
+              "    pm.collectionVariables.set(\"pet_id_6\", pm.response.json().id);",
+              "}",
+              "",
+              "pm.test(\"Status code is 201\", function () {",
+              "    pm.response.to.have.status(201);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Preparar solicitud de adopcion aprobada 6 (setup)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/adoptionRequests",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "adoptionRequests"
+          ]
+        },
+        "description": "Preparacion (setup): solicitud aprobada que luego consume una adopcion.",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"description\": \"Solicitud de prueba que sera consumida por una adopcion\",\n    \"pet\": {\n        \"id\": {{pet_id_6}}\n    },\n    \"adopter\": {\n        \"id\": {{adopter_id}}\n    }\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "if (pm.response.code === 201) {",
+              "    pm.collectionVariables.set(\"adoption_request_id_6\", pm.response.json().id);",
+              "}",
+              "",
+              "pm.test(\"Status code is 201\", function () {",
+              "    pm.response.to.have.status(201);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Aprobar solicitud de adopcion aprobada 6 (setup)",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/adoptionRequests/{{adoption_request_id_6}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "adoptionRequests",
+            "{{adoption_request_id_6}}"
+          ]
+        },
+        "description": "Preparacion (setup): pasa la solicitud a APPROVED.",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"description\": \"Solicitud de prueba que sera consumida por una adopcion\",\n    \"status\": \"APPROVED\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Preparar una adopcion que consume la solicitud 6 (setup)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/adoptions",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "adoptions"
+          ]
+        },
+        "description": "Preparacion (setup): crea la adopcion que deja la solicitud marcada como utilizada.",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"date\": \"2026-09-10T00:00:00-05:00\",\n    \"status\": \"IN_PROGRESS\",\n    \"importantNotes\": \"Adopcion de prueba que consume la solicitud 6\",\n    \"pet\": {\n        \"id\": {{pet_id_6}}\n    },\n    \"shelter\": {\n        \"id\": {{shelter_id}}\n    },\n    \"adopter\": {\n        \"id\": {{adopter_id}}\n    },\n    \"adoptionRequest\": {\n        \"id\": {{adoption_request_id_6}}\n    }\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "if (pm.response.code === 201) {",
+              "    pm.collectionVariables.set(\"adoption_id_6\", pm.response.json().id);",
+              "}",
+              "",
+              "pm.test(\"Status code is 201\", function () {",
+              "    pm.response.to.have.status(201);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Cancelar la adopcion que consume la solicitud 6 (setup)",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/adoptions/{{adoption_id_6}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "adoptions",
+            "{{adoption_id_6}}"
+          ]
+        },
+        "description": "Preparacion (setup): la mascota vuelve a estar disponible, pero la solicitud ya quedo utilizada.",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"date\": \"2026-09-10T00:00:00-05:00\",\n    \"status\": \"CANCELLED\",\n    \"importantNotes\": \"Se cancela para liberar la mascota y poder reutilizar la solicitud\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Preparar una resena para la adopcion finalizada (setup)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/pets/{{pet_id_3}}/reviews",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "pets",
+            "{{pet_id_3}}",
+            "reviews"
+          ]
+        },
+        "description": "Preparacion (setup): una resena asociada impide borrar la adopcion.",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"rating\": 5,\n    \"comment\": \"Resena de prueba para verificar que una adopcion con resenas no se puede borrar\",\n    \"date\": \"2026-09-15T00:00:00-05:00\",\n    \"time\": \"2026-09-15T10:00:00-05:00\",\n    \"adoption\": {\n        \"id\": {{adoption_id_finalized}}\n    }\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "if (pm.response.code === 201) {",
+              "    pm.collectionVariables.set(\"review_id\", pm.response.json().id);",
+              "}",
+              "",
+              "pm.test(\"Status code is 201\", function () {",
+              "    pm.response.to.have.status(201);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
       "name": "Crear una adopcion",
       "request": {
         "method": "POST",
@@ -2420,6 +2854,11 @@
             "exec": [
               "pm.test(\"Status code is 412\", function () {",
               "    pm.response.to.have.status(412);",
+              "});",
+              "",
+              "pm.test(\"Get expected error message\", function () {",
+              "    var data = pm.response.json();",
+              "    pm.expect(data.apierror.message).to.eql(\"Pet id is not valid\");",
               "});"
             ]
           }
@@ -3058,6 +3497,11 @@
             "exec": [
               "pm.test(\"Status code is 412\", function () {",
               "    pm.response.to.have.status(412);",
+              "});",
+              "",
+              "pm.test(\"Get expected error message\", function () {",
+              "    var data = pm.response.json();",
+              "    pm.expect(data.apierror.message).to.eql(\"The pet and the adopter of an adoption cannot be modified\");",
               "});"
             ]
           }
@@ -3147,6 +3591,11 @@
             "exec": [
               "pm.test(\"Status code is 412\", function () {",
               "    pm.response.to.have.status(412);",
+              "});",
+              "",
+              "pm.test(\"Get expected error message\", function () {",
+              "    var data = pm.response.json();",
+              "    pm.expect(data.apierror.message).to.eql(\"The pet and the adopter of an adoption cannot be modified\");",
               "});"
             ]
           }
@@ -3484,6 +3933,279 @@
             "exec": [
               "pm.test(\"Status code is 412\", function () {",
               "    pm.response.to.have.status(412);",
+              "});",
+              "",
+              "pm.test(\"Get expected error message\", function () {",
+              "    var data = pm.response.json();",
+              "    pm.expect(data.apierror.message).to.eql(\"An adoption in progress cannot be deleted\");",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Crear una adopcion con una mascota inactiva",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/adoptions",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "adoptions"
+          ]
+        },
+        "description": "createAdoption: la mascota existe pero esta inactiva.",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"date\": \"2026-09-10T00:00:00-05:00\",\n    \"status\": \"IN_PROGRESS\",\n    \"importantNotes\": \"El adoptante cuenta con espacio adecuado para la mascota\",\n    \"pet\": {\n        \"id\": {{pet_id_5}}\n    },\n    \"shelter\": {\n        \"id\": {{shelter_id}}\n    },\n    \"adopter\": {\n        \"id\": {{adopter_id}}\n    },\n    \"adoptionRequest\": {\n        \"id\": {{adoption_request_id_inactive}}\n    }\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 412\", function () {",
+              "    pm.response.to.have.status(412);",
+              "});",
+              "",
+              "pm.test(\"Get expected error message\", function () {",
+              "    var data = pm.response.json();",
+              "    pm.expect(data.apierror.message).to.eql(\"The pet is not active in the system\");",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Crear una adopcion con una solicitud que ya tiene adopcion",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/adoptions",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "adoptions"
+          ]
+        },
+        "description": "createAdoption: la solicitud ya fue utilizada por otra adopcion, aunque esa adopcion este cancelada.",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"date\": \"2026-09-10T00:00:00-05:00\",\n    \"status\": \"IN_PROGRESS\",\n    \"importantNotes\": \"El adoptante cuenta con espacio adecuado para la mascota\",\n    \"pet\": {\n        \"id\": {{pet_id_6}}\n    },\n    \"shelter\": {\n        \"id\": {{shelter_id}}\n    },\n    \"adopter\": {\n        \"id\": {{adopter_id}}\n    },\n    \"adoptionRequest\": {\n        \"id\": {{adoption_request_id_6}}\n    }\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 412\", function () {",
+              "    pm.response.to.have.status(412);",
+              "});",
+              "",
+              "pm.test(\"Get expected error message\", function () {",
+              "    var data = pm.response.json();",
+              "    pm.expect(data.apierror.message).to.eql(\"Unable to create adoption because the request already has one\");",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Obtener adopciones filtradas por refugio",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/adoptions?shelterId={{shelter_id}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "adoptions?shelterId={{shelter_id}}"
+          ]
+        },
+        "description": "getAdoptions: filtro por shelterId."
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test(\"All adoptions match the x.shelter.id filter\", function () {",
+              "    var data = pm.response.json();",
+              "    pm.expect(data.length).to.greaterThan(0);",
+              "    data.forEach(function (x) {",
+              "        pm.expect(x.shelter.id).to.eql(Number(pm.collectionVariables.get(\"shelter_id\")));",
+              "    });",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Obtener adopciones con un adoptante invalido en los filtros",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/adoptions?adopterId=-1",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "adoptions?adopterId=-1"
+          ]
+        },
+        "description": "getAdoptions: un adopterId negativo no es valido."
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 412\", function () {",
+              "    pm.response.to.have.status(412);",
+              "});",
+              "",
+              "pm.test(\"Get expected error message\", function () {",
+              "    var data = pm.response.json();",
+              "    pm.expect(data.apierror.message).to.eql(\"Adopter id is not valid\");",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Obtener adopciones con un refugio invalido en los filtros",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/adoptions?shelterId=-1",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "adoptions?shelterId=-1"
+          ]
+        },
+        "description": "getAdoptions: un shelterId negativo no es valido."
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 412\", function () {",
+              "    pm.response.to.have.status(412);",
+              "});",
+              "",
+              "pm.test(\"Get expected error message\", function () {",
+              "    var data = pm.response.json();",
+              "    pm.expect(data.apierror.message).to.eql(\"Shelter id is not valid\");",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Borrar una adopcion con resenas",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/adoptions/{{adoption_id_finalized}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "adoptions",
+            "{{adoption_id_finalized}}"
+          ]
+        },
+        "description": "deleteAdoption: una adopcion con resenas asociadas no se puede borrar."
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 412\", function () {",
+              "    pm.response.to.have.status(412);",
+              "});",
+              "",
+              "pm.test(\"Get expected error message\", function () {",
+              "    var data = pm.response.json();",
+              "    pm.expect(data.apierror.message).to.eql(\"Unable to delete adoption because it has associated reviews\");",
               "});"
             ]
           }
@@ -3566,6 +4288,30 @@
     },
     {
       "key": "trial_end_date",
+      "value": ""
+    },
+    {
+      "key": "pet_id_5",
+      "value": ""
+    },
+    {
+      "key": "adoption_request_id_inactive",
+      "value": ""
+    },
+    {
+      "key": "pet_id_6",
+      "value": ""
+    },
+    {
+      "key": "adoption_request_id_6",
+      "value": ""
+    },
+    {
+      "key": "adoption_id_6",
+      "value": ""
+    },
+    {
+      "key": "review_id",
       "value": ""
     }
   ],

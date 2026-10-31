@@ -3496,6 +3496,135 @@
           }
         }
       ]
+    },
+    {
+      "name": "Obtener solicitudes de convivencia de prueba filtradas por adoptante",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/trialCohabitationRequests?adopterId={{adopter_id}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "trialCohabitationRequests?adopterId={{adopter_id}}"
+          ]
+        },
+        "description": "getTrialCohabitationRequests: filtro por adopterId solo."
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test(\"All requests match the x.adopter.id filter\", function () {",
+              "    var data = pm.response.json();",
+              "    pm.expect(data.length).to.greaterThan(0);",
+              "    data.forEach(function (x) {",
+              "        pm.expect(x.adopter.id).to.eql(Number(pm.collectionVariables.get(\"adopter_id\")));",
+              "    });",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Obtener solicitudes de convivencia de prueba filtradas por mascota",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/trialCohabitationRequests?petId={{pet_id_1}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "trialCohabitationRequests?petId={{pet_id_1}}"
+          ]
+        },
+        "description": "getTrialCohabitationRequests: filtro por petId solo."
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test(\"All requests match the x.pet.id filter\", function () {",
+              "    var data = pm.response.json();",
+              "    pm.expect(data.length).to.greaterThan(0);",
+              "    data.forEach(function (x) {",
+              "        pm.expect(x.pet.id).to.eql(Number(pm.collectionVariables.get(\"pet_id_1\")));",
+              "    });",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Obtener solicitudes de convivencia de prueba con una mascota invalida en los filtros",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/trialCohabitationRequests?petId=-1",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "trialCohabitationRequests?petId=-1"
+          ]
+        },
+        "description": "getTrialCohabitationRequests: un petId negativo no es valido."
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 412\", function () {",
+              "    pm.response.to.have.status(412);",
+              "});",
+              "",
+              "pm.test(\"Get expected error message\", function () {",
+              "    var data = pm.response.json();",
+              "    pm.expect(data.apierror.message).to.eql(\"Pet id is not valid\");",
+              "});"
+            ]
+          }
+        }
+      ]
     }
   ],
   "variable": [
