@@ -33,8 +33,8 @@ public class PetService {
 	private final TrialCohabitationRepository trialCohabitationRepository;
 	private final AdoptionRepository adoptionRepository;
 	
-	private static final String PET_ID_NOT_VALID = "Pet id is not valid";
-	private static final String PET_NOT_FOUND = "The pet with the given id was not found";
+	private static final String PET_ID_NOT_VALID = "El id de la mascota no es válido";
+	private static final String PET_NOT_FOUND = "No se encontró la mascota con el id indicado";
 
 	@Transactional
 	public PetEntity createPet(PetEntity pet) throws EntityNotFoundException, IllegalOperationException {
@@ -43,19 +43,19 @@ public class PetService {
 		validateMandatoryAttributes(pet);
 
 		if (pet.getShelter() == null || pet.getShelter().getId() == null)
-			throw new IllegalOperationException("Pet must be associated with an existing shelter");
+			throw new IllegalOperationException("La mascota debe estar asociada a un refugio existente");
 		Optional<ShelterEntity> shelter = shelterRepository.findById(pet.getShelter().getId());
 		if (shelter.isEmpty())
-			throw new EntityNotFoundException("The shelter with the given id was not found");
+			throw new EntityNotFoundException("No se encontró el refugio con el id indicado");
 
 		if (pet.getAdmissionDate().after(new Date()))
-			throw new IllegalOperationException("Admission date cannot be a future date");
+			throw new IllegalOperationException("La fecha de ingreso no puede ser una fecha futura");
 
 		List<MedicalEventEntity> arrivalEvents = pet.getMedicalEvents() == null ? new ArrayList<>()
 				: new ArrayList<>(pet.getMedicalEvents());
 		if (arrivalEvents.isEmpty())
 			throw new IllegalOperationException(
-					"A pet must be registered with at least one medical event describing its arrival at the shelter");
+					"La mascota debe registrarse con al menos un evento de llegada que describa su ingreso al refugio");
 
 		pet.setShelter(shelter.get());
 		pet.setMedicalEvents(new ArrayList<>());
@@ -63,7 +63,7 @@ public class PetService {
 		boolean duplicated = petRepository.findAll().stream().anyMatch(p -> isSamePet(p, pet));
 		if (duplicated)
 			throw new IllegalOperationException(
-					"A pet with the same shelter, name, species and admission date already exists");
+					"Ya existe una mascota con el mismo refugio, nombre, especie y fecha de ingreso");
 
 		PetEntity savedPet = petRepository.save(pet);
 
@@ -134,14 +134,14 @@ public class PetService {
 
 		if (pet.getAdmissionDate() != null && current.getAdmissionDate() != null
 				&& !sameDay(pet.getAdmissionDate(), current.getAdmissionDate()))
-			throw new IllegalOperationException("Admission date cannot be modified");
+			throw new IllegalOperationException("La fecha de ingreso no se puede modificar");
 
 		ShelterEntity shelter = current.getShelter();
 		if (pet.getShelter() != null && pet.getShelter().getId() != null
 				&& (current.getShelter() == null || !pet.getShelter().getId().equals(current.getShelter().getId()))) {
 			Optional<ShelterEntity> newShelter = shelterRepository.findById(pet.getShelter().getId());
 			if (newShelter.isEmpty())
-				throw new EntityNotFoundException("The shelter with the given id was not found");
+				throw new EntityNotFoundException("No se encontró el refugio con el id indicado");
 			shelter = newShelter.get();
 		}
 
@@ -152,7 +152,7 @@ public class PetService {
 				.filter(p -> !p.getId().equals(petId))
 				.anyMatch(p -> isSamePet(p, pet));
 		if (duplicated)
-			throw new IllegalOperationException("A pet with the same shelter, name, species and admission date already exists");
+			throw new IllegalOperationException("Ya existe una mascota con el mismo refugio, nombre, especie y fecha de ingreso");
 
 		pet.setId(petId);
 		pet.setMedicalEvents(current.getMedicalEvents());
@@ -179,10 +179,10 @@ public class PetService {
 		PetEntity petEntity = pet.get();
 
 		if (hasActiveAdoptionOrCohabitation(petEntity))
-			throw new IllegalOperationException("A pet with an active adoption or trial cohabitation cannot be deleted");
+			throw new IllegalOperationException("No se puede eliminar una mascota con una adopción o convivencia de prueba activa");
 
 		if (hasAssociatedHistory(petEntity))
-			throw new IllegalOperationException("A pet with associated history cannot be deleted");
+			throw new IllegalOperationException("No se puede eliminar una mascota con historial asociado");
 
 		petRepository.deleteById(petId);
 		log.info("Finish the process of deleting the pet with id = {}", petId);
@@ -226,41 +226,41 @@ public class PetService {
 
 	private void validateIdentity(PetEntity pet) throws IllegalOperationException {
 		if (pet.getName() == null || pet.getName().isBlank())
-			throw new IllegalOperationException("Pet name cannot be null or empty");
+			throw new IllegalOperationException("El nombre de la mascota no puede ser nulo ni estar vacío");
 		if (pet.getSpecies() == null || pet.getSpecies().isBlank())
-			throw new IllegalOperationException("Species cannot be null or empty");
+			throw new IllegalOperationException("La especie no puede ser nula ni estar vacía");
 		if (pet.getBreed() == null || pet.getBreed().isBlank())
-			throw new IllegalOperationException("Breed cannot be null or empty");
+			throw new IllegalOperationException("La raza no puede ser nula ni estar vacía");
 	}
 
 	private void validatePhysicalAttributes(PetEntity pet) throws IllegalOperationException {
 		if (pet.getAge() == null)
-			throw new IllegalOperationException("Age cannot be null");
+			throw new IllegalOperationException("La edad no puede ser nula");
 		if (pet.getSex() == null || pet.getSex().isBlank())
-			throw new IllegalOperationException("Sex cannot be null or empty");
+			throw new IllegalOperationException("El sexo no puede ser nulo ni estar vacío");
 		if (pet.getSize() == null || pet.getSize().isBlank())
-			throw new IllegalOperationException("Size cannot be null or empty");
+			throw new IllegalOperationException("El tamaño no puede ser nulo ni estar vacío");
 	}
 
 	private void validateHealthAndAdmission(PetEntity pet) throws IllegalOperationException {
 		if (pet.getHealthStatus() == null || pet.getHealthStatus().isBlank())
-			throw new IllegalOperationException("Health status cannot be null or empty");
+			throw new IllegalOperationException("El estado de salud no puede ser nulo ni estar vacío");
 		if (pet.getAdmissionDate() == null)
-			throw new IllegalOperationException("Admission date cannot be null");
+			throw new IllegalOperationException("La fecha de ingreso no puede ser nula");
 	}
 
 	private void validateCompatibility(PetEntity pet) throws IllegalOperationException {
 		if (pet.getCompatibilityChildren() == null)
-			throw new IllegalOperationException("Compatibility with children cannot be null");
+			throw new IllegalOperationException("La compatibilidad con niños no puede ser nula");
 		if (pet.getCompatibilityOtherPets() == null)
-			throw new IllegalOperationException("Compatibility with other pets cannot be null");
+			throw new IllegalOperationException("La compatibilidad con otras mascotas no puede ser nula");
 	}
 
 	private void validateLifestyle(PetEntity pet) throws IllegalOperationException {
 		if (pet.getActivityLevel() == null || pet.getActivityLevel().isBlank())
-			throw new IllegalOperationException("Activity level cannot be null or empty");
+			throw new IllegalOperationException("El nivel de actividad no puede ser nulo ni estar vacío");
 		if (pet.getRequiredSpace() == null || pet.getRequiredSpace().isBlank())
-			throw new IllegalOperationException("Required space cannot be null or empty");
+			throw new IllegalOperationException("El espacio requerido no puede ser nulo ni estar vacío");
 	}
 
 	private boolean isSamePet(PetEntity p1, PetEntity p2) {

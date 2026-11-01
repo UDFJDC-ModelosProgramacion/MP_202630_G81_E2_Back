@@ -569,7 +569,7 @@
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"09-10-2026 10:00:00\",\n        \"message\": \"Pet name cannot be null or empty\"\n    }\n}"
+							"body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"09-10-2026 10:00:00\",\n        \"message\": \"El nombre de la mascota no puede ser nulo ni estar vacío\"\n    }\n}"
 						}
 					],
 					"event": [
@@ -584,7 +584,7 @@
 									"pm.test(\"Get expected error message\", function () {",
 									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"PRECONDITION_FAILED\");",
-									"   pm.expect(data.apierror.message).to.eql(\"Pet name cannot be null or empty\");",
+									"   pm.expect(data.apierror.message).to.eql(\"El nombre de la mascota no puede ser nulo ni estar vacío\");",
 									"});"
 								]
 							}
@@ -660,7 +660,7 @@
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"09-10-2026 10:00:00\",\n        \"message\": \"Species cannot be null or empty\"\n    }\n}"
+							"body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"09-10-2026 10:00:00\",\n        \"message\": \"La especie no puede ser nula ni estar vacía\"\n    }\n}"
 						}
 					],
 					"event": [
@@ -675,7 +675,7 @@
 									"pm.test(\"Get expected error message\", function () {",
 									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"PRECONDITION_FAILED\");",
-									"   pm.expect(data.apierror.message).to.eql(\"Species cannot be null or empty\");",
+									"   pm.expect(data.apierror.message).to.eql(\"La especie no puede ser nula ni estar vacía\");",
 									"});"
 								]
 							}
@@ -751,7 +751,7 @@
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"09-10-2026 10:00:00\",\n        \"message\": \"Breed cannot be null or empty\"\n    }\n}"
+							"body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"09-10-2026 10:00:00\",\n        \"message\": \"La raza no puede ser nula ni estar vacía\"\n    }\n}"
 						}
 					],
 					"event": [
@@ -766,7 +766,7 @@
 									"pm.test(\"Get expected error message\", function () {",
 									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"PRECONDITION_FAILED\");",
-									"   pm.expect(data.apierror.message).to.eql(\"Breed cannot be null or empty\");",
+									"   pm.expect(data.apierror.message).to.eql(\"La raza no puede ser nula ni estar vacía\");",
 									"});"
 								]
 							}
@@ -842,7 +842,7 @@
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"09-10-2026 10:00:00\",\n        \"message\": \"Age cannot be null\"\n    }\n}"
+							"body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"09-10-2026 10:00:00\",\n        \"message\": \"La edad no puede ser nula\"\n    }\n}"
 						}
 					],
 					"event": [
@@ -857,7 +857,7 @@
 									"pm.test(\"Get expected error message\", function () {",
 									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"PRECONDITION_FAILED\");",
-									"   pm.expect(data.apierror.message).to.eql(\"Age cannot be null\");",
+									"   pm.expect(data.apierror.message).to.eql(\"La edad no puede ser nula\");",
 									"});"
 								]
 							}
@@ -933,7 +933,7 @@
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"09-10-2026 10:00:00\",\n        \"message\": \"Sex cannot be null or empty\"\n    }\n}"
+							"body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"09-10-2026 10:00:00\",\n        \"message\": \"El sexo no puede ser nulo ni estar vacío\"\n    }\n}"
 						}
 					],
 					"event": [
@@ -948,7 +948,7 @@
 									"pm.test(\"Get expected error message\", function () {",
 									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"PRECONDITION_FAILED\");",
-									"   pm.expect(data.apierror.message).to.eql(\"Sex cannot be null or empty\");",
+									"   pm.expect(data.apierror.message).to.eql(\"El sexo no puede ser nulo ni estar vacío\");",
 									"});"
 								]
 							}
@@ -1024,7 +1024,7 @@
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"09-10-2026 10:00:00\",\n        \"message\": \"Size cannot be null or empty\"\n    }\n}"
+							"body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"09-10-2026 10:00:00\",\n        \"message\": \"El tamaño no puede ser nulo ni estar vacío\"\n    }\n}"
 						}
 					],
 					"event": [
@@ -1039,7 +1039,7 @@
 									"pm.test(\"Get expected error message\", function () {",
 									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"PRECONDITION_FAILED\");",
-									"   pm.expect(data.apierror.message).to.eql(\"Size cannot be null or empty\");",
+									"   pm.expect(data.apierror.message).to.eql(\"El tamaño no puede ser nulo ni estar vacío\");",
 									"});"
 								]
 							}
@@ -1115,7 +1115,7 @@
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"09-10-2026 10:00:00\",\n        \"message\": \"Health status cannot be null or empty\"\n    }\n}"
+							"body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"09-10-2026 10:00:00\",\n        \"message\": \"El estado de salud no puede ser nulo ni estar vacío\"\n    }\n}"
 						}
 					],
 					"event": [
@@ -1130,7 +1130,7 @@
 									"pm.test(\"Get expected error message\", function () {",
 									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"PRECONDITION_FAILED\");",
-									"   pm.expect(data.apierror.message).to.eql(\"Health status cannot be null or empty\");",
+									"   pm.expect(data.apierror.message).to.eql(\"El estado de salud no puede ser nulo ni estar vacío\");",
 									"});"
 								]
 							}
@@ -1206,7 +1206,7 @@
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"09-10-2026 10:00:00\",\n        \"message\": \"Admission date cannot be null\"\n    }\n}"
+							"body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"09-10-2026 10:00:00\",\n        \"message\": \"La fecha de ingreso no puede ser nula\"\n    }\n}"
 						}
 					],
 					"event": [
@@ -1221,7 +1221,7 @@
 									"pm.test(\"Get expected error message\", function () {",
 									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"PRECONDITION_FAILED\");",
-									"   pm.expect(data.apierror.message).to.eql(\"Admission date cannot be null\");",
+									"   pm.expect(data.apierror.message).to.eql(\"La fecha de ingreso no puede ser nula\");",
 									"});"
 								]
 							}
@@ -1297,7 +1297,7 @@
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"09-10-2026 10:00:00\",\n        \"message\": \"Compatibility with children cannot be null\"\n    }\n}"
+							"body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"09-10-2026 10:00:00\",\n        \"message\": \"La compatibilidad con niños no puede ser nula\"\n    }\n}"
 						}
 					],
 					"event": [
@@ -1312,7 +1312,7 @@
 									"pm.test(\"Get expected error message\", function () {",
 									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"PRECONDITION_FAILED\");",
-									"   pm.expect(data.apierror.message).to.eql(\"Compatibility with children cannot be null\");",
+									"   pm.expect(data.apierror.message).to.eql(\"La compatibilidad con niños no puede ser nula\");",
 									"});"
 								]
 							}
@@ -1388,7 +1388,7 @@
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"09-10-2026 10:00:00\",\n        \"message\": \"Compatibility with other pets cannot be null\"\n    }\n}"
+							"body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"09-10-2026 10:00:00\",\n        \"message\": \"La compatibilidad con otras mascotas no puede ser nula\"\n    }\n}"
 						}
 					],
 					"event": [
@@ -1403,7 +1403,7 @@
 									"pm.test(\"Get expected error message\", function () {",
 									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"PRECONDITION_FAILED\");",
-									"   pm.expect(data.apierror.message).to.eql(\"Compatibility with other pets cannot be null\");",
+									"   pm.expect(data.apierror.message).to.eql(\"La compatibilidad con otras mascotas no puede ser nula\");",
 									"});"
 								]
 							}
@@ -1479,7 +1479,7 @@
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"09-10-2026 10:00:00\",\n        \"message\": \"Activity level cannot be null or empty\"\n    }\n}"
+							"body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"09-10-2026 10:00:00\",\n        \"message\": \"El nivel de actividad no puede ser nulo ni estar vacío\"\n    }\n}"
 						}
 					],
 					"event": [
@@ -1494,7 +1494,7 @@
 									"pm.test(\"Get expected error message\", function () {",
 									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"PRECONDITION_FAILED\");",
-									"   pm.expect(data.apierror.message).to.eql(\"Activity level cannot be null or empty\");",
+									"   pm.expect(data.apierror.message).to.eql(\"El nivel de actividad no puede ser nulo ni estar vacío\");",
 									"});"
 								]
 							}
@@ -1570,7 +1570,7 @@
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"09-10-2026 10:00:00\",\n        \"message\": \"Required space cannot be null or empty\"\n    }\n}"
+							"body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"09-10-2026 10:00:00\",\n        \"message\": \"El espacio requerido no puede ser nulo ni estar vacío\"\n    }\n}"
 						}
 					],
 					"event": [
@@ -1585,7 +1585,7 @@
 									"pm.test(\"Get expected error message\", function () {",
 									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"PRECONDITION_FAILED\");",
-									"   pm.expect(data.apierror.message).to.eql(\"Required space cannot be null or empty\");",
+									"   pm.expect(data.apierror.message).to.eql(\"El espacio requerido no puede ser nulo ni estar vacío\");",
 									"});"
 								]
 							}
@@ -1667,7 +1667,7 @@
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"09-10-2026 10:00:00\",\n        \"message\": \"Pet must be associated with an existing shelter\"\n    }\n}"
+							"body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"09-10-2026 10:00:00\",\n        \"message\": \"La mascota debe estar asociada a un refugio existente\"\n    }\n}"
 						}
 					],
 					"event": [
@@ -1682,7 +1682,7 @@
 									"pm.test(\"Get expected error message\", function () {",
 									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"PRECONDITION_FAILED\");",
-									"   pm.expect(data.apierror.message).to.eql(\"Pet must be associated with an existing shelter\");",
+									"   pm.expect(data.apierror.message).to.eql(\"La mascota debe estar asociada a un refugio existente\");",
 									"});"
 								]
 							}
@@ -1758,7 +1758,7 @@
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"apierror\": {\n        \"status\": \"NOT_FOUND\",\n        \"timestamp\": \"09-10-2026 10:00:00\",\n        \"message\": \"The shelter with the given id was not found\"\n    }\n}"
+							"body": "{\n    \"apierror\": {\n        \"status\": \"NOT_FOUND\",\n        \"timestamp\": \"09-10-2026 10:00:00\",\n        \"message\": \"No se encontró el refugio con el id indicado\"\n    }\n}"
 						}
 					],
 					"event": [
@@ -1773,7 +1773,7 @@
 									"pm.test(\"Get expected error message\", function () {",
 									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"NOT_FOUND\");",
-									"   pm.expect(data.apierror.message).to.eql(\"The shelter with the given id was not found\");",
+									"   pm.expect(data.apierror.message).to.eql(\"No se encontró el refugio con el id indicado\");",
 									"});"
 								]
 							}
@@ -1849,7 +1849,7 @@
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"09-10-2026 10:00:00\",\n        \"message\": \"Admission date cannot be a future date\"\n    }\n}"
+							"body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"09-10-2026 10:00:00\",\n        \"message\": \"La fecha de ingreso no puede ser una fecha futura\"\n    }\n}"
 						}
 					],
 					"event": [
@@ -1864,7 +1864,7 @@
 									"pm.test(\"Get expected error message\", function () {",
 									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"PRECONDITION_FAILED\");",
-									"   pm.expect(data.apierror.message).to.eql(\"Admission date cannot be a future date\");",
+									"   pm.expect(data.apierror.message).to.eql(\"La fecha de ingreso no puede ser una fecha futura\");",
 									"});"
 								]
 							}
@@ -1940,7 +1940,7 @@
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"09-10-2026 10:00:00\",\n        \"message\": \"A pet must be registered with at least one medical event describing its arrival at the shelter\"\n    }\n}"
+							"body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"09-10-2026 10:00:00\",\n        \"message\": \"La mascota debe registrarse con al menos un evento de llegada que describa su ingreso al refugio\"\n    }\n}"
 						}
 					],
 					"event": [
@@ -1955,7 +1955,7 @@
 									"pm.test(\"Get expected error message\", function () {",
 									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"PRECONDITION_FAILED\");",
-									"   pm.expect(data.apierror.message).to.eql(\"A pet must be registered with at least one medical event describing its arrival at the shelter\");",
+									"   pm.expect(data.apierror.message).to.eql(\"La mascota debe registrarse con al menos un evento de llegada que describa su ingreso al refugio\");",
 									"});"
 								]
 							}
@@ -2031,7 +2031,7 @@
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"09-10-2026 10:00:00\",\n        \"message\": \"A pet with the same shelter, name, species and admission date already exists\"\n    }\n}"
+							"body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"09-10-2026 10:00:00\",\n        \"message\": \"Ya existe una mascota con el mismo refugio, nombre, especie y fecha de ingreso\"\n    }\n}"
 						}
 					],
 					"event": [
@@ -2046,7 +2046,7 @@
 									"pm.test(\"Get expected error message\", function () {",
 									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"PRECONDITION_FAILED\");",
-									"   pm.expect(data.apierror.message).to.eql(\"A pet with the same shelter, name, species and admission date already exists\");",
+									"   pm.expect(data.apierror.message).to.eql(\"Ya existe una mascota con el mismo refugio, nombre, especie y fecha de ingreso\");",
 									"});"
 								]
 							}
@@ -2965,7 +2965,7 @@
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"apierror\": {\n        \"status\": \"NOT_FOUND\",\n        \"timestamp\": \"09-10-2026 10:00:00\",\n        \"message\": \"The pet with the given id was not found\"\n    }\n}"
+							"body": "{\n    \"apierror\": {\n        \"status\": \"NOT_FOUND\",\n        \"timestamp\": \"09-10-2026 10:00:00\",\n        \"message\": \"No se encontró la mascota con el id indicado\"\n    }\n}"
 						}
 					],
 					"event": [
@@ -2980,7 +2980,7 @@
 									"pm.test(\"Get expected error message\", function () {",
 									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"NOT_FOUND\");",
-									"   pm.expect(data.apierror.message).to.eql(\"The pet with the given id was not found\");",
+									"   pm.expect(data.apierror.message).to.eql(\"No se encontró la mascota con el id indicado\");",
 									"});"
 								]
 							}
@@ -3030,7 +3030,7 @@
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"09-10-2026 10:00:00\",\n        \"message\": \"Pet id is not valid\"\n    }\n}"
+							"body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"09-10-2026 10:00:00\",\n        \"message\": \"El id de la mascota no es válido\"\n    }\n}"
 						}
 					],
 					"event": [
@@ -3045,7 +3045,7 @@
 									"pm.test(\"Get expected error message\", function () {",
 									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"PRECONDITION_FAILED\");",
-									"   pm.expect(data.apierror.message).to.eql(\"Pet id is not valid\");",
+									"   pm.expect(data.apierror.message).to.eql(\"El id de la mascota no es válido\");",
 									"});"
 								]
 							}
@@ -3225,7 +3225,7 @@
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"apierror\": {\n        \"status\": \"NOT_FOUND\",\n        \"timestamp\": \"09-10-2026 10:00:00\",\n        \"message\": \"The pet with the given id was not found\"\n    }\n}"
+							"body": "{\n    \"apierror\": {\n        \"status\": \"NOT_FOUND\",\n        \"timestamp\": \"09-10-2026 10:00:00\",\n        \"message\": \"No se encontró la mascota con el id indicado\"\n    }\n}"
 						}
 					],
 					"event": [
@@ -3240,7 +3240,7 @@
 									"pm.test(\"Get expected error message\", function () {",
 									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"NOT_FOUND\");",
-									"   pm.expect(data.apierror.message).to.eql(\"The pet with the given id was not found\");",
+									"   pm.expect(data.apierror.message).to.eql(\"No se encontró la mascota con el id indicado\");",
 									"});"
 								]
 							}
@@ -3318,7 +3318,7 @@
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"09-10-2026 10:00:00\",\n        \"message\": \"Pet id is not valid\"\n    }\n}"
+							"body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"09-10-2026 10:00:00\",\n        \"message\": \"El id de la mascota no es válido\"\n    }\n}"
 						}
 					],
 					"event": [
@@ -3333,7 +3333,7 @@
 									"pm.test(\"Get expected error message\", function () {",
 									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"PRECONDITION_FAILED\");",
-									"   pm.expect(data.apierror.message).to.eql(\"Pet id is not valid\");",
+									"   pm.expect(data.apierror.message).to.eql(\"El id de la mascota no es válido\");",
 									"});"
 								]
 							}
@@ -3411,7 +3411,7 @@
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"09-10-2026 10:00:00\",\n        \"message\": \"Pet name cannot be null or empty\"\n    }\n}"
+							"body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"09-10-2026 10:00:00\",\n        \"message\": \"El nombre de la mascota no puede ser nulo ni estar vacío\"\n    }\n}"
 						}
 					],
 					"event": [
@@ -3426,7 +3426,7 @@
 									"pm.test(\"Get expected error message\", function () {",
 									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"PRECONDITION_FAILED\");",
-									"   pm.expect(data.apierror.message).to.eql(\"Pet name cannot be null or empty\");",
+									"   pm.expect(data.apierror.message).to.eql(\"El nombre de la mascota no puede ser nulo ni estar vacío\");",
 									"});"
 								]
 							}
@@ -3504,7 +3504,7 @@
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"09-10-2026 10:00:00\",\n        \"message\": \"Admission date cannot be modified\"\n    }\n}"
+							"body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"09-10-2026 10:00:00\",\n        \"message\": \"La fecha de ingreso no se puede modificar\"\n    }\n}"
 						}
 					],
 					"event": [
@@ -3519,7 +3519,7 @@
 									"pm.test(\"Get expected error message\", function () {",
 									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"PRECONDITION_FAILED\");",
-									"   pm.expect(data.apierror.message).to.eql(\"Admission date cannot be modified\");",
+									"   pm.expect(data.apierror.message).to.eql(\"La fecha de ingreso no se puede modificar\");",
 									"});"
 								]
 							}
@@ -3597,7 +3597,7 @@
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"apierror\": {\n        \"status\": \"NOT_FOUND\",\n        \"timestamp\": \"09-10-2026 10:00:00\",\n        \"message\": \"The shelter with the given id was not found\"\n    }\n}"
+							"body": "{\n    \"apierror\": {\n        \"status\": \"NOT_FOUND\",\n        \"timestamp\": \"09-10-2026 10:00:00\",\n        \"message\": \"No se encontró el refugio con el id indicado\"\n    }\n}"
 						}
 					],
 					"event": [
@@ -3612,7 +3612,7 @@
 									"pm.test(\"Get expected error message\", function () {",
 									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"NOT_FOUND\");",
-									"   pm.expect(data.apierror.message).to.eql(\"The shelter with the given id was not found\");",
+									"   pm.expect(data.apierror.message).to.eql(\"No se encontró el refugio con el id indicado\");",
 									"});"
 								]
 							}
@@ -3692,7 +3692,7 @@
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"09-10-2026 10:00:00\",\n        \"message\": \"A pet with the same shelter, name, species and admission date already exists\"\n    }\n}"
+							"body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"09-10-2026 10:00:00\",\n        \"message\": \"Ya existe una mascota con el mismo refugio, nombre, especie y fecha de ingreso\"\n    }\n}"
 						}
 					],
 					"event": [
@@ -3707,7 +3707,7 @@
 									"pm.test(\"Get expected error message\", function () {",
 									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"PRECONDITION_FAILED\");",
-									"   pm.expect(data.apierror.message).to.eql(\"A pet with the same shelter, name, species and admission date already exists\");",
+									"   pm.expect(data.apierror.message).to.eql(\"Ya existe una mascota con el mismo refugio, nombre, especie y fecha de ingreso\");",
 									"});"
 								]
 							}
@@ -3818,7 +3818,7 @@
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"apierror\": {\n        \"status\": \"NOT_FOUND\",\n        \"timestamp\": \"09-10-2026 10:00:00\",\n        \"message\": \"The pet with the given id was not found\"\n    }\n}"
+							"body": "{\n    \"apierror\": {\n        \"status\": \"NOT_FOUND\",\n        \"timestamp\": \"09-10-2026 10:00:00\",\n        \"message\": \"No se encontró la mascota con el id indicado\"\n    }\n}"
 						}
 					],
 					"event": [
@@ -3833,7 +3833,7 @@
 									"pm.test(\"Get expected error message\", function () {",
 									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"NOT_FOUND\");",
-									"   pm.expect(data.apierror.message).to.eql(\"The pet with the given id was not found\");",
+									"   pm.expect(data.apierror.message).to.eql(\"No se encontró la mascota con el id indicado\");",
 									"});"
 								]
 							}
@@ -3883,7 +3883,7 @@
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"apierror\": {\n        \"status\": \"NOT_FOUND\",\n        \"timestamp\": \"09-10-2026 10:00:00\",\n        \"message\": \"The pet with the given id was not found\"\n    }\n}"
+							"body": "{\n    \"apierror\": {\n        \"status\": \"NOT_FOUND\",\n        \"timestamp\": \"09-10-2026 10:00:00\",\n        \"message\": \"No se encontró la mascota con el id indicado\"\n    }\n}"
 						}
 					],
 					"event": [
@@ -3898,7 +3898,7 @@
 									"pm.test(\"Get expected error message\", function () {",
 									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"NOT_FOUND\");",
-									"   pm.expect(data.apierror.message).to.eql(\"The pet with the given id was not found\");",
+									"   pm.expect(data.apierror.message).to.eql(\"No se encontró la mascota con el id indicado\");",
 									"});"
 								]
 							}
@@ -3948,7 +3948,7 @@
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"09-10-2026 10:00:00\",\n        \"message\": \"Pet id is not valid\"\n    }\n}"
+							"body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"09-10-2026 10:00:00\",\n        \"message\": \"El id de la mascota no es válido\"\n    }\n}"
 						}
 					],
 					"event": [
@@ -3963,7 +3963,7 @@
 									"pm.test(\"Get expected error message\", function () {",
 									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"PRECONDITION_FAILED\");",
-									"   pm.expect(data.apierror.message).to.eql(\"Pet id is not valid\");",
+									"   pm.expect(data.apierror.message).to.eql(\"El id de la mascota no es válido\");",
 									"});"
 								]
 							}
@@ -4015,7 +4015,7 @@
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"09-10-2026 10:00:00\",\n        \"message\": \"A pet with associated history cannot be deleted\"\n    }\n}"
+							"body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"09-10-2026 10:00:00\",\n        \"message\": \"No se puede eliminar una mascota con historial asociado\"\n    }\n}"
 						}
 					],
 					"event": [
@@ -4030,7 +4030,7 @@
 									"pm.test(\"Get expected error message\", function () {",
 									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"PRECONDITION_FAILED\");",
-									"   pm.expect(data.apierror.message).to.eql(\"A pet with associated history cannot be deleted\");",
+									"   pm.expect(data.apierror.message).to.eql(\"No se puede eliminar una mascota con historial asociado\");",
 									"});"
 								]
 							}

@@ -2,7 +2,7 @@
 	"info": {
 		"_postman_id": "45733ed4-6543-57c6-b7ab-f751f7700f1b",
 		"name": "PetPhotos",
-		"description": "Pet photos (/pets/{petId}/photos). PROPOSED DESIGN: The nested controller does not exist yet (see PRERREQUISITOS_BACKEND.md). SELF-CONTAINED COLLECTION: Creates its own shelter and pets and manages their photos through this same resource; it does not use the Photo collection. Reuses PhotoService. Proposed new message: 'The photo is not associated with the pet' (412), following the same pattern as Event/Vaccine.",
+		"description": "Pet photos (/pets/{petId}/photos). PROPOSED DESIGN: The nested controller does not exist yet (see PRERREQUISITOS_BACKEND.md). SELF-CONTAINED COLLECTION: Creates its own shelter and pets and manages their photos through this same resource; it does not use the Photo collection. Reuses PhotoService. Proposed new message: 'La foto no está asociada a la mascota' (412), following the same pattern as Event/Vaccine.",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
@@ -831,7 +831,7 @@
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"09-10-2026 10:00:00\",\n        \"message\": \"Photo url cannot be null or empty\"\n    }\n}"
+							"body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"09-10-2026 10:00:00\",\n        \"message\": \"La URL de la foto no puede ser nula ni estar vacía\"\n    }\n}"
 						}
 					],
 					"event": [
@@ -846,7 +846,7 @@
 									"pm.test(\"Get expected error message\", function () {",
 									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"PRECONDITION_FAILED\");",
-									"   pm.expect(data.apierror.message).to.eql(\"Photo url cannot be null or empty\");",
+									"   pm.expect(data.apierror.message).to.eql(\"La URL de la foto no puede ser nula ni estar vacía\");",
 									"});"
 								]
 							}
@@ -926,7 +926,7 @@
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"09-10-2026 10:00:00\",\n        \"message\": \"Photo format cannot be null or empty\"\n    }\n}"
+							"body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"09-10-2026 10:00:00\",\n        \"message\": \"El formato de la foto no puede ser nulo ni estar vacío\"\n    }\n}"
 						}
 					],
 					"event": [
@@ -941,7 +941,7 @@
 									"pm.test(\"Get expected error message\", function () {",
 									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"PRECONDITION_FAILED\");",
-									"   pm.expect(data.apierror.message).to.eql(\"Photo format cannot be null or empty\");",
+									"   pm.expect(data.apierror.message).to.eql(\"El formato de la foto no puede ser nulo ni estar vacío\");",
 									"});"
 								]
 							}
@@ -1021,7 +1021,7 @@
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"09-10-2026 10:00:00\",\n        \"message\": \"Photo format is not valid; use JPG, PNG or another supported format\"\n    }\n}"
+							"body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"09-10-2026 10:00:00\",\n        \"message\": \"El formato de la foto no es válido; use JPG, PNG u otro formato admitido\"\n    }\n}"
 						}
 					],
 					"event": [
@@ -1036,7 +1036,7 @@
 									"pm.test(\"Get expected error message\", function () {",
 									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"PRECONDITION_FAILED\");",
-									"   pm.expect(data.apierror.message).to.eql(\"Photo format is not valid; use JPG, PNG or another supported format\");",
+									"   pm.expect(data.apierror.message).to.eql(\"El formato de la foto no es válido; use JPG, PNG u otro formato admitido\");",
 									"});"
 								]
 							}
@@ -1116,7 +1116,7 @@
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"apierror\": {\n        \"status\": \"NOT_FOUND\",\n        \"timestamp\": \"09-10-2026 10:00:00\",\n        \"message\": \"Pet not found\"\n    }\n}"
+							"body": "{\n    \"apierror\": {\n        \"status\": \"NOT_FOUND\",\n        \"timestamp\": \"09-10-2026 10:00:00\",\n        \"message\": \"Mascota no encontrada\"\n    }\n}"
 						}
 					],
 					"event": [
@@ -1131,7 +1131,7 @@
 									"pm.test(\"Get expected error message\", function () {",
 									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"NOT_FOUND\");",
-									"   pm.expect(data.apierror.message).to.eql(\"Pet not found\");",
+									"   pm.expect(data.apierror.message).to.eql(\"Mascota no encontrada\");",
 									"});"
 								]
 							}
@@ -1327,7 +1327,7 @@
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"apierror\": {\n        \"status\": \"NOT_FOUND\",\n        \"timestamp\": \"09-10-2026 10:00:00\",\n        \"message\": \"Pet not found\"\n    }\n}"
+							"body": "{\n    \"apierror\": {\n        \"status\": \"NOT_FOUND\",\n        \"timestamp\": \"09-10-2026 10:00:00\",\n        \"message\": \"Mascota no encontrada\"\n    }\n}"
 						}
 					],
 					"event": [
@@ -1342,7 +1342,7 @@
 									"pm.test(\"Get expected error message\", function () {",
 									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"NOT_FOUND\");",
-									"   pm.expect(data.apierror.message).to.eql(\"Pet not found\");",
+									"   pm.expect(data.apierror.message).to.eql(\"Mascota no encontrada\");",
 									"});"
 								]
 							}
@@ -1465,7 +1465,7 @@
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"apierror\": {\n        \"status\": \"NOT_FOUND\",\n        \"timestamp\": \"09-10-2026 10:00:00\",\n        \"message\": \"Photo not found\"\n    }\n}"
+							"body": "{\n    \"apierror\": {\n        \"status\": \"NOT_FOUND\",\n        \"timestamp\": \"09-10-2026 10:00:00\",\n        \"message\": \"Foto no encontrada\"\n    }\n}"
 						}
 					],
 					"event": [
@@ -1480,7 +1480,7 @@
 									"pm.test(\"Get expected error message\", function () {",
 									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"NOT_FOUND\");",
-									"   pm.expect(data.apierror.message).to.eql(\"Photo not found\");",
+									"   pm.expect(data.apierror.message).to.eql(\"Foto no encontrada\");",
 									"});"
 								]
 							}
@@ -1534,7 +1534,7 @@
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"09-10-2026 10:00:00\",\n        \"message\": \"Photo id is not valid\"\n    }\n}"
+							"body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"09-10-2026 10:00:00\",\n        \"message\": \"El id de la foto no es válido\"\n    }\n}"
 						}
 					],
 					"event": [
@@ -1549,7 +1549,7 @@
 									"pm.test(\"Get expected error message\", function () {",
 									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"PRECONDITION_FAILED\");",
-									"   pm.expect(data.apierror.message).to.eql(\"Photo id is not valid\");",
+									"   pm.expect(data.apierror.message).to.eql(\"El id de la foto no es válido\");",
 									"});"
 								]
 							}
@@ -1603,7 +1603,7 @@
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"apierror\": {\n        \"status\": \"NOT_FOUND\",\n        \"timestamp\": \"09-10-2026 10:00:00\",\n        \"message\": \"Pet not found\"\n    }\n}"
+							"body": "{\n    \"apierror\": {\n        \"status\": \"NOT_FOUND\",\n        \"timestamp\": \"09-10-2026 10:00:00\",\n        \"message\": \"Mascota no encontrada\"\n    }\n}"
 						}
 					],
 					"event": [
@@ -1618,7 +1618,7 @@
 									"pm.test(\"Get expected error message\", function () {",
 									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"NOT_FOUND\");",
-									"   pm.expect(data.apierror.message).to.eql(\"Pet not found\");",
+									"   pm.expect(data.apierror.message).to.eql(\"Mascota no encontrada\");",
 									"});"
 								]
 							}
@@ -1672,7 +1672,7 @@
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"09-10-2026 10:00:00\",\n        \"message\": \"The photo is not associated with the pet\"\n    }\n}"
+							"body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"09-10-2026 10:00:00\",\n        \"message\": \"La foto no está asociada a la mascota\"\n    }\n}"
 						}
 					],
 					"event": [
@@ -1687,7 +1687,7 @@
 									"pm.test(\"Get expected error message\", function () {",
 									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"PRECONDITION_FAILED\");",
-									"   pm.expect(data.apierror.message).to.eql(\"The photo is not associated with the pet\");",
+									"   pm.expect(data.apierror.message).to.eql(\"La foto no está asociada a la mascota\");",
 									"});"
 								]
 							}
@@ -1874,7 +1874,7 @@
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"apierror\": {\n        \"status\": \"NOT_FOUND\",\n        \"timestamp\": \"09-10-2026 10:00:00\",\n        \"message\": \"Photo not found\"\n    }\n}"
+							"body": "{\n    \"apierror\": {\n        \"status\": \"NOT_FOUND\",\n        \"timestamp\": \"09-10-2026 10:00:00\",\n        \"message\": \"Foto no encontrada\"\n    }\n}"
 						}
 					],
 					"event": [
@@ -1889,7 +1889,7 @@
 									"pm.test(\"Get expected error message\", function () {",
 									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"NOT_FOUND\");",
-									"   pm.expect(data.apierror.message).to.eql(\"Photo not found\");",
+									"   pm.expect(data.apierror.message).to.eql(\"Foto no encontrada\");",
 									"});"
 								]
 							}
@@ -1971,7 +1971,7 @@
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"09-10-2026 10:00:00\",\n        \"message\": \"Photo id is not valid\"\n    }\n}"
+							"body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"09-10-2026 10:00:00\",\n        \"message\": \"El id de la foto no es válido\"\n    }\n}"
 						}
 					],
 					"event": [
@@ -1986,7 +1986,7 @@
 									"pm.test(\"Get expected error message\", function () {",
 									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"PRECONDITION_FAILED\");",
-									"   pm.expect(data.apierror.message).to.eql(\"Photo id is not valid\");",
+									"   pm.expect(data.apierror.message).to.eql(\"El id de la foto no es válido\");",
 									"});"
 								]
 							}
@@ -2068,7 +2068,7 @@
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"apierror\": {\n        \"status\": \"NOT_FOUND\",\n        \"timestamp\": \"09-10-2026 10:00:00\",\n        \"message\": \"Pet not found\"\n    }\n}"
+							"body": "{\n    \"apierror\": {\n        \"status\": \"NOT_FOUND\",\n        \"timestamp\": \"09-10-2026 10:00:00\",\n        \"message\": \"Mascota no encontrada\"\n    }\n}"
 						}
 					],
 					"event": [
@@ -2083,7 +2083,7 @@
 									"pm.test(\"Get expected error message\", function () {",
 									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"NOT_FOUND\");",
-									"   pm.expect(data.apierror.message).to.eql(\"Pet not found\");",
+									"   pm.expect(data.apierror.message).to.eql(\"Mascota no encontrada\");",
 									"});"
 								]
 							}
@@ -2165,7 +2165,7 @@
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"09-10-2026 10:00:00\",\n        \"message\": \"The photo is not associated with the pet\"\n    }\n}"
+							"body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"09-10-2026 10:00:00\",\n        \"message\": \"La foto no está asociada a la mascota\"\n    }\n}"
 						}
 					],
 					"event": [
@@ -2180,7 +2180,7 @@
 									"pm.test(\"Get expected error message\", function () {",
 									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"PRECONDITION_FAILED\");",
-									"   pm.expect(data.apierror.message).to.eql(\"The photo is not associated with the pet\");",
+									"   pm.expect(data.apierror.message).to.eql(\"La foto no está asociada a la mascota\");",
 									"});"
 								]
 							}
@@ -2262,7 +2262,7 @@
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"09-10-2026 10:00:00\",\n        \"message\": \"The new photo url cannot be null or empty\"\n    }\n}"
+							"body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"09-10-2026 10:00:00\",\n        \"message\": \"La nueva URL de la foto no puede ser nula ni estar vacía\"\n    }\n}"
 						}
 					],
 					"event": [
@@ -2277,7 +2277,7 @@
 									"pm.test(\"Get expected error message\", function () {",
 									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"PRECONDITION_FAILED\");",
-									"   pm.expect(data.apierror.message).to.eql(\"The new photo url cannot be null or empty\");",
+									"   pm.expect(data.apierror.message).to.eql(\"La nueva URL de la foto no puede ser nula ni estar vacía\");",
 									"});"
 								]
 							}
@@ -2359,7 +2359,7 @@
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"09-10-2026 10:00:00\",\n        \"message\": \"Photo format cannot be null or empty\"\n    }\n}"
+							"body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"09-10-2026 10:00:00\",\n        \"message\": \"El formato de la foto no puede ser nulo ni estar vacío\"\n    }\n}"
 						}
 					],
 					"event": [
@@ -2374,7 +2374,7 @@
 									"pm.test(\"Get expected error message\", function () {",
 									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"PRECONDITION_FAILED\");",
-									"   pm.expect(data.apierror.message).to.eql(\"Photo format cannot be null or empty\");",
+									"   pm.expect(data.apierror.message).to.eql(\"El formato de la foto no puede ser nulo ni estar vacío\");",
 									"});"
 								]
 							}
@@ -2456,7 +2456,7 @@
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"09-10-2026 10:00:00\",\n        \"message\": \"Photo format is not valid; use JPG, PNG or another supported format\"\n    }\n}"
+							"body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"09-10-2026 10:00:00\",\n        \"message\": \"El formato de la foto no es válido; use JPG, PNG u otro formato admitido\"\n    }\n}"
 						}
 					],
 					"event": [
@@ -2471,7 +2471,7 @@
 									"pm.test(\"Get expected error message\", function () {",
 									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"PRECONDITION_FAILED\");",
-									"   pm.expect(data.apierror.message).to.eql(\"Photo format is not valid; use JPG, PNG or another supported format\");",
+									"   pm.expect(data.apierror.message).to.eql(\"El formato de la foto no es válido; use JPG, PNG u otro formato admitido\");",
 									"});"
 								]
 							}
@@ -2664,7 +2664,7 @@
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"apierror\": {\n        \"status\": \"NOT_FOUND\",\n        \"timestamp\": \"09-10-2026 10:00:00\",\n        \"message\": \"Photo not found\"\n    }\n}"
+							"body": "{\n    \"apierror\": {\n        \"status\": \"NOT_FOUND\",\n        \"timestamp\": \"09-10-2026 10:00:00\",\n        \"message\": \"Foto no encontrada\"\n    }\n}"
 						}
 					],
 					"event": [
@@ -2679,7 +2679,7 @@
 									"pm.test(\"Get expected error message\", function () {",
 									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"NOT_FOUND\");",
-									"   pm.expect(data.apierror.message).to.eql(\"Photo not found\");",
+									"   pm.expect(data.apierror.message).to.eql(\"Foto no encontrada\");",
 									"});"
 								]
 							}
@@ -2733,7 +2733,7 @@
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"apierror\": {\n        \"status\": \"NOT_FOUND\",\n        \"timestamp\": \"09-10-2026 10:00:00\",\n        \"message\": \"Photo not found\"\n    }\n}"
+							"body": "{\n    \"apierror\": {\n        \"status\": \"NOT_FOUND\",\n        \"timestamp\": \"09-10-2026 10:00:00\",\n        \"message\": \"Foto no encontrada\"\n    }\n}"
 						}
 					],
 					"event": [
@@ -2748,7 +2748,7 @@
 									"pm.test(\"Get expected error message\", function () {",
 									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"NOT_FOUND\");",
-									"   pm.expect(data.apierror.message).to.eql(\"Photo not found\");",
+									"   pm.expect(data.apierror.message).to.eql(\"Foto no encontrada\");",
 									"});"
 								]
 							}
@@ -2802,7 +2802,7 @@
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"09-10-2026 10:00:00\",\n        \"message\": \"Photo id is not valid\"\n    }\n}"
+							"body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"09-10-2026 10:00:00\",\n        \"message\": \"El id de la foto no es válido\"\n    }\n}"
 						}
 					],
 					"event": [
@@ -2817,7 +2817,7 @@
 									"pm.test(\"Get expected error message\", function () {",
 									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"PRECONDITION_FAILED\");",
-									"   pm.expect(data.apierror.message).to.eql(\"Photo id is not valid\");",
+									"   pm.expect(data.apierror.message).to.eql(\"El id de la foto no es válido\");",
 									"});"
 								]
 							}
@@ -2871,7 +2871,7 @@
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"apierror\": {\n        \"status\": \"NOT_FOUND\",\n        \"timestamp\": \"09-10-2026 10:00:00\",\n        \"message\": \"Pet not found\"\n    }\n}"
+							"body": "{\n    \"apierror\": {\n        \"status\": \"NOT_FOUND\",\n        \"timestamp\": \"09-10-2026 10:00:00\",\n        \"message\": \"Mascota no encontrada\"\n    }\n}"
 						}
 					],
 					"event": [
@@ -2886,7 +2886,7 @@
 									"pm.test(\"Get expected error message\", function () {",
 									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"NOT_FOUND\");",
-									"   pm.expect(data.apierror.message).to.eql(\"Pet not found\");",
+									"   pm.expect(data.apierror.message).to.eql(\"Mascota no encontrada\");",
 									"});"
 								]
 							}
@@ -2940,7 +2940,7 @@
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"09-10-2026 10:00:00\",\n        \"message\": \"The photo is not associated with the pet\"\n    }\n}"
+							"body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"09-10-2026 10:00:00\",\n        \"message\": \"La foto no está asociada a la mascota\"\n    }\n}"
 						}
 					],
 					"event": [
@@ -2955,7 +2955,7 @@
 									"pm.test(\"Get expected error message\", function () {",
 									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"PRECONDITION_FAILED\");",
-									"   pm.expect(data.apierror.message).to.eql(\"The photo is not associated with the pet\");",
+									"   pm.expect(data.apierror.message).to.eql(\"La foto no está asociada a la mascota\");",
 									"});"
 								]
 							}
@@ -3011,7 +3011,7 @@
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"09-10-2026 10:00:00\",\n        \"message\": \"The main profile photo of a pet active for adoption cannot be deleted without establishing another default image first\"\n    }\n}"
+							"body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"09-10-2026 10:00:00\",\n        \"message\": \"No se puede eliminar la foto principal de perfil de una mascota activa para adopción sin establecer antes otra imagen predeterminada\"\n    }\n}"
 						}
 					],
 					"event": [
@@ -3026,7 +3026,7 @@
 									"pm.test(\"Get expected error message\", function () {",
 									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"PRECONDITION_FAILED\");",
-									"   pm.expect(data.apierror.message).to.eql(\"The main profile photo of a pet active for adoption cannot be deleted without establishing another default image first\");",
+									"   pm.expect(data.apierror.message).to.eql(\"No se puede eliminar la foto principal de perfil de una mascota activa para adopción sin establecer antes otra imagen predeterminada\");",
 									"});"
 								]
 							}

@@ -280,7 +280,7 @@
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"09-10-2026 10:00:00\",\n        \"message\": \"Name cannot be null or empty\"\n    }\n}"
+							"body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"09-10-2026 10:00:00\",\n        \"message\": \"El nombre no puede ser nulo ni estar vacío\"\n    }\n}"
 						}
 					],
 					"event": [
@@ -295,7 +295,7 @@
 									"pm.test(\"Get expected error message\", function () {",
 									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"PRECONDITION_FAILED\");",
-									"   pm.expect(data.apierror.message).to.eql(\"Name cannot be null or empty\");",
+									"   pm.expect(data.apierror.message).to.eql(\"El nombre no puede ser nulo ni estar vacío\");",
 									"});"
 								]
 							}
@@ -371,7 +371,7 @@
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"09-10-2026 10:00:00\",\n        \"message\": \"City cannot be null or empty\"\n    }\n}"
+							"body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"09-10-2026 10:00:00\",\n        \"message\": \"La ciudad no puede ser nula ni estar vacía\"\n    }\n}"
 						}
 					],
 					"event": [
@@ -386,7 +386,7 @@
 									"pm.test(\"Get expected error message\", function () {",
 									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"PRECONDITION_FAILED\");",
-									"   pm.expect(data.apierror.message).to.eql(\"City cannot be null or empty\");",
+									"   pm.expect(data.apierror.message).to.eql(\"La ciudad no puede ser nula ni estar vacía\");",
 									"});"
 								]
 							}
@@ -462,7 +462,7 @@
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"09-10-2026 10:00:00\",\n        \"message\": \"Location cannot be null or empty\"\n    }\n}"
+							"body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"09-10-2026 10:00:00\",\n        \"message\": \"La dirección no puede ser nula ni estar vacía\"\n    }\n}"
 						}
 					],
 					"event": [
@@ -477,7 +477,7 @@
 									"pm.test(\"Get expected error message\", function () {",
 									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"PRECONDITION_FAILED\");",
-									"   pm.expect(data.apierror.message).to.eql(\"Location cannot be null or empty\");",
+									"   pm.expect(data.apierror.message).to.eql(\"La dirección no puede ser nula ni estar vacía\");",
 									"});"
 								]
 							}
@@ -553,7 +553,7 @@
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"09-10-2026 10:00:00\",\n        \"message\": \"Nit cannot be null or empty\"\n    }\n}"
+							"body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"09-10-2026 10:00:00\",\n        \"message\": \"El NIT no puede ser nulo ni estar vacío\"\n    }\n}"
 						}
 					],
 					"event": [
@@ -568,7 +568,7 @@
 									"pm.test(\"Get expected error message\", function () {",
 									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"PRECONDITION_FAILED\");",
-									"   pm.expect(data.apierror.message).to.eql(\"Nit cannot be null or empty\");",
+									"   pm.expect(data.apierror.message).to.eql(\"El NIT no puede ser nulo ni estar vacío\");",
 									"});"
 								]
 							}
@@ -644,7 +644,7 @@
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"09-10-2026 10:00:00\",\n        \"message\": \"The nit is already registered for another shelter\"\n    }\n}"
+							"body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"09-10-2026 10:00:00\",\n        \"message\": \"El NIT ya está registrado para otro refugio\"\n    }\n}"
 						}
 					],
 					"event": [
@@ -659,7 +659,7 @@
 									"pm.test(\"Get expected error message\", function () {",
 									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"PRECONDITION_FAILED\");",
-									"   pm.expect(data.apierror.message).to.eql(\"The nit is already registered for another shelter\");",
+									"   pm.expect(data.apierror.message).to.eql(\"El NIT ya está registrado para otro refugio\");",
 									"});"
 								]
 							}
@@ -735,7 +735,7 @@
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"09-10-2026 10:00:00\",\n        \"message\": \"A shelter already exists with the same name, city and location\"\n    }\n}"
+							"body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"09-10-2026 10:00:00\",\n        \"message\": \"Ya existe un refugio con el mismo nombre, ciudad y dirección\"\n    }\n}"
 						}
 					],
 					"event": [
@@ -750,7 +750,7 @@
 									"pm.test(\"Get expected error message\", function () {",
 									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"PRECONDITION_FAILED\");",
-									"   pm.expect(data.apierror.message).to.eql(\"A shelter already exists with the same name, city and location\");",
+									"   pm.expect(data.apierror.message).to.eql(\"Ya existe un refugio con el mismo nombre, ciudad y dirección\");",
 									"});"
 								]
 							}
@@ -826,7 +826,7 @@
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"09-10-2026 10:00:00\",\n        \"message\": \"A shelter must be associated with at least one user responsible for its administration\"\n    }\n}"
+							"body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"09-10-2026 10:00:00\",\n        \"message\": \"El refugio debe estar asociado a al menos un usuario responsable de su administración\"\n    }\n}"
 						}
 					],
 					"event": [
@@ -841,7 +841,7 @@
 									"pm.test(\"Get expected error message\", function () {",
 									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"PRECONDITION_FAILED\");",
-									"   pm.expect(data.apierror.message).to.eql(\"A shelter must be associated with at least one user responsible for its administration\");",
+									"   pm.expect(data.apierror.message).to.eql(\"El refugio debe estar asociado a al menos un usuario responsable de su administración\");",
 									"});"
 								]
 							}
@@ -1031,7 +1031,7 @@
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"apierror\": {\n        \"status\": \"NOT_FOUND\",\n        \"timestamp\": \"09-10-2026 10:00:00\",\n        \"message\": \"Shelter not found\"\n    }\n}"
+							"body": "{\n    \"apierror\": {\n        \"status\": \"NOT_FOUND\",\n        \"timestamp\": \"09-10-2026 10:00:00\",\n        \"message\": \"Refugio no encontrado\"\n    }\n}"
 						}
 					],
 					"event": [
@@ -1046,7 +1046,7 @@
 									"pm.test(\"Get expected error message\", function () {",
 									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"NOT_FOUND\");",
-									"   pm.expect(data.apierror.message).to.eql(\"Shelter not found\");",
+									"   pm.expect(data.apierror.message).to.eql(\"Refugio no encontrado\");",
 									"});"
 								]
 							}
@@ -1096,7 +1096,7 @@
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"09-10-2026 10:00:00\",\n        \"message\": \"Shelter id is not valid\"\n    }\n}"
+							"body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"09-10-2026 10:00:00\",\n        \"message\": \"El id del refugio no es válido\"\n    }\n}"
 						}
 					],
 					"event": [
@@ -1111,7 +1111,7 @@
 									"pm.test(\"Get expected error message\", function () {",
 									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"PRECONDITION_FAILED\");",
-									"   pm.expect(data.apierror.message).to.eql(\"Shelter id is not valid\");",
+									"   pm.expect(data.apierror.message).to.eql(\"El id del refugio no es válido\");",
 									"});"
 								]
 							}
@@ -1612,7 +1612,7 @@
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"apierror\": {\n        \"status\": \"NOT_FOUND\",\n        \"timestamp\": \"09-10-2026 10:00:00\",\n        \"message\": \"Shelter not found\"\n    }\n}"
+							"body": "{\n    \"apierror\": {\n        \"status\": \"NOT_FOUND\",\n        \"timestamp\": \"09-10-2026 10:00:00\",\n        \"message\": \"Refugio no encontrado\"\n    }\n}"
 						}
 					],
 					"event": [
@@ -1627,7 +1627,7 @@
 									"pm.test(\"Get expected error message\", function () {",
 									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"NOT_FOUND\");",
-									"   pm.expect(data.apierror.message).to.eql(\"Shelter not found\");",
+									"   pm.expect(data.apierror.message).to.eql(\"Refugio no encontrado\");",
 									"});"
 								]
 							}
@@ -1705,7 +1705,7 @@
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"09-10-2026 10:00:00\",\n        \"message\": \"Shelter id is not valid\"\n    }\n}"
+							"body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"09-10-2026 10:00:00\",\n        \"message\": \"El id del refugio no es válido\"\n    }\n}"
 						}
 					],
 					"event": [
@@ -1720,7 +1720,7 @@
 									"pm.test(\"Get expected error message\", function () {",
 									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"PRECONDITION_FAILED\");",
-									"   pm.expect(data.apierror.message).to.eql(\"Shelter id is not valid\");",
+									"   pm.expect(data.apierror.message).to.eql(\"El id del refugio no es válido\");",
 									"});"
 								]
 							}
@@ -1798,7 +1798,7 @@
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"09-10-2026 10:00:00\",\n        \"message\": \"City cannot be null or empty\"\n    }\n}"
+							"body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"09-10-2026 10:00:00\",\n        \"message\": \"La ciudad no puede ser nula ni estar vacía\"\n    }\n}"
 						}
 					],
 					"event": [
@@ -1813,7 +1813,7 @@
 									"pm.test(\"Get expected error message\", function () {",
 									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"PRECONDITION_FAILED\");",
-									"   pm.expect(data.apierror.message).to.eql(\"City cannot be null or empty\");",
+									"   pm.expect(data.apierror.message).to.eql(\"La ciudad no puede ser nula ni estar vacía\");",
 									"});"
 								]
 							}
@@ -1891,7 +1891,7 @@
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"09-10-2026 10:00:00\",\n        \"message\": \"The nit cannot be modified once the shelter has been created\"\n    }\n}"
+							"body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"09-10-2026 10:00:00\",\n        \"message\": \"El NIT no se puede modificar una vez creado el refugio\"\n    }\n}"
 						}
 					],
 					"event": [
@@ -1906,7 +1906,7 @@
 									"pm.test(\"Get expected error message\", function () {",
 									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"PRECONDITION_FAILED\");",
-									"   pm.expect(data.apierror.message).to.eql(\"The nit cannot be modified once the shelter has been created\");",
+									"   pm.expect(data.apierror.message).to.eql(\"El NIT no se puede modificar una vez creado el refugio\");",
 									"});"
 								]
 							}
@@ -1984,7 +1984,7 @@
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"09-10-2026 10:00:00\",\n        \"message\": \"A shelter already exists with the same name, city and location\"\n    }\n}"
+							"body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"09-10-2026 10:00:00\",\n        \"message\": \"Ya existe un refugio con el mismo nombre, ciudad y dirección\"\n    }\n}"
 						}
 					],
 					"event": [
@@ -1999,7 +1999,7 @@
 									"pm.test(\"Get expected error message\", function () {",
 									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"PRECONDITION_FAILED\");",
-									"   pm.expect(data.apierror.message).to.eql(\"A shelter already exists with the same name, city and location\");",
+									"   pm.expect(data.apierror.message).to.eql(\"Ya existe un refugio con el mismo nombre, ciudad y dirección\");",
 									"});"
 								]
 							}
@@ -2110,7 +2110,7 @@
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"apierror\": {\n        \"status\": \"NOT_FOUND\",\n        \"timestamp\": \"09-10-2026 10:00:00\",\n        \"message\": \"Shelter not found\"\n    }\n}"
+							"body": "{\n    \"apierror\": {\n        \"status\": \"NOT_FOUND\",\n        \"timestamp\": \"09-10-2026 10:00:00\",\n        \"message\": \"Refugio no encontrado\"\n    }\n}"
 						}
 					],
 					"event": [
@@ -2125,7 +2125,7 @@
 									"pm.test(\"Get expected error message\", function () {",
 									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"NOT_FOUND\");",
-									"   pm.expect(data.apierror.message).to.eql(\"Shelter not found\");",
+									"   pm.expect(data.apierror.message).to.eql(\"Refugio no encontrado\");",
 									"});"
 								]
 							}
@@ -2175,7 +2175,7 @@
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"apierror\": {\n        \"status\": \"NOT_FOUND\",\n        \"timestamp\": \"09-10-2026 10:00:00\",\n        \"message\": \"Shelter not found\"\n    }\n}"
+							"body": "{\n    \"apierror\": {\n        \"status\": \"NOT_FOUND\",\n        \"timestamp\": \"09-10-2026 10:00:00\",\n        \"message\": \"Refugio no encontrado\"\n    }\n}"
 						}
 					],
 					"event": [
@@ -2190,7 +2190,7 @@
 									"pm.test(\"Get expected error message\", function () {",
 									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"NOT_FOUND\");",
-									"   pm.expect(data.apierror.message).to.eql(\"Shelter not found\");",
+									"   pm.expect(data.apierror.message).to.eql(\"Refugio no encontrado\");",
 									"});"
 								]
 							}
@@ -2240,7 +2240,7 @@
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"09-10-2026 10:00:00\",\n        \"message\": \"Shelter id is not valid\"\n    }\n}"
+							"body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"09-10-2026 10:00:00\",\n        \"message\": \"El id del refugio no es válido\"\n    }\n}"
 						}
 					],
 					"event": [
@@ -2255,7 +2255,7 @@
 									"pm.test(\"Get expected error message\", function () {",
 									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"PRECONDITION_FAILED\");",
-									"   pm.expect(data.apierror.message).to.eql(\"Shelter id is not valid\");",
+									"   pm.expect(data.apierror.message).to.eql(\"El id del refugio no es válido\");",
 									"});"
 								]
 							}
@@ -2360,7 +2360,7 @@
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"apierror\": {\n        \"status\": \"NOT_FOUND\",\n        \"timestamp\": \"09-10-2026 10:00:00\",\n        \"message\": \"Shelter not found\"\n    }\n}"
+							"body": "{\n    \"apierror\": {\n        \"status\": \"NOT_FOUND\",\n        \"timestamp\": \"09-10-2026 10:00:00\",\n        \"message\": \"Refugio no encontrado\"\n    }\n}"
 						}
 					],
 					"event": [
@@ -2375,7 +2375,7 @@
 									"pm.test(\"Get expected error message\", function () {",
 									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"NOT_FOUND\");",
-									"   pm.expect(data.apierror.message).to.eql(\"Shelter not found\");",
+									"   pm.expect(data.apierror.message).to.eql(\"Refugio no encontrado\");",
 									"});"
 								]
 							}

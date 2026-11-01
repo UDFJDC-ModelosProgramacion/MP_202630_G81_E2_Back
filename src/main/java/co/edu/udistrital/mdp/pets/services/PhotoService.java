@@ -27,8 +27,8 @@ public class PhotoService {
 	private static final Set<String> VALID_FORMATS = Set.of("JPG", "JPEG", "PNG", "GIF", "WEBP", "BMP");
 	private static final String FINALIZED_STATUS = "FINALIZED";
 
-	private static final String PHOTO_NOT_FOUND = "Photo not found";
-	private static final String PHOTO_ID_NOT_VALID = "Photo id is not valid";
+	private static final String PHOTO_NOT_FOUND = "Foto no encontrada";
+	private static final String PHOTO_ID_NOT_VALID = "El id de la foto no es válido";
 
 	private final PhotoRepository photoRepository;
 	private final PetRepository petRepository;
@@ -42,7 +42,7 @@ public class PhotoService {
 		validatePhotoData(photo);
 
 		if (photo.getPet() == null && photo.getShelter() == null)
-			throw new IllegalOperationException("Photo must be associated with an existing pet, shelter or user");
+			throw new IllegalOperationException("La foto debe estar asociada a una mascota, un refugio o un usuario existente");
 
 		attachToPet(photo);
 		attachToShelter(photo);
@@ -97,24 +97,24 @@ public class PhotoService {
 
 	private PetEntity findPetOrThrow(Long petId) throws EntityNotFoundException, IllegalOperationException {
 		if (petId == null || petId <= 0)
-			throw new IllegalOperationException("Pet id is not valid");
+			throw new IllegalOperationException("El id de la mascota no es válido");
 		return petRepository.findById(petId)
-				.orElseThrow(() -> new EntityNotFoundException("Pet not found"));
+				.orElseThrow(() -> new EntityNotFoundException("Mascota no encontrada"));
 	}
 
 	private void validatePhotoBelongsToPet(PhotoEntity photo, Long petId) throws IllegalOperationException {
 		if (photo.getPet() == null || !petId.equals(photo.getPet().getId()))
-			throw new IllegalOperationException("The photo is not associated with the pet");
+			throw new IllegalOperationException("La foto no está asociada a la mascota");
 	}
 
 	private void validatePhotoData(PhotoEntity photo) throws IllegalOperationException {
 		if (photo.getUrl() == null || photo.getUrl().isBlank())
-			throw new IllegalOperationException("Photo url cannot be null or empty");
+			throw new IllegalOperationException("La URL de la foto no puede ser nula ni estar vacía");
 
 		if (photo.getType() == null || photo.getType().isBlank())
-			throw new IllegalOperationException("Photo format cannot be null or empty");
+			throw new IllegalOperationException("El formato de la foto no puede ser nulo ni estar vacío");
 		if (!VALID_FORMATS.contains(photo.getType().toUpperCase()))
-			throw new IllegalOperationException("Photo format is not valid; use JPG, PNG or another supported format");
+			throw new IllegalOperationException("El formato de la foto no es válido; use JPG, PNG u otro formato admitido");
 	}
 
 	private void attachToPet(PhotoEntity photo) throws EntityNotFoundException, IllegalOperationException {
@@ -122,10 +122,10 @@ public class PhotoService {
 			return;
 
 		if (photo.getPet().getId() == null)
-			throw new IllegalOperationException("Photo must be associated with an existing pet");
+			throw new IllegalOperationException("La foto debe estar asociada a una mascota existente");
 
 		PetEntity pet = petRepository.findById(photo.getPet().getId())
-				.orElseThrow(() -> new EntityNotFoundException("Pet not found"));
+				.orElseThrow(() -> new EntityNotFoundException("Mascota no encontrada"));
 		photo.setPet(pet);
 		pet.getPhotos().add(photo);
 	}
@@ -135,10 +135,10 @@ public class PhotoService {
 			return;
 
 		if (photo.getShelter().getId() == null)
-			throw new IllegalOperationException("Photo must be associated with an existing shelter");
+			throw new IllegalOperationException("La foto debe estar asociada a un refugio existente");
 
 		ShelterEntity shelter = shelterRepository.findById(photo.getShelter().getId())
-				.orElseThrow(() -> new EntityNotFoundException("Shelter not found"));
+				.orElseThrow(() -> new EntityNotFoundException("Refugio no encontrado"));
 		photo.setShelter(shelter);
 		shelter.getPhotos().add(photo);
 	}
@@ -157,10 +157,10 @@ public class PhotoService {
 			throws EntityNotFoundException, IllegalOperationException {
 		log.info("Inicia proceso de consultar fotos filtradas");
 		if (petId != null && (petId <= 0 || petRepository.findById(petId).isEmpty()))
-			throw new EntityNotFoundException("Pet not found");
+			throw new EntityNotFoundException("Mascota no encontrada");
 
 		if (shelterId != null && (shelterId <= 0 || shelterRepository.findById(shelterId).isEmpty()))
-			throw new EntityNotFoundException("Shelter not found");
+			throw new EntityNotFoundException("Refugio no encontrado");
 
 		List<PhotoEntity> photos = photoRepository.findAll().stream()
 				.filter(p -> petId == null || (p.getPet() != null && petId.equals(p.getPet().getId())))
@@ -197,11 +197,11 @@ public class PhotoService {
 			throw new EntityNotFoundException(PHOTO_NOT_FOUND);
 
 		if (photo.getUrl() == null || photo.getUrl().isBlank())
-			throw new IllegalOperationException("The new photo url cannot be null or empty");
+			throw new IllegalOperationException("La nueva URL de la foto no puede ser nula ni estar vacía");
 		if (photo.getType() == null || photo.getType().isBlank())
-			throw new IllegalOperationException("Photo format cannot be null or empty");
+			throw new IllegalOperationException("El formato de la foto no puede ser nulo ni estar vacío");
 		if (!VALID_FORMATS.contains(photo.getType().toUpperCase()))
-			throw new IllegalOperationException("Photo format is not valid; use JPG, PNG or another supported format");
+			throw new IllegalOperationException("El formato de la foto no es válido; use JPG, PNG u otro formato admitido");
 
 		PhotoEntity current = existing.get();
 		current.setUrl(photo.getUrl());
@@ -225,7 +225,7 @@ public class PhotoService {
 		PhotoEntity current = photo.get();
 		if (current.getPet() != null && isMainPhotoOfActivePet(current))
 			throw new IllegalOperationException(
-					"The main profile photo of a pet active for adoption cannot be deleted without establishing another default image first");
+					"No se puede eliminar la foto principal de perfil de una mascota activa para adopción sin establecer antes otra imagen predeterminada");
 
 		photoRepository.deleteById(photoId);
 		log.info("Termina proceso de borrar la foto con id = {}", photoId);

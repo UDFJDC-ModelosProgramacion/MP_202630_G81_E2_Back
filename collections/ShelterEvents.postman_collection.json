@@ -3006,7 +3006,7 @@
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"09-10-2026 10:00:00\",\n        \"message\": \"A shelter with associated history cannot be deleted, in order to maintain traceability\"\n    }\n}"
+							"body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"09-10-2026 10:00:00\",\n        \"message\": \"No se puede eliminar un refugio con historial asociado, para mantener la trazabilidad\"\n    }\n}"
 						}
 					],
 					"event": [
@@ -3021,7 +3021,7 @@
 									"pm.test(\"Get expected error message\", function () {",
 									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"PRECONDITION_FAILED\");",
-									"   pm.expect(data.apierror.message).to.eql(\"A shelter with associated history cannot be deleted, in order to maintain traceability\");",
+									"   pm.expect(data.apierror.message).to.eql(\"No se puede eliminar un refugio con historial asociado, para mantener la trazabilidad\");",
 									"});"
 								]
 							}

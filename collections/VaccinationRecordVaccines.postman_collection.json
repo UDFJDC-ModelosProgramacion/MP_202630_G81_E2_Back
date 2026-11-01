@@ -3074,7 +3074,7 @@
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"09-10-2026 10:00:00\",\n        \"message\": \"A pet with associated history cannot be deleted\"\n    }\n}"
+							"body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"09-10-2026 10:00:00\",\n        \"message\": \"No se puede eliminar una mascota con historial asociado\"\n    }\n}"
 						}
 					],
 					"event": [
@@ -3089,7 +3089,7 @@
 									"pm.test(\"Get expected error message\", function () {",
 									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"PRECONDITION_FAILED\");",
-									"   pm.expect(data.apierror.message).to.eql(\"A pet with associated history cannot be deleted\");",
+									"   pm.expect(data.apierror.message).to.eql(\"No se puede eliminar una mascota con historial asociado\");",
 									"});"
 								]
 							}
