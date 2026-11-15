@@ -2,7 +2,7 @@
   "info": {
     "_postman_id": "f4d2f455-75db-4ad7-93af-8ec712e7343a",
     "name": "MedicalEvent",
-    "description": "Diseno del API para el recurso MedicalEvent. Representacion basica (respuesta de POST y PUT): id, date, type, description. Representacion de la peticion (POST y PUT): date, type, description y las referencias pet y veterinarian, cada una con su id; en PUT la mascota debe coincidir con la actual. Representacion detallada (respuesta de GET): coincide con la basica, porque MedicalEvent no tiene asociaciones de cardinalidad muchos. Filtros de GET /medicalEvents: petId, veterinarianId, type y date.",
+    "description": "Contrato de MedicalEvent. Las peticiones reciben date, type, description, pet.id y veterinarian.id. Las respuestas incluyen id, date, type, description, pet (PetDTO) y veterinarian (VeterinarianDTO). GET /medicalEvents permite combinar petId, veterinarianId, type y date; date usa yyyy-MM-dd. Las fechas en el cuerpo usan ISO-8601 con offset, por ejemplo 2026-09-10T00:00:00-05:00.",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "item": [
@@ -76,7 +76,7 @@
             }
           ],
           "cookie": [],
-          "body": "{\n    \"id\": 1,\n    \"date\": \"2026-09-10T05:00:00.000+00:00\",\n    \"type\": \"Cirugia\",\n    \"description\": \"Esterilizacion sin complicaciones\"\n}"
+          "body": "{\n    \"id\": 1,\n    \"date\": \"2026-09-10T05:00:00.000+00:00\",\n    \"type\": \"Cirugia\",\n    \"description\": \"Esterilizacion sin complicaciones\",\n    \"pet\": {\n        \"id\": 1\n    },\n    \"veterinarian\": {\n        \"id\": 1\n    }\n}"
         }
       ]
     },

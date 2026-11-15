@@ -75,7 +75,7 @@
             }
           ],
           "cookie": [],
-          "body": "{\n    \"id\": 1,\n    \"firstName\": \"Carlos\",\n    \"lastName\": \"Perez\",\n    \"email\": \"adopter9d7b62@mail.com\",\n    \"password\": \"secret123\",\n    \"phone\": \"3001234567\",\n    \"address\": \"Calle 123 # 45-67\",\n    \"nationalId\": \"CC-607e2b9c\",\n    \"occupation\": \"Ingeniero\",\n    \"earnings\": 2500000.0,\n    \"housingType\": \"Casa\",\n    \"allergies\": \"Ninguna\",\n    \"hasChildren\": false,\n    \"hasOtherPets\": true\n}"
+          "body": "{\n    \"id\": 1,\n    \"firstName\": \"Carlos\",\n    \"lastName\": \"Perez\",\n    \"email\": \"adopter9d7b62@mail.com\",\n    \"phone\": \"3001234567\",\n    \"address\": \"Calle 123 # 45-67\",\n    \"nationalId\": \"CC-607e2b9c\",\n    \"occupation\": \"Ingeniero\",\n    \"earnings\": 2500000,\n    \"housingType\": \"Casa\",\n    \"allergies\": \"Ninguna\",\n    \"hasChildren\": false,\n    \"hasOtherPets\": true\n}"
         }
       ]
     },

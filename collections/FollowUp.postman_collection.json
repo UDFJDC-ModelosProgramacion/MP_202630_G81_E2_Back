@@ -17,11 +17,13 @@
           }
         ],
         "url": {
-          "raw": "{{baseUrl}}/followUps",
+          "raw": "{{baseUrl}}/adoptions/{{adoption_id}}/followUps",
           "host": [
             "{{baseUrl}}"
           ],
           "path": [
+            "adoptions",
+            "{{adoption_id}}",
             "followUps"
           ]
         },
@@ -47,11 +49,13 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/followUps",
+              "raw": "{{baseUrl}}/adoptions/{{adoption_id}}/followUps",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
+                "adoptions",
+                "{{adoption_id}}",
                 "followUps"
               ]
             },
@@ -90,11 +94,13 @@
           }
         ],
         "url": {
-          "raw": "{{baseUrl}}/followUps",
+          "raw": "{{baseUrl}}/adoptions/{{adoption_id}}/followUps",
           "host": [
             "{{baseUrl}}"
           ],
           "path": [
+            "adoptions",
+            "{{adoption_id}}",
             "followUps"
           ]
         },
@@ -120,11 +126,13 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/followUps",
+              "raw": "{{baseUrl}}/adoptions/{{adoption_id}}/followUps",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
+                "adoptions",
+                "{{adoption_id}}",
                 "followUps"
               ]
             },
@@ -158,11 +166,13 @@
           }
         ],
         "url": {
-          "raw": "{{baseUrl}}/followUps",
+          "raw": "{{baseUrl}}/adoptions/{{adoption_id}}/followUps",
           "host": [
             "{{baseUrl}}"
           ],
           "path": [
+            "adoptions",
+            "{{adoption_id}}",
             "followUps"
           ]
         },
@@ -188,11 +198,13 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/followUps",
+              "raw": "{{baseUrl}}/adoptions/{{adoption_id}}/followUps",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
+                "adoptions",
+                "{{adoption_id}}",
                 "followUps"
               ]
             },
@@ -226,11 +238,13 @@
           }
         ],
         "url": {
-          "raw": "{{baseUrl}}/followUps",
+          "raw": "{{baseUrl}}/adoptions/{{adoption_id}}/followUps",
           "host": [
             "{{baseUrl}}"
           ],
           "path": [
+            "adoptions",
+            "{{adoption_id}}",
             "followUps"
           ]
         },
@@ -256,11 +270,13 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/followUps",
+              "raw": "{{baseUrl}}/adoptions/{{adoption_id}}/followUps",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
+                "adoptions",
+                "{{adoption_id}}",
                 "followUps"
               ]
             },
@@ -294,11 +310,13 @@
           }
         ],
         "url": {
-          "raw": "{{baseUrl}}/followUps",
+          "raw": "{{baseUrl}}/adoptions/{{adoption_id}}/followUps",
           "host": [
             "{{baseUrl}}"
           ],
           "path": [
+            "adoptions",
+            "{{adoption_id}}",
             "followUps"
           ]
         },
@@ -324,11 +342,13 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/followUps",
+              "raw": "{{baseUrl}}/adoptions/{{adoption_id}}/followUps",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
+                "adoptions",
+                "{{adoption_id}}",
                 "followUps"
               ]
             },
@@ -362,11 +382,13 @@
           }
         ],
         "url": {
-          "raw": "{{baseUrl}}/followUps",
+          "raw": "{{baseUrl}}/adoptions/0/followUps",
           "host": [
             "{{baseUrl}}"
           ],
           "path": [
+            "adoptions",
+            "0",
             "followUps"
           ]
         },
@@ -392,11 +414,13 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/followUps",
+              "raw": "{{baseUrl}}/adoptions/0/followUps",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
+                "adoptions",
+                "0",
                 "followUps"
               ]
             },
@@ -430,11 +454,13 @@
           }
         ],
         "url": {
-          "raw": "{{baseUrl}}/followUps",
+          "raw": "{{baseUrl}}/adoptions/{{adoption_id}}/followUps",
           "host": [
             "{{baseUrl}}"
           ],
           "path": [
+            "adoptions",
+            "{{adoption_id}}",
             "followUps"
           ]
         },
@@ -460,11 +486,13 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/followUps",
+              "raw": "{{baseUrl}}/adoptions/{{adoption_id}}/followUps",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
+                "adoptions",
+                "{{adoption_id}}",
                 "followUps"
               ]
             },
@@ -498,17 +526,19 @@
           }
         ],
         "url": {
-          "raw": "{{baseUrl}}/followUps",
+          "raw": "{{baseUrl}}/adoptions/999999/followUps",
           "host": [
             "{{baseUrl}}"
           ],
           "path": [
+            "adoptions",
+            "999999",
             "followUps"
           ]
         },
         "body": {
           "mode": "raw",
-          "raw": "{\n    \"date\": \"2026-10-10T00:00:00-05:00\",\n    \"observation\": \"El adoptante reporta buena adaptacion\",\n    \"adoption\": {\n        \"id\": 0\n    },\n    \"veterinarian\": {\n        \"id\": \"{{veterinarian_id}}\"\n    }\n}",
+          "raw": "{\n    \"date\": \"2026-10-10T00:00:00-05:00\",\n    \"observation\": \"El adoptante reporta buena adaptacion\",\n    \"adoption\": {\n        \"id\": 999999\n    },\n    \"veterinarian\": {\n        \"id\": \"{{veterinarian_id}}\"\n    }\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -528,11 +558,13 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/followUps",
+              "raw": "{{baseUrl}}/adoptions/999999/followUps",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
+                "adoptions",
+                "999999",
                 "followUps"
               ]
             },
@@ -566,11 +598,13 @@
           }
         ],
         "url": {
-          "raw": "{{baseUrl}}/followUps",
+          "raw": "{{baseUrl}}/adoptions/{{adoption_id}}/followUps",
           "host": [
             "{{baseUrl}}"
           ],
           "path": [
+            "adoptions",
+            "{{adoption_id}}",
             "followUps"
           ]
         },
@@ -596,11 +630,13 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/followUps",
+              "raw": "{{baseUrl}}/adoptions/{{adoption_id}}/followUps",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
+                "adoptions",
+                "{{adoption_id}}",
                 "followUps"
               ]
             },
@@ -624,16 +660,18 @@
       ]
     },
     {
-      "name": "Obtener todos los seguimientos",
+      "name": "Obtener seguimientos de una adopcion",
       "request": {
         "method": "GET",
         "header": [],
         "url": {
-          "raw": "{{baseUrl}}/followUps",
+          "raw": "{{baseUrl}}/adoptions/{{adoption_id}}/followUps",
           "host": [
             "{{baseUrl}}"
           ],
           "path": [
+            "adoptions",
+            "{{adoption_id}}",
             "followUps"
           ]
         }
@@ -645,11 +683,13 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{baseUrl}}/followUps",
+              "raw": "{{baseUrl}}/adoptions/{{adoption_id}}/followUps",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
+                "adoptions",
+                "{{adoption_id}}",
                 "followUps"
               ]
             }
@@ -674,19 +714,16 @@
         "method": "GET",
         "header": [],
         "url": {
-          "raw": "{{baseUrl}}/followUps?adoptionId={{adoption_id}}",
+          "raw": "{{baseUrl}}/adoptions/{{adoption_id}}/followUps",
           "host": [
             "{{baseUrl}}"
           ],
           "path": [
+            "adoptions",
+            "{{adoption_id}}",
             "followUps"
           ],
-          "query": [
-            {
-              "key": "adoptionId",
-              "value": "{{adoption_id}}"
-            }
-          ]
+          "query": []
         }
       },
       "response": [
@@ -696,19 +733,16 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{baseUrl}}/followUps?adoptionId={{adoption_id}}",
+              "raw": "{{baseUrl}}/adoptions/{{adoption_id}}/followUps",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
+                "adoptions",
+                "{{adoption_id}}",
                 "followUps"
               ],
-              "query": [
-                {
-                  "key": "adoptionId",
-                  "value": "{{adoption_id}}"
-                }
-              ]
+              "query": []
             }
           },
           "status": "OK",
@@ -731,11 +765,13 @@
         "method": "GET",
         "header": [],
         "url": {
-          "raw": "{{baseUrl}}/followUps/{{follow_up_id_1}}",
+          "raw": "{{baseUrl}}/adoptions/{{adoption_id}}/followUps/{{follow_up_id_1}}",
           "host": [
             "{{baseUrl}}"
           ],
           "path": [
+            "adoptions",
+            "{{adoption_id}}",
             "followUps",
             "{{follow_up_id_1}}"
           ]
@@ -748,11 +784,13 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{baseUrl}}/followUps/{{follow_up_id_1}}",
+              "raw": "{{baseUrl}}/adoptions/{{adoption_id}}/followUps/{{follow_up_id_1}}",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
+                "adoptions",
+                "{{adoption_id}}",
                 "followUps",
                 "{{follow_up_id_1}}"
               ]
@@ -778,11 +816,13 @@
         "method": "GET",
         "header": [],
         "url": {
-          "raw": "{{baseUrl}}/followUps/0",
+          "raw": "{{baseUrl}}/adoptions/{{adoption_id}}/followUps/0",
           "host": [
             "{{baseUrl}}"
           ],
           "path": [
+            "adoptions",
+            "{{adoption_id}}",
             "followUps",
             "0"
           ]
@@ -795,11 +835,13 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{baseUrl}}/followUps/0",
+              "raw": "{{baseUrl}}/adoptions/{{adoption_id}}/followUps/0",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
+                "adoptions",
+                "{{adoption_id}}",
                 "followUps",
                 "0"
               ]
@@ -820,11 +862,13 @@
         "method": "GET",
         "header": [],
         "url": {
-          "raw": "{{baseUrl}}/followUps/-1",
+          "raw": "{{baseUrl}}/adoptions/{{adoption_id}}/followUps/-1",
           "host": [
             "{{baseUrl}}"
           ],
           "path": [
+            "adoptions",
+            "{{adoption_id}}",
             "followUps",
             "-1"
           ]
@@ -837,11 +881,13 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{baseUrl}}/followUps/-1",
+              "raw": "{{baseUrl}}/adoptions/{{adoption_id}}/followUps/-1",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
+                "adoptions",
+                "{{adoption_id}}",
                 "followUps",
                 "-1"
               ]
@@ -862,11 +908,13 @@
         "method": "GET",
         "header": [],
         "url": {
-          "raw": "{{baseUrl}}/followUps/{{follow_up_id_1}}?requesterId={{adopter_id_1}}",
+          "raw": "{{baseUrl}}/adoptions/{{adoption_id}}/followUps/{{follow_up_id_1}}?requesterId={{adopter_id_1}}",
           "host": [
             "{{baseUrl}}"
           ],
           "path": [
+            "adoptions",
+            "{{adoption_id}}",
             "followUps",
             "{{follow_up_id_1}}"
           ],
@@ -885,11 +933,13 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{baseUrl}}/followUps/{{follow_up_id_1}}?requesterId={{adopter_id_1}}",
+              "raw": "{{baseUrl}}/adoptions/{{adoption_id}}/followUps/{{follow_up_id_1}}?requesterId={{adopter_id_1}}",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
+                "adoptions",
+                "{{adoption_id}}",
                 "followUps",
                 "{{follow_up_id_1}}"
               ],
@@ -921,11 +971,13 @@
         "method": "GET",
         "header": [],
         "url": {
-          "raw": "{{baseUrl}}/followUps/{{follow_up_id_1}}?requesterId={{veterinarian_id}}",
+          "raw": "{{baseUrl}}/adoptions/{{adoption_id}}/followUps/{{follow_up_id_1}}?requesterId={{veterinarian_id}}",
           "host": [
             "{{baseUrl}}"
           ],
           "path": [
+            "adoptions",
+            "{{adoption_id}}",
             "followUps",
             "{{follow_up_id_1}}"
           ],
@@ -944,11 +996,13 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{baseUrl}}/followUps/{{follow_up_id_1}}?requesterId={{veterinarian_id}}",
+              "raw": "{{baseUrl}}/adoptions/{{adoption_id}}/followUps/{{follow_up_id_1}}?requesterId={{veterinarian_id}}",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
+                "adoptions",
+                "{{adoption_id}}",
                 "followUps",
                 "{{follow_up_id_1}}"
               ],
@@ -980,11 +1034,13 @@
         "method": "GET",
         "header": [],
         "url": {
-          "raw": "{{baseUrl}}/followUps/{{follow_up_id_1}}?requesterId=9999",
+          "raw": "{{baseUrl}}/adoptions/{{adoption_id}}/followUps/{{follow_up_id_1}}?requesterId=9999",
           "host": [
             "{{baseUrl}}"
           ],
           "path": [
+            "adoptions",
+            "{{adoption_id}}",
             "followUps",
             "{{follow_up_id_1}}"
           ],
@@ -1003,11 +1059,13 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{baseUrl}}/followUps/{{follow_up_id_1}}?requesterId=9999",
+              "raw": "{{baseUrl}}/adoptions/{{adoption_id}}/followUps/{{follow_up_id_1}}?requesterId=9999",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
+                "adoptions",
+                "{{adoption_id}}",
                 "followUps",
                 "{{follow_up_id_1}}"
               ],
@@ -1034,11 +1092,13 @@
         "method": "GET",
         "header": [],
         "url": {
-          "raw": "{{baseUrl}}/followUps/{{follow_up_id_1}}?requesterId=0",
+          "raw": "{{baseUrl}}/adoptions/{{adoption_id}}/followUps/{{follow_up_id_1}}?requesterId=0",
           "host": [
             "{{baseUrl}}"
           ],
           "path": [
+            "adoptions",
+            "{{adoption_id}}",
             "followUps",
             "{{follow_up_id_1}}"
           ],
@@ -1057,11 +1117,13 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{baseUrl}}/followUps/{{follow_up_id_1}}?requesterId=0",
+              "raw": "{{baseUrl}}/adoptions/{{adoption_id}}/followUps/{{follow_up_id_1}}?requesterId=0",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
+                "adoptions",
+                "{{adoption_id}}",
                 "followUps",
                 "{{follow_up_id_1}}"
               ],
@@ -1088,11 +1150,13 @@
         "method": "GET",
         "header": [],
         "url": {
-          "raw": "{{baseUrl}}/followUps/{{follow_up_id_1}}?requesterId={{vet_admin_id}}&role=ADMIN",
+          "raw": "{{baseUrl}}/adoptions/{{adoption_id}}/followUps/{{follow_up_id_1}}?requesterId={{vet_admin_id}}&role=ADMIN",
           "host": [
             "{{baseUrl}}"
           ],
           "path": [
+            "adoptions",
+            "{{adoption_id}}",
             "followUps",
             "{{follow_up_id_1}}"
           ],
@@ -1115,11 +1179,13 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{baseUrl}}/followUps/{{follow_up_id_1}}?requesterId={{vet_admin_id}}&role=ADMIN",
+              "raw": "{{baseUrl}}/adoptions/{{adoption_id}}/followUps/{{follow_up_id_1}}?requesterId={{vet_admin_id}}&role=ADMIN",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
+                "adoptions",
+                "{{adoption_id}}",
                 "followUps",
                 "{{follow_up_id_1}}"
               ],
@@ -1155,11 +1221,13 @@
         "method": "GET",
         "header": [],
         "url": {
-          "raw": "{{baseUrl}}/followUps/{{follow_up_id_1}}?requesterId=9999&role=ADOPTER",
+          "raw": "{{baseUrl}}/adoptions/{{adoption_id}}/followUps/{{follow_up_id_1}}?requesterId=9999&role=ADOPTER",
           "host": [
             "{{baseUrl}}"
           ],
           "path": [
+            "adoptions",
+            "{{adoption_id}}",
             "followUps",
             "{{follow_up_id_1}}"
           ],
@@ -1182,11 +1250,13 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{baseUrl}}/followUps/{{follow_up_id_1}}?requesterId=9999&role=ADOPTER",
+              "raw": "{{baseUrl}}/adoptions/{{adoption_id}}/followUps/{{follow_up_id_1}}?requesterId=9999&role=ADOPTER",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
+                "adoptions",
+                "{{adoption_id}}",
                 "followUps",
                 "{{follow_up_id_1}}"
               ],
@@ -1222,11 +1292,13 @@
           }
         ],
         "url": {
-          "raw": "{{baseUrl}}/followUps/{{follow_up_id_1}}",
+          "raw": "{{baseUrl}}/adoptions/{{adoption_id}}/followUps/{{follow_up_id_1}}",
           "host": [
             "{{baseUrl}}"
           ],
           "path": [
+            "adoptions",
+            "{{adoption_id}}",
             "followUps",
             "{{follow_up_id_1}}"
           ]
@@ -1253,11 +1325,13 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/followUps/{{follow_up_id_1}}",
+              "raw": "{{baseUrl}}/adoptions/{{adoption_id}}/followUps/{{follow_up_id_1}}",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
+                "adoptions",
+                "{{adoption_id}}",
                 "followUps",
                 "{{follow_up_id_1}}"
               ]
@@ -1297,11 +1371,13 @@
           }
         ],
         "url": {
-          "raw": "{{baseUrl}}/followUps/0",
+          "raw": "{{baseUrl}}/adoptions/{{adoption_id}}/followUps/0",
           "host": [
             "{{baseUrl}}"
           ],
           "path": [
+            "adoptions",
+            "{{adoption_id}}",
             "followUps",
             "0"
           ]
@@ -1328,11 +1404,13 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/followUps/0",
+              "raw": "{{baseUrl}}/adoptions/{{adoption_id}}/followUps/0",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
+                "adoptions",
+                "{{adoption_id}}",
                 "followUps",
                 "0"
               ]
@@ -1367,11 +1445,13 @@
           }
         ],
         "url": {
-          "raw": "{{baseUrl}}/followUps/-1",
+          "raw": "{{baseUrl}}/adoptions/{{adoption_id}}/followUps/-1",
           "host": [
             "{{baseUrl}}"
           ],
           "path": [
+            "adoptions",
+            "{{adoption_id}}",
             "followUps",
             "-1"
           ]
@@ -1398,11 +1478,13 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/followUps/-1",
+              "raw": "{{baseUrl}}/adoptions/{{adoption_id}}/followUps/-1",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
+                "adoptions",
+                "{{adoption_id}}",
                 "followUps",
                 "-1"
               ]
@@ -1437,11 +1519,13 @@
           }
         ],
         "url": {
-          "raw": "{{baseUrl}}/followUps/{{follow_up_id_1}}",
+          "raw": "{{baseUrl}}/adoptions/{{adoption_id}}/followUps/{{follow_up_id_1}}",
           "host": [
             "{{baseUrl}}"
           ],
           "path": [
+            "adoptions",
+            "{{adoption_id}}",
             "followUps",
             "{{follow_up_id_1}}"
           ]
@@ -1468,11 +1552,13 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/followUps/{{follow_up_id_1}}",
+              "raw": "{{baseUrl}}/adoptions/{{adoption_id}}/followUps/{{follow_up_id_1}}",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
+                "adoptions",
+                "{{adoption_id}}",
                 "followUps",
                 "{{follow_up_id_1}}"
               ]
@@ -1507,11 +1593,13 @@
           }
         ],
         "url": {
-          "raw": "{{baseUrl}}/followUps/{{follow_up_id_1}}",
+          "raw": "{{baseUrl}}/adoptions/{{adoption_id}}/followUps/{{follow_up_id_1}}",
           "host": [
             "{{baseUrl}}"
           ],
           "path": [
+            "adoptions",
+            "{{adoption_id}}",
             "followUps",
             "{{follow_up_id_1}}"
           ]
@@ -1538,11 +1626,13 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/followUps/{{follow_up_id_1}}",
+              "raw": "{{baseUrl}}/adoptions/{{adoption_id}}/followUps/{{follow_up_id_1}}",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
+                "adoptions",
+                "{{adoption_id}}",
                 "followUps",
                 "{{follow_up_id_1}}"
               ]
@@ -1577,11 +1667,13 @@
           }
         ],
         "url": {
-          "raw": "{{baseUrl}}/followUps/{{follow_up_id_1}}",
+          "raw": "{{baseUrl}}/adoptions/{{adoption_id}}/followUps/{{follow_up_id_1}}",
           "host": [
             "{{baseUrl}}"
           ],
           "path": [
+            "adoptions",
+            "{{adoption_id}}",
             "followUps",
             "{{follow_up_id_1}}"
           ]
@@ -1608,11 +1700,13 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/followUps/{{follow_up_id_1}}",
+              "raw": "{{baseUrl}}/adoptions/{{adoption_id}}/followUps/{{follow_up_id_1}}",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
+                "adoptions",
+                "{{adoption_id}}",
                 "followUps",
                 "{{follow_up_id_1}}"
               ]
@@ -1642,11 +1736,13 @@
         "method": "DELETE",
         "header": [],
         "url": {
-          "raw": "{{baseUrl}}/followUps/{{follow_up_id_2}}",
+          "raw": "{{baseUrl}}/adoptions/{{adoption_id}}/followUps/{{follow_up_id_2}}",
           "host": [
             "{{baseUrl}}"
           ],
           "path": [
+            "adoptions",
+            "{{adoption_id}}",
             "followUps",
             "{{follow_up_id_2}}"
           ]
@@ -1659,11 +1755,13 @@
             "method": "DELETE",
             "header": [],
             "url": {
-              "raw": "{{baseUrl}}/followUps/{{follow_up_id_2}}",
+              "raw": "{{baseUrl}}/adoptions/{{adoption_id}}/followUps/{{follow_up_id_2}}",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
+                "adoptions",
+                "{{adoption_id}}",
                 "followUps",
                 "{{follow_up_id_2}}"
               ]
@@ -1684,11 +1782,13 @@
         "method": "DELETE",
         "header": [],
         "url": {
-          "raw": "{{baseUrl}}/followUps/0",
+          "raw": "{{baseUrl}}/adoptions/{{adoption_id}}/followUps/0",
           "host": [
             "{{baseUrl}}"
           ],
           "path": [
+            "adoptions",
+            "{{adoption_id}}",
             "followUps",
             "0"
           ]
@@ -1701,11 +1801,13 @@
             "method": "DELETE",
             "header": [],
             "url": {
-              "raw": "{{baseUrl}}/followUps/0",
+              "raw": "{{baseUrl}}/adoptions/{{adoption_id}}/followUps/0",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
+                "adoptions",
+                "{{adoption_id}}",
                 "followUps",
                 "0"
               ]
@@ -1726,11 +1828,13 @@
         "method": "DELETE",
         "header": [],
         "url": {
-          "raw": "{{baseUrl}}/followUps/-1",
+          "raw": "{{baseUrl}}/adoptions/{{adoption_id}}/followUps/-1",
           "host": [
             "{{baseUrl}}"
           ],
           "path": [
+            "adoptions",
+            "{{adoption_id}}",
             "followUps",
             "-1"
           ]
@@ -1743,11 +1847,13 @@
             "method": "DELETE",
             "header": [],
             "url": {
-              "raw": "{{baseUrl}}/followUps/-1",
+              "raw": "{{baseUrl}}/adoptions/{{adoption_id}}/followUps/-1",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
+                "adoptions",
+                "{{adoption_id}}",
                 "followUps",
                 "-1"
               ]
@@ -1768,11 +1874,13 @@
         "method": "DELETE",
         "header": [],
         "url": {
-          "raw": "{{baseUrl}}/followUps/{{follow_up_id_closed}}",
+          "raw": "{{baseUrl}}/adoptions/{{adoption_id}}/followUps/{{follow_up_id_closed}}",
           "host": [
             "{{baseUrl}}"
           ],
           "path": [
+            "adoptions",
+            "{{adoption_id}}",
             "followUps",
             "{{follow_up_id_closed}}"
           ]
@@ -1785,11 +1893,13 @@
             "method": "DELETE",
             "header": [],
             "url": {
-              "raw": "{{baseUrl}}/followUps/{{follow_up_id_closed}}",
+              "raw": "{{baseUrl}}/adoptions/{{adoption_id}}/followUps/{{follow_up_id_closed}}",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
+                "adoptions",
+                "{{adoption_id}}",
                 "followUps",
                 "{{follow_up_id_closed}}"
               ]

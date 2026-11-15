@@ -1,7 +1,11 @@
 package co.edu.udistrital.mdp.pets.services;
 
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
@@ -78,6 +82,24 @@ public class MedicalEventService {
 	}
 
 	@Transactional(readOnly = true)
+	public List<MedicalEventEntity> getMedicalEvents(Long petId, Long veterinarianId, String type, LocalDate date)
+			throws IllegalOperationException {
+		validateOptionalId(petId, "Pet id");
+		validateOptionalId(veterinarianId, "Veterinarian id");
+		if (type != null && type.isBlank())
+			throw new IllegalOperationException("Type filter cannot be empty");
+
+		return medicalEventRepository.findAll().stream()
+				.filter(event -> petId == null || (event.getPet() != null && petId.equals(event.getPet().getId())))
+				.filter(event -> veterinarianId == null || (event.getVeterinarian() != null
+						&& veterinarianId.equals(event.getVeterinarian().getId())))
+				.filter(event -> type == null || type.equalsIgnoreCase(event.getType()))
+				.filter(event -> date == null || (event.getDate() != null
+						&& toLocalDate(event.getDate()).equals(date)))
+				.collect(Collectors.toCollection(ArrayList::new));
+	}
+
+	@Transactional(readOnly = true)
 	public List<MedicalEventEntity> getMedicalEvents(Long petId)
 			throws EntityNotFoundException, IllegalOperationException {
 		findPetOrThrow(petId);
@@ -120,6 +142,13 @@ public class MedicalEventService {
 
 		MedicalEventEntity current = findMedicalEvent(medicalEventId);
 		validateMedicalEvent(medicalEventUpdate);
+
+		if (medicalEventUpdate.getPet() != null) {
+			if (medicalEventUpdate.getPet().getId() == null)
+				throw new IllegalOperationException("Pet is not valid");
+			if (current.getPet() == null || !current.getPet().getId().equals(medicalEventUpdate.getPet().getId()))
+				throw new IllegalOperationException("The pet associated with the medical event cannot be changed");
+		}
 
 		if (medicalEventUpdate.getVeterinarian() != null)
 			current.setVeterinarian(
@@ -187,6 +216,17 @@ public class MedicalEventService {
 			throw new IllegalOperationException(MEDICAL_EVENT_ID_NOT_VALID);
 		return medicalEventRepository.findById(medicalEventId)
 				.orElseThrow(() -> new EntityNotFoundException(MEDICAL_EVENT_NOT_FOUND));
+	}
+
+	private void validateOptionalId(Long id, String label) throws IllegalOperationException {
+		if (id != null && id <= 0)
+			throw new IllegalOperationException(label + " is not valid");
+	}
+
+	private LocalDate toLocalDate(Date date) {
+		if (date instanceof java.sql.Date sqlDate)
+			return sqlDate.toLocalDate();
+		return LocalDate.ofInstant(date.toInstant(), ZoneId.systemDefault());
 	}
 
 	/** Reglas de datos comunes a la creación y a la actualización. */
