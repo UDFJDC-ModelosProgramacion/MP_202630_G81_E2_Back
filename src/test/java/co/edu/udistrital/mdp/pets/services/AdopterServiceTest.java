@@ -1,6 +1,7 @@
 package co.edu.udistrital.mdp.pets.services;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -14,8 +15,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.context.annotation.Import;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 
+import co.edu.udistrital.mdp.pets.config.PasswordEncoderConfig;
 import co.edu.udistrital.mdp.pets.entities.AdopterEntity;
 import co.edu.udistrital.mdp.pets.entities.AdoptionRequestEntity;
 import co.edu.udistrital.mdp.pets.exceptions.EntityNotFoundException;
@@ -25,7 +28,7 @@ import uk.co.jemos.podam.api.PodamFactoryImpl;
 
 @DataJpaTest
 @Transactional
-@Import(AdopterService.class)
+@Import({ AdopterService.class, PasswordEncoderConfig.class })
 class AdopterServiceTest {
 
 	@Autowired
@@ -33,6 +36,9 @@ class AdopterServiceTest {
 
 	@Autowired
 	private TestEntityManager entityManager;
+
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 
 	private PodamFactory factory = new PodamFactoryImpl();
 
@@ -90,6 +96,8 @@ class AdopterServiceTest {
 		assertEquals(newEntity.getEmail(), persisted.getEmail());
 		assertEquals(newEntity.getNationalId(), persisted.getNationalId());
 		assertEquals(newEntity.getAddress(), persisted.getAddress());
+		assertTrue(passwordEncoder.matches("secret123", persisted.getPassword()));
+		assertNotEquals("secret123", persisted.getPassword());
 	}
 
 	@Test

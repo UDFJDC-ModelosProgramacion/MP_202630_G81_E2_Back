@@ -3,6 +3,7 @@ package co.edu.udistrital.mdp.pets.dto;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.Data;
+import lombok.ToString;
 
 @Data
 public class AdopterDTO {
@@ -11,6 +12,7 @@ public class AdopterDTO {
 	private String lastName;
 	private String email;
 	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+	@ToString.Exclude
 	private String password;
 	private String phone;
 	private String address;

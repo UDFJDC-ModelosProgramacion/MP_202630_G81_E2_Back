@@ -2,6 +2,8 @@ package co.edu.udistrital.mdp.pets.dto;
 
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import lombok.Data;
 
 @Data
@@ -23,6 +25,7 @@ public class PetDTO {
 	private String activityLevel;
 	private String requiredSpace;
 	
+	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	private VaccinationRecordDTO vaccinationRecord;
 	private ShelterDTO shelter;
 }

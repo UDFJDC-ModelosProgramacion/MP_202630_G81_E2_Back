@@ -5,6 +5,7 @@ import java.util.List;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -53,6 +54,7 @@ public class ShelterController {
 
     // create method
     @PostMapping
+    @PreAuthorize("hasRole('ADMIN')")
     @ResponseStatus(code = HttpStatus.CREATED)
     public ShelterDTO create(@RequestBody ShelterDTO shelterDTO) throws IllegalOperationException {
         ShelterEntity shelterEntity = shelterService.createShelter(modelMapper.map(shelterDTO, ShelterEntity.class));
@@ -61,6 +63,7 @@ public class ShelterController {
 
     // update method
     @PutMapping(value = "/{id}")
+    @PreAuthorize("hasRole('ADMIN') or @authorizationService.canManageShelter(authentication, #id)")
     @ResponseStatus(code = HttpStatus.OK)
     public ShelterDTO update(@PathVariable Long id, @RequestBody ShelterDTO shelterDTO) throws EntityNotFoundException, IllegalOperationException {
         ShelterEntity shelterEntity = shelterService.updateShelter(id, modelMapper.map(shelterDTO, ShelterEntity.class));
@@ -69,6 +72,7 @@ public class ShelterController {
 
     // delete method
     @DeleteMapping(value = "/{id}")
+    @PreAuthorize("hasRole('ADMIN') or @authorizationService.canManageShelter(authentication, #id)")
     @ResponseStatus(code = HttpStatus.NO_CONTENT)
     public void delete(@PathVariable Long id) throws EntityNotFoundException, IllegalOperationException {
         shelterService.deleteShelter(id);

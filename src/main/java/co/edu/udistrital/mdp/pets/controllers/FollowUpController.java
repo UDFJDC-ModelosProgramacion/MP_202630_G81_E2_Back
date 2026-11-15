@@ -5,6 +5,7 @@ import java.util.List;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -35,6 +36,7 @@ public class FollowUpController {
 	private final ModelMapper modelMapper;
 
 	@GetMapping
+	@PreAuthorize("hasRole('ADMIN') or @authorizationService.canAccessFollowUps(authentication, #adoptionId)")
 	@ResponseStatus(HttpStatus.OK)
 	public List<FollowUpDTO> findAll(@PathVariable Long adoptionId)
 			throws EntityNotFoundException, IllegalOperationException {
@@ -44,16 +46,18 @@ public class FollowUpController {
 	}
 
 	@GetMapping("/{followUpId}")
+	@PreAuthorize("hasRole('ADMIN') or @authorizationService.canAccessFollowUp(authentication, #adoptionId, #followUpId)")
 	@ResponseStatus(HttpStatus.OK)
 	public FollowUpDTO findOne(@PathVariable Long adoptionId, @PathVariable Long followUpId,
 			@RequestParam(required = false) Long requesterId,
 			@RequestParam(required = false) String role)
 			throws EntityNotFoundException, IllegalOperationException {
-		FollowUpEntity followUp = followUpService.getFollowUpForAdoption(adoptionId, followUpId, requesterId, role);
+		FollowUpEntity followUp = followUpService.getFollowUpForAdoption(adoptionId, followUpId);
 		return modelMapper.map(followUp, FollowUpDTO.class);
 	}
 
 	@PostMapping
+	@PreAuthorize("hasRole('ADMIN') or @authorizationService.canCreateFollowUp(authentication, #adoptionId, #dto)")
 	@ResponseStatus(HttpStatus.CREATED)
 	public FollowUpDTO create(@PathVariable Long adoptionId, @RequestBody FollowUpRequestDTO dto)
 			throws EntityNotFoundException, IllegalOperationException {
@@ -62,6 +66,7 @@ public class FollowUpController {
 	}
 
 	@PutMapping("/{followUpId}")
+	@PreAuthorize("hasRole('ADMIN') or @authorizationService.canUpdateFollowUp(authentication, #adoptionId, #followUpId, #dto)")
 	@ResponseStatus(HttpStatus.OK)
 	public FollowUpDTO update(@PathVariable Long adoptionId, @PathVariable Long followUpId,
 			@RequestBody FollowUpRequestDTO dto)
@@ -77,6 +82,7 @@ public class FollowUpController {
 	}
 
 	@DeleteMapping("/{followUpId}")
+	@PreAuthorize("hasRole('ADMIN') or @authorizationService.canManageFollowUp(authentication, #adoptionId, #followUpId)")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void delete(@PathVariable Long adoptionId, @PathVariable Long followUpId)
 			throws EntityNotFoundException, IllegalOperationException {

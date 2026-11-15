@@ -5,6 +5,7 @@ import java.util.List;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -32,6 +33,7 @@ public class PetMedicalEventController {
     private final ModelMapper modelMapper;
 
     @PostMapping
+    @PreAuthorize("hasRole('ADMIN') or @authorizationService.canCreateMedicalEventForPet(authentication, #petId, #medicalEventDTO)")
     @ResponseStatus(code = HttpStatus.CREATED)
     public PetMedicalEventDTO create(@PathVariable Long petId, @RequestBody MedicalEventDTO medicalEventDTO)
             throws EntityNotFoundException, IllegalOperationException {
@@ -41,6 +43,7 @@ public class PetMedicalEventController {
     }
 
     @GetMapping
+    @PreAuthorize("hasRole('ADMIN') or @authorizationService.canAccessClinicalPet(authentication, #petId)")
     @ResponseStatus(code = HttpStatus.OK)
     public List<PetMedicalEventDTO> findAll(@PathVariable Long petId)
             throws EntityNotFoundException, IllegalOperationException {
@@ -50,6 +53,7 @@ public class PetMedicalEventController {
     }
 
     @GetMapping("/{medicalEventId}")
+    @PreAuthorize("hasRole('ADMIN') or @authorizationService.canAccessClinicalPet(authentication, #petId)")
     @ResponseStatus(code = HttpStatus.OK)
     public PetMedicalEventDTO findOne(@PathVariable Long petId, @PathVariable Long medicalEventId)
             throws EntityNotFoundException, IllegalOperationException {
@@ -58,6 +62,7 @@ public class PetMedicalEventController {
     }
 
     @PutMapping("/{medicalEventId}")
+    @PreAuthorize("hasRole('ADMIN') or @authorizationService.canUpdateMedicalEventForPet(authentication, #petId, #medicalEventId, #medicalEventDTO)")
     @ResponseStatus(code = HttpStatus.OK)
     public PetMedicalEventDTO update(@PathVariable Long petId, @PathVariable Long medicalEventId,
             @RequestBody MedicalEventDTO medicalEventDTO)
@@ -68,6 +73,7 @@ public class PetMedicalEventController {
     }
 
     @DeleteMapping("/{medicalEventId}")
+    @PreAuthorize("hasRole('ADMIN') or @authorizationService.canAccessClinicalPet(authentication, #petId)")
     @ResponseStatus(code = HttpStatus.NO_CONTENT)
     public void delete(@PathVariable Long petId, @PathVariable Long medicalEventId)
             throws EntityNotFoundException, IllegalOperationException {

@@ -5,6 +5,7 @@ import java.util.List;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -31,6 +32,7 @@ public class EventController {
     private final ModelMapper modelMapper;
 
     @PostMapping(value = "/{shelterId}/events")
+    @PreAuthorize("hasRole('ADMIN') or @authorizationService.canManageShelter(authentication, #shelterId)")
     @ResponseStatus(code = HttpStatus.CREATED)
     public EventDTO createEvent(@PathVariable Long shelterId, @RequestBody EventDTO eventDTO)
             throws EntityNotFoundException, IllegalOperationException {
@@ -58,6 +60,7 @@ public class EventController {
     }
 
     @PutMapping(value = "/{shelterId}/events/{eventId}")
+    @PreAuthorize("hasRole('ADMIN') or @authorizationService.canManageShelter(authentication, #shelterId)")
     @ResponseStatus(code = HttpStatus.OK)
     public EventDTO updateEvent(@PathVariable Long shelterId, @PathVariable Long eventId,
             @RequestBody EventDTO eventDTO) throws EntityNotFoundException, IllegalOperationException {
@@ -67,6 +70,7 @@ public class EventController {
     }
 
     @DeleteMapping(value = "/{shelterId}/events/{eventId}")
+    @PreAuthorize("hasRole('ADMIN') or @authorizationService.canManageShelter(authentication, #shelterId)")
     @ResponseStatus(code = HttpStatus.NO_CONTENT)
     public void deleteEvent(@PathVariable Long shelterId, @PathVariable Long eventId)
             throws EntityNotFoundException, IllegalOperationException {

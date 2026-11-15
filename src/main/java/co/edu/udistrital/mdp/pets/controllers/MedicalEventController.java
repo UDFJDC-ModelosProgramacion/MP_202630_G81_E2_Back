@@ -7,6 +7,7 @@ import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -34,6 +35,7 @@ public class MedicalEventController {
 	private final ModelMapper modelMapper;
 
 	@GetMapping
+	@PreAuthorize("hasRole('ADMIN')")
 	@ResponseStatus(HttpStatus.OK)
 	public List<MedicalEventDTO> findAll(
 			@RequestParam(required = false) Long petId,
@@ -47,6 +49,7 @@ public class MedicalEventController {
 	}
 
 	@GetMapping("/{id}")
+	@PreAuthorize("hasRole('ADMIN') or @authorizationService.canAccessMedicalEvent(authentication, #id)")
 	@ResponseStatus(HttpStatus.OK)
 	public MedicalEventDTO findOne(@PathVariable Long id)
 			throws EntityNotFoundException, IllegalOperationException {
@@ -54,6 +57,7 @@ public class MedicalEventController {
 	}
 
 	@PostMapping
+	@PreAuthorize("hasRole('ADMIN') or @authorizationService.canCreateMedicalEvent(authentication, #dto)")
 	@ResponseStatus(HttpStatus.CREATED)
 	public MedicalEventDTO create(@RequestBody MedicalEventDTO dto)
 			throws EntityNotFoundException, IllegalOperationException {
@@ -62,6 +66,7 @@ public class MedicalEventController {
 	}
 
 	@PutMapping("/{id}")
+	@PreAuthorize("hasRole('ADMIN') or @authorizationService.canUpdateMedicalEvent(authentication, #id, #dto)")
 	@ResponseStatus(HttpStatus.OK)
 	public MedicalEventDTO update(@PathVariable Long id, @RequestBody MedicalEventDTO dto)
 			throws EntityNotFoundException, IllegalOperationException {
@@ -71,6 +76,7 @@ public class MedicalEventController {
 	}
 
 	@DeleteMapping("/{id}")
+	@PreAuthorize("hasRole('ADMIN') or @authorizationService.canAccessMedicalEvent(authentication, #id)")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void delete(@PathVariable Long id) throws EntityNotFoundException, IllegalOperationException {
 		medicalEventService.deleteMedicalEvent(id);

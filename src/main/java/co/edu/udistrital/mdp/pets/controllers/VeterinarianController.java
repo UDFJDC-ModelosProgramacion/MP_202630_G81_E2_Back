@@ -5,6 +5,7 @@ import java.util.List;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import co.edu.udistrital.mdp.pets.dto.VeterinarianDTO;
 import co.edu.udistrital.mdp.pets.dto.VeterinarianDetailDTO;
 import co.edu.udistrital.mdp.pets.entities.VeterinarianEntity;
+import co.edu.udistrital.mdp.pets.entities.ShelterEntity;
 import co.edu.udistrital.mdp.pets.exceptions.EntityNotFoundException;
 import co.edu.udistrital.mdp.pets.exceptions.IllegalOperationException;
 import co.edu.udistrital.mdp.pets.services.VeterinarianService;
@@ -53,14 +55,24 @@ public class VeterinarianController {
 
     
     @PostMapping
+    @PreAuthorize("hasRole('ADMIN')")
     @ResponseStatus(code = HttpStatus.CREATED)
     public VeterinarianDTO create(@RequestBody VeterinarianDTO dto) throws IllegalOperationException {
-        VeterinarianEntity entity = veterinarianService.createVeterinarian(modelMapper.map(dto, VeterinarianEntity.class));
+        if (dto.getPassword() == null || dto.getPassword().isBlank())
+            throw new IllegalOperationException("A password is required when creating a veterinarian account");
+        VeterinarianEntity veterinarian = modelMapper.map(dto, VeterinarianEntity.class);
+        if (dto.getShelterId() != null) {
+            ShelterEntity shelter = new ShelterEntity();
+            shelter.setId(dto.getShelterId());
+            veterinarian.setShelter(shelter);
+        }
+        VeterinarianEntity entity = veterinarianService.createVeterinarian(veterinarian);
         return modelMapper.map(entity, VeterinarianDTO.class);
     }
 
     
     @PutMapping(value = "/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     @ResponseStatus(code = HttpStatus.OK)
     public VeterinarianDTO update(@PathVariable Long id, @RequestBody VeterinarianDTO dto)
             throws EntityNotFoundException, IllegalOperationException {
@@ -71,6 +83,7 @@ public class VeterinarianController {
 
     
     @DeleteMapping(value = "/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     @ResponseStatus(code = HttpStatus.NO_CONTENT)
     public void delete(@PathVariable Long id) throws EntityNotFoundException, IllegalOperationException {
         veterinarianService.deleteVeterinarian(id);

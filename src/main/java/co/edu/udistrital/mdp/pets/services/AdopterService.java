@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,6 +22,7 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor 
 public class AdopterService {
 
+	private static final int MIN_PASSWORD_LENGTH = 8;
 	private static final Set<String> ACTIVE_REQUEST_STATUSES = Set.of("PENDING", "APPROVED", "IN_PROGRESS");
 
 	private static final String ADOPTER_NOT_FOUND = "Adopter not found";
@@ -30,6 +32,7 @@ public class AdopterService {
 	private final AdopterRepository adopterRepository;
 	private final UserRepository userRepository;
 	private final AdoptionRequestRepository adoptionRequestRepository;
+	private final PasswordEncoder passwordEncoder;
 
 	/**
 	 * Creates a new adopter validating, in order, the identity/contact fields, the
@@ -48,6 +51,11 @@ public class AdopterService {
 		validateIdentityAndContactFields(adopter);
 		validateProfileFields(adopter);
 		validateNoDuplicates(adopter);
+		if (adopter.getPassword().length() < MIN_PASSWORD_LENGTH)
+			throw new IllegalOperationException("The password must contain at least 8 characters");
+		adopter.setRole(co.edu.udistrital.mdp.pets.entities.UserRole.ADOPTER);
+		adopter.setShelter(null);
+		adopter.setPassword(passwordEncoder.encode(adopter.getPassword()));
  
 		log.info("Adopter creation process completed.");
 		return adopterRepository.save(adopter);

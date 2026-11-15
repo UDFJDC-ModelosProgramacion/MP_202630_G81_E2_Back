@@ -5,6 +5,7 @@ import java.util.List;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -32,6 +33,7 @@ public class AdopterController {
 	private final ModelMapper modelMapper;
 
 	@GetMapping
+	@PreAuthorize("hasRole('ADMIN')")
 	@ResponseStatus(HttpStatus.OK)
 	public List<AdopterDTO> findAll(
 			@RequestParam(required = false) String nationalId,
@@ -43,6 +45,7 @@ public class AdopterController {
 	}
 
 	@GetMapping("/{id}")
+	@PreAuthorize("hasRole('ADMIN') or @authorizationService.canAccessAdopter(authentication, #id)")
 	@ResponseStatus(HttpStatus.OK)
 	public AdopterDTO findOne(@PathVariable Long id)
 			throws EntityNotFoundException, IllegalOperationException {
@@ -57,6 +60,7 @@ public class AdopterController {
 	}
 
 	@PutMapping("/{id}")
+	@PreAuthorize("hasRole('ADMIN') or @authorizationService.canAccessAdopter(authentication, #id)")
 	@ResponseStatus(HttpStatus.OK)
 	public AdopterDTO update(@PathVariable Long id, @RequestBody AdopterDTO dto)
 			throws EntityNotFoundException, IllegalOperationException {
@@ -65,6 +69,7 @@ public class AdopterController {
 	}
 
 	@DeleteMapping("/{id}")
+	@PreAuthorize("hasRole('ADMIN') or @authorizationService.canAccessAdopter(authentication, #id)")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void delete(@PathVariable Long id) throws EntityNotFoundException, IllegalOperationException {
 		adopterService.deleteAdopter(id);

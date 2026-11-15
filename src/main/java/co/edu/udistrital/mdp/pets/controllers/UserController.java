@@ -2,6 +2,7 @@ package co.edu.udistrital.mdp.pets.controllers;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import co.edu.udistrital.mdp.pets.dto.UserCreateDTO;
 import co.edu.udistrital.mdp.pets.dto.UserDTO;
+import co.edu.udistrital.mdp.pets.dto.UserRoleUpdateDTO;
 import co.edu.udistrital.mdp.pets.entities.UserEntity;
 import co.edu.udistrital.mdp.pets.exceptions.EntityNotFoundException;
 import co.edu.udistrital.mdp.pets.exceptions.IllegalOperationException;
@@ -36,6 +38,7 @@ public class UserController {
 	}
 
 	@GetMapping("/{id}")
+	@PreAuthorize("hasRole('ADMIN') or @authorizationService.canAccessUser(authentication, #id)")
 	@ResponseStatus(HttpStatus.OK)
 	public UserDTO findOne(@PathVariable Long id)
 			throws EntityNotFoundException, IllegalOperationException {
@@ -43,6 +46,7 @@ public class UserController {
 	}
 
 	@PutMapping("/{id}")
+	@PreAuthorize("hasRole('ADMIN') or @authorizationService.canAccessUser(authentication, #id)")
 	@ResponseStatus(HttpStatus.OK)
 	public UserDTO update(@PathVariable Long id, @RequestBody UserDTO dto)
 			throws EntityNotFoundException, IllegalOperationException {
@@ -51,8 +55,18 @@ public class UserController {
 	}
 
 	@DeleteMapping("/{id}")
+	@PreAuthorize("hasRole('ADMIN') or @authorizationService.canAccessUser(authentication, #id)")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void delete(@PathVariable Long id) throws EntityNotFoundException, IllegalOperationException {
 		userService.deleteUser(id);
+	}
+
+	@PutMapping("/{id}/role")
+	@PreAuthorize("hasRole('ADMIN')")
+	@ResponseStatus(HttpStatus.OK)
+	public UserDTO assignRole(@PathVariable Long id, @RequestBody UserRoleUpdateDTO dto)
+			throws EntityNotFoundException, IllegalOperationException {
+		UserEntity user = userService.assignRole(id, dto.getRole(), dto.getShelterId(), dto.getPassword());
+		return modelMapper.map(user, UserDTO.class);
 	}
 }

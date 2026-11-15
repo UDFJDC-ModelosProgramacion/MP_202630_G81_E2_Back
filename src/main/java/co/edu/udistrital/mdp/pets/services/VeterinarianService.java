@@ -3,11 +3,13 @@ package co.edu.udistrital.mdp.pets.services;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import co.edu.udistrital.mdp.pets.entities.ShelterEntity;
 import co.edu.udistrital.mdp.pets.entities.VeterinarianEntity;
+import co.edu.udistrital.mdp.pets.entities.UserRole;
 import co.edu.udistrital.mdp.pets.exceptions.EntityNotFoundException;
 import co.edu.udistrital.mdp.pets.exceptions.IllegalOperationException;
 import co.edu.udistrital.mdp.pets.repositories.MessageRepository;
@@ -29,6 +31,7 @@ public class VeterinarianService {
 	private final UserRepository userRepository;
 	private final ShelterRepository shelterRepository;
 	private final MessageRepository messageRepository;
+	private final PasswordEncoder passwordEncoder;
 
 	@Transactional
 	public VeterinarianEntity createVeterinarian(VeterinarianEntity veterinarian)
@@ -47,6 +50,8 @@ public class VeterinarianService {
 			throw new IllegalOperationException("Specialization cannot be null or empty");
 		if (veterinarian.getAvailability() == null || veterinarian.getAvailability().isBlank())
 			throw new IllegalOperationException("Availability cannot be null or empty");
+		if (veterinarian.getPassword() != null && veterinarian.getPassword().length() < 8)
+			throw new IllegalOperationException("The password must contain at least 8 characters");
 
 		boolean emailAlreadyUsed = userRepository.findAll().stream()
 				.anyMatch(u -> u.getEmail() != null && u.getEmail().equalsIgnoreCase(veterinarian.getEmail()));
@@ -63,6 +68,9 @@ public class VeterinarianService {
 				throw new IllegalOperationException("The shelter must be an existing shelter");
 			veterinarian.setShelter(shelter.get());
 		}
+		veterinarian.setRole(UserRole.VETERINARIAN);
+		if (veterinarian.getPassword() != null)
+			veterinarian.setPassword(passwordEncoder.encode(veterinarian.getPassword()));
 
 		log.info("Ending process to create a veterinarian");
 		return veterinarianRepository.save(veterinarian);
