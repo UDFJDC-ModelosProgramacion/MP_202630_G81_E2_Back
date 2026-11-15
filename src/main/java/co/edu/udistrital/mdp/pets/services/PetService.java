@@ -65,6 +65,8 @@ public class PetService {
 			throw new IllegalOperationException(
 					"A pet with the same shelter, name, species and admission date already exists");
 
+		if (pet.getActive() == null)
+			pet.setActive(true);
 		PetEntity savedPet = petRepository.save(pet);
 
 		for (MedicalEventEntity arrivalEvent : arrivalEvents) {
@@ -131,6 +133,8 @@ public class PetService {
 		validateMandatoryAttributes(pet);
 
 		PetEntity current = existing.get();
+		if (pet.getActive() != null)
+			current.setActive(pet.getActive());
 
 		if (pet.getAdmissionDate() != null && current.getAdmissionDate() != null
 				&& !sameDay(pet.getAdmissionDate(), current.getAdmissionDate()))

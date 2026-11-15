@@ -10,5 +10,6 @@ public class MedicalEventDTO {
 	private Date date;
 	private String type;
 	private String description;
+	private PetDTO pet;
 	private VeterinarianDTO veterinarian;
 }

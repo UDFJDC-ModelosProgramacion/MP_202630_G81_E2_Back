@@ -1,5 +1,9 @@
 package co.edu.udistrital.mdp.pets.services;
 
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.format.DateTimeParseException;
 import java.util.Date;
 import java.util.List;
 
@@ -30,6 +34,13 @@ public class MedicalEventService {
 	private static final String DATE_NOT_VALID = "Date is not valid";
 	private static final String DATE_IN_FUTURE = "Date cannot be in the future";
 	private static final String TYPE_NOT_VALID = "Type is not valid";
+	private static final String DESCRIPTION_NOT_VALID = "Description is not valid";
+	private static final String PET_NOT_ACTIVE = "The pet is not active in the system";
+	private static final String DUPLICATE_MEDICAL_EVENT =
+			"A medical event with the same pet, type and date already exists";
+	private static final String PET_CANNOT_BE_MODIFIED = "The pet of a medical event cannot be modified";
+	private static final String PET_ID_NOT_VALID = "Pet id is not valid";
+	private static final String PET_NOT_FOUND = "Pet was not found";
 	private static final String PET_LABEL = "Pet";
 	private static final String VETERINARIAN_LABEL = "Veterinarian";
 
@@ -42,9 +53,10 @@ public class MedicalEventService {
 	 *
 	 * Reglas de negocio:
 	 * 1. Ningún atributo obligatorio puede ser nulo o vacío.
-	 * 2. La mascota (pet) debe existir.
+	 * 2. La mascota (pet) debe existir y estar activa.
 	 * 3. El veterinario debe existir.
 	 * 4. La fecha del evento no puede ser posterior a la fecha actual.
+	 * 5. No se puede registrar un evento duplicado (misma mascota, tipo y fecha).
 	 */
 	@Transactional
 	public MedicalEventEntity createMedicalEvent(MedicalEventEntity medicalEvent)
@@ -56,6 +68,11 @@ public class MedicalEventService {
 		PetEntity pet = findReference(medicalEvent.getPet(), petRepository, PET_LABEL);
 		VeterinarianEntity veterinarian = findReference(medicalEvent.getVeterinarian(), veterinarianRepository,
 				VETERINARIAN_LABEL);
+
+		if (!isActive(pet.getActive()))
+			throw new IllegalOperationException(PET_NOT_ACTIVE);
+		if (isDuplicate(medicalEvent, pet))
+			throw new IllegalOperationException(DUPLICATE_MEDICAL_EVENT);
 
 		medicalEvent.setPet(pet);
 		medicalEvent.setVeterinarian(veterinarian);
@@ -75,6 +92,21 @@ public class MedicalEventService {
 	public List<MedicalEventEntity> getMedicalEvents() {
 		log.info("Inicia proceso de consultar todos los eventos médicos");
 		return medicalEventRepository.findAll();
+	}
+
+	/** Consulta con filtros opcionales por mascota, tipo y fecha (yyyy-MM-dd). */
+	@Transactional(readOnly = true)
+	public List<MedicalEventEntity> getMedicalEvents(Long petId, String type, String date)
+			throws IllegalOperationException {
+		log.info("Inicia proceso de consultar los eventos médicos con filtros");
+		if (petId != null && petId < 0)
+			throw new IllegalOperationException(PET_ID_NOT_VALID);
+		final LocalDate day = parseDay(date);
+		return medicalEventRepository.findAll().stream()
+				.filter(e -> petId == null || (e.getPet() != null && petId.equals(e.getPet().getId())))
+				.filter(e -> type == null || type.equalsIgnoreCase(e.getType()))
+				.filter(e -> day == null || (e.getDate() != null && day.equals(toLocalDate(e.getDate()))))
+				.toList();
 	}
 
 	@Transactional(readOnly = true)
@@ -120,6 +152,10 @@ public class MedicalEventService {
 
 		MedicalEventEntity current = findMedicalEvent(medicalEventId);
 		validateMedicalEvent(medicalEventUpdate);
+
+		if (medicalEventUpdate.getPet() != null && medicalEventUpdate.getPet().getId() != null
+				&& !medicalEventUpdate.getPet().getId().equals(current.getPet().getId()))
+			throw new IllegalOperationException(PET_CANNOT_BE_MODIFIED);
 
 		if (medicalEventUpdate.getVeterinarian() != null)
 			current.setVeterinarian(
@@ -169,10 +205,10 @@ public class MedicalEventService {
 	}
 
 	private PetEntity findPetOrThrow(Long petId) throws EntityNotFoundException, IllegalOperationException {
-		if (petId == null || petId <= 0)
-			throw new IllegalOperationException("Pet id is not valid");
+		if (petId == null || petId < 0)
+			throw new IllegalOperationException(PET_ID_NOT_VALID);
 		return petRepository.findById(petId)
-				.orElseThrow(() -> new EntityNotFoundException("Pet was not found"));
+				.orElseThrow(() -> new EntityNotFoundException(PET_NOT_FOUND));
 	}
 
 	private void validateEventBelongsToPet(MedicalEventEntity medicalEvent, Long petId)
@@ -181,6 +217,7 @@ public class MedicalEventService {
 			throw new IllegalOperationException("The medical event is not associated with the pet");
 	}
 
+	/** Un id nulo o no positivo no es válido. */
 	private MedicalEventEntity findMedicalEvent(Long medicalEventId)
 			throws EntityNotFoundException, IllegalOperationException {
 		if (medicalEventId == null || medicalEventId <= 0)
@@ -199,6 +236,34 @@ public class MedicalEventService {
 			throw new IllegalOperationException(DATE_IN_FUTURE);
 		if (medicalEvent.getType() == null || medicalEvent.getType().isBlank())
 			throw new IllegalOperationException(TYPE_NOT_VALID);
+		if (medicalEvent.getDescription() == null || medicalEvent.getDescription().isBlank())
+			throw new IllegalOperationException(DESCRIPTION_NOT_VALID);
+	}
+
+	private boolean isDuplicate(MedicalEventEntity medicalEvent, PetEntity pet) {
+		return medicalEventRepository.findAll().stream()
+				.anyMatch(e -> e.getPet() != null && pet.getId().equals(e.getPet().getId())
+						&& medicalEvent.getType().equalsIgnoreCase(e.getType())
+						&& e.getDate() != null && toLocalDate(e.getDate()).equals(toLocalDate(medicalEvent.getDate())));
+	}
+
+	private boolean isActive(Boolean active) {
+		return !Boolean.FALSE.equals(active);
+	}
+
+	/** Se usa getTime() porque las fechas leídas de la base de datos pueden ser java.sql.Date. */
+	private LocalDate toLocalDate(Date date) {
+		return Instant.ofEpochMilli(date.getTime()).atZone(ZoneId.systemDefault()).toLocalDate();
+	}
+
+	private LocalDate parseDay(String date) throws IllegalOperationException {
+		if (date == null)
+			return null;
+		try {
+			return LocalDate.parse(date);
+		} catch (DateTimeParseException e) {
+			throw new IllegalOperationException(DATE_NOT_VALID);
+		}
 	}
 
 	/** Resuelve una entidad relacionada: la referencia y su id son obligatorios y debe existir. */
