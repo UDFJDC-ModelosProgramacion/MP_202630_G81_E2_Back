@@ -2408,6 +2408,10 @@
 					"pm.collectionVariables.set(\"d_future_365\", iso(365));",
 					"if (!pm.collectionVariables.get(\"run_id\")) {",
 					"   pm.collectionVariables.set(\"run_id\", Date.now().toString(36));",
+					"}",
+					"const csrfToken = pm.environment.get(\"csrfToken\");",
+					"if (csrfToken && [\"POST\", \"PUT\", \"PATCH\", \"DELETE\"].includes(pm.request.method.toUpperCase())) {",
+					"    pm.request.headers.upsert({ key: \"X-XSRF-TOKEN\", value: csrfToken });",
 					"}"
 				]
 			}

@@ -1766,5 +1766,19 @@
 				}
 			]
 		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"const csrfToken = pm.environment.get(\"csrfToken\");",
+					"if (csrfToken && [\"POST\", \"PUT\", \"PATCH\", \"DELETE\"].includes(pm.request.method.toUpperCase())) {",
+					"    pm.request.headers.upsert({ key: \"X-XSRF-TOKEN\", value: csrfToken });",
+					"}"
+				]
+			}
+		}
 	]
 }

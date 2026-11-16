@@ -22,10 +22,12 @@ La API usa sesiones de servidor con cookies (no JWT):
    `POST`, `PUT`, `PATCH` o `DELETE`.
 2. `POST /api/auth/login` recibe
    `{"email":"usuario@example.com","password":"..."}`. Responde `200` con
-   `{"id":123,"email":"usuario@example.com","role":"ADOPTER"}` y establece
-   `JSESSIONID` (`HttpOnly`). La contraseña se compara con BCrypt y no se
-   devuelve.
-3. `GET /api/auth/me` devuelve la identidad y rol de la sesión vigente.
+   `{"id":123,"email":"usuario@example.com","role":"ADOPTER","shelterId":null}`
+   y establece `JSESSIONID` (`HttpOnly`). `shelterId` se lee de la asociación
+   persistida del usuario; es `null` si no tiene refugio asociado. La contraseña
+   se compara con BCrypt y no se devuelve.
+3. `GET /api/auth/me` devuelve los mismos campos de la identidad autenticada y
+   la asociación de refugio actual del servidor.
    `POST /api/auth/logout` invalida la sesión; responde `204` y requiere CSRF.
 
 La sesión expira tras 30 minutos de inactividad por defecto; la actividad
@@ -115,10 +117,21 @@ el driver JDBC correspondiente a la base elegida. No se ha fijado un motor de
 producción en este repositorio.
 
 Configure `APP_CORS_ALLOWED_ORIGINS` con orígenes explícitos separados por
-comas, por ejemplo `https://app.example.com`; no use `*` con cookies. La SPA
+comas; en desarrollo se permite `http://localhost:5173` por defecto y
+producción requiere configurar la variable con el origen real, por ejemplo
+`https://app.example.com`. No use `*` con cookies. La SPA
 debe enviar solicitudes con credenciales (`credentials: "include"`). Variables
 adicionales: `SESSION_TIMEOUT` (por defecto `30m`),
 `SESSION_COOKIE_SECURE` (por defecto `true`) y
 `SESSION_COOKIE_SAME_SITE` (por defecto `Lax`). En desarrollo HTTP local,
 configure explícitamente `SESSION_COOKIE_SECURE=false`; no aplique ese ajuste
 en producción.
+
+La suite Newman inicia la aplicación en el perfil `integration-tests`, que
+queda enlazado a `127.0.0.1` y crea una cuenta ADMIN efímera usando
+`POSTMAN_ADMIN_EMAIL` y `POSTMAN_ADMIN_PASSWORD` (mínimo 8 caracteres). Defina
+ambas variables al ejecutar `.\mvnw.cmd verify`; no se configuran credenciales
+predeterminadas ni se crea esa cuenta en producción. La colección `Security`
+debe ejecutarse primero en Postman; Newman la combina al inicio, obtiene el
+token CSRF, verifica respuestas 401/403, inicia sesión y deja la sesión lista
+para las demás colecciones protegidas.

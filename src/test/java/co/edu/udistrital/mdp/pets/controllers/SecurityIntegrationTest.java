@@ -2,11 +2,15 @@ package co.edu.udistrital.mdp.pets.controllers;
 
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.options;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.cookie;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
+import static org.hamcrest.Matchers.nullValue;
+import static org.hamcrest.Matchers.containsString;
 
 import java.time.Instant;
 import java.util.Date;
@@ -153,11 +157,70 @@ class SecurityIntegrationTest {
 	}
 
 	@Test
+	void loginAndCurrentSessionReturnOnlyTheUsersPersistedShelterAssociation() throws Exception {
+		ShelterEntity shelter = persistShelter("session");
+		UserEntity shelterAdmin = persistUser("session-shelter-admin", UserRole.SHELTER_ADMIN, shelter);
+		MockHttpSession shelterAdminSession = (MockHttpSession) mockMvc.perform(postApi("/auth/login")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content("""
+						{"email":"%s","password":"%s"}
+						""".formatted(shelterAdmin.getEmail(), PASSWORD)))
+				.andExpect(status().isOk())
+				.andExpect(jsonPath("$.role").value("SHELTER_ADMIN"))
+				.andExpect(jsonPath("$.shelterId").value(shelter.getId()))
+				.andReturn()
+				.getRequest()
+				.getSession(false);
+
+		mockMvc.perform(getApi("/auth/me").session(shelterAdminSession))
+				.andExpect(status().isOk())
+				.andExpect(jsonPath("$.id").value(shelterAdmin.getId()))
+				.andExpect(jsonPath("$.shelterId").value(shelter.getId()));
+
+		UserEntity adopter = persistUser("session-adopter", UserRole.ADOPTER, null);
+		MockHttpSession adopterSession = (MockHttpSession) mockMvc.perform(postApi("/auth/login")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content("""
+						{"email":"%s","password":"%s","shelterId":%d}
+						""".formatted(adopter.getEmail(), PASSWORD, shelter.getId())))
+				.andExpect(status().isOk())
+				.andExpect(jsonPath("$.role").value("ADOPTER"))
+				.andExpect(jsonPath("$.shelterId").value(nullValue()))
+				.andReturn()
+				.getRequest()
+				.getSession(false);
+
+		mockMvc.perform(getApi("/auth/me").session(adopterSession))
+				.andExpect(status().isOk())
+				.andExpect(jsonPath("$.shelterId").value(nullValue()));
+	}
+
+	@Test
 	void csrfEndpointProvidesTheTokenNeededForSpaRequests() throws Exception {
 		mockMvc.perform(getApi("/auth/csrf"))
 				.andExpect(status().isOk())
 				.andExpect(jsonPath("$.token").isNotEmpty())
 				.andExpect(cookie().exists("XSRF-TOKEN"));
+	}
+
+	@Test
+	void corsAllowsOnlyTheConfiguredFrontendOriginWithCsrfHeaderAndCredentials() throws Exception {
+		mockMvc.perform(options(API + "/auth/login")
+				.contextPath(API)
+				.header("Origin", "http://localhost:5173")
+				.header("Access-Control-Request-Method", "POST")
+				.header("Access-Control-Request-Headers", "X-XSRF-TOKEN"))
+				.andExpect(status().isOk())
+				.andExpect(header().string("Access-Control-Allow-Origin", "http://localhost:5173"))
+				.andExpect(header().string("Access-Control-Allow-Credentials", "true"))
+				.andExpect(header().string("Access-Control-Allow-Headers", containsString("X-XSRF-TOKEN")));
+
+		mockMvc.perform(options(API + "/auth/login")
+				.contextPath(API)
+				.header("Origin", "https://not-the-frontend.example")
+				.header("Access-Control-Request-Method", "POST"))
+				.andExpect(status().isForbidden())
+				.andExpect(header().doesNotExist("Access-Control-Allow-Origin"));
 	}
 
 	@Test

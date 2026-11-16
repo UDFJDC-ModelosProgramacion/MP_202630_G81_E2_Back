@@ -88,6 +88,8 @@
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
 					<jmxPort>9011</jmxPort>
+					<wait>500</wait>
+					<maxAttempts>120</maxAttempts>
 					<profiles>
 						<profile>integration-tests</profile>
 					</profiles>
@@ -159,8 +161,19 @@
 								postman-combine-collections
 							</executable>
 							<commandlineArgs>
-								--name Composed -f collections/{Adopter,Adoption,DefaultTests,Event,FollowUp,MedicalEvent,Notification,Pet,PetMedicalEvents,PetPhotos,Photo,Review,Shelter,ShelterEvents,ShelterPets,TrialCohabitation,TrialCohabitationRequest,VaccinationRecordVaccines,Vaccine,VeterinarianFollowUps,VeterinarianMedicalEvents}.postman_collection.json -o it/composed.collection.json
+								--name Composed -f collections/{00Security,Adopter,Adoption,DefaultTests,Event,FollowUp,MedicalEvent,Notification,Pet,PetMedicalEvents,PetPhotos,Photo,Review,Shelter,ShelterEvents,ShelterPets,TrialCohabitation,TrialCohabitationRequest,VaccinationRecordVaccines,Vaccine,VeterinarianFollowUps,VeterinarianMedicalEvents}.postman_collection.json -o it/composed.collection.json
 							</commandlineArgs>
+						</configuration>
+					</execution>
+					<execution>
+						<id>prepare-newman-environment</id>
+						<phase>integration-test</phase>
+						<goals>
+							<goal>java</goal>
+						</goals>
+						<configuration>
+							<mainClass>co.edu.udistrital.mdp.pets.controllers.NewmanEnvironmentGenerator</mainClass>
+							<classpathScope>test</classpathScope>
 						</configuration>
 					</execution>
 					<execution>
@@ -174,7 +187,7 @@
 								newman
 							</executable>
 							<commandlineArgs>
-								run it/composed.collection.json -e collections/EntornoIT.postman_environment.json
+								run it/composed.collection.json -e target/EntornoIT.postman_environment.json
 							</commandlineArgs>
 						</configuration>
 					</execution>

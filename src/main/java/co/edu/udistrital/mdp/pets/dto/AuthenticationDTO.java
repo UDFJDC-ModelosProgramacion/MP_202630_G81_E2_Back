@@ -10,4 +10,5 @@ public class AuthenticationDTO {
 	private Long id;
 	private String email;
 	private UserRole role;
+	private Long shelterId;
 }
