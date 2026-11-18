@@ -21,6 +21,7 @@ public class AdopterEntity extends UserEntity {
     private String allergies;
     private Boolean hasChildren;
     private Boolean hasOtherPets;
+    private Boolean active;
 
     @PodamExclude
     @OneToMany(mappedBy = "adopter")

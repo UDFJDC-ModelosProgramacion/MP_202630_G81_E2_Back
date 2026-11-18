@@ -17,13 +17,17 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import co.edu.udistrital.mdp.pets.dto.AdopterDTO;
-import co.edu.udistrital.mdp.pets.dto.AdopterDetailDTO;
 import co.edu.udistrital.mdp.pets.entities.AdopterEntity;
 import co.edu.udistrital.mdp.pets.exceptions.EntityNotFoundException;
 import co.edu.udistrital.mdp.pets.exceptions.IllegalOperationException;
 import co.edu.udistrital.mdp.pets.services.AdopterService;
 import lombok.RequiredArgsConstructor;
 
+/**
+ * Exposes the Adopter resource. Adopters are users that request trial
+ * cohabitations and adoptions, so the resource is needed to prepare the data
+ * those processes depend on.
+ */
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/adopters")
@@ -32,46 +36,41 @@ public class AdopterController {
     private final AdopterService adopterService;
     private final ModelMapper modelMapper;
 
-    // FindAll method with optional filters
+    /**
+     * Returns every adopter, optionally filtered by nationalId, housingType or occupation.
+     */
     @GetMapping
     @ResponseStatus(code = HttpStatus.OK)
-    public List<AdopterDetailDTO> findAll(@RequestParam(required = false) String nationalId,
+    public List<AdopterDTO> findAll(@RequestParam(required = false) String nationalId,
             @RequestParam(required = false) String housingType, @RequestParam(required = false) String occupation)
             throws IllegalOperationException {
-        List<AdopterEntity> adopters = (nationalId == null && housingType == null && occupation == null)
-                ? adopterService.readAllAdopters()
-                : adopterService.readAllAdopters(nationalId, housingType, occupation);
-        return modelMapper.map(adopters, new TypeToken<List<AdopterDetailDTO>>() {
+        List<AdopterEntity> adopters = adopterService.readAllAdopters(nationalId, housingType, occupation);
+        return modelMapper.map(adopters, new TypeToken<List<AdopterDTO>>() {
         }.getType());
     }
 
-    // findOne method
     @GetMapping(value = "/{id}")
     @ResponseStatus(code = HttpStatus.OK)
-    public AdopterDetailDTO findOne(@PathVariable Long id)
-            throws EntityNotFoundException, IllegalOperationException {
-        AdopterEntity adopterEntity = adopterService.readAdopter(id);
-        return modelMapper.map(adopterEntity, AdopterDetailDTO.class);
+    public AdopterDTO findOne(@PathVariable Long id) throws EntityNotFoundException, IllegalOperationException {
+        AdopterEntity entity = adopterService.readAdopter(id);
+        return modelMapper.map(entity, AdopterDTO.class);
     }
 
-    // create method
     @PostMapping
     @ResponseStatus(code = HttpStatus.CREATED)
-    public AdopterDTO create(@RequestBody AdopterDTO adopterDTO) throws IllegalOperationException {
-        AdopterEntity adopterEntity = adopterService.createAdopter(modelMapper.map(adopterDTO, AdopterEntity.class));
-        return modelMapper.map(adopterEntity, AdopterDTO.class);
+    public AdopterDTO create(@RequestBody AdopterDTO dto) throws IllegalOperationException {
+        AdopterEntity entity = adopterService.createAdopter(modelMapper.map(dto, AdopterEntity.class));
+        return modelMapper.map(entity, AdopterDTO.class);
     }
 
-    // update method
     @PutMapping(value = "/{id}")
     @ResponseStatus(code = HttpStatus.OK)
-    public AdopterDTO update(@PathVariable Long id, @RequestBody AdopterDTO adopterDTO)
+    public AdopterDTO update(@PathVariable Long id, @RequestBody AdopterDTO dto)
             throws EntityNotFoundException, IllegalOperationException {
-        AdopterEntity adopterEntity = adopterService.updateAdopter(id, modelMapper.map(adopterDTO, AdopterEntity.class));
-        return modelMapper.map(adopterEntity, AdopterDTO.class);
+        AdopterEntity entity = adopterService.updateAdopter(id, modelMapper.map(dto, AdopterEntity.class));
+        return modelMapper.map(entity, AdopterDTO.class);
     }
 
-    // delete method
     @DeleteMapping(value = "/{id}")
     @ResponseStatus(code = HttpStatus.NO_CONTENT)
     public void delete(@PathVariable Long id) throws EntityNotFoundException, IllegalOperationException {

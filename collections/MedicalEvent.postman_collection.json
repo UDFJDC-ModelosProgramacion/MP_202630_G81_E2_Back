@@ -7,6 +7,345 @@
   },
   "item": [
     {
+      "name": "Preparar veterinario (setup)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"firstName\": \"Ana\",\n    \"lastName\": \"Ruiz\",\n    \"email\": \"vet_{{run_id}}@mail.com\",\n    \"password\": \"1234\",\n    \"phone\": \"3000000001\",\n    \"specialization\": \"Cirugia\",\n    \"availability\": \"Lunes\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/veterinarians",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "veterinarians"
+          ]
+        },
+        "description": "Preparacion por API (setup). Crea el dato que la coleccion necesita."
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "if (pm.response.code === 201) {",
+              "    pm.collectionVariables.set(\"veterinarian_id\", pm.response.json().id);",
+              "}",
+              "",
+              "pm.test(\"Status code is 201\", function () {",
+              "    pm.response.to.have.status(201);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Preparar refugio (setup)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"name\": \"Refugio {{run_id}}\",\n    \"city\": \"Bogota\",\n    \"nit\": \"NIT-{{run_id}}\",\n    \"location\": \"Calle {{run_id}}\",\n    \"users\": [\n        {\n            \"id\": \"{{veterinarian_id}}\"\n        }\n    ]\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/shelters",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "shelters"
+          ]
+        },
+        "description": "Preparacion por API (setup). Crea el dato que la coleccion necesita."
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "if (pm.response.code === 201) {",
+              "    pm.collectionVariables.set(\"shelter_id\", pm.response.json().id);",
+              "}",
+              "",
+              "pm.test(\"Status code is 201\", function () {",
+              "    pm.response.to.have.status(201);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Preparar mascota uno (setup)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"name\": \"Mascota {{run_id}} uno\",\n    \"species\": \"Perro\",\n    \"breed\": \"Criollo\",\n    \"age\": 3,\n    \"sex\": \"Hembra\",\n    \"size\": \"Mediano\",\n    \"healthStatus\": \"Sano\",\n    \"description\": \"Mascota de prueba para las colecciones\",\n    \"admissionDate\": \"2026-01-10T00:00:00-05:00\",\n    \"temperament\": \"Dulce\",\n    \"compatibilityChildren\": true,\n    \"compatibilityOtherPets\": true,\n    \"activityLevel\": \"Alta\",\n    \"requiredSpace\": \"Patio\",\n    \"shelter\": {\n        \"id\": \"{{shelter_id}}\"\n    },\n    \"medicalEvents\": [\n        {\n            \"date\": \"2026-01-10T00:00:00-05:00\",\n            \"type\": \"Ingreso\",\n            \"description\": \"Llego al refugio\"\n        }\n    ]\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/pets",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "pets"
+          ]
+        },
+        "description": "Preparacion por API (setup). Crea el dato que la coleccion necesita."
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "if (pm.response.code === 201) {",
+              "    pm.collectionVariables.set(\"pet_id_1\", pm.response.json().id);",
+              "}",
+              "",
+              "pm.test(\"Status code is 201\", function () {",
+              "    pm.response.to.have.status(201);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Preparar mascota dos (setup)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"name\": \"Mascota {{run_id}} dos\",\n    \"species\": \"Perro\",\n    \"breed\": \"Criollo\",\n    \"age\": 3,\n    \"sex\": \"Hembra\",\n    \"size\": \"Mediano\",\n    \"healthStatus\": \"Sano\",\n    \"description\": \"Mascota de prueba para las colecciones\",\n    \"admissionDate\": \"2026-01-10T00:00:00-05:00\",\n    \"temperament\": \"Dulce\",\n    \"compatibilityChildren\": true,\n    \"compatibilityOtherPets\": true,\n    \"activityLevel\": \"Alta\",\n    \"requiredSpace\": \"Patio\",\n    \"shelter\": {\n        \"id\": \"{{shelter_id}}\"\n    },\n    \"medicalEvents\": [\n        {\n            \"date\": \"2026-01-10T00:00:00-05:00\",\n            \"type\": \"Ingreso\",\n            \"description\": \"Llego al refugio\"\n        }\n    ]\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/pets",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "pets"
+          ]
+        },
+        "description": "Preparacion por API (setup). Crea el dato que la coleccion necesita."
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "if (pm.response.code === 201) {",
+              "    pm.collectionVariables.set(\"pet_id_2\", pm.response.json().id);",
+              "}",
+              "",
+              "pm.test(\"Status code is 201\", function () {",
+              "    pm.response.to.have.status(201);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Preparar mascota inactiva (setup)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"name\": \"Mascota {{run_id}} inactiva\",\n    \"species\": \"Perro\",\n    \"breed\": \"Criollo\",\n    \"age\": 3,\n    \"sex\": \"Hembra\",\n    \"size\": \"Mediano\",\n    \"healthStatus\": \"Sano\",\n    \"description\": \"Mascota de prueba para las colecciones\",\n    \"admissionDate\": \"2026-01-10T00:00:00-05:00\",\n    \"temperament\": \"Dulce\",\n    \"compatibilityChildren\": true,\n    \"compatibilityOtherPets\": true,\n    \"activityLevel\": \"Alta\",\n    \"requiredSpace\": \"Patio\",\n    \"shelter\": {\n        \"id\": \"{{shelter_id}}\"\n    },\n    \"medicalEvents\": [\n        {\n            \"date\": \"2026-01-10T00:00:00-05:00\",\n            \"type\": \"Ingreso\",\n            \"description\": \"Llego al refugio\"\n        }\n    ]\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/pets",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "pets"
+          ]
+        },
+        "description": "Preparacion por API (setup). Crea el dato que la coleccion necesita."
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "if (pm.response.code === 201) {",
+              "    pm.collectionVariables.set(\"pet_id_inactive\", pm.response.json().id);",
+              "}",
+              "",
+              "pm.test(\"Status code is 201\", function () {",
+              "    pm.response.to.have.status(201);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Desactivar mascota inactiva (setup)",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"name\": \"Mascota {{run_id}} inactiva\",\n    \"species\": \"Perro\",\n    \"breed\": \"Criollo\",\n    \"age\": 3,\n    \"sex\": \"Hembra\",\n    \"size\": \"Mediano\",\n    \"healthStatus\": \"Sano\",\n    \"description\": \"Mascota de prueba para las colecciones\",\n    \"admissionDate\": \"2026-01-10T00:00:00-05:00\",\n    \"temperament\": \"Dulce\",\n    \"compatibilityChildren\": true,\n    \"compatibilityOtherPets\": true,\n    \"activityLevel\": \"Alta\",\n    \"requiredSpace\": \"Patio\",\n    \"shelter\": {\n        \"id\": \"{{shelter_id}}\"\n    },\n    \"medicalEvents\": [\n        {\n            \"date\": \"2026-01-10T00:00:00-05:00\",\n            \"type\": \"Ingreso\",\n            \"description\": \"Llego al refugio\"\n        }\n    ],\n    \"active\": false\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/pets/{{pet_id_inactive}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "pets",
+            "{{pet_id_inactive}}"
+          ]
+        },
+        "description": "Deja la mascota inactiva para los tests de rechazo por mascota inactiva."
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Preparar un evento medico para borrar (setup)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"date\": \"2026-09-05T00:00:00-05:00\",\n    \"type\": \"Vacunacion\",\n    \"description\": \"Aplicacion de la vacuna antirrabica\",\n    \"pet\": {\n        \"id\": {{pet_id_2}}\n    },\n    \"veterinarian\": {\n        \"id\": {{veterinarian_id}}\n    }\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/medicalEvents",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "medicalEvents"
+          ]
+        },
+        "description": "Request de preparacion (setup), no es un caso de prueba de la actividad. Crea el evento que luego borra el test deleteMedicalEvent. Es otra mascota, tipo y fecha, asi que no es duplicado del evento creado por el test exitoso."
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "var data = pm.response.json();",
+              "pm.collectionVariables.set(\"medical_event_id_2\", data.id);",
+              "",
+              "pm.test(\"Status code is 201\", function () {",
+              "    pm.response.to.have.status(201);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
       "name": "Crear un evento medico",
       "request": {
         "method": "POST",
@@ -77,6 +416,27 @@
           ],
           "cookie": [],
           "body": "{\n    \"id\": 1,\n    \"date\": \"2026-09-10T05:00:00.000+00:00\",\n    \"type\": \"Cirugia\",\n    \"description\": \"Esterilizacion sin complicaciones\"\n}"
+        }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "var data = pm.response.json();",
+              "pm.collectionVariables.set(\"medical_event_id_1\", data.id);",
+              "",
+              "pm.test(\"Status code is 201\", function () {",
+              "    pm.response.to.have.status(201);",
+              "});",
+              "",
+              "pm.test(\"Response has the created event data\", function () {",
+              "    pm.expect(data.type).to.eql(\"Cirugia\");",
+              "    pm.expect(data.description).to.eql(\"Esterilizacion sin complicaciones\");",
+              "});"
+            ]
+          }
         }
       ]
     },
@@ -150,7 +510,25 @@
             }
           ],
           "cookie": [],
-          "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"23-09-2026 10:01:46\",\n        \"message\": \"Medical event date cannot be null or empty\"\n    }\n}"
+          "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"23-09-2026 10:01:46\",\n        \"message\": \"Date is not valid\"\n    }\n}"
+        }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 412\", function () {",
+              "    pm.response.to.have.status(412);",
+              "});",
+              "",
+              "pm.test(\"Get expected error message\", function () {",
+              "    var data = pm.response.json();",
+              "    pm.expect(data.apierror.message).to.eql(\"Date is not valid\");",
+              "});"
+            ]
+          }
         }
       ]
     },
@@ -224,7 +602,25 @@
             }
           ],
           "cookie": [],
-          "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"23-09-2026 10:02:23\",\n        \"message\": \"Medical event type cannot be null or empty\"\n    }\n}"
+          "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"23-09-2026 10:02:23\",\n        \"message\": \"Type is not valid\"\n    }\n}"
+        }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 412\", function () {",
+              "    pm.response.to.have.status(412);",
+              "});",
+              "",
+              "pm.test(\"Get expected error message\", function () {",
+              "    var data = pm.response.json();",
+              "    pm.expect(data.apierror.message).to.eql(\"Type is not valid\");",
+              "});"
+            ]
+          }
         }
       ]
     },
@@ -300,6 +696,24 @@
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"23-09-2026 10:03:00\",\n        \"message\": \"Medical event description cannot be null or empty\"\n    }\n}"
         }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 412\", function () {",
+              "    pm.response.to.have.status(412);",
+              "});",
+              "",
+              "pm.test(\"Get expected error message\", function () {",
+              "    var data = pm.response.json();",
+              "    pm.expect(data.apierror.message).to.eql(\"Description is not valid\");",
+              "});"
+            ]
+          }
+        }
       ]
     },
     {
@@ -372,7 +786,25 @@
             }
           ],
           "cookie": [],
-          "body": "{\n    \"apierror\": {\n        \"status\": \"NOT_FOUND\",\n        \"timestamp\": \"23-09-2026 10:03:37\",\n        \"message\": \"The pet with the given id was not found\"\n    }\n}"
+          "body": "{\n    \"apierror\": {\n        \"status\": \"NOT_FOUND\",\n        \"timestamp\": \"23-09-2026 10:03:37\",\n        \"message\": \"Pet was not found\"\n    }\n}"
+        }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 404\", function () {",
+              "    pm.response.to.have.status(404);",
+              "});",
+              "",
+              "pm.test(\"Get expected error message\", function () {",
+              "    var data = pm.response.json();",
+              "    pm.expect(data.apierror.message).to.eql(\"Pet was not found\");",
+              "});"
+            ]
+          }
         }
       ]
     },
@@ -448,6 +880,24 @@
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"23-09-2026 10:04:14\",\n        \"message\": \"The pet is not active in the system\"\n    }\n}"
         }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 412\", function () {",
+              "    pm.response.to.have.status(412);",
+              "});",
+              "",
+              "pm.test(\"Get expected error message\", function () {",
+              "    var data = pm.response.json();",
+              "    pm.expect(data.apierror.message).to.eql(\"The pet is not active in the system\");",
+              "});"
+            ]
+          }
+        }
       ]
     },
     {
@@ -520,7 +970,25 @@
             }
           ],
           "cookie": [],
-          "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"23-09-2026 10:04:51\",\n        \"message\": \"Medical event date cannot be a future date\"\n    }\n}"
+          "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"23-09-2026 10:04:51\",\n        \"message\": \"Date cannot be in the future\"\n    }\n}"
+        }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 412\", function () {",
+              "    pm.response.to.have.status(412);",
+              "});",
+              "",
+              "pm.test(\"Get expected error message\", function () {",
+              "    var data = pm.response.json();",
+              "    pm.expect(data.apierror.message).to.eql(\"Date cannot be in the future\");",
+              "});"
+            ]
+          }
         }
       ]
     },
@@ -596,6 +1064,24 @@
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"23-09-2026 10:05:28\",\n        \"message\": \"A medical event with the same pet, type and date already exists\"\n    }\n}"
         }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 412\", function () {",
+              "    pm.response.to.have.status(412);",
+              "});",
+              "",
+              "pm.test(\"Get expected error message\", function () {",
+              "    var data = pm.response.json();",
+              "    pm.expect(data.apierror.message).to.eql(\"A medical event with the same pet, type and date already exists\");",
+              "});"
+            ]
+          }
+        }
       ]
     },
     {
@@ -641,6 +1127,24 @@
           ],
           "cookie": [],
           "body": "[\n    {\n        \"id\": 1,\n        \"date\": \"2026-09-10\",\n        \"type\": \"Cirugia\",\n        \"description\": \"Esterilizacion sin complicaciones\"\n    },\n    {\n        \"id\": 2,\n        \"date\": \"2026-09-05\",\n        \"type\": \"Vacunacion\",\n        \"description\": \"Aplicacion de la vacuna antirrabica\"\n    }\n]"
+        }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test('Number of medical events > 0', function () {",
+              "    var data = pm.response.json();",
+              "    pm.expect(data.length).to.greaterThan(0);",
+              "});"
+            ]
+          }
         }
       ]
     },
@@ -699,6 +1203,27 @@
           ],
           "cookie": [],
           "body": "[\n    {\n        \"id\": 1,\n        \"date\": \"2026-09-10\",\n        \"type\": \"Cirugia\",\n        \"description\": \"Esterilizacion sin complicaciones\"\n    }\n]"
+        }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test('All events match the type filter', function () {",
+              "    var data = pm.response.json();",
+              "    pm.expect(data.length).to.greaterThan(0);",
+              "    data.forEach(function (e) {",
+              "        pm.expect(e.type).to.eql(\"Cirugia\");",
+              "    });",
+              "});"
+            ]
+          }
         }
       ]
     },
@@ -774,6 +1299,28 @@
           "cookie": [],
           "body": "[\n    {\n        \"id\": 1,\n        \"date\": \"2026-09-10\",\n        \"type\": \"Cirugia\",\n        \"description\": \"Esterilizacion sin complicaciones\"\n    }\n]"
         }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test('All events match every filter', function () {",
+              "    var data = pm.response.json();",
+              "    pm.expect(data.length).to.greaterThan(0);",
+              "    data.forEach(function (e) {",
+              "        pm.expect(e.type).to.eql(\"Cirugia\");",
+              "        pm.expect(e.date).to.eql(\"2026-09-10\");",
+              "    });",
+              "});"
+            ]
+          }
+        }
       ]
     },
     {
@@ -840,6 +1387,24 @@
           "cookie": [],
           "body": "[]"
         }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test('No events are returned when a filter does not match', function () {",
+              "    var data = pm.response.json();",
+              "    pm.expect(data.length).to.eql(0);",
+              "});"
+            ]
+          }
+        }
       ]
     },
     {
@@ -898,6 +1463,24 @@
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"23-09-2026 10:06:05\",\n        \"message\": \"Pet id is not valid\"\n    }\n}"
         }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 412\", function () {",
+              "    pm.response.to.have.status(412);",
+              "});",
+              "",
+              "pm.test(\"Get expected error message\", function () {",
+              "    var data = pm.response.json();",
+              "    pm.expect(data.apierror.message).to.eql(\"Pet id is not valid\");",
+              "});"
+            ]
+          }
+        }
       ]
     },
     {
@@ -946,6 +1529,24 @@
           "cookie": [],
           "body": "{\n    \"id\": 1,\n    \"date\": \"2026-09-10\",\n    \"type\": \"Cirugia\",\n    \"description\": \"Esterilizacion sin complicaciones\"\n}"
         }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test('Get the requested medical event', function () {",
+              "    var data = pm.response.json();",
+              "    pm.expect(data.id).to.eql(parseInt(pm.collectionVariables.get(\"medical_event_id_1\")));",
+              "});"
+            ]
+          }
+        }
       ]
     },
     {
@@ -992,7 +1593,25 @@
             }
           ],
           "cookie": [],
-          "body": "{\n    \"apierror\": {\n        \"status\": \"NOT_FOUND\",\n        \"timestamp\": \"23-09-2026 10:06:42\",\n        \"message\": \"The medical event with the given id was not found\"\n    }\n}"
+          "body": "{\n    \"apierror\": {\n        \"status\": \"NOT_FOUND\",\n        \"timestamp\": \"23-09-2026 10:06:42\",\n        \"message\": \"Medical event was not found\"\n    }\n}"
+        }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 412\", function () {",
+              "    pm.response.to.have.status(412);",
+              "});",
+              "pm.test(\"Get expected error message\", function () {",
+              "    var data = pm.response.json();",
+              "    pm.expect(data.apierror.status).to.eql(\"PRECONDITION_FAILED\");",
+              "    pm.expect(data.apierror.message).to.eql(\"Medical event id is not valid\");",
+              "});"
+            ]
+          }
         }
       ]
     },
@@ -1041,6 +1660,24 @@
           ],
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"23-09-2026 10:07:19\",\n        \"message\": \"Medical event id is not valid\"\n    }\n}"
+        }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 412\", function () {",
+              "    pm.response.to.have.status(412);",
+              "});",
+              "",
+              "pm.test(\"Get expected error message\", function () {",
+              "    var data = pm.response.json();",
+              "    pm.expect(data.apierror.message).to.eql(\"Medical event id is not valid\");",
+              "});"
+            ]
+          }
         }
       ]
     },
@@ -1118,6 +1755,24 @@
           "cookie": [],
           "body": "{\n    \"id\": 1,\n    \"date\": \"2026-09-10T05:00:00.000+00:00\",\n    \"type\": \"Cirugia\",\n    \"description\": \"Esterilizacion sin complicaciones. Se retiraron los puntos.\"\n}"
         }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test(\"Description was updated\", function () {",
+              "    var data = pm.response.json();",
+              "    pm.expect(data.description).to.eql(\"Esterilizacion sin complicaciones. Se retiraron los puntos.\");",
+              "});"
+            ]
+          }
+        }
       ]
     },
     {
@@ -1192,7 +1847,25 @@
             }
           ],
           "cookie": [],
-          "body": "{\n    \"apierror\": {\n        \"status\": \"NOT_FOUND\",\n        \"timestamp\": \"23-09-2026 10:07:56\",\n        \"message\": \"The medical event with the given id was not found\"\n    }\n}"
+          "body": "{\n    \"apierror\": {\n        \"status\": \"NOT_FOUND\",\n        \"timestamp\": \"23-09-2026 10:07:56\",\n        \"message\": \"Medical event was not found\"\n    }\n}"
+        }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 412\", function () {",
+              "    pm.response.to.have.status(412);",
+              "});",
+              "pm.test(\"Get expected error message\", function () {",
+              "    var data = pm.response.json();",
+              "    pm.expect(data.apierror.status).to.eql(\"PRECONDITION_FAILED\");",
+              "    pm.expect(data.apierror.message).to.eql(\"Medical event id is not valid\");",
+              "});"
+            ]
+          }
         }
       ]
     },
@@ -1270,6 +1943,24 @@
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"23-09-2026 10:08:33\",\n        \"message\": \"Medical event id is not valid\"\n    }\n}"
         }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 412\", function () {",
+              "    pm.response.to.have.status(412);",
+              "});",
+              "",
+              "pm.test(\"Get expected error message\", function () {",
+              "    var data = pm.response.json();",
+              "    pm.expect(data.apierror.message).to.eql(\"Medical event id is not valid\");",
+              "});"
+            ]
+          }
+        }
       ]
     },
     {
@@ -1344,7 +2035,25 @@
             }
           ],
           "cookie": [],
-          "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"23-09-2026 10:09:10\",\n        \"message\": \"Medical event type cannot be null or empty\"\n    }\n}"
+          "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"23-09-2026 10:09:10\",\n        \"message\": \"Type is not valid\"\n    }\n}"
+        }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 412\", function () {",
+              "    pm.response.to.have.status(412);",
+              "});",
+              "",
+              "pm.test(\"Get expected error message\", function () {",
+              "    var data = pm.response.json();",
+              "    pm.expect(data.apierror.message).to.eql(\"Type is not valid\");",
+              "});"
+            ]
+          }
         }
       ]
     },
@@ -1422,6 +2131,24 @@
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"23-09-2026 10:09:47\",\n        \"message\": \"The pet of a medical event cannot be modified\"\n    }\n}"
         }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 412\", function () {",
+              "    pm.response.to.have.status(412);",
+              "});",
+              "",
+              "pm.test(\"Get expected error message\", function () {",
+              "    var data = pm.response.json();",
+              "    pm.expect(data.apierror.message).to.eql(\"The pet of a medical event cannot be modified\");",
+              "});"
+            ]
+          }
+        }
       ]
     },
     {
@@ -1496,7 +2223,25 @@
             }
           ],
           "cookie": [],
-          "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"23-09-2026 10:10:24\",\n        \"message\": \"A medical event cannot be moved to a future date without justification\"\n    }\n}"
+          "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"23-09-2026 10:10:24\",\n        \"message\": \"Date cannot be in the future\"\n    }\n}"
+        }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 412\", function () {",
+              "    pm.response.to.have.status(412);",
+              "});",
+              "",
+              "pm.test(\"Get expected error message\", function () {",
+              "    var data = pm.response.json();",
+              "    pm.expect(data.apierror.message).to.eql(\"Date cannot be in the future\");",
+              "});"
+            ]
+          }
         }
       ]
     },
@@ -1540,6 +2285,29 @@
           "header": [],
           "cookie": [],
           "body": ""
+        }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 204\", function () {",
+              "    pm.response.to.have.status(204);",
+              "});",
+              "",
+              "pm.test(\"The resource is gone\", function (done) {",
+              "    pm.sendRequest({",
+              "        url: pm.variables.replaceIn(\"{{baseUrl}}/medicalEvents/\" + pm.collectionVariables.get(\"medical_event_id_2\")),",
+              "        method: \"GET\"",
+              "    }, function (err, res) {",
+              "        var expected = [404];",
+              "        done(err || (expected.indexOf(res.code) !== -1 ? null : new Error(\"Expected \" + expected.join(\"/\") + \", got \" + res.code)));",
+              "    });",
+              "});"
+            ]
+          }
         }
       ]
     },
@@ -1587,7 +2355,25 @@
             }
           ],
           "cookie": [],
-          "body": "{\n    \"apierror\": {\n        \"status\": \"NOT_FOUND\",\n        \"timestamp\": \"23-09-2026 10:11:01\",\n        \"message\": \"The medical event with the given id was not found\"\n    }\n}"
+          "body": "{\n    \"apierror\": {\n        \"status\": \"NOT_FOUND\",\n        \"timestamp\": \"23-09-2026 10:11:01\",\n        \"message\": \"Medical event was not found\"\n    }\n}"
+        }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 412\", function () {",
+              "    pm.response.to.have.status(412);",
+              "});",
+              "pm.test(\"Get expected error message\", function () {",
+              "    var data = pm.response.json();",
+              "    pm.expect(data.apierror.status).to.eql(\"PRECONDITION_FAILED\");",
+              "    pm.expect(data.apierror.message).to.eql(\"Medical event id is not valid\");",
+              "});"
+            ]
+          }
         }
       ]
     },
@@ -1637,6 +2423,24 @@
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"23-09-2026 10:11:38\",\n        \"message\": \"Medical event id is not valid\"\n    }\n}"
         }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 412\", function () {",
+              "    pm.response.to.have.status(412);",
+              "});",
+              "",
+              "pm.test(\"Get expected error message\", function () {",
+              "    var data = pm.response.json();",
+              "    pm.expect(data.apierror.message).to.eql(\"Medical event id is not valid\");",
+              "});"
+            ]
+          }
+        }
       ]
     },
     {
@@ -1654,7 +2458,7 @@
             "{{medical_event_id_required}}"
           ]
         },
-        "description": "deleteMedicalEvent regla 3: medical_event_id_required es, por ejemplo, el certificado de vacunacion vigente exigido por un proceso de adopcion activo (se prepara con la coleccion de Adoption)."
+        "description": "deleteMedicalEvent regla 3: un evento medico exigido por una adopcion activa no se puede borrar.\n\nNOTA: test saltado. La API no expone el vinculo entre MedicalEvent y Adoption, y la entidad MedicalEvent no tiene esa asociacion, asi que no hay dato que se pueda preparar para esta regla. Queda documentada hasta que se implemente en el backend."
       },
       "response": [
         {
@@ -1685,37 +2489,257 @@
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"23-09-2026 10:12:15\",\n        \"message\": \"A medical event required by an active adoption process cannot be deleted\"\n    }\n}"
         }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test.skip(\"La API no expone el vinulo entre eventos medicos y adopciones, no hay dato que preparar para esta regla\");"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Obtener eventos medicos filtrados por fecha",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/medicalEvents?date=2026-09-10",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "medicalEvents?date=2026-09-10"
+          ]
+        },
+        "description": "getMedicalEvents: filtro por fecha sola (yyyy-MM-dd)."
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test(\"All events match the date filter\", function () {",
+              "    var data = pm.response.json();",
+              "    pm.expect(data.length).to.greaterThan(0);",
+              "    data.forEach(function (e) {",
+              "        pm.expect(e.date).to.eql(\"2026-09-10\");",
+              "    });",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Obtener eventos medicos con una fecha invalida en los filtros",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/medicalEvents?date=no-es-una-fecha",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "medicalEvents?date=no-es-una-fecha"
+          ]
+        },
+        "description": "getMedicalEvents: una fecha con formato invalido responde 412."
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 412\", function () {",
+              "    pm.response.to.have.status(412);",
+              "});",
+              "",
+              "pm.test(\"Get expected error message\", function () {",
+              "    var data = pm.response.json();",
+              "    pm.expect(data.apierror.message).to.eql(\"Date is not valid\");",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Crear un evento medico sin veterinario",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/medicalEvents",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "medicalEvents"
+          ]
+        },
+        "description": "createMedicalEvent: el veterinario es obligatorio.",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"date\": \"2026-09-12T00:00:00-05:00\",\n    \"type\": \"Vacunacion\",\n    \"description\": \"Refuerzo de vacuna sin veterinario asignado\",\n    \"pet\": {\n        \"id\": {{pet_id_1}}\n    }\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 412\", function () {",
+              "    pm.response.to.have.status(412);",
+              "});",
+              "",
+              "pm.test(\"Get expected error message\", function () {",
+              "    var data = pm.response.json();",
+              "    pm.expect(data.apierror.message).to.eql(\"Veterinarian is not valid\");",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Crear un evento medico con un veterinario que no existe",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/medicalEvents",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "medicalEvents"
+          ]
+        },
+        "description": "createMedicalEvent: el veterinario debe existir.",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"date\": \"2026-09-12T00:00:00-05:00\",\n    \"type\": \"Vacunacion\",\n    \"description\": \"Refuerzo de vacuna con un veterinario inexistente\",\n    \"pet\": {\n        \"id\": {{pet_id_1}}\n    },\n    \"veterinarian\": {\n        \"id\": 999999\n    }\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 404\", function () {",
+              "    pm.response.to.have.status(404);",
+              "});",
+              "",
+              "pm.test(\"Get expected error message\", function () {",
+              "    var data = pm.response.json();",
+              "    pm.expect(data.apierror.message).to.eql(\"Veterinarian was not found\");",
+              "});"
+            ]
+          }
+        }
       ]
     }
   ],
   "variable": [
     {
       "key": "pet_id_1",
-      "value": "1"
+      "value": ""
     },
     {
       "key": "pet_id_2",
-      "value": "2"
+      "value": ""
     },
     {
       "key": "pet_id_inactive",
-      "value": "3"
+      "value": ""
     },
     {
       "key": "veterinarian_id",
-      "value": "1"
+      "value": ""
     },
     {
       "key": "medical_event_id_1",
-      "value": "1"
+      "value": ""
     },
     {
       "key": "medical_event_id_2",
-      "value": "2"
+      "value": ""
     },
     {
       "key": "medical_event_id_required",
-      "value": "3"
+      "value": "9999"
+    },
+    {
+      "key": "run_id",
+      "value": ""
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          "pm.collectionVariables.set(\"run_id\", Date.now().toString());",
+          "var start = new Date();",
+          "start.setDate(start.getDate() + 30);",
+          "var end = new Date(start);",
+          "end.setDate(end.getDate() + 14);",
+          "function toDate(d) {",
+          "    return d.toISOString().slice(0, 10) + \"T00:00:00-05:00\";",
+          "}",
+          "pm.collectionVariables.set(\"trial_start_date\", toDate(start));",
+          "pm.collectionVariables.set(\"trial_end_date\", toDate(end));"
+        ]
+      }
     }
   ]
 }

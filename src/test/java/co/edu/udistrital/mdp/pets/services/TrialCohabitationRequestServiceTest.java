@@ -34,9 +34,10 @@ import uk.co.jemos.podam.api.PodamFactoryImpl;
 @Import(TrialCohabitationRequestService.class)
 class TrialCohabitationRequestServiceTest {
 
-	private static final String APPROVED = "APPROVED";
+	private static final String APPROVED = TrialCohabitationRequestService.APPROVED_STATUS;
 	private static final Long NON_EXISTENT_ID = 1000L;
 	private static final Long INVALID_ID = 0L;
+    private static final Long NEGATIVE_ID = -1L;
 
 	@Autowired
 	private TrialCohabitationRequestService trialCohabitationRequestService;
@@ -110,6 +111,17 @@ class TrialCohabitationRequestServiceTest {
 	private TrialCohabitationRequestEntity newValidRequest() {
 		return newRequest(TrialCohabitationRequestService.PENDING_STATUS, shelterList.get(0), adopterList.get(1),
 				petList.get(2));
+	}
+
+	/** Objeto de actualización que conserva el mismo adoptante y mascota de la solicitud original. */
+	private TrialCohabitationRequestEntity newUpdateForRequest(TrialCohabitationRequestEntity original,
+			String status) {
+		TrialCohabitationRequestEntity update = new TrialCohabitationRequestEntity();
+		update.setStatus(status);
+		update.setDescription(original.getDescription());
+		update.setAdopter(original.getAdopter());
+		update.setPet(original.getPet());
+		return update;
 	}
 
 	private ShelterEntity shelterWithId(Long id) {
@@ -302,7 +314,7 @@ class TrialCohabitationRequestServiceTest {
 	@Test
 	void testGetTrialCohabitationRequestInvalidId() {
 		assertThrows(IllegalOperationException.class,
-				() -> trialCohabitationRequestService.getTrialCohabitationRequest(INVALID_ID));
+				() -> trialCohabitationRequestService.getTrialCohabitationRequest(NEGATIVE_ID));
 	}
 
 	@Test
@@ -316,8 +328,7 @@ class TrialCohabitationRequestServiceTest {
 	@Test
 	void testUpdateTrialCohabitationRequest() throws EntityNotFoundException, IllegalOperationException {
 		TrialCohabitationRequestEntity entity = requestList.get(0);
-		TrialCohabitationRequestEntity update = factory.manufacturePojo(TrialCohabitationRequestEntity.class);
-		update.setStatus(APPROVED);
+		TrialCohabitationRequestEntity update = newUpdateForRequest(entity, APPROVED);
 		update.setStartDate(daysFromNow(6));
 		update.setEndDate(daysFromNow(20));
 
@@ -335,8 +346,7 @@ class TrialCohabitationRequestServiceTest {
 	@Test
 	void testUpdateTrialCohabitationRequestPeriod() throws EntityNotFoundException, IllegalOperationException {
 		TrialCohabitationRequestEntity entity = requestList.get(0);
-		TrialCohabitationRequestEntity update = new TrialCohabitationRequestEntity();
-		update.setStatus(TrialCohabitationRequestService.PENDING_STATUS);
+		TrialCohabitationRequestEntity update = newUpdateForRequest(entity, TrialCohabitationRequestService.PENDING_STATUS);
 		Date newStart = daysFromNow(8);
 		Date newEnd = daysFromNow(22);
 		update.setStartDate(newStart);
@@ -356,8 +366,7 @@ class TrialCohabitationRequestServiceTest {
 		TrialCohabitationRequestEntity entity = requestList.get(0);
 		Date currentStart = entity.getStartDate();
 		Date currentEnd = entity.getEndDate();
-		TrialCohabitationRequestEntity update = new TrialCohabitationRequestEntity();
-		update.setStatus(APPROVED);
+		TrialCohabitationRequestEntity update = newUpdateForRequest(entity, APPROVED);
 
 		trialCohabitationRequestService.updateTrialCohabitationRequest(entity.getId(), update);
 
@@ -369,9 +378,9 @@ class TrialCohabitationRequestServiceTest {
 
 	@Test
 	void testUpdateTrialCohabitationRequestWithEndDateBeforeStartDate() {
-		Long id = requestList.get(0).getId();
-		TrialCohabitationRequestEntity update = new TrialCohabitationRequestEntity();
-		update.setStatus(APPROVED);
+		TrialCohabitationRequestEntity entity = requestList.get(0);
+		Long id = entity.getId();
+		TrialCohabitationRequestEntity update = newUpdateForRequest(entity, APPROVED);
 		update.setStartDate(daysFromNow(10));
 		update.setEndDate(daysFromNow(5));
 		assertThrows(IllegalOperationException.class,
@@ -383,7 +392,7 @@ class TrialCohabitationRequestServiceTest {
 		TrialCohabitationRequestEntity update = newValidRequest();
 		update.setStatus(APPROVED);
 		assertThrows(IllegalOperationException.class,
-				() -> trialCohabitationRequestService.updateTrialCohabitationRequest(INVALID_ID, update));
+				() -> trialCohabitationRequestService.updateTrialCohabitationRequest(NEGATIVE_ID, update));
 	}
 
 	@Test
@@ -403,9 +412,9 @@ class TrialCohabitationRequestServiceTest {
 
 	@Test
 	void testUpdateTrialCohabitationRequestWithBlankStatus() {
-		Long id = requestList.get(0).getId();
-		TrialCohabitationRequestEntity update = newValidRequest();
-		update.setStatus(" ");
+		TrialCohabitationRequestEntity entity = requestList.get(0);
+		Long id = entity.getId();
+		TrialCohabitationRequestEntity update = newUpdateForRequest(entity, " ");
 		assertThrows(IllegalOperationException.class,
 				() -> trialCohabitationRequestService.updateTrialCohabitationRequest(id, update));
 	}
@@ -415,8 +424,39 @@ class TrialCohabitationRequestServiceTest {
 		TrialCohabitationRequestEntity entity = requestList.get(0);
 		entity.setTrialCohabitation(new TrialCohabitationEntity());
 		Long id = entity.getId();
-		TrialCohabitationRequestEntity update = newValidRequest();
-		update.setStatus(APPROVED);
+		TrialCohabitationRequestEntity update = newUpdateForRequest(entity, APPROVED);
+		assertThrows(IllegalOperationException.class,
+				() -> trialCohabitationRequestService.updateTrialCohabitationRequest(id, update));
+	}
+
+	@Test
+	void testUpdateFinalizedTrialCohabitationRequest() {
+		// una solicitud ya aprobada/rechazada/cancelada no se puede editar, aunque no tenga
+		// una TrialCohabitation asociada todavia
+		TrialCohabitationRequestEntity entity = requestList.get(0);
+		entity.setStatus(APPROVED);
+		Long id = entity.getId();
+		TrialCohabitationRequestEntity update = newUpdateForRequest(entity, TrialCohabitationRequestService.PENDING_STATUS);
+		assertThrows(IllegalOperationException.class,
+				() -> trialCohabitationRequestService.updateTrialCohabitationRequest(id, update));
+	}
+
+	@Test
+	void testUpdateTrialCohabitationRequestWithDifferentAdopter() {
+		TrialCohabitationRequestEntity entity = requestList.get(0);
+		Long id = entity.getId();
+		TrialCohabitationRequestEntity update = newUpdateForRequest(entity, APPROVED);
+		update.setAdopter(adopterList.get(2));
+		assertThrows(IllegalOperationException.class,
+				() -> trialCohabitationRequestService.updateTrialCohabitationRequest(id, update));
+	}
+
+	@Test
+	void testUpdateTrialCohabitationRequestWithDifferentPet() {
+		TrialCohabitationRequestEntity entity = requestList.get(0);
+		Long id = entity.getId();
+		TrialCohabitationRequestEntity update = newUpdateForRequest(entity, APPROVED);
+		update.setPet(petList.get(2));
 		assertThrows(IllegalOperationException.class,
 				() -> trialCohabitationRequestService.updateTrialCohabitationRequest(id, update));
 	}
@@ -425,8 +465,12 @@ class TrialCohabitationRequestServiceTest {
 
 	@Test
 	void testDeleteTrialCohabitationRequest() throws EntityNotFoundException, IllegalOperationException {
-		TrialCohabitationRequestEntity entity = requestList.get(1);
+		// solo se puede borrar una solicitud que ya no este en curso (PENDING)
+		TrialCohabitationRequestEntity entity = requestList.get(0);
+		entity.setStatus(TrialCohabitationRequestService.CANCELLED_STATUS);
+
 		trialCohabitationRequestService.deleteTrialCohabitationRequest(entity.getId());
+
 		TrialCohabitationRequestEntity deleted =
 				entityManager.find(TrialCohabitationRequestEntity.class, entity.getId());
 		assertNull(deleted);
@@ -435,7 +479,7 @@ class TrialCohabitationRequestServiceTest {
 	@Test
 	void testDeleteTrialCohabitationRequestInvalidId() {
 		assertThrows(IllegalOperationException.class,
-				() -> trialCohabitationRequestService.deleteTrialCohabitationRequest(INVALID_ID));
+				() -> trialCohabitationRequestService.deleteTrialCohabitationRequest(NEGATIVE_ID));
 	}
 
 	@Test
@@ -448,6 +492,15 @@ class TrialCohabitationRequestServiceTest {
 	void testDeleteTrialCohabitationRequestWithTrialCohabitation() {
 		TrialCohabitationRequestEntity entity = requestList.get(1);
 		entity.setTrialCohabitation(new TrialCohabitationEntity());
+		Long id = entity.getId();
+		assertThrows(IllegalOperationException.class,
+				() -> trialCohabitationRequestService.deleteTrialCohabitationRequest(id));
+	}
+
+	@Test
+	void testDeleteTrialCohabitationRequestInProgress() {
+		// requestList.get(2) sigue en estado PENDING (el default de insertData); no se puede borrar
+		TrialCohabitationRequestEntity entity = requestList.get(2);
 		Long id = entity.getId();
 		assertThrows(IllegalOperationException.class,
 				() -> trialCohabitationRequestService.deleteTrialCohabitationRequest(id));

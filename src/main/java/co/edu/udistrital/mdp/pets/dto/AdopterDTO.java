@@ -18,6 +18,7 @@ public class AdopterDTO {
 	private String allergies;
 	private Boolean hasChildren;
 	private Boolean hasOtherPets;
+	private Boolean active;
 
 	private ShelterDTO shelter;
 }

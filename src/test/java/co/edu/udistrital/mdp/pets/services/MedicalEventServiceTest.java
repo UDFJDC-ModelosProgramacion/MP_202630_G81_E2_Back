@@ -4,6 +4,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import java.time.Instant;
+import java.time.ZoneId;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -35,6 +39,7 @@ class MedicalEventServiceTest {
 
 	private static final Long NON_EXISTENT_ID = 1000L;
 	private static final Long INVALID_ID = 0L;
+    private static final Long NEGATIVE_ID = -1L;
 
 	@Autowired
 	private MedicalEventService medicalEventService;
@@ -71,6 +76,7 @@ class MedicalEventServiceTest {
 		for (int i = 0; i < 3; i++) {
 			PetEntity petEntity = factory.manufacturePojo(PetEntity.class);
 			petEntity.setShelter(shelterList.get(0));
+			petEntity.setActive(true);
 			entityManager.persist(petEntity);
 			petList.add(petEntity);
 		}
@@ -120,6 +126,19 @@ class MedicalEventServiceTest {
 		Calendar calendar = Calendar.getInstance();
 		calendar.add(Calendar.DATE, days);
 		return calendar.getTime();
+	}
+
+	private String dayOf(Date date) {
+		return Instant.ofEpochMilli(date.getTime()).atZone(ZoneId.systemDefault()).toLocalDate().toString();
+	}
+
+	private long countEventsWithType(String type) {
+		long count = 0;
+		for (MedicalEventEntity event : medicalEventList) {
+			if (event.getType().equalsIgnoreCase(type))
+				count++;
+		}
+		return count;
 	}
 
 	// ---------------------------------------------------------------- create
@@ -211,7 +230,13 @@ class MedicalEventServiceTest {
 
 	@Test
 	void testGetMedicalEventInvalidId() {
-		assertThrows(IllegalOperationException.class, () -> medicalEventService.getMedicalEvent(INVALID_ID));
+		assertThrows(IllegalOperationException.class, () -> medicalEventService.getMedicalEvent(NEGATIVE_ID));
+	}
+
+	@Test
+	void testGetMedicalEventWithZeroIdIsInvalid() {
+		// El cero no es un id valido: la coleccion PetMedicalEvents espera 412.
+		assertThrows(IllegalOperationException.class, () -> medicalEventService.getMedicalEvent(0L));
 	}
 
 	@Test
@@ -250,7 +275,7 @@ class MedicalEventServiceTest {
 	@Test
 	void testUpdateMedicalEventInvalidId() {
 		MedicalEventEntity update = newMedicalEvent(pastDate(), null, null);
-		assertThrows(IllegalOperationException.class, () -> medicalEventService.updateMedicalEvent(INVALID_ID, update));
+		assertThrows(IllegalOperationException.class, () -> medicalEventService.updateMedicalEvent(NEGATIVE_ID, update));
 	}
 
 	@Test
@@ -300,11 +325,245 @@ class MedicalEventServiceTest {
 
 	@Test
 	void testDeleteMedicalEventInvalidId() {
-		assertThrows(IllegalOperationException.class, () -> medicalEventService.deleteMedicalEvent(INVALID_ID));
+		assertThrows(IllegalOperationException.class, () -> medicalEventService.deleteMedicalEvent(NEGATIVE_ID));
 	}
 
 	@Test
 	void testDeleteNonExistentMedicalEvent() {
 		assertThrows(EntityNotFoundException.class, () -> medicalEventService.deleteMedicalEvent(NON_EXISTENT_ID));
+	}
+
+	// ------------------------------------------- filtros de HU28 y rutas anidadas
+
+	@Test
+	void testGetMedicalEventsWithoutFilters() throws IllegalOperationException {
+		List<MedicalEventEntity> result = medicalEventService.getMedicalEvents(null, null, null);
+		assertEquals(medicalEventList.size(), result.size());
+	}
+
+	@Test
+	void testGetMedicalEventsFilteredByPet() throws IllegalOperationException {
+		List<MedicalEventEntity> result = medicalEventService.getMedicalEvents(petList.get(0).getId(), null, null);
+		assertEquals(medicalEventList.size(), result.size());
+		result.forEach(event -> assertEquals(petList.get(0).getId(), event.getPet().getId()));
+
+		List<MedicalEventEntity> otherPet = medicalEventService.getMedicalEvents(petList.get(1).getId(), null, null);
+		assertEquals(0, otherPet.size());
+	}
+
+	@Test
+	void testGetMedicalEventsFilteredByType() throws IllegalOperationException {
+		String type = medicalEventList.get(0).getType();
+
+		List<MedicalEventEntity> result = medicalEventService.getMedicalEvents(null, type.toUpperCase(), null);
+
+		assertEquals(countEventsWithType(type), result.size());
+		result.forEach(event -> assertTrue(event.getType().equalsIgnoreCase(type)));
+	}
+
+	@Test
+	void testGetMedicalEventsFilteredByDate() throws IllegalOperationException {
+		String day = dayOf(medicalEventList.get(0).getDate());
+
+		List<MedicalEventEntity> result = medicalEventService.getMedicalEvents(null, null, day);
+
+		assertEquals(medicalEventList.size(), result.size());
+		result.forEach(event -> assertEquals(day, dayOf(event.getDate())));
+	}
+
+	@Test
+	void testGetMedicalEventsFilteredByUnknownDate() throws IllegalOperationException {
+		assertEquals(0, medicalEventService.getMedicalEvents(null, null, "2000-01-01").size());
+	}
+
+	@Test
+	void testGetMedicalEventsWithCombinedFilters() throws IllegalOperationException {
+		MedicalEventEntity reference = medicalEventList.get(0);
+		String day = dayOf(reference.getDate());
+		String type = reference.getType();
+
+		List<MedicalEventEntity> result = medicalEventService.getMedicalEvents(petList.get(0).getId(), type, day);
+
+		assertEquals(countEventsWithType(type), result.size());
+		result.forEach(event -> {
+			assertEquals(petList.get(0).getId(), event.getPet().getId());
+			assertTrue(event.getType().equalsIgnoreCase(type));
+			assertEquals(day, dayOf(event.getDate()));
+		});
+	}
+
+	@Test
+	void testGetMedicalEventsWithInvalidDate() {
+		assertThrows(IllegalOperationException.class,
+				() -> medicalEventService.getMedicalEvents(null, null, "no-es-una-fecha"));
+	}
+
+	@Test
+	void testGetMedicalEventsWithNegativePetId() {
+		assertThrows(IllegalOperationException.class,
+				() -> medicalEventService.getMedicalEvents(NEGATIVE_ID, null, null));
+	}
+
+	@Test
+	void testGetMedicalEventsByPetId() throws EntityNotFoundException, IllegalOperationException {
+		List<MedicalEventEntity> result = medicalEventService.getMedicalEvents(petList.get(0).getId());
+
+		assertEquals(medicalEventList.size(), result.size());
+		result.forEach(event -> assertEquals(petList.get(0).getId(), event.getPet().getId()));
+		assertEquals(0, medicalEventService.getMedicalEvents(petList.get(1).getId()).size());
+	}
+
+	@Test
+	void testGetMedicalEventsByPetIdWithInvalidId() {
+		assertThrows(IllegalOperationException.class, () -> medicalEventService.getMedicalEvents(NEGATIVE_ID));
+	}
+
+	@Test
+	void testGetMedicalEventsByNullPetId() {
+		assertThrows(IllegalOperationException.class, () -> medicalEventService.getMedicalEvents((Long) null));
+	}
+
+	@Test
+	void testGetMedicalEventsByNonExistentPet() {
+		assertThrows(EntityNotFoundException.class, () -> medicalEventService.getMedicalEvents(NON_EXISTENT_ID));
+	}
+
+	@Test
+	void testGetMedicalEventByPetId() throws EntityNotFoundException, IllegalOperationException {
+		MedicalEventEntity entity = medicalEventList.get(0);
+
+		MedicalEventEntity result = medicalEventService.getMedicalEvent(petList.get(0).getId(), entity.getId());
+
+		assertEquals(entity.getId(), result.getId());
+	}
+
+	@Test
+	void testGetMedicalEventFromAnotherPet() {
+		MedicalEventEntity entity = medicalEventList.get(0);
+		assertThrows(IllegalOperationException.class,
+				() -> medicalEventService.getMedicalEvent(petList.get(1).getId(), entity.getId()));
+	}
+
+	@Test
+	void testGetMedicalEventWithNonExistentPet() {
+		MedicalEventEntity entity = medicalEventList.get(0);
+		assertThrows(EntityNotFoundException.class,
+				() -> medicalEventService.getMedicalEvent(NON_EXISTENT_ID, entity.getId()));
+	}
+
+	@Test
+	void testCreateMedicalEventForPet() throws EntityNotFoundException, IllegalOperationException {
+		MedicalEventEntity newEntity = newMedicalEvent(pastDate(), null, veterinarianList.get(1));
+
+		MedicalEventEntity result = medicalEventService.createMedicalEvent(petList.get(1).getId(), newEntity);
+
+		assertNotNull(result);
+		assertEquals(petList.get(1).getId(), result.getPet().getId());
+	}
+
+	@Test
+	void testCreateMedicalEventForPetWithNegativeId() {
+		MedicalEventEntity newEntity = newMedicalEvent(pastDate(), null, veterinarianList.get(1));
+		assertThrows(IllegalOperationException.class,
+				() -> medicalEventService.createMedicalEvent(NEGATIVE_ID, newEntity));
+	}
+
+	@Test
+	void testCreateMedicalEventForNullPetId() {
+		MedicalEventEntity newEntity = newMedicalEvent(pastDate(), null, veterinarianList.get(1));
+		assertThrows(IllegalOperationException.class, () -> medicalEventService.createMedicalEvent(null, newEntity));
+	}
+
+	@Test
+	void testCreateMedicalEventForNonExistentPet() {
+		MedicalEventEntity newEntity = newMedicalEvent(pastDate(), null, veterinarianList.get(1));
+		assertThrows(EntityNotFoundException.class,
+				() -> medicalEventService.createMedicalEvent(NON_EXISTENT_ID, newEntity));
+	}
+
+	@Test
+	void testCreateMedicalEventWithInactivePet() {
+		PetEntity inactivePet = petList.get(1);
+		inactivePet.setActive(false);
+		entityManager.flush();
+
+		MedicalEventEntity newEntity = newMedicalEvent(pastDate(), inactivePet, veterinarianList.get(1));
+
+		assertThrows(IllegalOperationException.class, () -> medicalEventService.createMedicalEvent(newEntity));
+	}
+
+	@Test
+	void testCreateDuplicateMedicalEvent() throws EntityNotFoundException, IllegalOperationException {
+		MedicalEventEntity first = newMedicalEvent(pastDate(), petList.get(1), veterinarianList.get(0));
+		first.setType("Control duplicado");
+		medicalEventService.createMedicalEvent(first);
+
+		MedicalEventEntity duplicate = newMedicalEvent(pastDate(), petList.get(1), veterinarianList.get(0));
+		duplicate.setType("Control duplicado");
+
+		assertThrows(IllegalOperationException.class, () -> medicalEventService.createMedicalEvent(duplicate));
+	}
+
+	@Test
+	void testCreateMedicalEventWithBlankDescription() {
+		MedicalEventEntity newEntity = newMedicalEvent(pastDate(), petList.get(1), veterinarianList.get(1));
+		newEntity.setDescription("   ");
+		assertThrows(IllegalOperationException.class, () -> medicalEventService.createMedicalEvent(newEntity));
+	}
+
+	@Test
+	void testUpdateMedicalEventChangingPet() {
+		MedicalEventEntity entity = medicalEventList.get(0);
+		MedicalEventEntity update = newMedicalEvent(pastDate(), petList.get(1), null);
+		assertThrows(IllegalOperationException.class,
+				() -> medicalEventService.updateMedicalEvent(entity.getId(), update));
+	}
+
+	@Test
+	void testUpdateMedicalEventWithBlankDescription() {
+		Long id = medicalEventList.get(0).getId();
+		MedicalEventEntity update = newMedicalEvent(pastDate(), null, null);
+		update.setDescription("");
+		assertThrows(IllegalOperationException.class, () -> medicalEventService.updateMedicalEvent(id, update));
+	}
+
+	@Test
+	void testUpdateMedicalEventForPet() throws EntityNotFoundException, IllegalOperationException {
+		MedicalEventEntity entity = medicalEventList.get(0);
+		MedicalEventEntity update = newMedicalEvent(pastDate(), null, null);
+		update.setType("Control anidado");
+		update.setDescription("Actualizado desde la ruta anidada de la mascota");
+
+		MedicalEventEntity result = medicalEventService.updateMedicalEvent(petList.get(0).getId(), entity.getId(),
+				update);
+
+		assertEquals("Control anidado", result.getType());
+		assertEquals("Actualizado desde la ruta anidada de la mascota", result.getDescription());
+	}
+
+	@Test
+	void testUpdateMedicalEventFromAnotherPet() {
+		MedicalEventEntity entity = medicalEventList.get(0);
+		MedicalEventEntity update = newMedicalEvent(pastDate(), null, null);
+		assertThrows(IllegalOperationException.class,
+				() -> medicalEventService.updateMedicalEvent(petList.get(1).getId(), entity.getId(), update));
+	}
+
+	@Test
+	void testDeleteMedicalEventForPet() throws EntityNotFoundException, IllegalOperationException {
+		MedicalEventEntity entity = medicalEventList.get(0);
+
+		medicalEventService.deleteMedicalEvent(petList.get(0).getId(), entity.getId());
+
+		assertNull(entityManager.find(MedicalEventEntity.class, entity.getId()));
+	}
+
+	@Test
+	void testDeleteMedicalEventFromAnotherPet() {
+		MedicalEventEntity entity = medicalEventList.get(0);
+
+		assertThrows(IllegalOperationException.class,
+				() -> medicalEventService.deleteMedicalEvent(petList.get(1).getId(), entity.getId()));
+		assertNotNull(entityManager.find(MedicalEventEntity.class, entity.getId()));
 	}
 }

@@ -38,6 +38,7 @@ class AdoptionServiceTest {
 	private static final String IN_PROGRESS = "IN_PROGRESS";
 	private static final Long NON_EXISTENT_ID = 1000L;
 	private static final Long INVALID_ID = 0L;
+    private static final Long NEGATIVE_ID = -1L;
 
 	@Autowired
 	private AdoptionService adoptionService;
@@ -286,7 +287,7 @@ class AdoptionServiceTest {
 
 	@Test
 	void testGetAdoptionInvalidId() {
-		assertThrows(IllegalOperationException.class, () -> adoptionService.getAdoption(INVALID_ID));
+		assertThrows(IllegalOperationException.class, () -> adoptionService.getAdoption(NEGATIVE_ID));
 	}
 
 	@Test
@@ -314,7 +315,7 @@ class AdoptionServiceTest {
 	@Test
 	void testUpdateAdoptionInvalidId() {
 		AdoptionEntity update = newUpdate(IN_PROGRESS, null);
-		assertThrows(IllegalOperationException.class, () -> adoptionService.updateAdoption(INVALID_ID, update));
+		assertThrows(IllegalOperationException.class, () -> adoptionService.updateAdoption(NEGATIVE_ID, update));
 	}
 
 	@Test
@@ -359,13 +360,14 @@ class AdoptionServiceTest {
 	@Test
 	void testDeleteAdoption() throws EntityNotFoundException, IllegalOperationException {
 		AdoptionEntity entity = adoptionList.get(0);
+		entity.setStatus(AdoptionService.CANCELLED_STATUS);
 		adoptionService.deleteAdoption(entity.getId());
 		assertNull(entityManager.find(AdoptionEntity.class, entity.getId()));
 	}
 
 	@Test
 	void testDeleteAdoptionInvalidId() {
-		assertThrows(IllegalOperationException.class, () -> adoptionService.deleteAdoption(INVALID_ID));
+		assertThrows(IllegalOperationException.class, () -> adoptionService.deleteAdoption(NEGATIVE_ID));
 	}
 
 	@Test

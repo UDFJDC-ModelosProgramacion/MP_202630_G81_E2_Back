@@ -25,4 +25,5 @@ public class PetDTO {
 	
 	private VaccinationRecordDTO vaccinationRecord;
 	private ShelterDTO shelter;
+	private Boolean active;
 }
