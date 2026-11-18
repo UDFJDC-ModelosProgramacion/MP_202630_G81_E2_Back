@@ -165,6 +165,26 @@ class AdopterServiceTest {
 	}
 
 	@Test
+	void testReadAllAdoptersFilteredByNationalIdMatch() throws IllegalOperationException {
+		AdopterEntity entity = buildValidAdopter();
+		entity.setNationalId("NID-JUAN-123");
+		entityManager.persist(entity);
+
+		List<AdopterEntity> list = adopterService.readAllAdopters(entity.getNationalId(), null, null);
+		assertTrue(list.stream().anyMatch(a -> a.getId().equals(entity.getId())));
+	}
+
+	@Test
+	void testReadAllAdoptersFilteredByHousingTypeMatch() throws IllegalOperationException {
+		AdopterEntity entity = buildValidAdopter();
+		entity.setHousingType("APARTAMENTO");
+		entityManager.persist(entity);
+
+		List<AdopterEntity> list = adopterService.readAllAdopters(null, entity.getHousingType(), null);
+		assertTrue(list.stream().anyMatch(a -> a.getId().equals(entity.getId())));
+	}
+
+	@Test
 	void testReadAdopter() throws EntityNotFoundException, IllegalOperationException {
 		AdopterEntity entity = adopterList.get(0);
 		AdopterEntity resultEntity = adopterService.readAdopter(entity.getId());
@@ -257,6 +277,20 @@ class AdopterServiceTest {
 
 			adopterService.deleteAdopter(entity.getId());
 		});
+	}
+
+	@Test
+	void testDeleteAdopterWithRejectedAdoptionRequest() throws EntityNotFoundException, IllegalOperationException {
+		AdopterEntity entity = buildValidAdopter();
+		entityManager.persist(entity);
+		AdoptionRequestEntity request = factory.manufacturePojo(AdoptionRequestEntity.class);
+		request.setAdopter(entity);
+		request.setStatus("REJECTED");
+		entityManager.persist(request);
+
+		adopterService.deleteAdopter(entity.getId());
+
+		assertNull(entityManager.find(AdopterEntity.class, entity.getId()));
 	}
 
 	@Test
@@ -457,5 +491,182 @@ class AdopterServiceTest {
 		AdopterEntity resp = entityManager.find(AdopterEntity.class, entity.getId());
 		assertEquals(originalEmail, resp.getEmail());
 		assertEquals(originalNationalId, resp.getNationalId());
+	}
+
+	@Test
+	void testReadAdopterWithNullId() {
+		assertThrows(IllegalOperationException.class, () -> {
+			adopterService.readAdopter(null);
+		});
+	}
+
+	@Test
+	void testCreateAdopterWithEmptyFirstName() {
+		assertThrows(IllegalOperationException.class, () -> {
+			AdopterEntity newEntity = buildValidAdopter();
+			newEntity.setFirstName("");
+			adopterService.createAdopter(newEntity);
+		});
+	}
+
+	@Test
+	void testCreateAdopterWithEmptyLastName() {
+		assertThrows(IllegalOperationException.class, () -> {
+			AdopterEntity newEntity = buildValidAdopter();
+			newEntity.setLastName("");
+			adopterService.createAdopter(newEntity);
+		});
+	}
+
+	@Test
+	void testCreateAdopterWithEmptyEmail() {
+		assertThrows(IllegalOperationException.class, () -> {
+			AdopterEntity newEntity = buildValidAdopter();
+			newEntity.setEmail("");
+			adopterService.createAdopter(newEntity);
+		});
+	}
+
+	@Test
+	void testCreateAdopterWithEmptyPassword() {
+		assertThrows(IllegalOperationException.class, () -> {
+			AdopterEntity newEntity = buildValidAdopter();
+			newEntity.setPassword("");
+			adopterService.createAdopter(newEntity);
+		});
+	}
+
+	@Test
+	void testCreateAdopterWithEmptyPhone() {
+		assertThrows(IllegalOperationException.class, () -> {
+			AdopterEntity newEntity = buildValidAdopter();
+			newEntity.setPhone("");
+			adopterService.createAdopter(newEntity);
+		});
+	}
+
+	@Test
+	void testCreateAdopterWithEmptyAddress() {
+		assertThrows(IllegalOperationException.class, () -> {
+			AdopterEntity newEntity = buildValidAdopter();
+			newEntity.setAddress("");
+			adopterService.createAdopter(newEntity);
+		});
+	}
+
+	@Test
+	void testCreateAdopterWithEmptyNationalId() {
+		assertThrows(IllegalOperationException.class, () -> {
+			AdopterEntity newEntity = buildValidAdopter();
+			newEntity.setNationalId("");
+			adopterService.createAdopter(newEntity);
+		});
+	}
+
+	@Test
+	void testCreateAdopterWithEmptyOccupation() {
+		assertThrows(IllegalOperationException.class, () -> {
+			AdopterEntity newEntity = buildValidAdopter();
+			newEntity.setOccupation("");
+			adopterService.createAdopter(newEntity);
+		});
+	}
+
+	@Test
+	void testCreateAdopterWithEmptyAllergies() {
+		assertThrows(IllegalOperationException.class, () -> {
+			AdopterEntity newEntity = buildValidAdopter();
+			newEntity.setAllergies("");
+			adopterService.createAdopter(newEntity);
+		});
+	}
+
+	@Test
+	void testReadAllAdoptersWithEmptyHousingFilter() {
+		assertThrows(IllegalOperationException.class, () -> {
+			adopterService.readAllAdopters(null, "", null);
+		});
+	}
+
+	@Test
+	void testReadAllAdoptersWithEmptyOccupationFilter() {
+		assertThrows(IllegalOperationException.class, () -> {
+			adopterService.readAllAdopters(null, null, "");
+		});
+	}
+
+	@Test
+	void testUpdateAdopterWithEmptyAddress() {
+		assertThrows(IllegalOperationException.class, () -> {
+			AdopterEntity entity = adopterList.get(0);
+			AdopterEntity pojoEntity = buildValidAdopter();
+			pojoEntity.setId(entity.getId());
+			pojoEntity.setAddress("");
+			adopterService.updateAdopter(entity.getId(), pojoEntity);
+		});
+	}
+
+	@Test
+	void testUpdateAdopterWithEmptyOccupation() {
+		assertThrows(IllegalOperationException.class, () -> {
+			AdopterEntity entity = adopterList.get(0);
+			AdopterEntity pojoEntity = buildValidAdopter();
+			pojoEntity.setId(entity.getId());
+			pojoEntity.setOccupation("");
+			adopterService.updateAdopter(entity.getId(), pojoEntity);
+		});
+	}
+
+	@Test
+	void testUpdateAdopterWithEmptyHousingType() {
+		assertThrows(IllegalOperationException.class, () -> {
+			AdopterEntity entity = adopterList.get(0);
+			AdopterEntity pojoEntity = buildValidAdopter();
+			pojoEntity.setId(entity.getId());
+			pojoEntity.setHousingType("");
+			adopterService.updateAdopter(entity.getId(), pojoEntity);
+		});
+	}
+
+	@Test
+	void testUpdateAdopterWithEmptyAllergies() {
+		assertThrows(IllegalOperationException.class, () -> {
+			AdopterEntity entity = adopterList.get(0);
+			AdopterEntity pojoEntity = buildValidAdopter();
+			pojoEntity.setId(entity.getId());
+			pojoEntity.setAllergies("");
+			adopterService.updateAdopter(entity.getId(), pojoEntity);
+		});
+	}
+
+	@Test
+	void testDeleteAdopterWithNullId() {
+		assertThrows(IllegalOperationException.class, () -> {
+			adopterService.deleteAdopter(null);
+		});
+	}
+
+	@Test
+	void testSeedIntegrationTestData() {
+		clearData();
+
+		adopterService.seedIntegrationTestData();
+
+		assertEquals(1L, countOf("ShelterEntity"));
+		assertEquals(1L, countOf("VeterinarianEntity"));
+		assertEquals(2L, countOf("AdopterEntity"));
+
+		List<AdopterEntity> adopters = entityManager.getEntityManager()
+				.createQuery("select a from AdopterEntity a", AdopterEntity.class).getResultList();
+		assertTrue(adopters.stream().anyMatch(a -> "ana.martinez@pets.example".equalsIgnoreCase(a.getEmail())));
+		assertTrue(adopters.stream().anyMatch(a -> "carlos.perez@mail.com".equalsIgnoreCase(a.getEmail())));
+
+		adopterService.seedIntegrationTestData();
+		assertEquals(2L, countOf("AdopterEntity"));
+	}
+
+	private long countOf(String entity) {
+		return (Long) entityManager.getEntityManager()
+				.createQuery("select count(e) from " + entity + " e").getSingleResult();
 	}
 }

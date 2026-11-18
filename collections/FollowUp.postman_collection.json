@@ -17,17 +17,19 @@
           }
         ],
         "url": {
-          "raw": "{{baseUrl}}/followUps",
+          "raw": "{{baseUrl}}/adoptions/{{adoption_id}}/followUps",
           "host": [
             "{{baseUrl}}"
           ],
           "path": [
+            "adoptions",
+            "{{adoption_id}}",
             "followUps"
           ]
         },
         "body": {
           "mode": "raw",
-          "raw": "{\n    \"date\": \"2026-10-10T00:00:00-05:00\",\n    \"observation\": \"El adoptante reporta buena adaptacion\",\n    \"adoption\": {\n        \"id\": \"{{adoption_id}}\"\n    },\n    \"veterinarian\": {\n        \"id\": \"{{veterinarian_id}}\"\n    }\n}",
+          "raw": "{\n    \"date\": \"{{future_date}}\",\n    \"observation\": \"El adoptante reporta buena adaptacion\",\n    \"adoption\": {\n        \"id\": \"{{adoption_id}}\"\n    },\n    \"veterinarian\": {\n        \"id\": \"{{veterinarian_id}}\"\n    }\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -47,17 +49,19 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/followUps",
+              "raw": "{{baseUrl}}/adoptions/{{adoption_id}}/followUps",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
+                "adoptions",
+                "{{adoption_id}}",
                 "followUps"
               ]
             },
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"date\": \"2026-10-10T00:00:00-05:00\",\n    \"observation\": \"El adoptante reporta buena adaptacion\",\n    \"adoption\": {\n        \"id\": \"{{adoption_id}}\"\n    },\n    \"veterinarian\": {\n        \"id\": \"{{veterinarian_id}}\"\n    }\n}",
+              "raw": "{\n    \"date\": \"{{future_date}}\",\n    \"observation\": \"El adoptante reporta buena adaptacion\",\n    \"adoption\": {\n        \"id\": \"{{adoption_id_2}}\"\n    },\n    \"veterinarian\": {\n        \"id\": \"{{veterinarian_id}}\"\n    }\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -77,6 +81,22 @@
           "cookie": [],
           "body": "{\n    \"id\": 1,\n    \"date\": \"2026-10-10\",\n    \"observation\": \"El adoptante reporta buena adaptacion\"\n}"
         }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "var id = pm.response.json().id;",
+              "pm.test(\"Response has id\", function () { pm.expect(id).to.not.be.undefined; });",
+              "pm.collectionVariables.set(\"follow_up_id_1\", id);",
+              "",
+              "",
+              ""
+            ],
+            "type": "text/javascript"
+          }
+        }
       ]
     },
     {
@@ -90,17 +110,19 @@
           }
         ],
         "url": {
-          "raw": "{{baseUrl}}/followUps",
+          "raw": "{{baseUrl}}/adoptions/{{adoption_id}}/followUps",
           "host": [
             "{{baseUrl}}"
           ],
           "path": [
+            "adoptions",
+            "{{adoption_id}}",
             "followUps"
           ]
         },
         "body": {
           "mode": "raw",
-          "raw": "{\n    \"date\": null,\n    \"observation\": \"El adoptante reporta buena adaptacion\",\n    \"adoption\": {\n        \"id\": \"{{adoption_id}}\"\n    },\n    \"veterinarian\": {\n        \"id\": \"{{veterinarian_id}}\"\n    }\n}",
+          "raw": "{\n    \"date\": null,\n    \"observation\": \"El adoptante reporta buena adaptacion\",\n    \"adoption\": {\n        \"id\": \"{{adoption_id_2}}\"\n    },\n    \"veterinarian\": {\n        \"id\": \"{{veterinarian_id}}\"\n    }\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -120,17 +142,19 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/followUps",
+              "raw": "{{baseUrl}}/adoptions/{{adoption_id}}/followUps",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
+                "adoptions",
+                "{{adoption_id}}",
                 "followUps"
               ]
             },
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"date\": null,\n    \"observation\": \"El adoptante reporta buena adaptacion\",\n    \"adoption\": {\n        \"id\": \"{{adoption_id}}\"\n    },\n    \"veterinarian\": {\n        \"id\": \"{{veterinarian_id}}\"\n    }\n}",
+              "raw": "{\n    \"date\": null,\n    \"observation\": \"El adoptante reporta buena adaptacion\",\n    \"adoption\": {\n        \"id\": \"{{adoption_id_2}}\"\n    },\n    \"veterinarian\": {\n        \"id\": \"{{veterinarian_id}}\"\n    }\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -145,6 +169,19 @@
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"26-09-2026 10:05:28\",\n        \"message\": \"Follow-up date cannot be null\"\n    }\n}"
         }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Request: Crear un seguimiento sin fecha\", function () {",
+              "    pm.response.to.have.status(412);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
       ]
     },
     {
@@ -158,17 +195,19 @@
           }
         ],
         "url": {
-          "raw": "{{baseUrl}}/followUps",
+          "raw": "{{baseUrl}}/adoptions/{{adoption_id}}/followUps",
           "host": [
             "{{baseUrl}}"
           ],
           "path": [
+            "adoptions",
+            "{{adoption_id}}",
             "followUps"
           ]
         },
         "body": {
           "mode": "raw",
-          "raw": "{\n    \"date\": \"2026-01-10T00:00:00-05:00\",\n    \"observation\": \"El adoptante reporta buena adaptacion\",\n    \"adoption\": {\n        \"id\": \"{{adoption_id}}\"\n    },\n    \"veterinarian\": {\n        \"id\": \"{{veterinarian_id}}\"\n    }\n}",
+          "raw": "{\n    \"date\": \"2026-01-10T00:00:00-05:00\",\n    \"observation\": \"El adoptante reporta buena adaptacion\",\n    \"adoption\": {\n        \"id\": \"{{adoption_id_2}}\"\n    },\n    \"veterinarian\": {\n        \"id\": \"{{veterinarian_id}}\"\n    }\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -188,17 +227,19 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/followUps",
+              "raw": "{{baseUrl}}/adoptions/{{adoption_id}}/followUps",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
+                "adoptions",
+                "{{adoption_id}}",
                 "followUps"
               ]
             },
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"date\": \"2026-01-10T00:00:00-05:00\",\n    \"observation\": \"El adoptante reporta buena adaptacion\",\n    \"adoption\": {\n        \"id\": \"{{adoption_id}}\"\n    },\n    \"veterinarian\": {\n        \"id\": \"{{veterinarian_id}}\"\n    }\n}",
+              "raw": "{\n    \"date\": \"2026-01-10T00:00:00-05:00\",\n    \"observation\": \"El adoptante reporta buena adaptacion\",\n    \"adoption\": {\n        \"id\": \"{{adoption_id_2}}\"\n    },\n    \"veterinarian\": {\n        \"id\": \"{{veterinarian_id}}\"\n    }\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -213,6 +254,19 @@
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"26-09-2026 10:05:28\",\n        \"message\": \"The scheduled follow-up date cannot be before the current date\"\n    }\n}"
         }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Request: Crear un seguimiento con fecha pasada\", function () {",
+              "    pm.response.to.have.status(412);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
       ]
     },
     {
@@ -226,17 +280,19 @@
           }
         ],
         "url": {
-          "raw": "{{baseUrl}}/followUps",
+          "raw": "{{baseUrl}}/adoptions/{{adoption_id}}/followUps",
           "host": [
             "{{baseUrl}}"
           ],
           "path": [
+            "adoptions",
+            "{{adoption_id}}",
             "followUps"
           ]
         },
         "body": {
           "mode": "raw",
-          "raw": "{\n    \"date\": \"2026-10-10T00:00:00-05:00\",\n    \"observation\": null,\n    \"adoption\": {\n        \"id\": \"{{adoption_id}}\"\n    },\n    \"veterinarian\": {\n        \"id\": \"{{veterinarian_id}}\"\n    }\n}",
+          "raw": "{\n    \"date\": \"{{future_date}}\",\n    \"observation\": null,\n    \"adoption\": {\n        \"id\": \"{{adoption_id}}\"\n    },\n    \"veterinarian\": {\n        \"id\": \"{{veterinarian_id}}\"\n    }\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -256,17 +312,19 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/followUps",
+              "raw": "{{baseUrl}}/adoptions/{{adoption_id}}/followUps",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
+                "adoptions",
+                "{{adoption_id}}",
                 "followUps"
               ]
             },
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"date\": \"2026-10-10T00:00:00-05:00\",\n    \"observation\": null,\n    \"adoption\": {\n        \"id\": \"{{adoption_id}}\"\n    },\n    \"veterinarian\": {\n        \"id\": \"{{veterinarian_id}}\"\n    }\n}",
+              "raw": "{\n    \"date\": \"{{future_date}}\",\n    \"observation\": null,\n    \"adoption\": {\n        \"id\": \"{{adoption_id}}\"\n    },\n    \"veterinarian\": {\n        \"id\": \"{{veterinarian_id}}\"\n    }\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -281,6 +339,19 @@
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"26-09-2026 10:05:28\",\n        \"message\": \"Observation cannot be null or empty\"\n    }\n}"
         }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Request: Crear un seguimiento sin observacion\", function () {",
+              "    pm.response.to.have.status(412);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
       ]
     },
     {
@@ -294,17 +365,19 @@
           }
         ],
         "url": {
-          "raw": "{{baseUrl}}/followUps",
+          "raw": "{{baseUrl}}/adoptions/{{adoption_id}}/followUps",
           "host": [
             "{{baseUrl}}"
           ],
           "path": [
+            "adoptions",
+            "{{adoption_id}}",
             "followUps"
           ]
         },
         "body": {
           "mode": "raw",
-          "raw": "{\n    \"date\": \"2026-10-10T00:00:00-05:00\",\n    \"observation\": \"El adoptante reporta buena adaptacion\",\n    \"adoption\": {\n        \"id\": \"{{adoption_id}}\"\n    },\n    \"veterinarian\": {\n        \"id\": null\n    }\n}",
+          "raw": "{\n    \"date\": \"{{future_date}}\",\n    \"observation\": \"El adoptante reporta buena adaptacion\",\n    \"adoption\": {\n        \"id\": \"{{adoption_id_2}}\"\n    },\n    \"veterinarian\": {\n        \"id\": null\n    }\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -324,17 +397,19 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/followUps",
+              "raw": "{{baseUrl}}/adoptions/{{adoption_id}}/followUps",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
+                "adoptions",
+                "{{adoption_id}}",
                 "followUps"
               ]
             },
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"date\": \"2026-10-10T00:00:00-05:00\",\n    \"observation\": \"El adoptante reporta buena adaptacion\",\n    \"adoption\": {\n        \"id\": \"{{adoption_id}}\"\n    },\n    \"veterinarian\": {\n        \"id\": null\n    }\n}",
+              "raw": "{\n    \"date\": \"{{future_date}}\",\n    \"observation\": \"El adoptante reporta buena adaptacion\",\n    \"adoption\": {\n        \"id\": \"{{adoption_id_2}}\"\n    },\n    \"veterinarian\": {\n        \"id\": null\n    }\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -349,73 +424,18 @@
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"26-09-2026 10:05:28\",\n        \"message\": \"Follow-up must be associated with an existing veterinarian\"\n    }\n}"
         }
-      ]
-    },
-    {
-      "name": "Crear un seguimiento sin adopcion",
-      "request": {
-        "method": "POST",
-        "header": [
-          {
-            "key": "Content-Type",
-            "value": "application/json"
-          }
-        ],
-        "url": {
-          "raw": "{{baseUrl}}/followUps",
-          "host": [
-            "{{baseUrl}}"
-          ],
-          "path": [
-            "followUps"
-          ]
-        },
-        "body": {
-          "mode": "raw",
-          "raw": "{\n    \"date\": \"2026-10-10T00:00:00-05:00\",\n    \"observation\": \"El adoptante reporta buena adaptacion\",\n    \"adoption\": {\n        \"id\": null\n    },\n    \"veterinarian\": {\n        \"id\": \"{{veterinarian_id}}\"\n    }\n}",
-          "options": {
-            "raw": {
-              "language": "json"
-            }
-          }
-        }
-      },
-      "response": [
+      ],
+      "event": [
         {
-          "name": "POST followUps",
-          "originalRequest": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Request: Crear un seguimiento sin veterinario\", function () {",
+              "    pm.response.to.have.status(412);",
+              "});"
             ],
-            "url": {
-              "raw": "{{baseUrl}}/followUps",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "followUps"
-              ]
-            },
-            "body": {
-              "mode": "raw",
-              "raw": "{\n    \"date\": \"2026-10-10T00:00:00-05:00\",\n    \"observation\": \"El adoptante reporta buena adaptacion\",\n    \"adoption\": {\n        \"id\": null\n    },\n    \"veterinarian\": {\n        \"id\": \"{{veterinarian_id}}\"\n    }\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            }
-          },
-          "status": "Precondition Failed",
-          "code": 412,
-          "_postman_previewlanguage": "json",
-          "header": [],
-          "cookie": [],
-          "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"26-09-2026 10:05:28\",\n        \"message\": \"Follow-up must be associated with an existing adoption\"\n    }\n}"
+            "type": "text/javascript"
+          }
         }
       ]
     },
@@ -430,17 +450,19 @@
           }
         ],
         "url": {
-          "raw": "{{baseUrl}}/followUps",
+          "raw": "{{baseUrl}}/adoptions/{{adoption_id}}/followUps",
           "host": [
             "{{baseUrl}}"
           ],
           "path": [
+            "adoptions",
+            "{{adoption_id}}",
             "followUps"
           ]
         },
         "body": {
           "mode": "raw",
-          "raw": "{\n    \"date\": \"2026-10-10T00:00:00-05:00\",\n    \"observation\": \"El adoptante reporta buena adaptacion\",\n    \"adoption\": {\n        \"id\": \"{{adoption_id}}\"\n    },\n    \"veterinarian\": {\n        \"id\": 0\n    }\n}",
+          "raw": "{\n    \"date\": \"{{future_date}}\",\n    \"observation\": \"El adoptante reporta buena adaptacion\",\n    \"adoption\": {\n        \"id\": \"{{adoption_id_2}}\"\n    },\n    \"veterinarian\": {\n        \"id\": 0\n    }\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -460,17 +482,19 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/followUps",
+              "raw": "{{baseUrl}}/adoptions/{{adoption_id}}/followUps",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
+                "adoptions",
+                "{{adoption_id}}",
                 "followUps"
               ]
             },
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"date\": \"2026-10-10T00:00:00-05:00\",\n    \"observation\": \"El adoptante reporta buena adaptacion\",\n    \"adoption\": {\n        \"id\": \"{{adoption_id}}\"\n    },\n    \"veterinarian\": {\n        \"id\": 0\n    }\n}",
+              "raw": "{\n    \"date\": \"{{future_date}}\",\n    \"observation\": \"El adoptante reporta buena adaptacion\",\n    \"adoption\": {\n        \"id\": \"{{adoption_id_2}}\"\n    },\n    \"veterinarian\": {\n        \"id\": 0\n    }\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -485,6 +509,19 @@
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"NOT_FOUND\",\n        \"timestamp\": \"26-09-2026 10:05:28\",\n        \"message\": \"Veterinarian not found\"\n    }\n}"
         }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Request: Crear un seguimiento con veterinario inexistente\", function () {",
+              "    pm.response.to.have.status(404);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
       ]
     },
     {
@@ -498,17 +535,19 @@
           }
         ],
         "url": {
-          "raw": "{{baseUrl}}/followUps",
+          "raw": "{{baseUrl}}/adoptions/999/followUps",
           "host": [
             "{{baseUrl}}"
           ],
           "path": [
+            "adoptions",
+            "999",
             "followUps"
           ]
         },
         "body": {
           "mode": "raw",
-          "raw": "{\n    \"date\": \"2026-10-10T00:00:00-05:00\",\n    \"observation\": \"El adoptante reporta buena adaptacion\",\n    \"adoption\": {\n        \"id\": 0\n    },\n    \"veterinarian\": {\n        \"id\": \"{{veterinarian_id}}\"\n    }\n}",
+          "raw": "{\n    \"date\": \"{{future_date}}\",\n    \"observation\": \"El adoptante reporta buena adaptacion\",\n    \"adoption\": {\n        \"id\": 0\n    },\n    \"veterinarian\": {\n        \"id\": \"{{veterinarian_id}}\"\n    }\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -528,17 +567,19 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/followUps",
+              "raw": "{{baseUrl}}/adoptions/999/followUps",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
+                "adoptions",
+                "999",
                 "followUps"
               ]
             },
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"date\": \"2026-10-10T00:00:00-05:00\",\n    \"observation\": \"El adoptante reporta buena adaptacion\",\n    \"adoption\": {\n        \"id\": 0\n    },\n    \"veterinarian\": {\n        \"id\": \"{{veterinarian_id}}\"\n    }\n}",
+              "raw": "{\n    \"date\": \"{{future_date}}\",\n    \"observation\": \"El adoptante reporta buena adaptacion\",\n    \"adoption\": {\n        \"id\": 0\n    },\n    \"veterinarian\": {\n        \"id\": \"{{veterinarian_id}}\"\n    }\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -553,6 +594,19 @@
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"NOT_FOUND\",\n        \"timestamp\": \"26-09-2026 10:05:28\",\n        \"message\": \"Adoption not found\"\n    }\n}"
         }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Request: Crear un seguimiento con adopcion inexistente\", function () {",
+              "    pm.response.to.have.status(404);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
       ]
     },
     {
@@ -566,17 +620,19 @@
           }
         ],
         "url": {
-          "raw": "{{baseUrl}}/followUps",
+          "raw": "{{baseUrl}}/adoptions/{{adoption_id_2}}/followUps",
           "host": [
             "{{baseUrl}}"
           ],
           "path": [
+            "adoptions",
+            "{{adoption_id_2}}",
             "followUps"
           ]
         },
         "body": {
           "mode": "raw",
-          "raw": "{\n    \"date\": \"2026-10-10T00:00:00-05:00\",\n    \"observation\": \"El adoptante reporta buena adaptacion\",\n    \"adoption\": {\n        \"id\": \"{{adoption_id}}\"\n    },\n    \"veterinarian\": {\n        \"id\": \"{{veterinarian_id}}\"\n    }\n}",
+          "raw": "{\n    \"date\": \"{{future_date}}\",\n    \"observation\": \"El adoptante reporta buena adaptacion\",\n    \"adoption\": {\n        \"id\": \"{{adoption_id_2}}\"\n    },\n    \"veterinarian\": {\n        \"id\": \"{{veterinarian_id}}\"\n    }\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -596,17 +652,19 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/followUps",
+              "raw": "{{baseUrl}}/adoptions/{{adoption_id_2}}/followUps",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
+                "adoptions",
+                "{{adoption_id_2}}",
                 "followUps"
               ]
             },
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"date\": \"2026-10-10T00:00:00-05:00\",\n    \"observation\": \"El adoptante reporta buena adaptacion\",\n    \"adoption\": {\n        \"id\": \"{{adoption_id}}\"\n    },\n    \"veterinarian\": {\n        \"id\": \"{{veterinarian_id}}\"\n    }\n}",
+              "raw": "{\n    \"date\": \"{{future_date}}\",\n    \"observation\": \"El adoptante reporta buena adaptacion\",\n    \"adoption\": {\n        \"id\": \"{{adoption_id_2}}\"\n    },\n    \"veterinarian\": {\n        \"id\": \"{{veterinarian_id}}\"\n    }\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -621,6 +679,19 @@
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"26-09-2026 10:05:28\",\n        \"message\": \"The associated adoption must be in finalized status\"\n    }\n}"
         }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Request: Crear un seguimiento de una adopcion no finalizada\", function () {",
+              "    pm.response.to.have.status(412);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
       ]
     },
     {
@@ -629,11 +700,13 @@
         "method": "GET",
         "header": [],
         "url": {
-          "raw": "{{baseUrl}}/followUps",
+          "raw": "{{baseUrl}}/adoptions/{{adoption_id}}/followUps",
           "host": [
             "{{baseUrl}}"
           ],
           "path": [
+            "adoptions",
+            "{{adoption_id}}",
             "followUps"
           ]
         }
@@ -645,11 +718,13 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{baseUrl}}/followUps",
+              "raw": "{{baseUrl}}/adoptions/{{adoption_id}}/followUps",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
+                "adoptions",
+                "{{adoption_id}}",
                 "followUps"
               ]
             }
@@ -666,62 +741,18 @@
           "cookie": [],
           "body": "[\n    {\n        \"id\": 1,\n        \"date\": \"2026-10-10\",\n        \"observation\": \"El adoptante reporta buena adaptacion\"\n    }\n]"
         }
-      ]
-    },
-    {
-      "name": "Obtener los seguimientos de una adopcion",
-      "request": {
-        "method": "GET",
-        "header": [],
-        "url": {
-          "raw": "{{baseUrl}}/followUps?adoptionId={{adoption_id}}",
-          "host": [
-            "{{baseUrl}}"
-          ],
-          "path": [
-            "followUps"
-          ],
-          "query": [
-            {
-              "key": "adoptionId",
-              "value": "{{adoption_id}}"
-            }
-          ]
-        }
-      },
-      "response": [
+      ],
+      "event": [
         {
-          "name": "GET followUps",
-          "originalRequest": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "{{baseUrl}}/followUps?adoptionId={{adoption_id}}",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "followUps"
-              ],
-              "query": [
-                {
-                  "key": "adoptionId",
-                  "value": "{{adoption_id}}"
-                }
-              ]
-            }
-          },
-          "status": "OK",
-          "code": 200,
-          "_postman_previewlanguage": "json",
-          "header": [
-            {
-              "key": "Content-Type",
-              "value": "application/json"
-            }
-          ],
-          "cookie": [],
-          "body": "[\n    {\n        \"id\": 1,\n        \"date\": \"2026-10-10\",\n        \"observation\": \"El adoptante reporta buena adaptacion\"\n    }\n]"
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Request: Obtener todos los seguimientos\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
         }
       ]
     },
@@ -731,11 +762,13 @@
         "method": "GET",
         "header": [],
         "url": {
-          "raw": "{{baseUrl}}/followUps/{{follow_up_id_1}}",
+          "raw": "{{baseUrl}}/adoptions/{{adoption_id}}/followUps/{{follow_up_id_1}}",
           "host": [
             "{{baseUrl}}"
           ],
           "path": [
+            "adoptions",
+            "{{adoption_id}}",
             "followUps",
             "{{follow_up_id_1}}"
           ]
@@ -748,11 +781,13 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{baseUrl}}/followUps/{{follow_up_id_1}}",
+              "raw": "{{baseUrl}}/adoptions/{{adoption_id}}/followUps/{{follow_up_id_1}}",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
+                "adoptions",
+                "{{adoption_id}}",
                 "followUps",
                 "{{follow_up_id_1}}"
               ]
@@ -770,6 +805,51 @@
           "cookie": [],
           "body": "{\n    \"id\": 1,\n    \"date\": \"2026-10-10\",\n    \"observation\": \"El adoptante reporta buena adaptacion\"\n}"
         }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Request: Obtener un seguimiento por id\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Obtener un seguimiento de otra adopcion",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/adoptions/{{adoption_id_2}}/followUps/{{follow_up_id_1}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "adoptions",
+            "{{adoption_id_2}}",
+            "followUps",
+            "{{follow_up_id_1}}"
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Request: Obtener un seguimiento de otra adopcion\", function () {",
+              "    pm.response.to.have.status(412);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
       ]
     },
     {
@@ -778,11 +858,13 @@
         "method": "GET",
         "header": [],
         "url": {
-          "raw": "{{baseUrl}}/followUps/0",
+          "raw": "{{baseUrl}}/adoptions/{{adoption_id}}/followUps/0",
           "host": [
             "{{baseUrl}}"
           ],
           "path": [
+            "adoptions",
+            "{{adoption_id}}",
             "followUps",
             "0"
           ]
@@ -795,22 +877,37 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{baseUrl}}/followUps/0",
+              "raw": "{{baseUrl}}/adoptions/{{adoption_id}}/followUps/0",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
+                "adoptions",
+                "{{adoption_id}}",
                 "followUps",
                 "0"
               ]
             }
           },
           "status": "Not Found",
-          "code": 404,
+          "code": 412,
           "_postman_previewlanguage": "json",
           "header": [],
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"NOT_FOUND\",\n        \"timestamp\": \"26-09-2026 10:05:28\",\n        \"message\": \"Follow-up not found\"\n    }\n}"
+        }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Request: Obtener un seguimiento que no existe\", function () {",
+              "    pm.response.to.have.status(412);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
         }
       ]
     },
@@ -820,11 +917,13 @@
         "method": "GET",
         "header": [],
         "url": {
-          "raw": "{{baseUrl}}/followUps/-1",
+          "raw": "{{baseUrl}}/adoptions/{{adoption_id}}/followUps/-1",
           "host": [
             "{{baseUrl}}"
           ],
           "path": [
+            "adoptions",
+            "{{adoption_id}}",
             "followUps",
             "-1"
           ]
@@ -837,11 +936,13 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{baseUrl}}/followUps/-1",
+              "raw": "{{baseUrl}}/adoptions/{{adoption_id}}/followUps/-1",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
+                "adoptions",
+                "{{adoption_id}}",
                 "followUps",
                 "-1"
               ]
@@ -854,6 +955,19 @@
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"26-09-2026 10:05:28\",\n        \"message\": \"Follow-up id is not valid\"\n    }\n}"
         }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Request: Obtener un seguimiento con id invalido\", function () {",
+              "    pm.response.to.have.status(412);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
       ]
     },
     {
@@ -862,11 +976,13 @@
         "method": "GET",
         "header": [],
         "url": {
-          "raw": "{{baseUrl}}/followUps/{{follow_up_id_1}}?requesterId={{adopter_id_1}}",
+          "raw": "{{baseUrl}}/adoptions/{{adoption_id}}/followUps/{{follow_up_id_1}}?requesterId={{adopter_id_1}}",
           "host": [
             "{{baseUrl}}"
           ],
           "path": [
+            "adoptions",
+            "{{adoption_id}}",
             "followUps",
             "{{follow_up_id_1}}"
           ],
@@ -885,11 +1001,13 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{baseUrl}}/followUps/{{follow_up_id_1}}?requesterId={{adopter_id_1}}",
+              "raw": "{{baseUrl}}/adoptions/{{adoption_id}}/followUps/{{follow_up_id_1}}?requesterId={{adopter_id_1}}",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
+                "adoptions",
+                "{{adoption_id}}",
                 "followUps",
                 "{{follow_up_id_1}}"
               ],
@@ -913,6 +1031,19 @@
           "cookie": [],
           "body": "{\n    \"id\": 1,\n    \"date\": \"2026-10-10\",\n    \"observation\": \"El adoptante reporta buena adaptacion\"\n}"
         }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Request: Obtener un seguimiento autorizado para el adoptante asociado\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
       ]
     },
     {
@@ -921,11 +1052,13 @@
         "method": "GET",
         "header": [],
         "url": {
-          "raw": "{{baseUrl}}/followUps/{{follow_up_id_1}}?requesterId={{veterinarian_id}}",
+          "raw": "{{baseUrl}}/adoptions/{{adoption_id}}/followUps/{{follow_up_id_1}}?requesterId={{veterinarian_id}}",
           "host": [
             "{{baseUrl}}"
           ],
           "path": [
+            "adoptions",
+            "{{adoption_id}}",
             "followUps",
             "{{follow_up_id_1}}"
           ],
@@ -944,11 +1077,13 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{baseUrl}}/followUps/{{follow_up_id_1}}?requesterId={{veterinarian_id}}",
+              "raw": "{{baseUrl}}/adoptions/{{adoption_id}}/followUps/{{follow_up_id_1}}?requesterId={{veterinarian_id}}",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
+                "adoptions",
+                "{{adoption_id}}",
                 "followUps",
                 "{{follow_up_id_1}}"
               ],
@@ -972,6 +1107,19 @@
           "cookie": [],
           "body": "{\n    \"id\": 1,\n    \"date\": \"2026-10-10\",\n    \"observation\": \"El adoptante reporta buena adaptacion\"\n}"
         }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Request: Obtener un seguimiento autorizado para el veterinario\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
       ]
     },
     {
@@ -980,11 +1128,13 @@
         "method": "GET",
         "header": [],
         "url": {
-          "raw": "{{baseUrl}}/followUps/{{follow_up_id_1}}?requesterId=9999",
+          "raw": "{{baseUrl}}/adoptions/{{adoption_id}}/followUps/{{follow_up_id_1}}?requesterId=9999",
           "host": [
             "{{baseUrl}}"
           ],
           "path": [
+            "adoptions",
+            "{{adoption_id}}",
             "followUps",
             "{{follow_up_id_1}}"
           ],
@@ -1003,11 +1153,13 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{baseUrl}}/followUps/{{follow_up_id_1}}?requesterId=9999",
+              "raw": "{{baseUrl}}/adoptions/{{adoption_id}}/followUps/{{follow_up_id_1}}?requesterId=9999",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
+                "adoptions",
+                "{{adoption_id}}",
                 "followUps",
                 "{{follow_up_id_1}}"
               ],
@@ -1026,6 +1178,19 @@
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"26-09-2026 10:05:28\",\n        \"message\": \"Only authorized staff (administrators/veterinarians) and the associated adopter can consult a follow-up\"\n    }\n}"
         }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Request: Obtener un seguimiento sin autorizacion\", function () {",
+              "    pm.response.to.have.status(412);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
       ]
     },
     {
@@ -1034,11 +1199,13 @@
         "method": "GET",
         "header": [],
         "url": {
-          "raw": "{{baseUrl}}/followUps/{{follow_up_id_1}}?requesterId=0",
+          "raw": "{{baseUrl}}/adoptions/{{adoption_id}}/followUps/{{follow_up_id_1}}?requesterId=0",
           "host": [
             "{{baseUrl}}"
           ],
           "path": [
+            "adoptions",
+            "{{adoption_id}}",
             "followUps",
             "{{follow_up_id_1}}"
           ],
@@ -1057,11 +1224,13 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{baseUrl}}/followUps/{{follow_up_id_1}}?requesterId=0",
+              "raw": "{{baseUrl}}/adoptions/{{adoption_id}}/followUps/{{follow_up_id_1}}?requesterId=0",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
+                "adoptions",
+                "{{adoption_id}}",
                 "followUps",
                 "{{follow_up_id_1}}"
               ],
@@ -1080,6 +1249,19 @@
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"26-09-2026 10:05:28\",\n        \"message\": \"A requester is required to consult a follow-up\"\n    }\n}"
         }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Request: Obtener un seguimiento sin solicitante\", function () {",
+              "    pm.response.to.have.status(412);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
       ]
     },
     {
@@ -1088,11 +1270,13 @@
         "method": "GET",
         "header": [],
         "url": {
-          "raw": "{{baseUrl}}/followUps/{{follow_up_id_1}}?requesterId={{vet_admin_id}}&role=ADMIN",
+          "raw": "{{baseUrl}}/adoptions/{{adoption_id}}/followUps/{{follow_up_id_1}}?requesterId={{vet_admin_id}}&role=ADMIN",
           "host": [
             "{{baseUrl}}"
           ],
           "path": [
+            "adoptions",
+            "{{adoption_id}}",
             "followUps",
             "{{follow_up_id_1}}"
           ],
@@ -1115,11 +1299,13 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{baseUrl}}/followUps/{{follow_up_id_1}}?requesterId={{vet_admin_id}}&role=ADMIN",
+              "raw": "{{baseUrl}}/adoptions/{{adoption_id}}/followUps/{{follow_up_id_1}}?requesterId={{vet_admin_id}}&role=ADMIN",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
+                "adoptions",
+                "{{adoption_id}}",
                 "followUps",
                 "{{follow_up_id_1}}"
               ],
@@ -1147,6 +1333,19 @@
           "cookie": [],
           "body": "{\n    \"id\": 1,\n    \"date\": \"2026-10-10\",\n    \"observation\": \"El adoptante reporta buena adaptacion\"\n}"
         }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Request: Obtener un seguimiento autorizado para el administrador\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
       ]
     },
     {
@@ -1155,11 +1354,13 @@
         "method": "GET",
         "header": [],
         "url": {
-          "raw": "{{baseUrl}}/followUps/{{follow_up_id_1}}?requesterId=9999&role=ADOPTER",
+          "raw": "{{baseUrl}}/adoptions/{{adoption_id}}/followUps/{{follow_up_id_1}}?requesterId=9999&role=ADOPTER",
           "host": [
             "{{baseUrl}}"
           ],
           "path": [
+            "adoptions",
+            "{{adoption_id}}",
             "followUps",
             "{{follow_up_id_1}}"
           ],
@@ -1182,11 +1383,13 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{baseUrl}}/followUps/{{follow_up_id_1}}?requesterId=9999&role=ADOPTER",
+              "raw": "{{baseUrl}}/adoptions/{{adoption_id}}/followUps/{{follow_up_id_1}}?requesterId=9999&role=ADOPTER",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
+                "adoptions",
+                "{{adoption_id}}",
                 "followUps",
                 "{{follow_up_id_1}}"
               ],
@@ -1209,6 +1412,19 @@
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"26-09-2026 10:05:28\",\n        \"message\": \"Only authorized staff (administrators/veterinarians) and the associated adopter can consult a follow-up\"\n    }\n}"
         }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Request: Obtener un seguimiento con rol no administrador y sin autorizacion\", function () {",
+              "    pm.response.to.have.status(412);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
       ]
     },
     {
@@ -1222,18 +1438,20 @@
           }
         ],
         "url": {
-          "raw": "{{baseUrl}}/followUps/{{follow_up_id_1}}",
+          "raw": "{{baseUrl}}/adoptions/{{adoption_id}}/followUps/{{follow_up_id_1}}",
           "host": [
             "{{baseUrl}}"
           ],
           "path": [
+            "adoptions",
+            "{{adoption_id}}",
             "followUps",
             "{{follow_up_id_1}}"
           ]
         },
         "body": {
           "mode": "raw",
-          "raw": "{\n    \"date\": \"2026-10-10T00:00:00-05:00\",\n    \"observation\": \"Observacion actualizada\",\n    \"adoption\": {\n        \"id\": \"{{adoption_id}}\"\n    },\n    \"veterinarian\": {\n        \"id\": \"{{veterinarian_id}}\"\n    }\n}",
+          "raw": "{\n    \"date\": \"{{future_date}}\",\n    \"observation\": \"Observacion actualizada\",\n    \"adoption\": {\n        \"id\": \"{{adoption_id}}\"\n    },\n    \"veterinarian\": {\n        \"id\": \"{{veterinarian_id}}\"\n    }\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -1253,18 +1471,20 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/followUps/{{follow_up_id_1}}",
+              "raw": "{{baseUrl}}/adoptions/{{adoption_id}}/followUps/{{follow_up_id_1}}",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
+                "adoptions",
+                "{{adoption_id}}",
                 "followUps",
                 "{{follow_up_id_1}}"
               ]
             },
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"date\": \"2026-10-10T00:00:00-05:00\",\n    \"observation\": \"Observacion actualizada\",\n    \"adoption\": {\n        \"id\": \"{{adoption_id}}\"\n    },\n    \"veterinarian\": {\n        \"id\": \"{{veterinarian_id}}\"\n    }\n}",
+              "raw": "{\n    \"date\": \"{{future_date}}\",\n    \"observation\": \"Observacion actualizada\",\n    \"adoption\": {\n        \"id\": \"{{adoption_id}}\"\n    },\n    \"veterinarian\": {\n        \"id\": \"{{veterinarian_id}}\"\n    }\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -1284,6 +1504,19 @@
           "cookie": [],
           "body": "{\n    \"id\": 1,\n    \"date\": \"2026-10-10\",\n    \"observation\": \"Observacion actualizada\"\n}"
         }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Request: Editar un seguimiento\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
       ]
     },
     {
@@ -1297,18 +1530,20 @@
           }
         ],
         "url": {
-          "raw": "{{baseUrl}}/followUps/0",
+          "raw": "{{baseUrl}}/adoptions/{{adoption_id}}/followUps/0",
           "host": [
             "{{baseUrl}}"
           ],
           "path": [
+            "adoptions",
+            "{{adoption_id}}",
             "followUps",
             "0"
           ]
         },
         "body": {
           "mode": "raw",
-          "raw": "{\n    \"date\": \"2026-10-10T00:00:00-05:00\",\n    \"observation\": \"El adoptante reporta buena adaptacion\",\n    \"adoption\": {\n        \"id\": \"{{adoption_id}}\"\n    },\n    \"veterinarian\": {\n        \"id\": \"{{veterinarian_id}}\"\n    }\n}",
+          "raw": "{\n    \"date\": \"{{future_date}}\",\n    \"observation\": \"El adoptante reporta buena adaptacion\",\n    \"adoption\": {\n        \"id\": \"{{adoption_id_2}}\"\n    },\n    \"veterinarian\": {\n        \"id\": \"{{veterinarian_id}}\"\n    }\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -1328,18 +1563,20 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/followUps/0",
+              "raw": "{{baseUrl}}/adoptions/{{adoption_id}}/followUps/0",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
+                "adoptions",
+                "{{adoption_id}}",
                 "followUps",
                 "0"
               ]
             },
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"date\": \"2026-10-10T00:00:00-05:00\",\n    \"observation\": \"El adoptante reporta buena adaptacion\",\n    \"adoption\": {\n        \"id\": \"{{adoption_id}}\"\n    },\n    \"veterinarian\": {\n        \"id\": \"{{veterinarian_id}}\"\n    }\n}",
+              "raw": "{\n    \"date\": \"{{future_date}}\",\n    \"observation\": \"El adoptante reporta buena adaptacion\",\n    \"adoption\": {\n        \"id\": \"{{adoption_id_2}}\"\n    },\n    \"veterinarian\": {\n        \"id\": \"{{veterinarian_id}}\"\n    }\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -1348,11 +1585,24 @@
             }
           },
           "status": "Not Found",
-          "code": 404,
+          "code": 412,
           "_postman_previewlanguage": "json",
           "header": [],
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"NOT_FOUND\",\n        \"timestamp\": \"26-09-2026 10:05:28\",\n        \"message\": \"Follow-up not found\"\n    }\n}"
+        }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Request: Editar un seguimiento que no existe\", function () {",
+              "    pm.response.to.have.status(412);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
         }
       ]
     },
@@ -1367,18 +1617,20 @@
           }
         ],
         "url": {
-          "raw": "{{baseUrl}}/followUps/-1",
+          "raw": "{{baseUrl}}/adoptions/{{adoption_id}}/followUps/-1",
           "host": [
             "{{baseUrl}}"
           ],
           "path": [
+            "adoptions",
+            "{{adoption_id}}",
             "followUps",
             "-1"
           ]
         },
         "body": {
           "mode": "raw",
-          "raw": "{\n    \"date\": \"2026-10-10T00:00:00-05:00\",\n    \"observation\": \"El adoptante reporta buena adaptacion\",\n    \"adoption\": {\n        \"id\": \"{{adoption_id}}\"\n    },\n    \"veterinarian\": {\n        \"id\": \"{{veterinarian_id}}\"\n    }\n}",
+          "raw": "{\n    \"date\": \"{{future_date}}\",\n    \"observation\": \"El adoptante reporta buena adaptacion\",\n    \"adoption\": {\n        \"id\": \"{{adoption_id_2}}\"\n    },\n    \"veterinarian\": {\n        \"id\": \"{{veterinarian_id}}\"\n    }\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -1398,18 +1650,20 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/followUps/-1",
+              "raw": "{{baseUrl}}/adoptions/{{adoption_id}}/followUps/-1",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
+                "adoptions",
+                "{{adoption_id}}",
                 "followUps",
                 "-1"
               ]
             },
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"date\": \"2026-10-10T00:00:00-05:00\",\n    \"observation\": \"El adoptante reporta buena adaptacion\",\n    \"adoption\": {\n        \"id\": \"{{adoption_id}}\"\n    },\n    \"veterinarian\": {\n        \"id\": \"{{veterinarian_id}}\"\n    }\n}",
+              "raw": "{\n    \"date\": \"{{future_date}}\",\n    \"observation\": \"El adoptante reporta buena adaptacion\",\n    \"adoption\": {\n        \"id\": \"{{adoption_id_2}}\"\n    },\n    \"veterinarian\": {\n        \"id\": \"{{veterinarian_id}}\"\n    }\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -1423,6 +1677,19 @@
           "header": [],
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"26-09-2026 10:05:28\",\n        \"message\": \"Follow-up id is not valid\"\n    }\n}"
+        }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Request: Editar un seguimiento con id invalido\", function () {",
+              "    pm.response.to.have.status(412);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
         }
       ]
     },
@@ -1437,18 +1704,20 @@
           }
         ],
         "url": {
-          "raw": "{{baseUrl}}/followUps/{{follow_up_id_1}}",
+          "raw": "{{baseUrl}}/adoptions/{{adoption_id}}/followUps/{{follow_up_id_1}}",
           "host": [
             "{{baseUrl}}"
           ],
           "path": [
+            "adoptions",
+            "{{adoption_id}}",
             "followUps",
             "{{follow_up_id_1}}"
           ]
         },
         "body": {
           "mode": "raw",
-          "raw": "{\n    \"date\": \"2026-10-10T00:00:00-05:00\",\n    \"observation\": \"El adoptante reporta buena adaptacion\",\n    \"adoption\": {\n        \"id\": \"{{adoption_id_2}}\"\n    },\n    \"veterinarian\": {\n        \"id\": \"{{veterinarian_id}}\"\n    }\n}",
+          "raw": "{\n    \"date\": \"{{future_date}}\",\n    \"observation\": \"El adoptante reporta buena adaptacion\",\n    \"adoption\": {\n        \"id\": \"{{adoption_id_2}}\"\n    },\n    \"veterinarian\": {\n        \"id\": \"{{veterinarian_id}}\"\n    }\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -1468,18 +1737,20 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/followUps/{{follow_up_id_1}}",
+              "raw": "{{baseUrl}}/adoptions/{{adoption_id}}/followUps/{{follow_up_id_1}}",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
+                "adoptions",
+                "{{adoption_id}}",
                 "followUps",
                 "{{follow_up_id_1}}"
               ]
             },
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"date\": \"2026-10-10T00:00:00-05:00\",\n    \"observation\": \"El adoptante reporta buena adaptacion\",\n    \"adoption\": {\n        \"id\": \"{{adoption_id_2}}\"\n    },\n    \"veterinarian\": {\n        \"id\": \"{{veterinarian_id}}\"\n    }\n}",
+              "raw": "{\n    \"date\": \"{{future_date}}\",\n    \"observation\": \"El adoptante reporta buena adaptacion\",\n    \"adoption\": {\n        \"id\": \"{{adoption_id_2}}\"\n    },\n    \"veterinarian\": {\n        \"id\": \"{{veterinarian_id}}\"\n    }\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -1494,6 +1765,19 @@
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"26-09-2026 10:05:28\",\n        \"message\": \"The adoption associated to the follow-up cannot be changed\"\n    }\n}"
         }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Request: Editar un seguimiento cambiando la adopcion\", function () {",
+              "    pm.response.to.have.status(412);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
       ]
     },
     {
@@ -1507,18 +1791,20 @@
           }
         ],
         "url": {
-          "raw": "{{baseUrl}}/followUps/{{follow_up_id_1}}",
+          "raw": "{{baseUrl}}/adoptions/{{adoption_id}}/followUps/{{follow_up_id_1}}",
           "host": [
             "{{baseUrl}}"
           ],
           "path": [
+            "adoptions",
+            "{{adoption_id}}",
             "followUps",
             "{{follow_up_id_1}}"
           ]
         },
         "body": {
           "mode": "raw",
-          "raw": "{\n    \"date\": null,\n    \"observation\": \"El adoptante reporta buena adaptacion\",\n    \"adoption\": {\n        \"id\": \"{{adoption_id}}\"\n    },\n    \"veterinarian\": {\n        \"id\": \"{{veterinarian_id}}\"\n    }\n}",
+          "raw": "{\n    \"date\": null,\n    \"observation\": \"El adoptante reporta buena adaptacion\",\n    \"adoption\": {\n        \"id\": \"{{adoption_id_2}}\"\n    },\n    \"veterinarian\": {\n        \"id\": \"{{veterinarian_id}}\"\n    }\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -1538,18 +1824,20 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/followUps/{{follow_up_id_1}}",
+              "raw": "{{baseUrl}}/adoptions/{{adoption_id}}/followUps/{{follow_up_id_1}}",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
+                "adoptions",
+                "{{adoption_id}}",
                 "followUps",
                 "{{follow_up_id_1}}"
               ]
             },
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"date\": null,\n    \"observation\": \"El adoptante reporta buena adaptacion\",\n    \"adoption\": {\n        \"id\": \"{{adoption_id}}\"\n    },\n    \"veterinarian\": {\n        \"id\": \"{{veterinarian_id}}\"\n    }\n}",
+              "raw": "{\n    \"date\": null,\n    \"observation\": \"El adoptante reporta buena adaptacion\",\n    \"adoption\": {\n        \"id\": \"{{adoption_id_2}}\"\n    },\n    \"veterinarian\": {\n        \"id\": \"{{veterinarian_id}}\"\n    }\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -1564,6 +1852,19 @@
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"26-09-2026 10:05:28\",\n        \"message\": \"Follow-up date cannot be null\"\n    }\n}"
         }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Request: Editar un seguimiento sin fecha\", function () {",
+              "    pm.response.to.have.status(412);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
       ]
     },
     {
@@ -1577,18 +1878,20 @@
           }
         ],
         "url": {
-          "raw": "{{baseUrl}}/followUps/{{follow_up_id_1}}",
+          "raw": "{{baseUrl}}/adoptions/{{adoption_id}}/followUps/{{follow_up_id_1}}",
           "host": [
             "{{baseUrl}}"
           ],
           "path": [
+            "adoptions",
+            "{{adoption_id}}",
             "followUps",
             "{{follow_up_id_1}}"
           ]
         },
         "body": {
           "mode": "raw",
-          "raw": "{\n    \"date\": \"2026-10-10T00:00:00-05:00\",\n    \"observation\": null,\n    \"adoption\": {\n        \"id\": \"{{adoption_id}}\"\n    },\n    \"veterinarian\": {\n        \"id\": \"{{veterinarian_id}}\"\n    }\n}",
+          "raw": "{\n    \"date\": \"{{future_date}}\",\n    \"observation\": null,\n    \"adoption\": {\n        \"id\": \"{{adoption_id}}\"\n    },\n    \"veterinarian\": {\n        \"id\": \"{{veterinarian_id}}\"\n    }\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -1608,18 +1911,20 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/followUps/{{follow_up_id_1}}",
+              "raw": "{{baseUrl}}/adoptions/{{adoption_id}}/followUps/{{follow_up_id_1}}",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
+                "adoptions",
+                "{{adoption_id}}",
                 "followUps",
                 "{{follow_up_id_1}}"
               ]
             },
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"date\": \"2026-10-10T00:00:00-05:00\",\n    \"observation\": null,\n    \"adoption\": {\n        \"id\": \"{{adoption_id}}\"\n    },\n    \"veterinarian\": {\n        \"id\": \"{{veterinarian_id}}\"\n    }\n}",
+              "raw": "{\n    \"date\": \"{{future_date}}\",\n    \"observation\": null,\n    \"adoption\": {\n        \"id\": \"{{adoption_id}}\"\n    },\n    \"veterinarian\": {\n        \"id\": \"{{veterinarian_id}}\"\n    }\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -1634,6 +1939,51 @@
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"26-09-2026 10:05:28\",\n        \"message\": \"Observation cannot be null or empty\"\n    }\n}"
         }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Request: Editar un seguimiento sin observacion\", function () {",
+              "    pm.response.to.have.status(412);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Borrar un seguimiento de otra adopcion",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/adoptions/{{adoption_id_2}}/followUps/{{follow_up_id_1}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "adoptions",
+            "{{adoption_id_2}}",
+            "followUps",
+            "{{follow_up_id_1}}"
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Request: Borrar un seguimiento de otra adopcion\", function () {",
+              "    pm.response.to.have.status(412);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
       ]
     },
     {
@@ -1642,13 +1992,15 @@
         "method": "DELETE",
         "header": [],
         "url": {
-          "raw": "{{baseUrl}}/followUps/{{follow_up_id_2}}",
+          "raw": "{{baseUrl}}/adoptions/{{adoption_id}}/followUps/{{follow_up_id_1}}",
           "host": [
             "{{baseUrl}}"
           ],
           "path": [
+            "adoptions",
+            "{{adoption_id}}",
             "followUps",
-            "{{follow_up_id_2}}"
+            "{{follow_up_id_1}}"
           ]
         }
       },
@@ -1659,13 +2011,15 @@
             "method": "DELETE",
             "header": [],
             "url": {
-              "raw": "{{baseUrl}}/followUps/{{follow_up_id_2}}",
+              "raw": "{{baseUrl}}/adoptions/{{adoption_id}}/followUps/{{follow_up_id_1}}",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
+                "adoptions",
+                "{{adoption_id}}",
                 "followUps",
-                "{{follow_up_id_2}}"
+                "{{follow_up_id_1}}"
               ]
             }
           },
@@ -1676,6 +2030,19 @@
           "cookie": [],
           "body": ""
         }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Request: Borrar un seguimiento\", function () {",
+              "    pm.response.to.have.status(204);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
       ]
     },
     {
@@ -1684,11 +2051,13 @@
         "method": "DELETE",
         "header": [],
         "url": {
-          "raw": "{{baseUrl}}/followUps/0",
+          "raw": "{{baseUrl}}/adoptions/{{adoption_id}}/followUps/0",
           "host": [
             "{{baseUrl}}"
           ],
           "path": [
+            "adoptions",
+            "{{adoption_id}}",
             "followUps",
             "0"
           ]
@@ -1701,22 +2070,37 @@
             "method": "DELETE",
             "header": [],
             "url": {
-              "raw": "{{baseUrl}}/followUps/0",
+              "raw": "{{baseUrl}}/adoptions/{{adoption_id}}/followUps/0",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
+                "adoptions",
+                "{{adoption_id}}",
                 "followUps",
                 "0"
               ]
             }
           },
           "status": "Not Found",
-          "code": 404,
+          "code": 412,
           "_postman_previewlanguage": "json",
           "header": [],
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"NOT_FOUND\",\n        \"timestamp\": \"26-09-2026 10:05:28\",\n        \"message\": \"Follow-up not found\"\n    }\n}"
+        }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Request: Borrar un seguimiento que no existe\", function () {",
+              "    pm.response.to.have.status(412);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
         }
       ]
     },
@@ -1726,11 +2110,13 @@
         "method": "DELETE",
         "header": [],
         "url": {
-          "raw": "{{baseUrl}}/followUps/-1",
+          "raw": "{{baseUrl}}/adoptions/{{adoption_id}}/followUps/-1",
           "host": [
             "{{baseUrl}}"
           ],
           "path": [
+            "adoptions",
+            "{{adoption_id}}",
             "followUps",
             "-1"
           ]
@@ -1743,11 +2129,13 @@
             "method": "DELETE",
             "header": [],
             "url": {
-              "raw": "{{baseUrl}}/followUps/-1",
+              "raw": "{{baseUrl}}/adoptions/{{adoption_id}}/followUps/-1",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
+                "adoptions",
+                "{{adoption_id}}",
                 "followUps",
                 "-1"
               ]
@@ -1760,6 +2148,19 @@
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"26-09-2026 10:05:28\",\n        \"message\": \"Follow-up id is not valid\"\n    }\n}"
         }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Request: Borrar un seguimiento con id invalido\", function () {",
+              "    pm.response.to.have.status(412);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
       ]
     },
     {
@@ -1768,11 +2169,13 @@
         "method": "DELETE",
         "header": [],
         "url": {
-          "raw": "{{baseUrl}}/followUps/{{follow_up_id_closed}}",
+          "raw": "{{baseUrl}}/adoptions/{{adoption_id}}/followUps/{{follow_up_id_closed}}",
           "host": [
             "{{baseUrl}}"
           ],
           "path": [
+            "adoptions",
+            "{{adoption_id}}",
             "followUps",
             "{{follow_up_id_closed}}"
           ]
@@ -1785,11 +2188,13 @@
             "method": "DELETE",
             "header": [],
             "url": {
-              "raw": "{{baseUrl}}/followUps/{{follow_up_id_closed}}",
+              "raw": "{{baseUrl}}/adoptions/{{adoption_id}}/followUps/{{follow_up_id_closed}}",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
+                "adoptions",
+                "{{adoption_id}}",
                 "followUps",
                 "{{follow_up_id_closed}}"
               ]
@@ -1801,6 +2206,19 @@
           "header": [],
           "cookie": [],
           "body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"26-09-2026 10:05:28\",\n        \"message\": \"A follow-up that has already been closed or validated cannot be deleted; it preserves the shelter history\"\n    }\n}"
+        }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Request: Borrar un seguimiento ya cerrado o vencido\", function () {",
+              "    pm.response.to.have.status(412);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
         }
       ]
     }
@@ -1832,11 +2250,26 @@
     },
     {
       "key": "adopter_id_1",
-      "value": "1"
+      "value": "2"
     },
     {
       "key": "vet_admin_id",
       "value": "9999"
+    },
+    {
+      "key": "future_date",
+      "value": ""
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          "pm.collectionVariables.set('future_date', new Date(Date.now() + 3 * 86400000).toISOString());"
+        ]
+      }
     }
   ]
 }

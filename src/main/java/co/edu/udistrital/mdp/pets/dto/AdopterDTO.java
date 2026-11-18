@@ -19,4 +19,6 @@ public class AdopterDTO {
 	private Boolean hasChildren;
 	private Boolean hasOtherPets;
 	private Boolean active;
+
+	private ShelterDTO shelter;
 }
