@@ -21,6 +21,7 @@ import java.util.Date;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.core.annotation.Order;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import co.edu.udistrital.mdp.pets.entities.ShelterEntity;
 import co.edu.udistrital.mdp.pets.entities.VeterinarianEntity;
 import co.edu.udistrital.mdp.pets.repositories.ShelterRepository;
@@ -43,6 +44,7 @@ public class AdopterService {
 	private final UserRepository userRepository;
 	private final AdoptionRequestRepository adoptionRequestRepository;
 	private final ShelterRepository shelterRepository;
+	private final PasswordEncoder passwordEncoder;
 	private final VeterinarianRepository veterinarianRepository;
 
 	/**
@@ -62,7 +64,11 @@ public class AdopterService {
 		validateIdentityAndContactFields(adopter);
 		validateProfileFields(adopter);
 		validateNoDuplicates(adopter);
- 
+
+		// The password is stored encoded so the account can authenticate later.
+		if (adopter.getPassword() != null && !adopter.getPassword().isBlank())
+			adopter.setPassword(passwordEncoder.encode(adopter.getPassword()));
+
 		log.info("Adopter creation process completed.");
 		return adopterRepository.save(adopter);
 	}
@@ -321,7 +327,7 @@ public class AdopterService {
 		veterinarian.setFirstName("Laura");
 		veterinarian.setLastName("Gómez");
 		veterinarian.setEmail("laura.gomez@pets.example");
-		veterinarian.setPassword(SEED_PASSWORD);
+		veterinarian.setPassword(passwordEncoder.encode(SEED_PASSWORD));
 		veterinarian.setPhone("3001112233");
 		veterinarian.setSpecialization("General");
 		veterinarian.setAvailability("Lunes a viernes");
@@ -331,7 +337,7 @@ public class AdopterService {
 		adopterOne.setFirstName("Ana");
 		adopterOne.setLastName("Martínez");
 		adopterOne.setEmail("ana.martinez@pets.example");
-		adopterOne.setPassword(SEED_PASSWORD);
+		adopterOne.setPassword(passwordEncoder.encode(SEED_PASSWORD));
 		adopterOne.setPhone("3102223344");
 		adopterOne.setAddress("Calle 10 # 5-20");
 		adopterOne.setNationalId("CC-1011122233");
@@ -347,7 +353,7 @@ public class AdopterService {
 		adopterTwo.setFirstName("Carlos");
 		adopterTwo.setLastName("Pérez");
 		adopterTwo.setEmail("carlos.perez@mail.com");
-		adopterTwo.setPassword(SEED_PASSWORD);
+		adopterTwo.setPassword(passwordEncoder.encode(SEED_PASSWORD));
 		adopterTwo.setPhone("3055556677");
 		adopterTwo.setAddress("Carrera 15 # 20-30");
 		adopterTwo.setNationalId("CC-1020304050");

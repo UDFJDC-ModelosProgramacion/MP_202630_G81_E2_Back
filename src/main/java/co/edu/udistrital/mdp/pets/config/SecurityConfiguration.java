@@ -48,6 +48,12 @@ public class SecurityConfiguration {
 	@Value("${app.cors.allowed-origins:}")
 	private String allowedOrigins;
 
+	// Integration profile (spring-boot:run on 8999, newman collections, the front
+	// without login) exposes the public API as the team designed it; any other
+	// profile (including prod) keeps the full authentication rules.
+	@Value("${app.security.public-api:false}")
+	private boolean publicApi;
+
 	@Bean
 	AuthenticationProvider authenticationProvider() {
 		DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
@@ -100,16 +106,22 @@ public class SecurityConfiguration {
 				writeError(response, HttpStatus.FORBIDDEN, "You do not have permission to access this resource");
 		http
 				.cors(cors -> cors.configurationSource(corsConfigurationSource))
-				.csrf(csrf -> csrf
-						.csrfTokenRepository(csrfTokenRepository)
-						.csrfTokenRequestHandler(new CsrfTokenRequestAttributeHandler())
-						.withObjectPostProcessor(new ObjectPostProcessor<CsrfFilter>() {
-							@Override
-							public CsrfFilter postProcess(CsrfFilter filter) {
-								filter.setAccessDeniedHandler(accessDeniedHandler);
-								return filter;
-							}
-						}))
+				.csrf(csrf -> {
+					if (publicApi) {
+						csrf.disable();
+						return;
+					}
+					csrf
+							.csrfTokenRepository(csrfTokenRepository)
+							.csrfTokenRequestHandler(new CsrfTokenRequestAttributeHandler())
+							.withObjectPostProcessor(new ObjectPostProcessor<CsrfFilter>() {
+								@Override
+								public CsrfFilter postProcess(CsrfFilter filter) {
+									filter.setAccessDeniedHandler(accessDeniedHandler);
+									return filter;
+								}
+							});
+				})
 				.securityContext(context -> context.securityContextRepository(securityContextRepository))
 				.sessionManagement(session -> session
 						.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
@@ -118,15 +130,21 @@ public class SecurityConfiguration {
 						.authenticationEntryPoint((request, response, exception) ->
 								writeError(response, HttpStatus.UNAUTHORIZED, "Authentication is required"))
 						.accessDeniedHandler(accessDeniedHandler))
-				.authorizeHttpRequests(authorize -> authorize
-						.requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-						.requestMatchers("/auth/csrf", "/auth/login").permitAll()
-						.requestMatchers("/health").permitAll()
-						.requestMatchers(HttpMethod.GET, "/pets", "/pets/**", "/shelters", "/shelters/**",
-								"/veterinarians", "/veterinarians/**", "/vaccines", "/vaccines/**",
-								"/reviews", "/pets/*/reviews/*", "/events", "/events/**").permitAll()
-						.requestMatchers(HttpMethod.POST, "/users", "/adopters").permitAll()
-						.anyRequest().authenticated())
+				.authorizeHttpRequests(authorize -> {
+					if (publicApi) {
+						authorize.anyRequest().permitAll();
+						return;
+					}
+					authorize
+							.requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+							.requestMatchers("/auth/csrf", "/auth/login").permitAll()
+							.requestMatchers("/health").permitAll()
+							.requestMatchers(HttpMethod.GET, "/pets", "/pets/**", "/shelters", "/shelters/**",
+									"/veterinarians", "/veterinarians/**", "/vaccines", "/vaccines/**",
+									"/reviews", "/pets/*/reviews/*", "/events", "/events/**").permitAll()
+							.requestMatchers(HttpMethod.POST, "/users", "/adopters").permitAll()
+							.anyRequest().authenticated();
+				})
 				.logout(logout -> logout
 						.logoutUrl("/auth/logout")
 						.invalidateHttpSession(true)

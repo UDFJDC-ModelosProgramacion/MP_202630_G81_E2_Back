@@ -20,14 +20,18 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.core.annotation.Order;
+import org.springframework.security.access.AccessDeniedException;
 import co.edu.udistrital.mdp.pets.entities.AdopterEntity;
 import co.edu.udistrital.mdp.pets.entities.AdoptionRequestEntity;
 import co.edu.udistrital.mdp.pets.entities.PetEntity;
 import co.edu.udistrital.mdp.pets.entities.ShelterEntity;
+import co.edu.udistrital.mdp.pets.entities.UserEntity;
+import co.edu.udistrital.mdp.pets.entities.UserRole;
 import co.edu.udistrital.mdp.pets.repositories.AdopterRepository;
 import co.edu.udistrital.mdp.pets.repositories.AdoptionRequestRepository;
 import co.edu.udistrital.mdp.pets.repositories.PetRepository;
 import co.edu.udistrital.mdp.pets.repositories.ShelterRepository;
+import co.edu.udistrital.mdp.pets.repositories.UserRepository;
 
 @Slf4j
 @Service
@@ -48,6 +52,7 @@ public class FollowUpService {
 	private final AdopterRepository adopterRepository;
 	private final PetRepository petRepository;
 	private final AdoptionRequestRepository adoptionRequestRepository;
+	private final UserRepository userRepository;
 
 	/**
 	 * Creates a follow-up for a finalized adoption. Validates the date and
@@ -296,6 +301,42 @@ public class FollowUpService {
 	public FollowUpEntity getAdoptionFollowUp(Long adoptionId, Long followUpId)
 			throws EntityNotFoundException, IllegalOperationException {
 		return findAdoptionFollowUp(adoptionId, followUpId);
+	}
+
+	/**
+	 * Consults a follow-up of an adoption on behalf of the authenticated session
+	 * user. The session identity always overrides any client-supplied requester
+	 * parameters, so a logged user cannot impersonate another one through the
+	 * query string; a denied consultation surfaces as access denied (403) while
+	 * membership problems keep their 412.
+	 *
+	 * @param adoptionId     the id of the adoption the follow-up must belong to
+	 * @param followUpId     the id of the follow-up to consult
+	 * @param requesterEmail the email of the authenticated session user
+	 * @return the follow-up
+	 * @throws EntityNotFoundException  if the adoption or the follow-up do not exist
+	 * @throws IllegalOperationException if the follow-up does not belong to the adoption
+	 * @throws AccessDeniedException     if the session user is not authorized
+	 */
+	@Transactional(readOnly = true)
+	public FollowUpEntity getFollowUpForSessionUser(Long adoptionId, Long followUpId, String requesterEmail)
+			throws EntityNotFoundException, IllegalOperationException {
+		findAdoptionOrThrow(adoptionId);
+		UserEntity requester = userRepository.findByEmail(requesterEmail)
+				.orElseThrow(() -> new AccessDeniedException("The session user is not authorized to consult this follow-up"));
+		FollowUpEntity followUp = fetchFollowUpById(followUpId);
+
+		UserRole requesterRole = requester.getRole();
+		boolean isStaff = UserRole.ADMIN.equals(requesterRole) || UserRole.SHELTER_ADMIN.equals(requesterRole);
+		boolean isAssociatedAdopter = followUp.getAdoption() != null && followUp.getAdoption().getAdopter() != null
+				&& requester.getId().equals(followUp.getAdoption().getAdopter().getId());
+		boolean isAssociatedVeterinarian = followUp.getVeterinarian() != null
+				&& requester.getId().equals(followUp.getVeterinarian().getId());
+		if (!isStaff && !isAssociatedAdopter && !isAssociatedVeterinarian)
+			throw new AccessDeniedException("The session user is not authorized to consult this follow-up");
+
+		validateFollowUpBelongsToAdoption(followUp, adoptionId);
+		return followUp;
 	}
 
 	@Transactional

@@ -6,6 +6,8 @@ import org.modelmapper.Converter;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -60,14 +62,29 @@ public class FollowUpController {
     @GetMapping(value = "/{followUpId}")
     @ResponseStatus(code = HttpStatus.OK)
     public FollowUpDTO getFollowUp(@PathVariable Long adoptionId, @PathVariable Long followUpId,
-            @RequestParam(required = false) Long requesterId, @RequestParam(required = false) String role)
+            @RequestParam(required = false) Long requesterId, @RequestParam(required = false) String role,
+            Authentication authentication)
             throws EntityNotFoundException, IllegalOperationException {
-        FollowUpEntity followUpEntity = followUpService.getAdoptionFollowUp(adoptionId, followUpId);
-        if (role != null)
-            followUpEntity = followUpService.getFollowUp(followUpId, requesterId, role);
-        else if (requesterId != null)
-            followUpEntity = followUpService.getFollowUp(followUpId, requesterId);
+        // The session identity wins over any client-supplied requester parameters,
+        // so a logged user cannot impersonate another one through the query string.
+        // Anonymous callers (no login yet on the front) keep the query parameter flow.
+        FollowUpEntity followUpEntity;
+        if (hasSessionIdentity(authentication)) {
+            followUpEntity = followUpService.getFollowUpForSessionUser(adoptionId, followUpId,
+                    authentication.getName());
+        } else {
+            followUpEntity = followUpService.getAdoptionFollowUp(adoptionId, followUpId);
+            if (role != null)
+                followUpEntity = followUpService.getFollowUp(followUpId, requesterId, role);
+            else if (requesterId != null)
+                followUpEntity = followUpService.getFollowUp(followUpId, requesterId);
+        }
         return modelMapper.map(followUpEntity, FollowUpDTO.class);
+    }
+
+    private boolean hasSessionIdentity(Authentication authentication) {
+        return authentication != null && authentication.isAuthenticated()
+                && !(authentication instanceof AnonymousAuthenticationToken);
     }
 
     @PostMapping
