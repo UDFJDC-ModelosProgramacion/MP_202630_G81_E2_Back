@@ -8,6 +8,7 @@ import org.modelmapper.TypeToken;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -71,7 +72,7 @@ public class FollowUpController {
         FollowUpEntity followUpEntity;
         if (hasSessionIdentity(authentication)) {
             followUpEntity = followUpService.getFollowUpForSessionUser(adoptionId, followUpId,
-                    authentication.getName());
+                    authentication.getName(), sessionRoleOf(authentication));
         } else {
             followUpEntity = followUpService.getAdoptionFollowUp(adoptionId, followUpId);
             if (role != null)
@@ -85,6 +86,16 @@ public class FollowUpController {
     private boolean hasSessionIdentity(Authentication authentication) {
         return authentication != null && authentication.isAuthenticated()
                 && !(authentication instanceof AnonymousAuthenticationToken);
+    }
+
+    // "ROLE_ADMIN" (session authority) -> "ADMIN" (service role).
+    private String sessionRoleOf(Authentication authentication) {
+        return authentication.getAuthorities().stream()
+                .map(GrantedAuthority::getAuthority)
+                .filter(authority -> authority.startsWith("ROLE_"))
+                .map(authority -> authority.substring("ROLE_".length()))
+                .findFirst()
+                .orElse(null);
     }
 
     @PostMapping

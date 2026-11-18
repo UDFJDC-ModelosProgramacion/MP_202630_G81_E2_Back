@@ -26,7 +26,6 @@ import co.edu.udistrital.mdp.pets.entities.AdoptionRequestEntity;
 import co.edu.udistrital.mdp.pets.entities.PetEntity;
 import co.edu.udistrital.mdp.pets.entities.ShelterEntity;
 import co.edu.udistrital.mdp.pets.entities.UserEntity;
-import co.edu.udistrital.mdp.pets.entities.UserRole;
 import co.edu.udistrital.mdp.pets.repositories.AdopterRepository;
 import co.edu.udistrital.mdp.pets.repositories.AdoptionRequestRepository;
 import co.edu.udistrital.mdp.pets.repositories.PetRepository;
@@ -40,6 +39,9 @@ public class FollowUpService {
 
 	private static final String FINALIZED_STATUS = "FINALIZED";
 	private static final String ADMIN_ROLE = "ADMIN";
+	private static final String SHELTER_ADMIN_ROLE = "SHELTER_ADMIN";
+	private static final String SESSION_USER_UNAUTHORIZED =
+			"The session user is not authorized to consult this follow-up";
 
 	private static final String FOLLOW_UP_ID_INVALID = "Follow-up id is not valid";
 	private static final String FOLLOW_UP_NOT_FOUND = "Follow-up not found";
@@ -313,27 +315,31 @@ public class FollowUpService {
 	 * @param adoptionId     the id of the adoption the follow-up must belong to
 	 * @param followUpId     the id of the follow-up to consult
 	 * @param requesterEmail the email of the authenticated session user
+	 * @param requesterRole  the role derived from the session authorities
 	 * @return the follow-up
 	 * @throws EntityNotFoundException  if the adoption or the follow-up do not exist
 	 * @throws IllegalOperationException if the follow-up does not belong to the adoption
 	 * @throws AccessDeniedException     if the session user is not authorized
 	 */
 	@Transactional(readOnly = true)
-	public FollowUpEntity getFollowUpForSessionUser(Long adoptionId, Long followUpId, String requesterEmail)
-			throws EntityNotFoundException, IllegalOperationException {
+	public FollowUpEntity getFollowUpForSessionUser(Long adoptionId, Long followUpId, String requesterEmail,
+			String requesterRole) throws EntityNotFoundException, IllegalOperationException {
 		findAdoptionOrThrow(adoptionId);
-		UserEntity requester = userRepository.findByEmail(requesterEmail)
-				.orElseThrow(() -> new AccessDeniedException("The session user is not authorized to consult this follow-up"));
 		FollowUpEntity followUp = fetchFollowUpById(followUpId);
 
-		UserRole requesterRole = requester.getRole();
-		boolean isStaff = UserRole.ADMIN.equals(requesterRole) || UserRole.SHELTER_ADMIN.equals(requesterRole);
-		boolean isAssociatedAdopter = followUp.getAdoption() != null && followUp.getAdoption().getAdopter() != null
-				&& requester.getId().equals(followUp.getAdoption().getAdopter().getId());
-		boolean isAssociatedVeterinarian = followUp.getVeterinarian() != null
-				&& requester.getId().equals(followUp.getVeterinarian().getId());
-		if (!isStaff && !isAssociatedAdopter && !isAssociatedVeterinarian)
-			throw new AccessDeniedException("The session user is not authorized to consult this follow-up");
+		boolean isStaff = ADMIN_ROLE.equalsIgnoreCase(requesterRole)
+				|| SHELTER_ADMIN_ROLE.equalsIgnoreCase(requesterRole);
+		if (!isStaff) {
+			UserEntity requester = userRepository.findByEmail(requesterEmail)
+					.orElseThrow(() -> new AccessDeniedException(SESSION_USER_UNAUTHORIZED));
+			boolean isAssociatedAdopter = followUp.getAdoption() != null
+					&& followUp.getAdoption().getAdopter() != null
+					&& requester.getId().equals(followUp.getAdoption().getAdopter().getId());
+			boolean isAssociatedVeterinarian = followUp.getVeterinarian() != null
+					&& requester.getId().equals(followUp.getVeterinarian().getId());
+			if (!isAssociatedAdopter && !isAssociatedVeterinarian)
+				throw new AccessDeniedException(SESSION_USER_UNAUTHORIZED);
+		}
 
 		validateFollowUpBelongsToAdoption(followUp, adoptionId);
 		return followUp;
