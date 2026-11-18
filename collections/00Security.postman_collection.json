@@ -1,0 +1,268 @@
+{
+	"info": {
+		"name": "Security",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"const csrfToken = pm.environment.get(\"csrfToken\");",
+					"if (csrfToken && [\"POST\", \"PUT\", \"PATCH\", \"DELETE\"].includes(pm.request.method.toUpperCase())) {",
+					"    pm.request.headers.upsert({ key: \"X-XSRF-TOKEN\", value: csrfToken });",
+					"}"
+				]
+			}
+		}
+	],
+	"item": [
+		{
+			"name": "401 - protected endpoint without a session",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/users/1",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"users",
+						"1"
+					]
+				}
+			},
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Protected endpoint requires authentication\", function () {",
+							"    pm.response.to.have.status(401);",
+							"    pm.expect(pm.response.json().apierror.message).to.eql(\"Authentication is required\");",
+							"});"
+						]
+					}
+				}
+			],
+			"response": []
+		},
+		{
+			"name": "Get CSRF token",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/auth/csrf",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"auth",
+						"csrf"
+					]
+				}
+			},
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"CSRF token is available\", function () {",
+							"    pm.response.to.have.status(200);",
+							"    pm.expect(pm.response.json().token).to.be.a(\"string\").and.not.empty;",
+							"});",
+							"pm.environment.set(\"csrfToken\", pm.response.json().token);"
+						]
+					}
+				}
+			],
+			"response": []
+		},
+		{
+			"name": "Register an adopter for the 403 case",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"firstName\": \"Newman\",\n  \"lastName\": \"Adopter\",\n  \"email\": \"{{newmanAdopterEmail}}\",\n  \"phone\": \"3001234567\",\n  \"password\": \"{{newmanAdopterPassword}}\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/users",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"users"
+					]
+				}
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"pm.environment.set(\"newmanAdopterEmail\", \"newman-adopter-\" + Date.now() + \"@example.test\");",
+							"pm.environment.set(\"newmanAdopterPassword\", \"Newman-Adopter-Test-2026!\");"
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Adopter registration succeeds\", function () {",
+							"    pm.response.to.have.status(201);",
+							"    pm.expect(pm.response.json().password).to.be.undefined;",
+							"});"
+						]
+					}
+				}
+			],
+			"response": []
+		},
+		{
+			"name": "Login as adopter",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"email\": \"{{newmanAdopterEmail}}\",\n  \"password\": \"{{newmanAdopterPassword}}\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/auth/login",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"auth",
+						"login"
+					]
+				}
+			},
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Adopter login creates an adopter session\", function () {",
+							"    pm.response.to.have.status(200);",
+							"    pm.expect(pm.response.json().role).to.eql(\"ADOPTER\");",
+							"    pm.expect(pm.response.json().shelterId).to.eql(null);",
+							"});"
+						]
+					}
+				}
+			],
+			"response": []
+		},
+		{
+			"name": "403 - adopter cannot list all adopters",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/adopters",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"adopters"
+					]
+				}
+			},
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Authenticated adopter is denied the admin-only listing\", function () {",
+							"    pm.response.to.have.status(403);",
+							"    pm.expect(pm.response.json().apierror.message).to.eql(\"You do not have permission to access this resource\");",
+							"});"
+						]
+					}
+				}
+			],
+			"response": []
+		},
+		{
+			"name": "Login as integration administrator",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"email\": \"{{adminEmail}}\",\n  \"password\": \"{{adminPassword}}\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/auth/login",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"auth",
+						"login"
+					]
+				}
+			},
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Administrator login is ready for the protected API flows\", function () {",
+							"    pm.response.to.have.status(200);",
+							"    pm.expect(pm.response.json().role).to.eql(\"ADMIN\");",
+							"    pm.expect(pm.response.json().shelterId).to.eql(null);",
+							"    pm.expect(pm.response.json().password).to.be.undefined;",
+							"});"
+						]
+					}
+				}
+			],
+			"response": []
+		}
+	]
+}

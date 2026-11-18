@@ -24,8 +24,8 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 public class ShelterService {
 
-	private static final String SHELTER_ID_NOT_VALID = "Shelter id is not valid";
-	private static final String SHELTER_NOT_FOUND = "Shelter not found";
+	private static final String SHELTER_ID_NOT_VALID = "El id del refugio no es válido";
+	private static final String SHELTER_NOT_FOUND = "Refugio no encontrado";
 
 	private final ShelterRepository shelterRepository;
 	private final AdoptionRepository adoptionRepository;
@@ -40,17 +40,17 @@ public class ShelterService {
 		boolean nitAlreadyUsed = shelterRepository.findAll().stream()
 				.anyMatch(s -> s.getNit() != null && s.getNit().equalsIgnoreCase(shelter.getNit()));
 		if (nitAlreadyUsed)
-			throw new IllegalOperationException("The nit is already registered for another shelter");
+			throw new IllegalOperationException("El NIT ya está registrado para otro refugio");
 
 		boolean duplicated = shelterRepository.findAll().stream().anyMatch(s -> isSameShelter(s, shelter));
 		if (duplicated)
 			throw new IllegalOperationException(
-					"A shelter already exists with the same name, city and location");
+					"Ya existe un refugio con el mismo nombre, ciudad y dirección");
 
 		List<UserEntity> users = shelter.getUsers() == null ? new ArrayList<>() : shelter.getUsers();
 		if (users.isEmpty())
 			throw new IllegalOperationException(
-					"A shelter must be associated with at least one user responsible for its administration");
+					"El refugio debe estar asociado a al menos un usuario responsable de su administración");
 
 		log.info("Shelter creation process ends");
 		return shelterRepository.save(shelter);
@@ -126,14 +126,14 @@ public class ShelterService {
 
 		if (shelter.getNit() != null && !shelter.getNit().equalsIgnoreCase(current.getNit()))
 			throw new IllegalOperationException(
-					"The nit cannot be modified once the shelter has been created");
+					"El NIT no se puede modificar una vez creado el refugio");
 
 		boolean duplicated = shelterRepository.findAll().stream()
 				.filter(s -> !s.getId().equals(shelterId))
 				.anyMatch(s -> isSameShelter(s, shelter));
 		if (duplicated)
 			throw new IllegalOperationException(
-					"A shelter already exists with the same name, city and location");
+					"Ya existe un refugio con el mismo nombre, ciudad y dirección");
 
 		shelter.setId(shelterId);
 		shelter.setNit(current.getNit());
@@ -185,7 +185,7 @@ public class ShelterService {
 				.filter(p -> p.getShelter() != null && p.getShelter().getId().equals(shelterId))
 				.toList();
 		if (!pets.isEmpty())
-			throw new IllegalOperationException("A shelter with pets currently under its care cannot be deleted");
+			throw new IllegalOperationException("No se puede eliminar un refugio que tiene mascotas bajo su cuidado");
 	}
 
 	private void validateNoActiveProcesses(ShelterEntity current, List<AdoptionEntity> adoptions)
@@ -196,7 +196,7 @@ public class ShelterService {
 				|| adoptions.stream().anyMatch(a -> a.getReturnAfterAdoption() == null);
 		if (hasActiveProcesses)
 			throw new IllegalOperationException(
-					"A shelter with active associated processes in progress cannot be deleted");
+					"No se puede eliminar un refugio con procesos asociados activos en curso");
 	}
 
 	private void validateNoHistory(ShelterEntity current, List<AdoptionEntity> adoptions)
@@ -207,18 +207,18 @@ public class ShelterService {
 				|| (current.getReturnsDuringTrial() != null && !current.getReturnsDuringTrial().isEmpty());
 		if (hasHistory)
 			throw new IllegalOperationException(
-					"A shelter with associated history cannot be deleted, in order to maintain traceability");
+					"No se puede eliminar un refugio con historial asociado, para mantener la trazabilidad");
 	}
 
 	private void validateMandatoryAttributes(ShelterEntity shelter) throws IllegalOperationException {
 		if (shelter.getName() == null || shelter.getName().isBlank())
-			throw new IllegalOperationException("Name cannot be null or empty");
+			throw new IllegalOperationException("El nombre no puede ser nulo ni estar vacío");
 		if (shelter.getCity() == null || shelter.getCity().isBlank())
-			throw new IllegalOperationException("City cannot be null or empty");
+			throw new IllegalOperationException("La ciudad no puede ser nula ni estar vacía");
 		if (shelter.getLocation() == null || shelter.getLocation().isBlank())
-			throw new IllegalOperationException("Location cannot be null or empty");
+			throw new IllegalOperationException("La dirección no puede ser nula ni estar vacía");
 		if (shelter.getNit() == null || shelter.getNit().isBlank())
-			throw new IllegalOperationException("Nit cannot be null or empty");
+			throw new IllegalOperationException("El NIT no puede ser nulo ni estar vacío");
 	}
 
 	private boolean isSameShelter(ShelterEntity s1, ShelterEntity s2) {

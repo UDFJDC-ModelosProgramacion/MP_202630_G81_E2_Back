@@ -2,6 +2,7 @@ package co.edu.udistrital.mdp.pets.services;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -16,8 +17,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.context.annotation.Import;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 
+import co.edu.udistrital.mdp.pets.config.PasswordEncoderConfig;
 import co.edu.udistrital.mdp.pets.entities.AdopterEntity;
 import co.edu.udistrital.mdp.pets.entities.AdoptionEntity;
 import co.edu.udistrital.mdp.pets.entities.AdoptionRequestEntity;
@@ -25,6 +28,7 @@ import co.edu.udistrital.mdp.pets.entities.MessageEntity;
 import co.edu.udistrital.mdp.pets.entities.PetEntity;
 import co.edu.udistrital.mdp.pets.entities.TrialCohabitationEntity;
 import co.edu.udistrital.mdp.pets.entities.UserEntity;
+import co.edu.udistrital.mdp.pets.entities.UserRole;
 import co.edu.udistrital.mdp.pets.exceptions.EntityNotFoundException;
 import co.edu.udistrital.mdp.pets.exceptions.IllegalOperationException;
 import uk.co.jemos.podam.api.PodamFactory;
@@ -32,7 +36,7 @@ import uk.co.jemos.podam.api.PodamFactoryImpl;
 
 @DataJpaTest
 @Transactional
-@Import(UserService.class)
+@Import({ UserService.class, PasswordEncoderConfig.class })
 class UserServiceTest {
 
 	private static final String PASSWORD = "Str0ngPass";
@@ -43,6 +47,9 @@ class UserServiceTest {
 
 	@Autowired
 	private TestEntityManager entityManager;
+
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 
 	private PodamFactory factory = new PodamFactoryImpl();
 
@@ -114,6 +121,9 @@ class UserServiceTest {
 		assertNotNull(result.getId());
 		UserEntity stored = entityManager.find(UserEntity.class, result.getId());
 		assertEquals("new@pets.com", stored.getEmail());
+		assertNotNull(stored.getPassword());
+		assertTrue(passwordEncoder.matches(PASSWORD, stored.getPassword()));
+		assertNotEquals(PASSWORD, stored.getPassword());
 	}
 
 	@Test
@@ -310,6 +320,16 @@ class UserServiceTest {
 		assertThrows(IllegalOperationException.class, () -> userService.deleteUser(null));
 		assertThrows(IllegalOperationException.class, () -> userService.deleteUser(0L));
 		assertThrows(IllegalOperationException.class, () -> userService.deleteUser(-1L));
+	}
+
+	@Test
+	void testDeleteLastAdministratorIsRejected() {
+		UserEntity administrator = userList.get(0);
+		administrator.setRole(UserRole.ADMIN);
+		entityManager.flush();
+
+		assertThrows(IllegalOperationException.class, () -> userService.deleteUser(administrator.getId()));
+		assertNotNull(entityManager.find(UserEntity.class, administrator.getId()));
 	}
 
 	@Test

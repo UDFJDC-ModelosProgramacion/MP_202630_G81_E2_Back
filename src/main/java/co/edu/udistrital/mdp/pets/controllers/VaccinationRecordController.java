@@ -5,6 +5,7 @@ import java.util.List;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -34,6 +35,7 @@ public class VaccinationRecordController {
 
     
     @GetMapping
+    @PreAuthorize("hasRole('ADMIN')")
     @ResponseStatus(code = HttpStatus.OK)
     public List<VaccinationRecordDetailDTO> findAll() {
         List<VaccinationRecordEntity> records = vaccinationRecordService.getVaccinationRecords();
@@ -43,6 +45,7 @@ public class VaccinationRecordController {
 
     
     @GetMapping(value = "/{id}")
+    @PreAuthorize("hasRole('ADMIN') or @authorizationService.canAccessVaccinationRecord(authentication, #id)")
     @ResponseStatus(code = HttpStatus.OK)
     public VaccinationRecordDetailDTO findOne(@PathVariable Long id)
             throws EntityNotFoundException, IllegalOperationException {
@@ -52,6 +55,7 @@ public class VaccinationRecordController {
 
     
     @GetMapping(value = "/pet/{petId}")
+    @PreAuthorize("hasRole('ADMIN') or @authorizationService.canAccessClinicalPet(authentication, #petId)")
     @ResponseStatus(code = HttpStatus.OK)
     public VaccinationRecordDetailDTO findByPet(@PathVariable Long petId) throws EntityNotFoundException {
         VaccinationRecordEntity entity = vaccinationRecordService.getVaccinationRecordByPet(petId);
@@ -60,6 +64,7 @@ public class VaccinationRecordController {
 
     
     @PostMapping
+    @PreAuthorize("hasRole('ADMIN') or @authorizationService.canCreateVaccinationRecord(authentication, #dto)")
     @ResponseStatus(code = HttpStatus.CREATED)
     public VaccinationRecordDTO create(@RequestBody VaccinationRecordDTO dto)
             throws EntityNotFoundException, IllegalOperationException {
@@ -70,6 +75,7 @@ public class VaccinationRecordController {
 
     
     @PutMapping(value = "/{id}")
+    @PreAuthorize("hasRole('ADMIN') or @authorizationService.canAccessVaccinationRecord(authentication, #id)")
     @ResponseStatus(code = HttpStatus.OK)
     public VaccinationRecordDTO update(@PathVariable Long id, @RequestBody VaccinationRecordDTO dto)
             throws EntityNotFoundException, IllegalOperationException {
@@ -80,6 +86,7 @@ public class VaccinationRecordController {
 
     
     @DeleteMapping(value = "/{id}")
+    @PreAuthorize("hasRole('ADMIN') or @authorizationService.canAccessVaccinationRecord(authentication, #id)")
     @ResponseStatus(code = HttpStatus.NO_CONTENT)
     public void delete(@PathVariable Long id) throws EntityNotFoundException, IllegalOperationException {
         vaccinationRecordService.deleteVaccinationRecord(id);

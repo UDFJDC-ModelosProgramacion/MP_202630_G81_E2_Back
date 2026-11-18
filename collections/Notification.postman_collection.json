@@ -30,7 +30,7 @@
 						},
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"firstName\": \"Laura\",\n    \"lastName\": \"Gomez\",\n    \"email\": \"{{user_email_1}}\",\n    \"phone\": \"3001234567\",\n    \"specialization\": \"Medicina general\",\n    \"availability\": \"Lunes a viernes 8:00-17:00\"\n}",
+							"raw": "{\n    \"firstName\": \"Laura\",\n    \"lastName\": \"Gomez\",\n    \"email\": \"{{user_email_1}}\",\n    \"phone\": \"3001234567\",\n    \"specialization\": \"Medicina general\",\n    \"availability\": \"Lunes a viernes 8:00-17:00\",\n    \"password\": \"{{newmanVeterinarianPassword}}\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -44,7 +44,8 @@
 							"listen": "prerequest",
 							"script": {
 								"exec": [
-									"pm.globals.set(\"user_email_1\", \"usuario1.\" + Date.now() + \"@patitas.org\");"
+									"pm.globals.set(\"user_email_1\", \"usuario1.\" + Date.now() + \"@patitas.org\");",
+									"pm.environment.set(\"newmanVeterinarianPassword\", \"Vet-\" + Date.now() + \"-Test!\");"
 								],
 								"type": "text/javascript"
 							}
@@ -87,7 +88,7 @@
 						},
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"firstName\": \"Camilo\",\n    \"lastName\": \"Ruiz\",\n    \"email\": \"{{user_email_2}}\",\n    \"phone\": \"3001234567\",\n    \"specialization\": \"Cirugia\",\n    \"availability\": \"Lunes a viernes 8:00-17:00\"\n}",
+							"raw": "{\n    \"firstName\": \"Camilo\",\n    \"lastName\": \"Ruiz\",\n    \"email\": \"{{user_email_2}}\",\n    \"phone\": \"3001234567\",\n    \"specialization\": \"Cirugia\",\n    \"availability\": \"Lunes a viernes 8:00-17:00\",\n    \"password\": \"{{newmanVeterinarianPassword}}\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -101,7 +102,8 @@
 							"listen": "prerequest",
 							"script": {
 								"exec": [
-									"pm.globals.set(\"user_email_2\", \"usuario2.\" + Date.now() + \"@patitas.org\");"
+									"pm.globals.set(\"user_email_2\", \"usuario2.\" + Date.now() + \"@patitas.org\");",
+									"pm.environment.set(\"newmanVeterinarianPassword\", \"Vet-\" + Date.now() + \"-Test!\");"
 								],
 								"type": "text/javascript"
 							}
@@ -1716,6 +1718,20 @@
 					]
 				}
 			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"const csrfToken = pm.environment.get(\"csrfToken\");",
+					"if (csrfToken && [\"POST\", \"PUT\", \"PATCH\", \"DELETE\"].includes(pm.request.method.toUpperCase())) {",
+					"    pm.request.headers.upsert({ key: \"X-XSRF-TOKEN\", value: csrfToken });",
+					"}"
+				]
+			}
 		}
 	]
 }

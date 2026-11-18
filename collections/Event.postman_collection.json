@@ -1495,7 +1495,11 @@
 					"   pm.collectionVariables.set(\"run_id\", Date.now().toString(36));",
 					"}",
 					"pm.collectionVariables.set(\"day_future_30\", iso(30).substring(0, 10));",
-					"pm.collectionVariables.set(\"day_future_60\", iso(60).substring(0, 10));"
+					"pm.collectionVariables.set(\"day_future_60\", iso(60).substring(0, 10));",
+					"const csrfToken = pm.environment.get(\"csrfToken\");",
+					"if (csrfToken && [\"POST\", \"PUT\", \"PATCH\", \"DELETE\"].includes(pm.request.method.toUpperCase())) {",
+					"    pm.request.headers.upsert({ key: \"X-XSRF-TOKEN\", value: csrfToken });",
+					"}"
 				]
 			}
 		}

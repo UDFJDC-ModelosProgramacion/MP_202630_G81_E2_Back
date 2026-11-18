@@ -7,6 +7,7 @@ import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -34,6 +35,7 @@ public class NotificationController {
     private final ModelMapper modelMapper;
 
     @GetMapping
+    @PreAuthorize("hasRole('ADMIN') or @authorizationService.canAccessUser(authentication, #userId)")
     @ResponseStatus(code = HttpStatus.OK)
     public List<NotificationDTO> getNotifications(@PathVariable Long userId,
             @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date startDate,
@@ -45,6 +47,7 @@ public class NotificationController {
     }
 
     @GetMapping(value = "/{notificationId}")
+    @PreAuthorize("hasRole('ADMIN') or @authorizationService.canAccessUser(authentication, #userId)")
     @ResponseStatus(code = HttpStatus.OK)
     public NotificationDTO getNotification(@PathVariable Long userId, @PathVariable Long notificationId)
             throws EntityNotFoundException, IllegalOperationException {
@@ -53,6 +56,7 @@ public class NotificationController {
     }
 
     @PostMapping
+    @PreAuthorize("hasRole('ADMIN') or @authorizationService.canAccessUser(authentication, #userId)")
     @ResponseStatus(code = HttpStatus.CREATED)
     public NotificationDTO createNotification(@PathVariable Long userId, @RequestBody NotificationDTO dto)
             throws EntityNotFoundException, IllegalOperationException {
@@ -62,6 +66,7 @@ public class NotificationController {
     }
 
     @PutMapping(value = "/{notificationId}")
+    @PreAuthorize("hasRole('ADMIN') or @authorizationService.canAccessUser(authentication, #userId)")
     @ResponseStatus(code = HttpStatus.OK)
     public NotificationDTO updateNotification(@PathVariable Long userId, @PathVariable Long notificationId,
             @RequestBody NotificationDTO dto) throws EntityNotFoundException, IllegalOperationException {
@@ -71,6 +76,7 @@ public class NotificationController {
     }
 
     @DeleteMapping(value = "/{notificationId}")
+    @PreAuthorize("hasRole('ADMIN') or @authorizationService.canAccessUser(authentication, #userId)")
     @ResponseStatus(code = HttpStatus.NO_CONTENT)
     public void deleteNotification(@PathVariable Long userId, @PathVariable Long notificationId)
             throws EntityNotFoundException, IllegalOperationException {

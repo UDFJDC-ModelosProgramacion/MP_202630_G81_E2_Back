@@ -4,10 +4,13 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import co.edu.udistrital.mdp.pets.entities.UserEntity;
+import co.edu.udistrital.mdp.pets.entities.UserRole;
+import co.edu.udistrital.mdp.pets.entities.VeterinarianEntity;
 import co.edu.udistrital.mdp.pets.exceptions.EntityNotFoundException;
 import co.edu.udistrital.mdp.pets.exceptions.IllegalOperationException;
 import co.edu.udistrital.mdp.pets.repositories.AdoptionRepository;
@@ -15,6 +18,7 @@ import co.edu.udistrital.mdp.pets.repositories.AdoptionRequestRepository;
 import co.edu.udistrital.mdp.pets.repositories.MessageRepository;
 import co.edu.udistrital.mdp.pets.repositories.TrialCohabitationRepository;
 import co.edu.udistrital.mdp.pets.repositories.UserRepository;
+import co.edu.udistrital.mdp.pets.repositories.ShelterRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -38,6 +42,8 @@ public class UserService {
 	private final AdoptionRequestRepository adoptionRequestRepository;
 	private final AdoptionRepository adoptionRepository;
 	private final TrialCohabitationRepository trialCohabitationRepository;
+	private final ShelterRepository shelterRepository;
+	private final PasswordEncoder passwordEncoder;
 
 	@Transactional
 	public UserEntity createUser(UserEntity user) throws IllegalOperationException {
@@ -51,12 +57,50 @@ public class UserService {
 			throw new IllegalOperationException(
 					"The password must meet the minimum security requirements (at least 8 characters)");
 
-		if (userRepository.findByEmail(user.getEmail()).isPresent())
+		if (userRepository.findAll().stream()
+				.anyMatch(existing -> existing.getEmail() != null
+						&& existing.getEmail().equalsIgnoreCase(user.getEmail())))
 			throw new IllegalOperationException("The email address must be unique in the system");
 
 		user.setId(null);
+		user.setRole(UserRole.ADOPTER);
+		user.setShelter(null);
+		user.setPassword(passwordEncoder.encode(user.getPassword()));
 
 		log.info("Termina proceso de creación del usuario");
+		return userRepository.save(user);
+	}
+
+	@Transactional
+	public UserEntity assignRole(Long id, UserRole role, Long shelterId, String password)
+			throws EntityNotFoundException, IllegalOperationException {
+		if (id == null || id <= 0)
+			throw new IllegalOperationException(USER_ID_NOT_VALID);
+		if (role == null)
+			throw new IllegalOperationException("A role is required");
+		UserEntity user = userRepository.findById(id)
+				.orElseThrow(() -> new EntityNotFoundException(USER_NOT_FOUND));
+		if ((role == UserRole.SHELTER_ADMIN || role == UserRole.VETERINARIAN) && shelterId == null)
+			throw new IllegalOperationException("Shelter-scoped roles must be assigned to a shelter");
+		if (role != UserRole.SHELTER_ADMIN && role != UserRole.VETERINARIAN && shelterId != null)
+			throw new IllegalOperationException("Only shelter-scoped roles may be assigned to a shelter");
+		if (role == UserRole.VETERINARIAN && !(user instanceof VeterinarianEntity))
+			throw new IllegalOperationException("Only a veterinarian profile can receive the veterinarian role");
+		if (role == UserRole.VETERINARIAN && (password == null || password.length() < MIN_PASSWORD_LENGTH))
+			throw new IllegalOperationException("A veterinarian password of at least 8 characters is required");
+		if (role != UserRole.VETERINARIAN && password != null)
+			throw new IllegalOperationException("A password can only be set while assigning the veterinarian role");
+		if (user.getRole() == UserRole.ADMIN && role != UserRole.ADMIN
+				&& userRepository.countByRole(UserRole.ADMIN) <= 1)
+			throw new IllegalOperationException("The last administrator cannot be demoted");
+
+		user.setRole(role);
+		user.setShelter(role == UserRole.SHELTER_ADMIN || role == UserRole.VETERINARIAN
+				? shelterRepository.findById(shelterId)
+						.orElseThrow(() -> new EntityNotFoundException("Shelter not found"))
+				: null);
+		if (role == UserRole.VETERINARIAN)
+			user.setPassword(passwordEncoder.encode(password));
 		return userRepository.save(user);
 	}
 
@@ -121,8 +165,11 @@ public class UserService {
 
 		UserEntity current = userRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(USER_NOT_FOUND));
 
-		Optional<UserEntity> userWithEmail = userRepository.findByEmail(userUpdate.getEmail());
-		if (userWithEmail.isPresent() && !userWithEmail.get().getId().equals(id))
+		boolean emailUsedByAnotherUser = userRepository.findAll().stream()
+				.anyMatch(existing -> existing.getEmail() != null
+						&& existing.getEmail().equalsIgnoreCase(userUpdate.getEmail())
+						&& !existing.getId().equals(id));
+		if (emailUsedByAnotherUser)
 			throw new IllegalOperationException(
 					"The email address cannot be updated to one that already belongs to another user");
 
@@ -143,6 +190,9 @@ public class UserService {
 			throw new IllegalOperationException(USER_ID_NOT_VALID);
 
 		UserEntity user = userRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(USER_NOT_FOUND));
+
+		if (user.getRole() == UserRole.ADMIN && userRepository.countByRole(UserRole.ADMIN) <= 1)
+			throw new IllegalOperationException("The last administrator cannot be deleted");
 
 		if (hasActiveAdoptionProcesses(id))
 			throw new IllegalOperationException("A user with active adoption processes cannot be deleted");

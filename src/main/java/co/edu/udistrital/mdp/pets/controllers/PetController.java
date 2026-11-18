@@ -5,6 +5,7 @@ import java.util.List;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -59,6 +60,7 @@ public class PetController {
 
     // create method
     @PostMapping
+    @PreAuthorize("hasRole('ADMIN') or @authorizationService.canCreatePet(authentication, #petDTO)")
     @ResponseStatus(code = HttpStatus.CREATED)
     public PetDetailDTO create(@RequestBody PetDetailDTO petDTO) throws IllegalOperationException, EntityNotFoundException {
         PetEntity petEntity = petService.createPet(modelMapper.map(petDTO, PetEntity.class));
@@ -67,6 +69,7 @@ public class PetController {
 
     // update method
     @PutMapping(value = "/{id}")
+    @PreAuthorize("hasRole('ADMIN') or @authorizationService.canUpdatePet(authentication, #id, #petDTO)")
     @ResponseStatus(code = HttpStatus.OK)
     public PetDTO update(@PathVariable Long id, @RequestBody PetDTO petDTO) throws EntityNotFoundException, IllegalOperationException {
         PetEntity petEntity = petService.updatePet(id, modelMapper.map(petDTO, PetEntity.class));
@@ -75,6 +78,7 @@ public class PetController {
 
     // delete method
     @DeleteMapping(value = "/{id}")
+    @PreAuthorize("hasRole('ADMIN') or @authorizationService.canManagePet(authentication, #id)")
     @ResponseStatus(code = HttpStatus.NO_CONTENT)
     public void delete(@PathVariable Long id) throws EntityNotFoundException, IllegalOperationException {
         petService.deletePet(id);

@@ -1187,7 +1187,7 @@
 						},
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"name\": \"Evento pasado\",\n    \"type\": \"Adopcion\",\n    \"date\": \"{{d_past_1}}\",\n    \"time\": \"10:00\",\n    \"description\": \"Jornada abierta al publico\",\n    \"location\": \"Parque Central\"\n}",
+							"raw": "{\n    \"name\": \"Evento pasado\",\n    \"type\": \"Adopcion\",\n    \"date\": \"{{d_past_400}}\",\n    \"time\": \"10:00\",\n    \"description\": \"Jornada abierta al publico\",\n    \"location\": \"Parque Central\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1219,7 +1219,7 @@
 								},
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"name\": \"Evento pasado\",\n    \"type\": \"Adopcion\",\n    \"date\": \"{{d_past_1}}\",\n    \"time\": \"10:00\",\n    \"description\": \"Jornada abierta al publico\",\n    \"location\": \"Parque Central\"\n}",
+									"raw": "{\n    \"name\": \"Evento pasado\",\n    \"type\": \"Adopcion\",\n    \"date\": \"{{d_past_400}}\",\n    \"time\": \"10:00\",\n    \"description\": \"Jornada abierta al publico\",\n    \"location\": \"Parque Central\"\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -2718,7 +2718,7 @@
 						},
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"name\": \"Jornada de adopcion\",\n    \"type\": \"Adopcion\",\n    \"date\": \"{{d_past_1}}\",\n    \"time\": \"11:30\",\n    \"description\": \"Jornada ampliada\",\n    \"location\": \"Plaza Mayor\"\n}",
+							"raw": "{\n    \"name\": \"Jornada de adopcion\",\n    \"type\": \"Adopcion\",\n    \"date\": \"{{d_past_400}}\",\n    \"time\": \"11:30\",\n    \"description\": \"Jornada ampliada\",\n    \"location\": \"Plaza Mayor\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -2751,7 +2751,7 @@
 								},
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"name\": \"Jornada de adopcion\",\n    \"type\": \"Adopcion\",\n    \"date\": \"{{d_past_1}}\",\n    \"time\": \"11:30\",\n    \"description\": \"Jornada ampliada\",\n    \"location\": \"Plaza Mayor\"\n}",
+									"raw": "{\n    \"name\": \"Jornada de adopcion\",\n    \"type\": \"Adopcion\",\n    \"date\": \"{{d_past_400}}\",\n    \"time\": \"11:30\",\n    \"description\": \"Jornada ampliada\",\n    \"location\": \"Plaza Mayor\"\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -2816,7 +2816,7 @@
 						"description": "Duplica al evento 1 ya editado (mismo refugio, nombre, ubicacion y fecha).",
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"name\": \"Jornada de adopcion\",\n    \"type\": \"Salud\",\n    \"date\": \"{{d_future_30}}\",\n    \"time\": \"09:00\",\n    \"description\": \"Campana de vacunacion\",\n    \"location\": \"Plaza Mayor\"\n}",
+							"raw": "{\n    \"name\": \"Jornada de adopcion\",\n    \"type\": \"Adopcion\",\n    \"date\": \"{{d_future_30}}\",\n    \"time\": \"11:30\",\n    \"description\": \"Jornada ampliada\",\n    \"location\": \"Plaza Mayor\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -2850,7 +2850,7 @@
 								"description": "Duplica al evento 1 ya editado (mismo refugio, nombre, ubicacion y fecha).",
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"name\": \"Jornada de adopcion\",\n    \"type\": \"Salud\",\n    \"date\": \"{{d_future_30}}\",\n    \"time\": \"09:00\",\n    \"description\": \"Campana de vacunacion\",\n    \"location\": \"Plaza Mayor\"\n}",
+									"raw": "{\n    \"name\": \"Jornada de adopcion\",\n    \"type\": \"Adopcion\",\n    \"date\": \"{{d_future_30}}\",\n    \"time\": \"11:30\",\n    \"description\": \"Jornada ampliada\",\n    \"location\": \"Plaza Mayor\"\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -3006,7 +3006,7 @@
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"09-10-2026 10:00:00\",\n        \"message\": \"A shelter with associated history cannot be deleted, in order to maintain traceability\"\n    }\n}"
+							"body": "{\n    \"apierror\": {\n        \"status\": \"PRECONDITION_FAILED\",\n        \"timestamp\": \"09-10-2026 10:00:00\",\n        \"message\": \"No se puede eliminar un refugio con historial asociado, para mantener la trazabilidad\"\n    }\n}"
 						}
 					],
 					"event": [
@@ -3021,7 +3021,7 @@
 									"pm.test(\"Get expected error message\", function () {",
 									"   var data = pm.response.json();",
 									"   pm.expect(data.apierror.status).to.eql(\"PRECONDITION_FAILED\");",
-									"   pm.expect(data.apierror.message).to.eql(\"A shelter with associated history cannot be deleted, in order to maintain traceability\");",
+									"   pm.expect(data.apierror.message).to.eql(\"No se puede eliminar un refugio con historial asociado, para mantener la trazabilidad\");",
 									"});"
 								]
 							}
@@ -3876,6 +3876,10 @@
 					"pm.collectionVariables.set(\"d_future_365\", iso(365));",
 					"if (!pm.collectionVariables.get(\"run_id\")) {",
 					"   pm.collectionVariables.set(\"run_id\", Date.now().toString(36));",
+					"}",
+					"const csrfToken = pm.environment.get(\"csrfToken\");",
+					"if (csrfToken && [\"POST\", \"PUT\", \"PATCH\", \"DELETE\"].includes(pm.request.method.toUpperCase())) {",
+					"    pm.request.headers.upsert({ key: \"X-XSRF-TOKEN\", value: csrfToken });",
 					"}"
 				]
 			}

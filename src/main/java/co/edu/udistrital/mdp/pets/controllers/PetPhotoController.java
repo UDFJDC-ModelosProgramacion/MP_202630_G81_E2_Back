@@ -5,6 +5,7 @@ import java.util.List;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -31,6 +32,7 @@ public class PetPhotoController {
     private final ModelMapper modelMapper;
 
     @PostMapping
+    @PreAuthorize("hasRole('ADMIN') or @authorizationService.canManagePet(authentication, #petId)")
     @ResponseStatus(code = HttpStatus.CREATED)
     public PhotoDTO create(@PathVariable Long petId, @RequestBody PhotoDTO photoDTO)
             throws EntityNotFoundException, IllegalOperationException {
@@ -56,6 +58,7 @@ public class PetPhotoController {
     }
 
     @PutMapping("/{photoId}")
+    @PreAuthorize("hasRole('ADMIN') or @authorizationService.canManagePet(authentication, #petId)")
     @ResponseStatus(code = HttpStatus.OK)
     public PhotoDTO update(@PathVariable Long petId, @PathVariable Long photoId, @RequestBody PhotoDTO photoDTO)
             throws EntityNotFoundException, IllegalOperationException {
@@ -65,6 +68,7 @@ public class PetPhotoController {
     }
 
     @DeleteMapping("/{photoId}")
+    @PreAuthorize("hasRole('ADMIN') or @authorizationService.canManagePet(authentication, #petId)")
     @ResponseStatus(code = HttpStatus.NO_CONTENT)
     public void delete(@PathVariable Long petId, @PathVariable Long photoId)
             throws EntityNotFoundException, IllegalOperationException {

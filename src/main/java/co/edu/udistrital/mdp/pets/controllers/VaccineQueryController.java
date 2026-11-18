@@ -5,6 +5,7 @@ import java.util.List;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,6 +29,7 @@ public class VaccineQueryController {
     private final ModelMapper modelMapper;
 
     @GetMapping
+    @PreAuthorize("@authorizationService.canQueryVaccines(authentication, #vaccinationRecordId, #petId)")
     @ResponseStatus(code = HttpStatus.OK)
     public List<VaccineDTO> findAll(
             @RequestParam(required = false) Long vaccinationRecordId,
@@ -41,6 +43,7 @@ public class VaccineQueryController {
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN') or @authorizationService.canAccessVaccine(authentication, #id)")
     @ResponseStatus(code = HttpStatus.OK)
     public VaccineDTO findOne(@PathVariable Long id)
             throws EntityNotFoundException, IllegalOperationException {
