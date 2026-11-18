@@ -1,9 +1,10 @@
 package co.edu.udistrital.mdp.pets.config;
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.ApplicationArguments;
-import org.springframework.boot.ApplicationRunner;
+import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.annotation.Profile;
+import org.springframework.context.event.EventListener;
+import org.springframework.core.annotation.Order;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
@@ -15,7 +16,7 @@ import lombok.RequiredArgsConstructor;
 @Component
 @Profile("integration-tests")
 @RequiredArgsConstructor
-public class IntegrationTestAccountInitializer implements ApplicationRunner {
+public class IntegrationTestAccountInitializer {
 
 	private final UserRepository userRepository;
 	private final PasswordEncoder passwordEncoder;
@@ -26,8 +27,14 @@ public class IntegrationTestAccountInitializer implements ApplicationRunner {
 	@Value("${POSTMAN_ADMIN_PASSWORD:}")
 	private String adminPassword;
 
-	@Override
-	public void run(ApplicationArguments args) {
+	/**
+	 * Runs as a ready-event listener ordered after the team seeds (orders 1-3) so
+	 * the Newman account does not shift the fixed ids those seeds and the Postman
+	 * collections rely on (veterinarian 1, adopter 2, adoption 1).
+	 */
+	@EventListener(ApplicationReadyEvent.class)
+	@Order(100)
+	public void initializeNewmanAccount() {
 		if (adminEmail.isBlank() || adminPassword.length() < 8)
 			throw new IllegalStateException(
 					"POSTMAN_ADMIN_EMAIL and a POSTMAN_ADMIN_PASSWORD of at least 8 characters are required "
