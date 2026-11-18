@@ -127,31 +127,6 @@ public class FollowUpService {
 		return followUps;
 	}
 
-	@Transactional(readOnly = true)
-	public List<FollowUpEntity> getFollowUpsForAdoption(Long adoptionId)
-			throws EntityNotFoundException, IllegalOperationException {
-		findAdoptionOrThrow(adoptionId);
-		return getFollowUps(adoptionId);
-	}
-
-	@Transactional(readOnly = true)
-	public FollowUpEntity getFollowUpForAdoption(Long adoptionId, Long followUpId)
-			throws EntityNotFoundException, IllegalOperationException {
-		findAdoptionOrThrow(adoptionId);
-		FollowUpEntity followUp = getFollowUp(followUpId);
-		validateFollowUpBelongsToAdoption(followUp, adoptionId);
-		return followUp;
-	}
-
-	@Transactional(readOnly = true)
-	public FollowUpEntity getFollowUpForAdoption(Long adoptionId, Long followUpId, Long requesterId,
-			String requesterRole) throws EntityNotFoundException, IllegalOperationException {
-		findAdoptionOrThrow(adoptionId);
-		FollowUpEntity followUp = getFollowUp(followUpId, requesterId, requesterRole);
-		validateFollowUpBelongsToAdoption(followUp, adoptionId);
-		return followUp;
-	}
-
 	@Transactional
 	public FollowUpEntity getFollowUp(Long followUpId) throws EntityNotFoundException, IllegalOperationException {
 		log.info("Starting the process to check the tracking for id = {}", followUpId);
@@ -224,20 +199,6 @@ public class FollowUpService {
 			throw new EntityNotFoundException(FOLLOW_UP_NOT_FOUND);
 
 		return followUp.get();
-	}
-
-	private AdoptionEntity findAdoptionOrThrow(Long adoptionId)
-			throws EntityNotFoundException, IllegalOperationException {
-		if (adoptionId == null || adoptionId <= 0)
-			throw new IllegalOperationException("Adoption id is not valid");
-		return adoptionRepository.findById(adoptionId)
-				.orElseThrow(() -> new EntityNotFoundException("Adoption not found"));
-	}
-
-	private void validateFollowUpBelongsToAdoption(FollowUpEntity followUp, Long adoptionId)
-			throws IllegalOperationException {
-		if (followUp.getAdoption() == null || !adoptionId.equals(followUp.getAdoption().getId()))
-			throw new IllegalOperationException("The follow-up is not associated with the adoption");
 	}
 
 	/**

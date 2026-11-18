@@ -4,10 +4,8 @@ import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.format.DateTimeParseException;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
@@ -111,9 +109,14 @@ public class MedicalEventService {
 				.toList();
 	}
 
+	/**
+	 * Consulta con filtros opcionales por mascota, veterinario, tipo y fecha ISO,
+	 * usada por el endpoint protegido del controller (capa de autorización).
+	 */
 	@Transactional(readOnly = true)
 	public List<MedicalEventEntity> getMedicalEvents(Long petId, Long veterinarianId, String type, LocalDate date)
 			throws IllegalOperationException {
+		log.info("Inicia proceso de consultar los eventos médicos con filtros de mascota y veterinario");
 		validateOptionalId(petId, "Pet id");
 		validateOptionalId(veterinarianId, "Veterinarian id");
 		if (type != null && type.isBlank())
@@ -126,7 +129,7 @@ public class MedicalEventService {
 				.filter(event -> type == null || type.equalsIgnoreCase(event.getType()))
 				.filter(event -> date == null || (event.getDate() != null
 						&& toLocalDate(event.getDate()).equals(date)))
-				.collect(Collectors.toCollection(ArrayList::new));
+				.toList();
 	}
 
 	@Transactional(readOnly = true)
@@ -173,12 +176,9 @@ public class MedicalEventService {
 		MedicalEventEntity current = findMedicalEvent(medicalEventId);
 		validateMedicalEvent(medicalEventUpdate);
 
-		if (medicalEventUpdate.getPet() != null) {
-			if (medicalEventUpdate.getPet().getId() == null)
-				throw new IllegalOperationException("Pet is not valid");
-			if (current.getPet() == null || !current.getPet().getId().equals(medicalEventUpdate.getPet().getId()))
-				throw new IllegalOperationException("The pet associated with the medical event cannot be changed");
-		}
+		if (medicalEventUpdate.getPet() != null && medicalEventUpdate.getPet().getId() != null
+				&& !medicalEventUpdate.getPet().getId().equals(current.getPet().getId()))
+			throw new IllegalOperationException(PET_CANNOT_BE_MODIFIED);
 
 		if (medicalEventUpdate.getVeterinarian() != null)
 			current.setVeterinarian(
@@ -249,17 +249,6 @@ public class MedicalEventService {
 				.orElseThrow(() -> new EntityNotFoundException(MEDICAL_EVENT_NOT_FOUND));
 	}
 
-	private void validateOptionalId(Long id, String label) throws IllegalOperationException {
-		if (id != null && id <= 0)
-			throw new IllegalOperationException(label + " is not valid");
-	}
-
-	private LocalDate toLocalDate(Date date) {
-		if (date instanceof java.sql.Date sqlDate)
-			return sqlDate.toLocalDate();
-		return LocalDate.ofInstant(date.toInstant(), ZoneId.systemDefault());
-	}
-
 	/** Reglas de datos comunes a la creación y a la actualización. */
 	private void validateMedicalEvent(MedicalEventEntity medicalEvent) throws IllegalOperationException {
 		if (medicalEvent == null)
@@ -288,6 +277,11 @@ public class MedicalEventService {
 	/** Se usa getTime() porque las fechas leídas de la base de datos pueden ser java.sql.Date. */
 	private LocalDate toLocalDate(Date date) {
 		return Instant.ofEpochMilli(date.getTime()).atZone(ZoneId.systemDefault()).toLocalDate();
+	}
+
+	private void validateOptionalId(Long id, String label) throws IllegalOperationException {
+		if (id != null && id <= 0)
+			throw new IllegalOperationException(label + " is not valid");
 	}
 
 	private LocalDate parseDay(String date) throws IllegalOperationException {
